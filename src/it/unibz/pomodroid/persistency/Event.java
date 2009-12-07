@@ -53,6 +53,8 @@ public class Event extends it.unibz.pomodroid.models.Event{
 	public void save(){
 		DBHelper dbHelper = new DBHelper(this.context);
 		dbHelper.getDatabase().store(this);
+		dbHelper.getDatabase().close();
+		dbHelper = null;
 	}
 	
 	public void deleteAll(){
