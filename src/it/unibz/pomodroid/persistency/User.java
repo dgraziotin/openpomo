@@ -1,12 +1,9 @@
 package it.unibz.pomodroid.persistency;
 
 import java.util.List;
-
-import com.db4o.ObjectSet;
-import com.db4o.query.Predicate;
-
 import android.content.Context;
 import android.util.Log;
+
 public class User extends it.unibz.pomodroid.models.User {
 
 	private Context context;

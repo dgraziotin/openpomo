@@ -12,6 +12,10 @@ public class Pomodroid extends Activity {
         super.onCreate(savedInstanceState);
         TextView tv = new TextView(this);
         tv.setText("Start");
+        
+        // User a = new User ("tschievenin","lol","http://blah.com",this);
+        // a.save();
+        
         User user = new User(null,null,null,this);
         user = user.retrieve();
         tv.setText(user.getTracUrl());
