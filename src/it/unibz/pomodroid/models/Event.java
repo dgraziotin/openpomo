@@ -6,10 +6,12 @@ public class Event {
 
 	private String type;
 	private Timestamp datetime;
+	private Activity activity;
 	
-	public Event(String type, Timestamp datetime) {
+	public Event(String type, Timestamp datetime, Activity activity) {
 		this.type = type;
 		this.datetime = datetime;
+		this.setActivity(activity);
 	}
 	
 	public String getType() {
@@ -26,6 +28,14 @@ public class Event {
 	
 	public void setDatetime(Timestamp datetime) {
 		this.datetime = datetime;
+	}
+
+	public void setActivity(Activity activity) {
+		this.activity = activity;
+	}
+
+	public Activity getActivity() {
+		return activity;
 	}
 	
 }
