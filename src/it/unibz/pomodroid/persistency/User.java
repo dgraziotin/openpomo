@@ -1,9 +1,12 @@
 package it.unibz.pomodroid.persistency;
 
+import java.util.List;
+
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
 
 import android.content.Context;
-
+import android.util.Log;
 public class User extends it.unibz.pomodroid.models.User {
 
 	private Context context;
@@ -28,24 +31,26 @@ public class User extends it.unibz.pomodroid.models.User {
 	}
 	
 	public void save(){
-		DBHelper dbHelper = new DBHelper(this.context);
-		dbHelper.getDatabase().store(this);
-		dbHelper.close();
-		dbHelper = null;
+		DBHelper dbHelper = null;
+		try{
+			dbHelper = new DBHelper(this.context);
+			this.context = null;
+			dbHelper.getDatabase().store(this);
+		}catch(Exception e){
+			Log.e("User", "Problem: " + e.getMessage());
+		}finally{
+			dbHelper.close();
+			dbHelper = null;
+		}
 	}
 	
 	public User retrieve(){
 		DBHelper dbHelper = new DBHelper(this.context);
-		User prototype = new User(null,null,null,null);
-		ObjectSet<User> result =  dbHelper.getDatabase().queryByExample(prototype);
-		dbHelper.close();
-		dbHelper = null;
-		try{
-			return result.get(0);
-		}catch(Exception e){
-			return null;
-		}
+		List <User> users = dbHelper.getDatabase().query(new Predicate<User>() {
+			public boolean match(User user) {
+				return true;
+			}
+		});
+		return users.get(0);
 	}
-	
-
 }
