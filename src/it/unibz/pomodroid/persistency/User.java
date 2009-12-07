@@ -44,13 +44,11 @@ public class User extends it.unibz.pomodroid.models.User {
 		}
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	public User retrieve(){
 		DBHelper dbHelper = new DBHelper(this.context);
-		List <User> users = dbHelper.getDatabase().query(new Predicate<User>() {
-			public boolean match(User user) {
-				return true;
-			}
-		});
+		List<User> users = dbHelper.getDatabase().query().execute();
 		return users.get(0);
 	}
 }
