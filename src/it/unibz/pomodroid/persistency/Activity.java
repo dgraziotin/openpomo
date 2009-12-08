@@ -1,20 +1,18 @@
 package it.unibz.pomodroid.persistency;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import com.db4o.ObjectSet;
-
-
-import android.content.Context;
+import com.db4o.query.Predicate;
 import android.util.Log;
 import it.unibz.pomodroid.persistency.DBHelper;
 
 /**
  * @author bodom_lx
- *
+ * 
  */
 public class Activity extends it.unibz.pomodroid.models.Activity {
-	
+
 	/**
 	 * @param numberPomodoro
 	 * @param received
@@ -26,7 +24,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @param type
 	 * @param context
 	 */
-	public Activity(int numberPomodoro, Timestamp received, Timestamp deadline,
+	public Activity(int numberPomodoro, Date received, Date deadline,
 			String description, String origin, int originId, String reporter,
 			String type) {
 		super(numberPomodoro, received, deadline, description, origin,
@@ -34,53 +32,72 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	public void save(Context context){
-		DBHelper dbHelper = null;
+	public static boolean isPresent(final String origin, final int originId,
+			DBHelper dbHelper) {
+		List<Activity> activities;
 		try{
-			dbHelper = new DBHelper(context);
-			dbHelper.getDatabase().store(this);
+			activities = dbHelper.getDatabase().query(
+				new Predicate<Activity>() {
+					private static final long serialVersionUID = 1L;
+
+					public boolean match(Activity activity) {
+						return activity.getOrigin().equals(origin)
+								&& activity.getOriginId() == originId;
+					}
+				});
+			if (activities.isEmpty())
+				return false;
+			else
+				return true;
 		}catch(Exception e){
-			Log.e("Activity", "Problem: " + e.getMessage());
-		}finally{
-			dbHelper.close();
-			dbHelper = null;
+			Log.e("Activity.isPresent()", "Problem: " + e.getMessage());
+			return false;
 		}
 	}
 
-	public void save(List<Activity> Activities, Context context) {
-		DBHelper dbHelper = new DBHelper(context);
-		for (Activity activity : Activities)
-		{
-			dbHelper.getDatabase().store(activity);
-		    dbHelper.getDatabase().close();
+	public boolean save(DBHelper dbHelper){
+		if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
+			try{
+				dbHelper.getDatabase().store(this);
+				return true;
+			}catch(Exception e){
+				Log.e("Activity.save(single)", "Problem: " + e.getMessage());
+				return false;
+			}
 		}
-		dbHelper = null;
+		return false;
 	}
 
+	public void save(List<Activity> Activities, DBHelper dbHelper) {
+		try{
+			for (Activity activity : Activities)
+				activity.save(dbHelper);
+		}catch(Exception e){
+			Log.e("Activity.save(List)", "Problem: " + e.getMessage());
+		}
+	}
 
-	public void delete(Context context) {
-		DBHelper dbHelper = new DBHelper(context);
-		ObjectSet<Activity> result=dbHelper.getDatabase().queryByExample(this);
-		Activity found=(Activity)result.next(); 
+	public void delete(DBHelper dbHelper) {
+		ObjectSet<Activity> result;
+		try{
+		result = dbHelper.getDatabase()
+				.queryByExample(this);
+		Activity found = (Activity) result.next();
 		dbHelper.getDatabase().delete(found);
-		dbHelper.getDatabase().close();
-	    dbHelper = null;
+		}catch(Exception e){
+			Log.e("Activity.delete()", "Problem: " + e.getMessage());
+		}
 	}
-	
 
-	public static Activity retrieve(Context context){
-		DBHelper dbHelper = new DBHelper(context);
+	public static List<Activity> getAll(DBHelper dbHelper) {
 		ObjectSet<Activity> result = null;
 		try{
-		 result = dbHelper.getDatabase().queryByExample(Activity.class);
+			result = dbHelper.getDatabase().queryByExample(Activity.class);
+			return result;
 		}catch(Exception e){
-			Log.e("Activity.retrieve", e.toString());
-		}
-		if (result.isEmpty())
+			Log.e("Activity.getAll()", "Problem: " + e.getMessage());
 			return null;
-		else
-			return result.next();
+		}
 	}
 
 }

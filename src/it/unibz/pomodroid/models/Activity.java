@@ -1,6 +1,5 @@
 package it.unibz.pomodroid.models;
-
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * @author bodom_lx
@@ -9,8 +8,8 @@ import java.sql.Timestamp;
 public class Activity {
 
 	private int numberPomodoro;
-	private Timestamp received;
-	private Timestamp deadline;
+	private Date received;
+	private Date deadline;
 	private String description;
 	private String origin;
 	private int originId;
@@ -27,8 +26,8 @@ public class Activity {
 	 * @param reporter
 	 * @param type
 	 */
-	public Activity(int numberPomodoro, Timestamp received,
-			Timestamp deadline, String description, String origin,
+	public Activity(int numberPomodoro, Date received,
+			Date deadline, String description, String origin,
 			int originId, String reporter, String type) {
 		this.numberPomodoro = numberPomodoro;
 		this.received = received;
@@ -58,7 +57,7 @@ public class Activity {
 	/**
 	 * @return the received
 	 */
-	public Timestamp getReceived() {
+	public Date getReceived() {
 		return received;
 	}
 
@@ -66,14 +65,14 @@ public class Activity {
 	 * @param received
 	 *            the received to set
 	 */
-	public void setReceived(Timestamp received) {
+	public void setReceived(Date received) {
 		this.received = received;
 	}
 
 	/**
 	 * @return the deadline
 	 */
-	public Timestamp getDeadline() {
+	public Date getDeadline() {
 		return deadline;
 	}
 
@@ -81,7 +80,7 @@ public class Activity {
 	 * @param deadline
 	 *            the deadline to set
 	 */
-	public void setDeadline(Timestamp deadline) {
+	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
 

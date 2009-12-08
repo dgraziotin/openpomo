@@ -1,16 +1,16 @@
 package it.unibz.pomodroid.models;
 
-import java.security.Timestamp;
+import java.util.Date;
 
 public class Event {
 
 	private String type;
 	private String value;
-	private Timestamp timestamp;
+	private Date timestamp;
 	private Activity activity;
 	
 	
-	public Event(String type, String value, Timestamp timestamp,
+	public Event(String type, String value, Date timestamp,
 			Activity activity) {
 		this.type = type;
 		this.value = value;
@@ -44,13 +44,13 @@ public class Event {
 	/**
 	 * @return the timestamp
 	 */
-	public Timestamp getTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 	/**
 	 * @param timestamp the timestamp to set
 	 */
-	public void setTimestamp(Timestamp timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 	/**

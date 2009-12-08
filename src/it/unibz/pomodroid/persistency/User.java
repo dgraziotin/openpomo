@@ -3,33 +3,32 @@ package it.unibz.pomodroid.persistency;
 
 import com.db4o.ObjectSet;
 
-import android.content.Context;
 import android.util.Log;
 
 public class User extends it.unibz.pomodroid.models.User {
 
 	public User(String tracUsername, String tracPassword, String tracUrl) {
 		super(tracUsername, tracPassword, tracUrl);
-
 	}
 
 	
-	public void save(Context context){
-		DBHelper dbHelper = null;
+	public void save(DBHelper dbHelper){
 		try{
-			dbHelper = new DBHelper(context);
 			dbHelper.getDatabase().store(this);
 		}catch(Exception e){
-			Log.e("User", "Problem: " + e.getMessage());
-		}finally{
-			dbHelper.close();
-			dbHelper = null;
+			Log.e("User.save()", "Problem: " + e.getMessage());
 		}
 	}
 	
-	public static User retrieve(Context context){
-		DBHelper dbHelper = new DBHelper(context);
-		ObjectSet<User> users = dbHelper.getDatabase().queryByExample(User.class);
-		return users.next();
+	public static User retrieve(DBHelper dbHelper){
+		ObjectSet<User> users;
+		try{
+			users = dbHelper.getDatabase().queryByExample(User.class);
+			return users.next();
+		}catch(Exception e){
+			Log.e("User.retrieve()", "Problem: " + e.getMessage());
+			return null;
+		}
+	
 	}
 }

@@ -1,63 +1,51 @@
 package it.unibz.pomodroid.persistency;
 
-import java.security.Timestamp;
+
+import java.util.Date;
 import java.util.List;
 
-import android.content.Context;
+import android.util.Log;
 
 import com.db4o.ObjectSet;
 
-import it.unibz.pomodroid.models.Activity;
+import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
 
 public class Event extends it.unibz.pomodroid.models.Event{
-	
-	private Activity activity;
-	
-	public Event(String type, String value, Timestamp timestamp,
+
+	public Event(String type, String value, Date timestamp,
 			Activity activity) {
 		super(type, value, timestamp, activity);
-		this.activity = activity;
 	}
 
-	/**
-	 * @return the activity
-	 */
-	@Override
-	public Activity getActivity() {
-		return activity;
+	
+	public void save(DBHelper dbHelper){
+		try{
+			dbHelper.getDatabase().store(this);
+		}catch(Exception e){
+			Log.e("Event.save(single)", "Problem: " + e.getMessage());
+		}
+	}
+	
+	public static void deleteAll(DBHelper dbHelper){
+		ObjectSet<Event> retrievedEvents;
+		try{
+			retrievedEvents = dbHelper.getDatabase().queryByExample(Event.class);
+			dbHelper.getDatabase().delete(retrievedEvents);
+		}catch(Exception e){
+			Log.e("Event.deleteAll()", "Problem: " + e.getMessage());
+		}
 	}
 
-	/**
-	 * @param activity the activity to set
-	 */
-	@Override
-	public void setActivity(Activity activity) {
-		this.activity = activity;
-	}
-	
-	
-	public void save(Context context){
-		DBHelper dbHelper = new DBHelper(context);
-		dbHelper.getDatabase().store(this);
-		dbHelper.getDatabase().close();
-		dbHelper = null;
-	}
-	
-	public void deleteAll(Context context){
-		DBHelper dbHelper = new DBHelper(context);
-		ObjectSet<Event> retrievedEvents = dbHelper.getDatabase().queryByExample(Event.class);
-		dbHelper.getDatabase().delete(retrievedEvents);
-		dbHelper.close();
-		dbHelper = null;
-	}
-
-	public List<Event> getAll(Context context){
-		DBHelper dbHelper = new DBHelper(context);
-		ObjectSet<Event> result = dbHelper.getDatabase().queryByExample(Event.class);
-		dbHelper.close();
-		dbHelper = null;
-		return result;
+	public static List<Event> getAll(DBHelper dbHelper){
+		ObjectSet<Event> result;
+		try{
+			result = dbHelper.getDatabase().queryByExample(Event.class);
+			return result;
+		}catch(Exception e){
+			Log.e("Event.getAll()", "Problem: " + e.getMessage());
+			return null;
+		}
 	}
 
 }
