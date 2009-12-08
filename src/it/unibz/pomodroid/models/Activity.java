@@ -8,12 +8,12 @@ import java.sql.Timestamp;
  */
 public class Activity {
 
-	private int number_pomodoro;
+	private int numberPomodoro;
 	private Timestamp received;
 	private Timestamp deadline;
 	private String description;
 	private String origin;
-	private int origin_id;
+	private int originId;
 	private String reporter;
 	private String type;
 
@@ -27,15 +27,15 @@ public class Activity {
 	 * @param reporter
 	 * @param type
 	 */
-	public Activity(int number_pomodoro, Timestamp received,
+	public Activity(int numberPomodoro, Timestamp received,
 			Timestamp deadline, String description, String origin,
-			int origin_id, String reporter, String type) {
-		this.number_pomodoro = number_pomodoro;
+			int originId, String reporter, String type) {
+		this.numberPomodoro = numberPomodoro;
 		this.received = received;
 		this.deadline = deadline;
 		this.description = description;
 		this.origin = origin;
-		this.origin_id = origin_id;
+		this.originId = originId;
 		this.reporter = reporter;
 		this.type = type;
 	}
@@ -43,16 +43,16 @@ public class Activity {
 	/**
 	 * @return the number_pomodoro
 	 */
-	public int getNumber_pomodoro() {
-		return number_pomodoro;
+	public int getNumberPomodoro() {
+		return numberPomodoro;
 	}
 
 	/**
 	 * @param numberPomodoro
 	 *            the number_pomodoro to set
 	 */
-	public void setNumber_pomodoro(int numberPomodoro) {
-		number_pomodoro = numberPomodoro;
+	public void setNumberPomodoro(int numberPomodoro) {
+		this.numberPomodoro = numberPomodoro;
 	}
 
 	/**
@@ -118,16 +118,16 @@ public class Activity {
 	/**
 	 * @return the origin_id
 	 */
-	public int getOrigin_id() {
-		return origin_id;
+	public int getOriginId() {
+		return originId;
 	}
 
 	/**
 	 * @param originId
 	 *            the origin_id to set
 	 */
-	public void setOrigin_id(int originId) {
-		origin_id = originId;
+	public void setOriginId(int originId) {
+		this.originId = originId;
 	}
 
 	/**
@@ -159,5 +159,6 @@ public class Activity {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
 
 }
