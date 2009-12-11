@@ -1,6 +1,5 @@
 package it.unibz.pomodroid.persistency;
 
-
 import com.db4o.ObjectSet;
 
 import android.util.Log;

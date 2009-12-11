@@ -10,6 +10,8 @@ import java.util.Map;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -97,6 +99,18 @@ public class XMLRPCClient {
 		
 		client = new DefaultHttpClient();
 		serializer = Xml.newSerializer();
+	}
+	
+	/**
+	 * Sets basic authentication on web request using plain credentials
+	 * @param username The plain text username
+	 * @param password The plain text password
+	 */
+	public void setBasicAuthentication(String username, String password) {
+		((DefaultHttpClient) client).getCredentialsProvider().setCredentials(
+		        new AuthScope(postMethod.getURI().getHost(), postMethod.getURI().getPort(),
+AuthScope.ANY_REALM),
+		        new UsernamePasswordCredentials(username, password));
 	}
 	
 	/**
