@@ -4,11 +4,27 @@ public class User {
 	private String tracUsername;
 	private String tracPassword;
 	private String tracUrl;
+	private String promUrl;
 	
-	public User(String tracUsername, String tracPassword, String tracUrl) {
+	/**
+	 * @return the promUrl
+	 */
+	public String getPromUrl() {
+		return promUrl;
+	}
+
+	/**
+	 * @param promUrl the promUrl to set
+	 */
+	public void setPromUrl(String promUrl) {
+		this.promUrl = promUrl;
+	}
+
+	public User(String tracUsername, String tracPassword, String tracUrl, String promUrl) {
 		this.tracUsername = tracUsername;
 		this.tracPassword = tracPassword;
 		this.tracUrl = tracUrl;
+		this.promUrl = promUrl;
 	}
 
 	/**

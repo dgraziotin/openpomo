@@ -6,8 +6,8 @@ import android.util.Log;
 
 public class User extends it.unibz.pomodroid.models.User {
 
-	public User(String tracUsername, String tracPassword, String tracUrl) {
-		super(tracUsername, tracPassword, tracUrl);
+	public User(String tracUsername, String tracPassword, String tracUrl, String promUrl) {
+		super(tracUsername, tracPassword, tracUrl, promUrl);
 	}
 
 	

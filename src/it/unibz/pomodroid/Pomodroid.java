@@ -8,6 +8,7 @@ import org.xmlrpc.android.XMLRPCException;
 import it.unibz.pomodroid.*;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
+import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.XmlRpcClient;
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,9 +25,9 @@ public class Pomodroid extends Activity {
 		TextView tv = new TextView(this);
 		User user = User.retrieve(dbHelper);
 		
-		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "wiki.getAllPages",null);
+		PromEventDeliverer pe = new PromEventDeliverer();
         
-		tv.setText("Arrivato alla fine\nRPCVersion: " + result[1].toString());
+		tv.setText("Arrivato alla fine\nRPCVersion: " + pe.getUploadId(user));
         setContentView(tv);
 		// setContentView(R.layout.main);
 		this.dbHelper.close();
