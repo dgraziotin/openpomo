@@ -8,8 +8,6 @@ import android.util.Log;
 public class TrackTicketFetcher {
 	
 	public void fetch (){
-
-
 		
 	}
 }

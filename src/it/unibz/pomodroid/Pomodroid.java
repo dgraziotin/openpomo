@@ -8,6 +8,7 @@ import org.xmlrpc.android.XMLRPCException;
 import it.unibz.pomodroid.*;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
+import it.unibz.pomodroid.services.XmlRpcClient;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,23 +22,11 @@ public class Pomodroid extends Activity {
 		super.onCreate(savedInstanceState);
 		dbHelper = new DBHelper(this);
 		TextView tv = new TextView(this);
+		User user = User.retrieve(dbHelper);
 		
-		// User tom = new User("","","");
-		// tom.save(dbHelper);
-		
-		URI uri = URI.create("https://babbage.inf.unibz.it/trac/AIT0910-projectpomodroid/xmlrpc/");
-		
-		XMLRPCClient client = new XMLRPCClient(uri); 
-        //client.setBasicAuthentication("tschievenin", "");
-        int sum=666;
+		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "wiki.getAllPages",null);
         
-        try {
-			sum = (Integer) client.call("wiki.getRPCVersionSupported");
-		} catch (XMLRPCException e) {
-			Log.e("ERRORE","MERDINA " + e.toString());
-		}
-        
-		tv.setText("Arrivato alla fine\nRPCVersion: " + sum);
+		tv.setText("Arrivato alla fine\nRPCVersion: " + result[1].toString());
         setContentView(tv);
 		// setContentView(R.layout.main);
 		this.dbHelper.close();
