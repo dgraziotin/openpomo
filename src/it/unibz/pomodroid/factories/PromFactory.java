@@ -1,8 +1,16 @@
 package it.unibz.pomodroid.factories;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Adler32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import android.util.Log;
@@ -53,5 +61,45 @@ public class PromFactory {
 		// TODO: add Pomodoro when it's ready.
 
 		return ini;
+	}
+	
+
+	
+	/**
+	 * Returns a Zip file containing all events and locations stored on the
+	 * application database.
+	 * 
+	 * @param events
+	 * @param locations
+	 * @return
+	 * @throws IOException
+	 */
+	public byte[] createZip(List<Event> events, User user) throws IOException {
+		byte[] ret = null;
+		
+		ByteArrayOutputStream dest = new ByteArrayOutputStream();
+		ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new CheckedOutputStream(dest, new Adler32())));
+
+		int prefix = 0;
+		
+		for(Event event : events) {
+			ZipEntry entry = new ZipEntry(prefix + ".ini");
+			out.putNextEntry(entry);
+			byte[] buffer = PromFactory.createIniEntry(event, user).getBytes();
+			out.write( buffer );
+			out.flush();
+			out.closeEntry();				
+			prefix++;
+						
+		}
+		
+		Log.i("PromFactory.createZip", "Events processed: " + events.size());
+		Log.i("PromFactory.createZip", "Zip file contains " + prefix + " files");
+		
+		out.finish();
+		out.flush();
+		ret = dest.toByteArray();
+		out.close();
+		return ret;
 	}
 }
