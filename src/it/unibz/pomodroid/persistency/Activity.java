@@ -7,10 +7,6 @@ import com.db4o.query.Predicate;
 import android.util.Log;
 import it.unibz.pomodroid.persistency.DBHelper;
 
-/**
- * @author bodom_lx
- * 
- */
 public class Activity extends it.unibz.pomodroid.models.Activity {
 
 	/**
@@ -25,10 +21,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @param context
 	 */
 	public Activity(int numberPomodoro, Date received, Date deadline,
-			String description, String origin, int originId, String reporter,
+			String summary, String description, String origin, int originId, String priority, String reporter,
 			String type) {
-		super(numberPomodoro, received, deadline, description, origin,
-				originId, reporter, type);
+		super(numberPomodoro, received, deadline, summary, description, origin,
+				originId, priority, reporter, type);
 		// TODO Auto-generated constructor stub
 	}
 

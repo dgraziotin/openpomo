@@ -1,11 +1,7 @@
 package it.unibz.pomodroid.services;
 
-import it.unibz.pomodroid.persistency.User;
-
 import java.net.URI;
-
 import org.xmlrpc.android.XMLRPCClient;
-
 import android.util.Log;
 
 public class XmlRpcClient {

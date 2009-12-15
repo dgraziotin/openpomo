@@ -10,9 +10,11 @@ public class Activity {
 	private int numberPomodoro;
 	private Date received;
 	private Date deadline;
+	private String summary;
 	private String description;
 	private String origin;
 	private int originId;
+	private String priority;
 	private String reporter;
 	private String type;
 
@@ -20,21 +22,25 @@ public class Activity {
 	 * @param number_pomodoro
 	 * @param received
 	 * @param deadline
+	 * @param summary
 	 * @param description
 	 * @param origin
 	 * @param origin_id
+	 * @param priority
 	 * @param reporter
 	 * @param type
 	 */
 	public Activity(int numberPomodoro, Date received,
-			Date deadline, String description, String origin,
-			int originId, String reporter, String type) {
+			Date deadline, String summary, String description, String origin,
+			int originId, String priority, String reporter, String type) {
 		this.numberPomodoro = numberPomodoro;
 		this.received = received;
 		this.deadline = deadline;
+		this.summary = summary;
 		this.description = description;
 		this.origin = origin;
 		this.originId = originId;
+		this.priority = priority;
 		this.reporter = reporter;
 		this.type = type;
 	}
@@ -157,6 +163,22 @@ public class Activity {
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public String getPriority() {
+		return priority;
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
 	}
 	
 
