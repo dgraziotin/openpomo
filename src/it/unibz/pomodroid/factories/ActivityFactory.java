@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 public class ActivityFactory {
 
-	public static void produce (int id, Date dueDate, HashMap<String,String> attributes, DBHelper dbHelper){
-		Activity activity = new Activity(0, new Date(), dueDate, attributes
+	public static void produce (int id, Date deadLine, HashMap<String,String> attributes, DBHelper dbHelper){
+		Activity activity = new Activity(0, new Date(), deadLine, attributes
 				.get("summary").toString(), attributes.get("description")
 				.toString(), "PROM", id, attributes.get("priority").toString(),
 				attributes.get("reporter").toString(), attributes.get("type")

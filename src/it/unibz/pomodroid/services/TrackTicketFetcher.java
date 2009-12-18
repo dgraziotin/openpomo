@@ -11,21 +11,19 @@ import it.unibz.pomodroid.persistency.User;
 
 public class TrackTicketFetcher {
 	
-
 	public static void fetch (User user, DBHelper dbHelper){
 		Vector<Integer> ticketIds = new Vector<Integer>();
 		ticketIds = getTicketIds(user);
 		HashMap<String,String> attributes;
-		Date deadLine;
-
-		Log.i("TrackTicketFetcher", "Getting tickets through XMLRPC");
-		
+		Date deadLine = new Date();
+	
 		for (Integer ticketId : ticketIds) {
 		   Integer[] id = {ticketId};
 		   attributes = getTickets(user, id);
-		   deadLine = getDeadLine(user, attributes.get("milestone").toString());
+		   if (!(attributes.get("milestone").toString().equals(""))){
+		     deadLine = getDeadLine(user, attributes.get("milestone").toString());
+		   }
 		   ActivityFactory.produce((int)ticketId, deadLine, attributes, dbHelper);
-		   
 		}
 		Log.i("TrackTicketFetcher", "Tickets are now in the DB");
 	}
@@ -54,16 +52,14 @@ public class TrackTicketFetcher {
 	@SuppressWarnings("unchecked")
 	public static Date getDeadLine (User user, String milestoneId){
 		Date result;
+		Object a;
 		String params[] = {milestoneId};
-		Object dueDate = XmlRpcClient.fetchSingleResult(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.milestone.get",params);
-		result = ((HashMap<String, Date>) dueDate).get("due");
-		return result;
-	}
-
-	public static String toString(Vector<Integer> ticketIds){
-		String result="";
-		for (int i=0; i<ticketIds.size(); i++)
-			   result = result + ticketIds.get(i).toString() + "\n"; 
+		Object milestone = XmlRpcClient.fetchSingleResult(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.milestone.get",params);
+		a = ((HashMap<String, Object>) milestone).get("due");
+		 if (a.equals(0))
+		   result = new Date();
+		 else
+		   result = (Date) a;
 		return result;
 	}
 }

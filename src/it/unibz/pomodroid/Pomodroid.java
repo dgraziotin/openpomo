@@ -16,6 +16,11 @@ public class Pomodroid extends Activity {
 		dbHelper = new DBHelper(this);
 		TextView tv = new TextView(this);
 		
+		//dbHelper.deleteDatabase();
+		
+		//it.unibz.pomodroid.persistency.User a = new it.unibz.pomodroid.persistency.User ("tschievenin","fargetta.","https://babbage.inf.unibz.it/trac/AIT0910-projectpomodroid/xmlrpc","tettine");
+		//a.save(dbHelper);
+		
 		User user = User.retrieve(dbHelper);
 		TrackTicketFetcher.fetch(user, dbHelper);
 
