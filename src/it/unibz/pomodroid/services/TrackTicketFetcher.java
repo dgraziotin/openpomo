@@ -9,6 +9,10 @@ import it.unibz.pomodroid.factories.ActivityFactory;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 
+/**
+ * @author tom
+ *
+ */
 public class TrackTicketFetcher {
 	
 	public static void fetch (User user, DBHelper dbHelper){
@@ -49,17 +53,22 @@ public class TrackTicketFetcher {
 		return attributes;
 	}
 	
+	/**
+	 * @param user
+	 * @param milestoneId
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public static Date getDeadLine (User user, String milestoneId){
 		Date result;
-		Object a;
+		Object dataObject;
 		String params[] = {milestoneId};
 		Object milestone = XmlRpcClient.fetchSingleResult(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.milestone.get",params);
-		a = ((HashMap<String, Object>) milestone).get("due");
-		 if (a.equals(0))
+		dataObject = ((HashMap<String, Object>) milestone).get("due");
+		 if (dataObject.equals(0))
 		   result = new Date();
 		 else
-		   result = (Date) a;
+		   result = (Date) dataObject;
 		return result;
 	}
 }
