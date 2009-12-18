@@ -4,30 +4,41 @@ import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.TrackTicketFetcher;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class Pomodroid extends Activity {
 	private DBHelper dbHelper;
-	
+	private Button button;
+	private TextView textView;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
 		dbHelper = new DBHelper(this);
-		TextView tv = new TextView(this);
+		this.button = (Button) findViewById(R.id.Button01);
+		TextView textView = (TextView) findViewById(R.id.TextView01);
 		
-		//dbHelper.deleteDatabase();
-		
-		//it.unibz.pomodroid.persistency.User a = new it.unibz.pomodroid.persistency.User ("tschievenin","fargetta.","https://babbage.inf.unibz.it/trac/AIT0910-projectpomodroid/xmlrpc","tettine");
-		//a.save(dbHelper);
+		this.button.setOnClickListener(new OnClickListener() {
+			  @Override
+			  public void onClick(View v) {
+			    finish();
+			  }
+			});
 		
 		User user = User.retrieve(dbHelper);
 		TrackTicketFetcher.fetch(user, dbHelper);
 
-		tv.setText("Fatto");
-        setContentView(tv);
-		// setContentView(R.layout.main);
+		textView.setText("ciao");
+
+		
 		this.dbHelper.close();
 	}
+	
 
 }

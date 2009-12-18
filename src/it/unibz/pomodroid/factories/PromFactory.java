@@ -44,8 +44,10 @@ public class PromFactory {
 	public static String createIniEntry(Event event, User user) {
 		String entity = "/origin=" + event.getActivity().getOrigin() + "/id="
 				+ event.getActivity().getOriginId();
+		
 		SimpleDateFormat sdf;
 		String datetime = null;
+		
 		try {
 			sdf = new SimpleDateFormat(PROM_DATE_FORMAT);
 			datetime = sdf.format(event.getTimestamp());
@@ -56,8 +58,9 @@ public class PromFactory {
 				+ "application = " + ANDROID_APPLICATION_ID + "\n"
 				+ "entity = " + entity + "\n" + "datetime = " + datetime + "\n"
 				+ "users = " + user.getTracUsername() + "\n" + "\n"
-				+ "[properties]\n" + "eventType = " + event.getType() + "\n"
-				+ "eventValue = " + event.getValue() + "\n";
+				+ "[properties]\n" 
+				+ "pomodoro = " + event.getType() + "\n";
+		
 		// TODO: add Pomodoro when it's ready.
 
 		return ini;

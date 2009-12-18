@@ -1,7 +1,10 @@
 package it.unibz.pomodroid.persistency;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
+
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import android.util.Log;
@@ -89,11 +92,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		ObjectSet<Activity> result = null;
 		try{
 			result = dbHelper.getDatabase().queryByExample(Activity.class);
-			return result;
 		}catch(Exception e){
 			Log.e("Activity.getAll()", "Problem: " + e.getMessage());
-			return null;
 		}
+		return result;
 	}
 
 }
