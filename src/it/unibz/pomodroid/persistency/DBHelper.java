@@ -12,18 +12,18 @@ import com.db4o.config.Configuration;
 public class DBHelper {
 
 	private static ObjectContainer database;
-	private Context context;
-
-	public DBHelper(Context context) {
-		DBHelper.database = null;
-		this.context = context;
+	/**
+	 * @return the context
+	 */
+	public static Context getContext() {
+		return context;
 	}
 
-	public void setDatabase(ObjectContainer database) {
-		DBHelper.database = database;
-	}
+	private static Context context;
 
-	public ObjectContainer getDatabase() {
+	
+
+	public static ObjectContainer getDatabase() {
 		try {
 			if (database == null || database.ext().isClosed())
 				database = Db4o.openFile(dbConfig(), db4oDBFullPath(context));
@@ -34,22 +34,16 @@ public class DBHelper {
 		}
 	}
 
-	/**
-	 * @return the context
-	 */
-	public Context getContext() {
-		return context;
-	}
-
+	
 	/**
 	 * @param context
 	 *            the context to set
 	 */
-	public void setContext(Context context) {
-		this.context = context;
+	public static void setContext(Context context) {
+		DBHelper.context = context;
 	}
 
-	private Configuration dbConfig() {
+	private static Configuration dbConfig() {
 		Configuration configuration = Db4o.newConfiguration();
 		return configuration;
 	}
@@ -58,30 +52,30 @@ public class DBHelper {
 	 * @param context
 	 * @return
 	 */
-	public String db4oDBFullPath(Context context) {
+	public static String db4oDBFullPath(Context context) {
 		return context.getDir("data", 0) + "/" + "android.db4o";
 	}
 
 	/**
 	 * Close database connection
 	 */
-	public void close() {
+	public static void close() {
 		if (database != null) {
 			database.close();
 			database = null;
 		}
 	}
 
-	public void deleteDatabase() {
+	public static void deleteDatabase() {
 		close();
 		new File(db4oDBFullPath(context)).delete();
 	}
 
-	public void backup(String path) {
+	public static void backup(String path) {
 		getDatabase().ext().backup(path);
 	}
 
-	public void restore(String path) {
+	public static void restore(String path) {
 		deleteDatabase();
 		new File(path).renameTo(new File(db4oDBFullPath(context)));
 		new File(path).delete();

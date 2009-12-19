@@ -1,10 +1,9 @@
 package it.unibz.pomodroid;
 
+import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.test.ExampleSuite;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.test.AndroidTestCase;
 import android.test.AndroidTestRunner;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +15,7 @@ import junit.framework.Test;
 import junit.framework.AssertionFailedError;
 
 public class PomodroidTest extends Activity {
+	private DBHelper dbHelper;
     static final String LOG_TAG = "junit";
     Thread testRunnerThread = null;
 
@@ -31,13 +31,13 @@ public class PomodroidTest extends Activity {
             }
         } );
     }
-
+    
     private synchronized void startTest() {
         if( ( testRunnerThread != null ) &&
             !testRunnerThread.isAlive() )
             testRunnerThread = null;
         if( testRunnerThread == null ) {
-            testRunnerThread = new Thread( new TestRunner( this ) );
+            testRunnerThread = new Thread( new TestRunner( this, dbHelper ) );
             testRunnerThread.start();
         } else
             Toast.makeText(
@@ -124,9 +124,11 @@ class TestRunner implements Runnable,TestListener  {
         TextView errorCounterText;
         TextView failureCounterText;
         Activity parentActivity;
+        DBHelper dbHelper;
 
-        public TestRunner( Activity parentActivity ) {
+        public TestRunner( Activity parentActivity, DBHelper dbHelper ) {
             this.parentActivity = parentActivity;
+            this.dbHelper = dbHelper;
         }
 
         public void run() {
@@ -143,8 +145,7 @@ class TestRunner implements Runnable,TestListener  {
                                     findViewById( R.id.failureCounter );
             Log.d( LOG_TAG, "Test started" );
             AndroidTestRunner testRunner = new AndroidTestRunner();
-            ExampleSuite test = new ExampleSuite();
-            test.context = this.parentActivity;
+            ExampleSuite test = new ExampleSuite(dbHelper);
             testRunner.setTest( test );
             testRunner.addTestListener( this );
             testRunner.setContext( parentActivity );

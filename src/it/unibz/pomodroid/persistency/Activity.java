@@ -1,9 +1,7 @@
 package it.unibz.pomodroid.persistency;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
@@ -31,11 +29,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static boolean isPresent(final String origin, final int originId,
-			DBHelper dbHelper) {
+	public static boolean isPresent(final String origin, final int originId) {
 		List<Activity> activities;
 		try{
-			activities = dbHelper.getDatabase().query(
+			activities = DBHelper.getDatabase().query(
 				new Predicate<Activity>() {
 					private static final long serialVersionUID = 1L;
 
@@ -54,10 +51,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		}
 	}
 
-	public boolean save(DBHelper dbHelper){
-		if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
+	public boolean save(){
+		if (!isPresent(this.getOrigin(),this.getOriginId())){
 			try{
-				dbHelper.getDatabase().store(this);
+				DBHelper.getDatabase().store(this);
 				return true;
 			}catch(Exception e){
 				Log.e("Activity.save(single)", "Problem: " + e.getMessage());
@@ -67,22 +64,22 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		return false;
 	}
 
-	public void save(List<Activity> Activities, DBHelper dbHelper) {
+	public void save(List<Activity> Activities) {
 		try{
 			for (Activity activity : Activities)
-				activity.save(dbHelper);
+				activity.save();
 		}catch(Exception e){
 			Log.e("Activity.save(List)", "Problem: " + e.getMessage());
 		}
 	}
 
-	public void delete(DBHelper dbHelper) {
+	public void delete() {
 		ObjectSet<Activity> result;
 		try{
-		result = dbHelper.getDatabase()
+		result = DBHelper.getDatabase()
 				.queryByExample(this);
 		Activity found = (Activity) result.next();
-		dbHelper.getDatabase().delete(found);
+		DBHelper.getDatabase().delete(found);
 		}catch(Exception e){
 			Log.e("Activity.delete()", "Problem: " + e.getMessage());
 		}
@@ -91,7 +88,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	public static List<Activity> getAll(DBHelper dbHelper) {
 		ObjectSet<Activity> result = null;
 		try{
-			result = dbHelper.getDatabase().queryByExample(Activity.class);
+			result = DBHelper.getDatabase().queryByExample(Activity.class);
 		}catch(Exception e){
 			Log.e("Activity.getAll()", "Problem: " + e.getMessage());
 		}
