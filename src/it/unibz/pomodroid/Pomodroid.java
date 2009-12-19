@@ -14,11 +14,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class Pomodroid extends Activity {
-	public static DBHelper dbHelper;
+	private DBHelper dbHelper;
 	private Button button;
 	private TextView textView;
 	private Context context;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,13 +36,14 @@ public class Pomodroid extends Activity {
 			  }
 		});
 		
-	
-		User user = User.retrieve();
+		User user = new User("dgraziotin","blah","https://babbage.inf.unibz.it/trac/AIT0910-projectpomodroid/xmlrpc","http://task3.cc:8080"); //User.retrieve(dbHelper);
+		user.save(dbHelper);
+		TrackTicketFetcher.fetch(user, dbHelper);
+
+		textView.setText("ciao");
+
 		
-		TrackTicketFetcher.fetch(user);
-
-		textView.setText(user.getTracUrl());
-
+		this.dbHelper.close();
 	}
 	
 

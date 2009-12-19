@@ -310,6 +310,7 @@ AuthScope.ANY_REALM),
 	 * @return deserialized method return value
 	 * @throws XMLRPCException
 	 */
+	@SuppressWarnings("unchecked")
 	private Object callXMLRPC(String method, Object[] params) throws XMLRPCException {
 		try {
 			// prepare POST body

@@ -144,6 +144,7 @@ public class Test extends Activity {
 			} else
 			if (position == 3) {
 		        XMLRPCMethod method = new XMLRPCMethod("testStruct", new XMLRPCMethodCallback() {
+					@SuppressWarnings("unchecked")
 					public void callFinished(Object result) {
 						Map<String, Object> map = (Map<String, Object>) result;
 						testResult.setText("City: " + map.get("City") + "\nTemperature: " + map.get("Temperature") + " °C");

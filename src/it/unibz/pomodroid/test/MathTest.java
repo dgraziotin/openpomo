@@ -8,6 +8,7 @@ import it.unibz.pomodroid.persistency.*;
 public class MathTest extends AndroidTestCase {
 	protected int i1;
 	protected int i2;
+	protected DBHelper dbHelper;
 	static final String LOG_TAG = "MathTest";
 	static Context context;
 
@@ -18,8 +19,9 @@ public class MathTest extends AndroidTestCase {
 	}
 	
 	public void testDatabase(){
+		dbHelper = new DBHelper(context);
 		Log.d(LOG_TAG, "testDatabase");
-		User user = User.retrieve();
+		User user = User.retrieve(dbHelper);
 		assertTrue(user.getTracUsername().equals("dgraziotin"));
 	}
 

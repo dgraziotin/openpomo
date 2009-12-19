@@ -15,9 +15,13 @@ import it.unibz.pomodroid.persistency.User;
  */
 public class TrackTicketFetcher {
 	
-	public static void fetch (User user){
-		Vector<Integer> ticketIds = new Vector<Integer>();
+	public static void fetch (User user, DBHelper dbHelper){
+		Vector<Integer> ticketIds;
 		ticketIds = getTicketIds(user);
+		// FIXME: added this to prevent a NullPointerException in case
+		// of 0 tickets for the user - Daniel
+		if (ticketIds==null)
+			return;
 		HashMap<String,String> attributes;
 		Date deadLine = new Date();
 	
@@ -27,7 +31,7 @@ public class TrackTicketFetcher {
 		   if (!(attributes.get("milestone").toString().equals(""))){
 		     deadLine = getDeadLine(user, attributes.get("milestone").toString());
 		   }
-		   ActivityFactory.produce((int)ticketId, deadLine, attributes);
+		   ActivityFactory.produce((int)ticketId, deadLine, attributes, dbHelper);
 		}
 		Log.i("TrackTicketFetcher", "Tickets are now in the DB");
 	}

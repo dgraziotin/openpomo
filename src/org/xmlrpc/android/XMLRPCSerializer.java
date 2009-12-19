@@ -37,6 +37,7 @@ class XMLRPCSerializer {
 	
 	static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
 
+	@SuppressWarnings("unchecked")
 	static void serialize(XmlSerializer serializer, Object object ) throws IOException {
 		// check for scalar types:
 		if (object instanceof Integer || object instanceof Short || object instanceof Byte) {

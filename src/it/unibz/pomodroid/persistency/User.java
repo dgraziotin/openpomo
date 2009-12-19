@@ -4,37 +4,26 @@ import com.db4o.ObjectSet;
 
 import android.util.Log;
 
-/**
- * @author bodom_lx
- *
- */
-
-
 public class User extends it.unibz.pomodroid.models.User {
-	
-	/**
-	 * @param tracUsername
-	 * @param tracPassword
-	 * @param tracUrl
-	 * @param promUrl
-	 */
+
 	public User(String tracUsername, String tracPassword, String tracUrl, String promUrl) {
 		super(tracUsername, tracPassword, tracUrl, promUrl);
 	}
 
 	
-	public void save(){
+	public void save(DBHelper dbHelper){
 		try{
-			DBHelper.getDatabase().store(this);
+			dbHelper.getDatabase().store(this);
+			Log.i("User.save()", "User Saved.");
 		}catch(Exception e){
 			Log.e("User.save()", "Problem: " + e.getMessage());
 		}
 	}
 	
-	public static User retrieve(){
+	public static User retrieve(DBHelper dbHelper){
 		ObjectSet<User> users;
 		try{
-			users = DBHelper.getDatabase().queryByExample(User.class);
+			users = dbHelper.getDatabase().queryByExample(User.class);
 			return users.next();
 		}catch(Exception e){
 			Log.e("User.retrieve()", "Problem: " + e.getMessage());

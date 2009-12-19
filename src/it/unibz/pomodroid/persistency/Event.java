@@ -21,17 +21,17 @@ public class Event extends it.unibz.pomodroid.models.Event{
 	
 	public void save(DBHelper dbHelper){
 		try{
-			DBHelper.getDatabase().store(this);
+			dbHelper.getDatabase().store(this);
 		}catch(Exception e){
 			Log.e("Event.save(single)", "Problem: " + e.getMessage());
 		}
 	}
 	
-	public static void deleteAll(){
+	public static void deleteAll(DBHelper dbHelper){
 		ObjectSet<Event> retrievedEvents;
 		try{
-			retrievedEvents = DBHelper.getDatabase().queryByExample(Event.class);
-			DBHelper.getDatabase().delete(retrievedEvents);
+			retrievedEvents = dbHelper.getDatabase().queryByExample(Event.class);
+			dbHelper.getDatabase().delete(retrievedEvents);
 		}catch(Exception e){
 			Log.e("Event.deleteAll()", "Problem: " + e.getMessage());
 		}
@@ -40,7 +40,7 @@ public class Event extends it.unibz.pomodroid.models.Event{
 	public static List<Event> getAll(DBHelper dbHelper){
 		ObjectSet<Event> result;
 		try{
-			result = DBHelper.getDatabase().queryByExample(Event.class);
+			result = dbHelper.getDatabase().queryByExample(Event.class);
 			return result;
 		}catch(Exception e){
 			Log.e("Event.getAll()", "Problem: " + e.getMessage());
