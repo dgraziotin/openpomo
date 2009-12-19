@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class Pomodroid extends Activity {
+	public static DBHelper dbHelper;
 	private Button button;
 	private TextView textView;
 	private Context context;
@@ -22,7 +23,7 @@ public class Pomodroid extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		DBHelper.setContext(this);
+		dbHelper = new DBHelper(this);
 		this.context = this;
 		this.button = (Button) findViewById(R.id.Button01);
 		this.textView = (TextView) findViewById(R.id.TextView01);
@@ -38,10 +39,10 @@ public class Pomodroid extends Activity {
 		
 	
 		User user = User.retrieve();
-		DBHelper.deleteDatabase();
-		//TrackTicketFetcher.fetch(user);
+		
+		TrackTicketFetcher.fetch(user);
 
-		textView.setText("ciao");
+		textView.setText(user.getTracUrl());
 
 	}
 	

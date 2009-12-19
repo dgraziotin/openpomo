@@ -12,16 +12,16 @@ import com.db4o.config.Configuration;
 public class DBHelper {
 
 	private static ObjectContainer database;
-	/**
-	 * @return the context
-	 */
-	public static Context getContext() {
-		return context;
-	}
-
 	private static Context context;
 
-	
+	public DBHelper(Context context) {
+		DBHelper.database = null;
+		DBHelper.context = context;
+	}
+
+	public void setDatabase(ObjectContainer database) {
+		DBHelper.database = database;
+	}
 
 	public static ObjectContainer getDatabase() {
 		try {
@@ -34,13 +34,19 @@ public class DBHelper {
 		}
 	}
 
-	
+	/**
+	 * @return the context
+	 */
+	public Context getContext() {
+		return context;
+	}
+
 	/**
 	 * @param context
 	 *            the context to set
 	 */
-	public static void setContext(Context context) {
-		DBHelper.context = context;
+	public void setContext(Context context) {
+		this.context = context;
 	}
 
 	private static Configuration dbConfig() {
@@ -66,16 +72,16 @@ public class DBHelper {
 		}
 	}
 
-	public static void deleteDatabase() {
+	public void deleteDatabase() {
 		close();
 		new File(db4oDBFullPath(context)).delete();
 	}
 
-	public static void backup(String path) {
+	public void backup(String path) {
 		getDatabase().ext().backup(path);
 	}
 
-	public static void restore(String path) {
+	public void restore(String path) {
 		deleteDatabase();
 		new File(path).renameTo(new File(db4oDBFullPath(context)));
 		new File(path).delete();

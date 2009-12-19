@@ -23,6 +23,7 @@ public class PomodroidTest extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbHelper = Pomodroid.dbHelper;
         setContentView(R.layout.test);
         Button launcherButton = (Button)findViewById( R.id.launch_button );
         launcherButton.setOnClickListener( new View.OnClickListener() {
