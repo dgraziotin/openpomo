@@ -17,7 +17,6 @@ import android.util.Log;
 
 public class PromFactory {
 
-	private static final int EVENT_PLUGIN_ID = 14;
 	private static final int LOCATION_PLUGIN_ID = 15;
 	private static final int ANDROID_APPLICATION_ID = 1000;
 	public static final String PROM_DATE_FORMAT = "yyyyMMddHHmmss";

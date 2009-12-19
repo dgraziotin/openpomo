@@ -12,18 +12,18 @@ import com.db4o.config.Configuration;
 public class DBHelper {
 
 	private static ObjectContainer database;
-	private static Context context;
+	private Context context;
 
 	public DBHelper(Context context) {
 		DBHelper.database = null;
-		DBHelper.context = context;
+		this.context = context;
 	}
 
 	public void setDatabase(ObjectContainer database) {
 		DBHelper.database = database;
 	}
 
-	public static ObjectContainer getDatabase() {
+	public ObjectContainer getDatabase() {
 		try {
 			if (database == null || database.ext().isClosed())
 				database = Db4o.openFile(dbConfig(), db4oDBFullPath(context));
@@ -49,7 +49,7 @@ public class DBHelper {
 		this.context = context;
 	}
 
-	private static Configuration dbConfig() {
+	private Configuration dbConfig() {
 		Configuration configuration = Db4o.newConfiguration();
 		return configuration;
 	}
@@ -58,14 +58,14 @@ public class DBHelper {
 	 * @param context
 	 * @return
 	 */
-	public static String db4oDBFullPath(Context context) {
+	public String db4oDBFullPath(Context context) {
 		return context.getDir("data", 0) + "/" + "android.db4o";
 	}
 
 	/**
 	 * Close database connection
 	 */
-	public static void close() {
+	public void close() {
 		if (database != null) {
 			database.close();
 			database = null;
