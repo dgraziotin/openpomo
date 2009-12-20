@@ -1,30 +1,48 @@
 package it.unibz.pomodroid.test;
+
+import it.unibz.pomodroid.persistency.DBHelper;
+import it.unibz.pomodroid.persistency.User;
+import it.unibz.pomodroid.services.PromEventDeliverer;
+import it.unibz.pomodroid.services.XmlRpcClient;
+
+import android.content.Context;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
 public class XmlRpcTest extends AndroidTestCase{
-		protected int i1;
-		protected int i2;
 		static final String LOG_TAG = "XmlRpcTest";
-
+		private static User user = null;
+		protected static DBHelper dbHelper;
+		protected static Context context = null;
 		public void setUp() {
-			i1 = 2;
-			i2 = 3;
+			XmlRpcTest.context = super.getContext();
+			if(dbHelper == null){
+				dbHelper = new DBHelper(context);
+			}
+			if(user==null){
+				user = User.retrieve(dbHelper);
+			}
 		}
 
-		public void testGnek() {
-			Log.d(LOG_TAG, "testGnek");
-			assertTrue(LOG_TAG + "3", true);
+		public void testTracConnection(){
+			Log.d(LOG_TAG, "testTracConnection");
+			Object[] params = {};
+			// it should return an integer > 0
+			Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(), user.getTracUsername(), user.getTracPassword(), "system.listMethods", params);
+			assertTrue(result.length > 0);
 		}
+		
+		public void testPromConnection() throws Exception{
+			Log.d(LOG_TAG, "testPromConnection");
 
-		public void testBlah() {
-			Log.d(LOG_TAG, "testBlah");
-			assertTrue(LOG_TAG + "2", true);
+			PromEventDeliverer ped = new PromEventDeliverer();
+			int id = ped.getUploadId(user);
+
+			assert(id > 0);
 		}
-
-		public void testAdd() {
-			Log.d(LOG_TAG, "testAdd");
-			assertTrue(LOG_TAG + "1", ((i1 + i2) == 5));
+		
+		public void tearDown(){
+			dbHelper.close();
 		}
 
 		public void testAndroidTestCaseSetupProperly() {

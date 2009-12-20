@@ -37,7 +37,6 @@ public class Pomodroid extends Activity {
 		});
 		
 		User user = User.retrieve(dbHelper);
-		TrackTicketFetcher.fetch(user, dbHelper);
 
 		textView.setText(user.getTracUsername());
 

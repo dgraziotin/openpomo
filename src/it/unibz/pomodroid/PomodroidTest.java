@@ -1,10 +1,8 @@
 package it.unibz.pomodroid;
 
-import it.unibz.pomodroid.test.ExampleSuite;
+import it.unibz.pomodroid.test.TestSuite;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.test.AndroidTestCase;
 import android.test.AndroidTestRunner;
 import android.widget.Button;
 import android.widget.TextView;
@@ -143,8 +141,8 @@ class TestRunner implements Runnable,TestListener  {
                                     findViewById( R.id.failureCounter );
             Log.d( LOG_TAG, "Test started" );
             AndroidTestRunner testRunner = new AndroidTestRunner();
-            ExampleSuite test = new ExampleSuite();
-            test.context = this.parentActivity;
+            TestSuite test = new TestSuite();
+            test.context = parentActivity;
             testRunner.setTest( test );
             testRunner.addTestListener( this );
             testRunner.setContext( parentActivity );
