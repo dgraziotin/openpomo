@@ -14,14 +14,12 @@ import it.unibz.pomodroid.persistency.User;
  *
  */
 public class TrackTicketFetcher {
-	
+	// FIXME: make the method return just a list of Activities. This is good for testing
+	// and for separation of concerns. the method should not be static
 	public static void fetch (User user, DBHelper dbHelper){
 		Vector<Integer> ticketIds;
 		ticketIds = getTicketIds(user);
-		// FIXME: added this to prevent a NullPointerException in case
-		// of 0 tickets for the user - Daniel
-		if (ticketIds==null)
-			return;
+		
 		HashMap<String,String> attributes;
 		Date deadLine = new Date();
 	
@@ -31,11 +29,13 @@ public class TrackTicketFetcher {
 		   if (!(attributes.get("milestone").toString().equals(""))){
 		     deadLine = getDeadLine(user, attributes.get("milestone").toString());
 		   }
+		   // FIXME: we should not call ActivityFactory from here, TrackTicketFetcher must be independent
 		   ActivityFactory.produce((int)ticketId, deadLine, attributes, dbHelper);
 		}
 		Log.i("TrackTicketFetcher", "Tickets are now in the DB");
 	}
 	
+	// FIXME: the method should not be static
 	public static Vector<Integer> getTicketIds (User user){
 		String[] params = {"status!=closed"};
 		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
@@ -49,6 +49,7 @@ public class TrackTicketFetcher {
 	}
 	
 	@SuppressWarnings("unchecked")
+	// FIXME: the method should not be static
 	public static HashMap<String,String> getTickets(User user, Integer[] id){
 		Object[] ticket;
 		HashMap<String,String> attributes;
@@ -63,6 +64,7 @@ public class TrackTicketFetcher {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
+	// FIXME: the method should not be static and should be private
 	public static Date getDeadLine (User user, String milestoneId){
 		Date result;
 		Object dataObject;

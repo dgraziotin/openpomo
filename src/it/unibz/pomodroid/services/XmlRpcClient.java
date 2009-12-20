@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class XmlRpcClient {
 	public static Object fetchSingleResult(String url, String method,
-			Object[] params) {
+			Object[] params) throws Exception {
 
 		URI uri = URI.create(url);
 		XMLRPCClient client = new XMLRPCClient(uri);
@@ -17,6 +17,7 @@ public class XmlRpcClient {
 			result = client.call(method, params);
 		} catch (Exception e) {
 			Log.e("XML-RPC exception", e.toString());
+			throw e;
 		}
 		return result;
 	}

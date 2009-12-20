@@ -3,14 +3,16 @@ import android.util.Log;
 
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.XmlRpcClient;
-import it.unibz.pomodroid.R;
+
 
 public class PromEventDeliverer {
-	private int getUploadId(User user){
-		Object[] params = {new Integer(123),R.string.app_name,"prom"};
+	private String appName = "Pomodroid";
+	private String promDB = "prom";
+	
+	public Integer getUploadId(User user) throws Exception{
+		Object[] params = {new Integer(123),appName,promDB};
 		Object result = XmlRpcClient.fetchSingleResult(user.getPromUrl(), "upload.getUploadID",params);
-		Integer id = (Integer) result;
-		return id.intValue();
+		return (Integer) result;
 	}
 	
 public void uploadData(byte[] zipIni, User user) {
@@ -21,8 +23,8 @@ public void uploadData(byte[] zipIni, User user) {
 			Log.i("PromEventDeliverer.uploadData()", "Upload ID:" + uploadId);
 			Object[] params = {
 					uploadId,
-					R.string.app_name,
-					"prom",
+					appName,
+					promDB,
 					zipIni
 			};
 			

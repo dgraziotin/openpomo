@@ -22,6 +22,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
+import android.util.Log;
 import android.util.Xml;
 
 
@@ -391,8 +392,10 @@ AuthScope.ANY_REALM),
 			// catch & propagate XMLRPCException/XMLRPCFault
 			throw e;
 		} catch (Exception e) {
+			Log.d("ATTENTION!!!: ",e.toString());
 			// wrap any other Exception(s) around XMLRPCException
 			throw new XMLRPCException(e);
+			
 		}
 	}
 }
