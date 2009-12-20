@@ -36,13 +36,10 @@ public class Pomodroid extends Activity {
 			  }
 		});
 		
-		User user = new User("dgraziotin","blah","https://babbage.inf.unibz.it/trac/AIT0910-projectpomodroid/xmlrpc","http://task3.cc:8080"); //User.retrieve(dbHelper);
-		user.save(dbHelper);
+		User user = User.retrieve(dbHelper);
 		TrackTicketFetcher.fetch(user, dbHelper);
 
-		textView.setText("ciao");
-
-		
+		textView.setText(user.getTracUsername());
 		this.dbHelper.close();
 	}
 	
