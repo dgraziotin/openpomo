@@ -20,7 +20,7 @@ public class ActivityFactory {
 	// FIXME the method should not be static, please make it return the number of activities processed
 
 	/**
-	 * @param id trak identifier 
+	 * @param id trac identifier 
 	 * @param deadLine date within the work has be done
 	 * @param attributes list containing all information about one ticket
 	 * @param dbHelper reference to the database
