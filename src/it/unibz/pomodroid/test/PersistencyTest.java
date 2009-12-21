@@ -1,17 +1,19 @@
 package it.unibz.pomodroid.test;
 
+import java.util.Date;
+
 import android.content.Context;
 import android.test.AndroidTestCase;
 import android.util.Log;
 import it.unibz.pomodroid.persistency.*;
 
-public class DatabaseTest extends AndroidTestCase {
+public class PersistencyTest extends AndroidTestCase {
 	protected static DBHelper dbHelper;
 	static final String LOG_TAG = "DatabaseTest";
 	protected static Context context = null;
 	
 	public void setUp() {
-		DatabaseTest.context = super.getContext();
+		PersistencyTest.context = super.getContext();
 		if(dbHelper == null){
 			dbHelper = new DBHelper(context);
 		}
@@ -49,6 +51,25 @@ public class DatabaseTest extends AndroidTestCase {
 		user = User.retrieve(dbHelper);
 		assertTrue(user.getTracUsername().equals(oldUsername));
 	}
+	
+	public void testActivityCreation(){
+		Log.d(LOG_TAG, "testActivityCreation");
+		int numberPomodoro = 0;
+		Date today = new Date();
+		String title = "activity title";
+		String summary = "activity summary";
+		String origin = "trac";
+		int originId = 123;
+		String priority = "high";
+		String reporter = "dgraziotin";
+		String type = "bugfix";
+		Activity ac = new Activity(numberPomodoro,today,today,title,summary,origin,originId,priority,reporter,type);
+		ac.save(dbHelper);
+		assertTrue(Activity.isPresent(origin, originId, dbHelper));
+	}
+	
+	// TODO: test Event creation
+	// TODO: test Event related to an activity
 
 	public void tearDown(){
 		dbHelper.close();

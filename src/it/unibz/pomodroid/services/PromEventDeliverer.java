@@ -9,7 +9,7 @@ public class PromEventDeliverer {
 	private String appName = "Pomodroid";
 	private String promDB = "prom";
 	
-	public Integer getUploadId(User user) throws Exception{
+	public Integer getUploadId(User user){
 		Object[] params = {new Integer(123),appName,promDB};
 		Object result = XmlRpcClient.fetchSingleResult(user.getPromUrl(), "upload.getUploadID",params);
 		return (Integer) result;

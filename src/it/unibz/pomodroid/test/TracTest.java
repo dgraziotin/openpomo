@@ -7,13 +7,13 @@ import android.content.Context;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-public class TrackTicketFetcherTest extends AndroidTestCase{
+public class TracTest extends AndroidTestCase{
 	protected static DBHelper dbHelper;
 	static final String LOG_TAG = "TrackTicketFetcherTest";
 	protected static Context context = null;
 	
 	public void setUp() {
-		DatabaseTest.context = super.getContext();
+		TracTest.context = super.getContext();
 		if(dbHelper == null){
 			dbHelper = new DBHelper(context);
 		}
