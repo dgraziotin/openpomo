@@ -2,9 +2,14 @@ package it.unibz.pomodroid.models;
 import java.util.Date;
 
 /**
- * @author bodom_lx
+ * @author Thomas Schievenin
+ * 
+ * A class representing an activity. Each activity is described by its number of pomodoro (integer number),
+ * received date (date), deadline (date), summary (string), description (string), origin (string i.e. trac), 
+ * origin id (integer that refers to its origin), priority (string), reporter (string) and type (string).
  * 
  */
+
 public class Activity {
 
 	private int numberPomodoro;
@@ -19,16 +24,16 @@ public class Activity {
 	private String type;
 
 	/**
-	 * @param number_pomodoro
-	 * @param received
-	 * @param deadline
-	 * @param summary
-	 * @param description
-	 * @param origin
-	 * @param origin_id
-	 * @param priority
-	 * @param reporter
-	 * @param type
+	 * @param number_pomodoro number of pomodoro that has been runned
+	 * @param received received date 
+	 * @param deadline deadline
+	 * @param summary a briefly activity description 
+	 * @param description a more detalied description
+	 * @param origin describes the activity origin
+	 * @param origin_id id referring to the origin, it is impossible to have two activities with same origin and origin id 
+	 * @param priority priority of the activity
+	 * @param reporter name of the reporter
+	 * @param type activity type
 	 */
 	public Activity(int numberPomodoro, Date received,
 			Date deadline, String summary, String description, String origin,
@@ -46,7 +51,7 @@ public class Activity {
 	}
 
 	/**
-	 * @return the number_pomodoro
+	 * @return the number of pomodoro
 	 */
 	public int getNumberPomodoro() {
 		return numberPomodoro;
@@ -54,14 +59,14 @@ public class Activity {
 
 	/**
 	 * @param numberPomodoro
-	 *            the number_pomodoro to set
+	 *            sets the number of pomodoro
 	 */
 	public void setNumberPomodoro(int numberPomodoro) {
 		this.numberPomodoro = numberPomodoro;
 	}
 
 	/**
-	 * @return the received
+	 * @return when the activity has been received
 	 */
 	public Date getReceived() {
 		return received;
@@ -69,7 +74,7 @@ public class Activity {
 
 	/**
 	 * @param received
-	 *            the received to set
+	 *            received date to set
 	 */
 	public void setReceived(Date received) {
 		this.received = received;
@@ -84,7 +89,7 @@ public class Activity {
 
 	/**
 	 * @param deadline
-	 *            the deadline to set
+	 *            deadline to set
 	 */
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
@@ -99,7 +104,7 @@ public class Activity {
 
 	/**
 	 * @param description
-	 *            the description to set
+	 *            description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -114,14 +119,14 @@ public class Activity {
 
 	/**
 	 * @param origin
-	 *            the origin to set
+	 *            origin to set
 	 */
 	public void setOrigin(String origin) {
 		this.origin = origin;
 	}
 
 	/**
-	 * @return the origin_id
+	 * @return the origin id
 	 */
 	public int getOriginId() {
 		return originId;
@@ -129,14 +134,14 @@ public class Activity {
 
 	/**
 	 * @param originId
-	 *            the origin_id to set
+	 *            origin_id to set
 	 */
 	public void setOriginId(int originId) {
 		this.originId = originId;
 	}
 
 	/**
-	 * @return the reporter
+	 * @return the reporter name
 	 */
 	public String getReporter() {
 		return reporter;
@@ -144,7 +149,7 @@ public class Activity {
 
 	/**
 	 * @param reporter
-	 *            the reporter to set
+	 *            reporter name to set
 	 */
 	public void setReporter(String reporter) {
 		this.reporter = reporter;
@@ -165,18 +170,36 @@ public class Activity {
 		this.type = type;
 	}
 
+	
+	/**
+	 * @return the summary
+	 */
 	public String getSummary() {
 		return summary;
 	}
 
+	
+	/**
+	 * @param summary
+	 * 			summary to set
+	 */
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
 
+	
+	/**
+	 * @return the priority
+	 */
 	public String getPriority() {
 		return priority;
 	}
 
+	
+	/**
+	 * @param priority
+	 * 			the priority to set
+	 */
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}

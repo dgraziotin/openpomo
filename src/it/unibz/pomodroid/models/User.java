@@ -1,13 +1,36 @@
 package it.unibz.pomodroid.models;
 
+/**
+ * 
+ * @author Thomas Schievenin
+ *
+ * A class representing a tipical pomodroid user. Each user has its username (string), password (tring), 
+ * trac url (absolute url), prom url (absolute url).
+ * 
+ */
+
 public class User {
+	
 	private String tracUsername;
 	private String tracPassword;
 	private String tracUrl;
 	private String promUrl;
 	
 	/**
-	 * @return the promUrl
+	 * @param tracUsername pomodroid username
+	 * @param tracPassword pomodroid password
+	 * @param tracUrl absolute trac url
+	 * @param promUrl absolute prom url
+	 */
+	public User(String tracUsername, String tracPassword, String tracUrl, String promUrl) {
+		this.tracUsername = tracUsername;
+		this.tracPassword = tracPassword;
+		this.tracUrl = tracUrl;
+		this.promUrl = promUrl;
+	}
+
+	/**
+	 * @return the absolute prom Url
 	 */
 	public String getPromUrl() {
 		return promUrl;
@@ -20,15 +43,8 @@ public class User {
 		this.promUrl = promUrl;
 	}
 
-	public User(String tracUsername, String tracPassword, String tracUrl, String promUrl) {
-		this.tracUsername = tracUsername;
-		this.tracPassword = tracPassword;
-		this.tracUrl = tracUrl;
-		this.promUrl = promUrl;
-	}
-
 	/**
-	 * @return the tracUsername
+	 * @return the trac username
 	 */
 	public String getTracUsername() {
 		return tracUsername;
@@ -42,14 +58,14 @@ public class User {
 	}
 
 	/**
-	 * @return the tracPassword
+	 * @return the trac password
 	 */
 	public String getTracPassword() {
 		return tracPassword;
 	}
 
 	/**
-	 * @param tracPassword the tracPassword to set
+	 * @param tracPassword the trac password to set
 	 */
 	public void setTracPassword(String tracPassword) {
 		this.tracPassword = tracPassword;
@@ -63,7 +79,7 @@ public class User {
 	}
 
 	/**
-	 * @param tracUrl the tracUrl to set
+	 * @param tracUrl the trac Url to set
 	 */
 	public void setTracUrl(String tracUrl) {
 		this.tracUrl = tracUrl;
