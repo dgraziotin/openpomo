@@ -9,13 +9,24 @@ import it.unibz.pomodroid.factories.ActivityFactory;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 
+
 /**
- * @author tom
+ * @author Thomas Schievenin
+ * 
+ * A class that retrieves tickets from TRAC. Initially, this class takes all opened tickets, than theirs information.
+ * Finally it calls the class activity and store them into the db. 
  *
  */
+
 public class TrackTicketFetcher {
-	// FIXME: make the method return just a list of Activities. This is good for testing
-	// and for separation of concerns. the method should not be static
+
+	
+	/**
+	 * @param user user object
+	 * @param dbHelper connection to the db
+	 * 
+	 * It retrieves all opened tickets from TRAC
+	 */
 	public static void fetch (User user, DBHelper dbHelper){
 		Vector<Integer> ticketIds;
 		ticketIds = getTicketIds(user);
@@ -35,7 +46,11 @@ public class TrackTicketFetcher {
 		Log.i("TrackTicketFetcher", "Tickets are now in the DB");
 	}
 	
-	// FIXME: the method should not be static
+	
+	/**
+	 * @param user user object
+	 * @return vector 
+	 */
 	public static Vector<Integer> getTicketIds (User user){
 		String[] params = {"status!=closed"};
 		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
