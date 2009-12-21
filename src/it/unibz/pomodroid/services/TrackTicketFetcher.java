@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import android.util.Log;
-import it.unibz.pomodroid.factories.ActivityFactory;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 
@@ -24,10 +23,13 @@ public class TrackTicketFetcher {
 	/**
 	 * @param user user object
 	 * @param dbHelper connection to the db
+	 * @return tickets from TRAC
 	 * 
-	 * It retrieves all opened tickets from TRAC
+	 * It retrieves all opened tickets from TRAC and returns them
 	 */
-	public static void fetch (User user, DBHelper dbHelper){
+	public Vector<HashMap<String, Object>> fetch (User user, DBHelper dbHelper){
+		Vector<HashMap<String, Object>> tickets = new Vector<HashMap<String, Object>>(); 
+		
 		Vector<Integer> ticketIds;
 		ticketIds = getTicketIds(user);
 		
@@ -35,15 +37,27 @@ public class TrackTicketFetcher {
 		Date deadLine = new Date();
 	
 		for (Integer ticketId : ticketIds) {
+		   HashMap<String, Object> ticket = new HashMap<String, Object>();
 		   Integer[] id = {ticketId};
 		   attributes = getTickets(user, id);
+		   
 		   if (!(attributes.get("milestone").toString().equals(""))){
 		     deadLine = getDeadLine(user, attributes.get("milestone").toString());
 		   }
-		   // FIXME: we should not call ActivityFactory from here, TrackTicketFetcher must be independent
-		   ActivityFactory.produce((int)ticketId, deadLine, attributes, dbHelper);
+		   
+		   ticket.put("ticketId", (int)ticketId);
+		   ticket.put("deadLine", deadLine);
+		   ticket.put("summary",attributes.get("summary"));
+		   ticket.put("description",attributes.get("description"));
+		   ticket.put("priority",attributes.get("priority"));
+		   ticket.put("reporter",attributes.get("reporter"));
+		   ticket.put("type",attributes.get("type"));
+
+		   tickets.add(ticket);
+		   
 		}
-		Log.i("TrackTicketFetcher", "Tickets are now in the DB");
+		Log.i("TrackTicketFetcher", "Returning Tickets");
+		return tickets;
 	}
 	
 	
@@ -51,7 +65,7 @@ public class TrackTicketFetcher {
 	 * @param user user object
 	 * @return vector 
 	 */
-	public static Vector<Integer> getTicketIds (User user){
+	public Vector<Integer> getTicketIds (User user){
 		String[] params = {"status!=closed"};
 		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
 		if (result != null){
@@ -65,7 +79,7 @@ public class TrackTicketFetcher {
 	
 	@SuppressWarnings("unchecked")
 	// FIXME: the method should not be static
-	public static HashMap<String,String> getTickets(User user, Integer[] id){
+	public HashMap<String,String> getTickets(User user, Integer[] id){
 		Object[] ticket;
 		HashMap<String,String> attributes;
 		ticket = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.get",id);
@@ -80,7 +94,7 @@ public class TrackTicketFetcher {
 	 */
 	@SuppressWarnings("unchecked")
 	// FIXME: the method should not be static and should be private
-	public static Date getDeadLine (User user, String milestoneId){
+	public Date getDeadLine (User user, String milestoneId){
 		Date result;
 		Object dataObject;
 		String params[] = {milestoneId};
