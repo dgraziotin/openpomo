@@ -97,5 +97,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		}
 		return result;
 	}
+	
+	public static int getNumberActivities(DBHelper dbHelper){
+		List<Activity> activities = Activity.getAll(dbHelper);
+		return ((activities == null) ?  0 :  activities.size());
+	}
 
 }

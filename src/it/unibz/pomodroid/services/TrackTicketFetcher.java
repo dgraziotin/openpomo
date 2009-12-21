@@ -65,7 +65,7 @@ public class TrackTicketFetcher {
 	 * @param user user object
 	 * @return vector 
 	 */
-	public Vector<Integer> getTicketIds (User user){
+	private Vector<Integer> getTicketIds (User user){
 		String[] params = {"status!=closed"};
 		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
 		if (result != null){
@@ -77,9 +77,14 @@ public class TrackTicketFetcher {
 		return null;
 	}
 	
+	public int getNumberTickets(User user){
+		Vector<Integer> ticketIds = this.getTicketIds(user);
+		return ((ticketIds == null) ?  0 :  ticketIds.size());
+	}
+	
 	@SuppressWarnings("unchecked")
 	// FIXME: the method should not be static
-	public HashMap<String,String> getTickets(User user, Integer[] id){
+	private HashMap<String,String> getTickets(User user, Integer[] id){
 		Object[] ticket;
 		HashMap<String,String> attributes;
 		ticket = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.get",id);
@@ -94,7 +99,7 @@ public class TrackTicketFetcher {
 	 */
 	@SuppressWarnings("unchecked")
 	// FIXME: the method should not be static and should be private
-	public Date getDeadLine (User user, String milestoneId){
+	private Date getDeadLine (User user, String milestoneId){
 		Date result;
 		Object dataObject;
 		String params[] = {milestoneId};

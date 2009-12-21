@@ -1,6 +1,9 @@
 package it.unibz.pomodroid;
 
+import java.util.Date;
+
 import it.unibz.pomodroid.persistency.DBHelper;
+import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.TrackTicketFetcher;
 import android.app.Activity;
@@ -37,8 +40,9 @@ public class Pomodroid extends Activity {
 		});
 		
 		User user = User.retrieve(dbHelper);
-
-		textView.setText(user.getTracUsername());
+		Integer numActivities = it.unibz.pomodroid.persistency.Activity.getNumberActivities(dbHelper);
+		
+		textView.setText("");
 
 		
 		this.dbHelper.close();
