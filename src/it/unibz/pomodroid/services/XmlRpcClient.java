@@ -4,7 +4,21 @@ import java.net.URI;
 import org.xmlrpc.android.XMLRPCClient;
 import android.util.Log;
 
+/**
+ * @author Thomas Schievenin
+ * 
+ * A class that uses the remote procedure call protocol XML-RPC to retrieve information through the HTTP 
+ * as a transport mechanism.
+ * 
+ */
 public class XmlRpcClient {
+	
+	/**
+	 * @param url
+	 * @param method
+	 * @param params
+	 * @return a single object
+	 */
 	public static Object fetchSingleResult(String url, String method,
 			Object[] params) {
 
@@ -21,6 +35,12 @@ public class XmlRpcClient {
 		return result;
 	}
 
+	/**
+	 * @param url
+	 * @param method
+	 * @param params
+	 * @return one or more objects
+	 */
 	public static Object fetchMultiResults(String url, String method,
 			Object[] params) {
 
@@ -37,6 +57,14 @@ public class XmlRpcClient {
 		return result;
 	}
 
+	/**
+	 * @param url
+	 * @param username
+	 * @param password
+	 * @param method
+	 * @param params
+	 * @return signle object
+	 */
 	public static Object fetchSingleResult(String url, String username,
 			String password, String method, Object[] params) {
 
@@ -55,6 +83,14 @@ public class XmlRpcClient {
 		return result;
 	}
 
+	/**
+	 * @param url
+	 * @param username
+	 * @param password
+	 * @param method
+	 * @param params
+	 * @return one or more objects
+	 */
 	public static Object[] fetchMultiResults(String url, String username,
 			String password, String method, Object[] params) {
 

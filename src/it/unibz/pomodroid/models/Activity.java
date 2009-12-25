@@ -6,7 +6,8 @@ import java.util.Date;
  * 
  * A class representing an activity. Each activity is described by its number of pomodoro (integer number),
  * received date (date), deadline (date), summary (string), description (string), origin (string i.e. trac), 
- * origin id (integer that refers to its origin), priority (string), reporter (string) and type (string).
+ * origin id (integer that refers to its origin), priority (string), reporter (string), type (string), 
+ * todoToday (boolean), done (boolean) and endDate (date).
  * 
  */
 
@@ -22,6 +23,9 @@ public class Activity {
 	private String priority;
 	private String reporter;
 	private String type;
+	private boolean todoToday;
+	private boolean done;
+	private Date endDate;
 
 	/**
 	 * @param number_pomodoro number of pomodoro that has been runned
@@ -48,6 +52,8 @@ public class Activity {
 		this.priority = priority;
 		this.reporter = reporter;
 		this.type = type;
+		this.todoToday = false;
+		this.done = false;
 	}
 
 	/**
@@ -202,6 +208,51 @@ public class Activity {
 	 */
 	public void setPriority(String priority) {
 		this.priority = priority;
+	}
+
+	/**
+	 * @return todo today
+	 */
+	public boolean isTodoToday() {
+		return todoToday;
+	}
+
+	/**
+	 * @param todoToday
+	 * 			the todoToday to set
+	 */
+	public void setTodoToday(boolean todoToday) {
+		this.todoToday = todoToday;
+	}
+
+	/**
+	 * @return is done
+	 */
+	public boolean isDone() {
+		return done;
+	}
+
+	/**
+	 * Set the activity as DONE and store the date
+	 */
+	public void setDone() {
+		this.done = true;
+		setEndDate(new Date());
+	}
+
+	/**
+	 * @return end date
+	 */
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	/**
+	 * @param date
+	 * 			the date to set
+	 */
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	
 

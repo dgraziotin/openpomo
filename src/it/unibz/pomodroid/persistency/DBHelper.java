@@ -9,20 +9,42 @@ import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
 import com.db4o.config.Configuration;
 
+/**
+ * @author Thomas Schievenin
+ * 
+ * This class manages the open source object database db40
+ *
+ */
+
 public class DBHelper {
 
 	private static ObjectContainer database;
 	private Context context;
 
+	/**
+	 * Setting database parameters
+	 * 
+	 * @param context
+	 */
 	public DBHelper(Context context) {
 		DBHelper.database = null;
 		this.context = context;
 	}
 
+	/**
+	 * Setting the class attribute
+	 * 
+	 * @param database
+	 */
 	public void setDatabase(ObjectContainer database) {
 		DBHelper.database = database;
 	}
 
+	/**
+	 * Getting the database
+	 * 
+	 * @return an object container
+	 */
 	public ObjectContainer getDatabase() {
 		try {
 			if (database == null || database.ext().isClosed())
@@ -35,6 +57,7 @@ public class DBHelper {
 	}
 
 	/**
+	 * 
 	 * @return the context
 	 */
 	public Context getContext() {
@@ -49,14 +72,20 @@ public class DBHelper {
 		this.context = context;
 	}
 
+	/**
+	 * Getting the database configuration
+	 * 
+	 * @return configuration
+	 */
 	private Configuration dbConfig() {
 		Configuration configuration = Db4o.newConfiguration();
 		return configuration;
 	}
 
 	/**
+	 * 
 	 * @param context
-	 * @return
+	 * @return database location
 	 */
 	public String db4oDBFullPath(Context context) {
 		return context.getDir("data", 0) + "/" + "android.db4o";
@@ -72,15 +101,28 @@ public class DBHelper {
 		}
 	}
 
+	/**
+	 * Deleting the database
+	 */
 	public void deleteDatabase() {
 		close();
 		new File(db4oDBFullPath(context)).delete();
 	}
 
+	/**
+	 * Creates a copy of the DB
+	 * 
+	 * @param path
+	 */
 	public void backup(String path) {
 		getDatabase().ext().backup(path);
 	}
 
+	/**
+	 * Restores the DB
+	 * 
+	 * @param path
+	 */
 	public void restore(String path) {
 		deleteDatabase();
 		new File(path).renameTo(new File(db4oDBFullPath(context)));
