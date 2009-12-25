@@ -10,6 +10,13 @@ import com.db4o.query.Predicate;
 import android.util.Log;
 import it.unibz.pomodroid.persistency.DBHelper;
 
+/**
+ * @author Thomas Schievenin
+ * 
+ * A class representing an extension of the activity class. Whit the help of the open source object 
+ * database db40 the activity is saved into a local database.
+ *
+ */
 public class Activity extends it.unibz.pomodroid.models.Activity {
 
 	/**
@@ -31,6 +38,15 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	
+	/**
+	 * 
+	 * @param origin
+	 * @param originId
+	 * @param dbHelper
+	 * @return a specific activity
+	 */
 	public static boolean isPresent(final String origin, final int originId,
 			DBHelper dbHelper) {
 		List<Activity> activities;
@@ -54,6 +70,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		}
 	}
 
+	/**
+	 * @param dbHelper
+	 * @return true if an activity is saved into the DB
+	 */
 	public boolean save(DBHelper dbHelper){
 		if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
 			try{
@@ -67,6 +87,12 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		return false;
 	}
 
+	/**
+	 * Saves a list of activities
+	 * 
+	 * @param Activities
+	 * @param dbHelper
+	 */
 	public void save(List<Activity> Activities, DBHelper dbHelper) {
 		try{
 			for (Activity activity : Activities)
@@ -76,6 +102,13 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		}
 	}
 
+	
+	
+	/**
+	 * Deletes all activities
+	 * 
+	 * @param dbHelper
+	 */
 	public void delete(DBHelper dbHelper) {
 		ObjectSet<Activity> result;
 		try{
@@ -88,6 +121,13 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		}
 	}
 
+	
+	/**
+	 * Retrieves all activities
+	 * 
+	 * @param dbHelper
+	 * @return
+	 */
 	public static List<Activity> getAll(DBHelper dbHelper) {
 		ObjectSet<Activity> result = null;
 		try{
@@ -98,6 +138,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		return result;
 	}
 	
+	/**
+	 * @param dbHelper
+	 * @return the number of activities
+	 */
 	public static int getNumberActivities(DBHelper dbHelper){
 		List<Activity> activities = Activity.getAll(dbHelper);
 		return ((activities == null) ?  0 :  activities.size());

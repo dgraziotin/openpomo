@@ -1,6 +1,5 @@
 package it.unibz.pomodroid.persistency;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -12,14 +11,32 @@ import com.db4o.query.Predicate;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
 
+/**
+ * @author Thomas Schievenin
+ * 
+ * A class representing an extension of the event class. Whit the help of the open source object 
+ * database db40 the event is saved into a local database.
+ *
+ */
 public class Event extends it.unibz.pomodroid.models.Event{
 
+	/**
+	 * @param type
+	 * @param value
+	 * @param timestamp
+	 * @param activity
+	 */
 	public Event(String type, String value, Date timestamp,
 			Activity activity) {
 		super(type, value, timestamp, activity);
 	}
 
 	
+	/**
+	 * Save an event into the DB
+	 * 
+	 * @param dbHelper
+	 */
 	public void save(DBHelper dbHelper){
 		try{
 			dbHelper.getDatabase().store(this);
@@ -28,6 +45,11 @@ public class Event extends it.unibz.pomodroid.models.Event{
 		}
 	}
 	
+	/**
+	 * Delete all events
+	 * 
+	 * @param dbHelper
+	 */
 	public static void deleteAll(DBHelper dbHelper){
 		ObjectSet<Event> retrievedEvents;
 		try{
@@ -38,6 +60,12 @@ public class Event extends it.unibz.pomodroid.models.Event{
 		}
 	}
 
+	/**
+	 * Returns all events
+	 * 
+	 * @param dbHelper
+	 * @return a list of events
+	 */
 	public static List<Event> getAll(DBHelper dbHelper){
 		ObjectSet<Event> result;
 		try{

@@ -5,10 +5,19 @@ import android.util.Log;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.XmlRpcClient;
 
+/**
+ * @author Thomas Schievenin
+ *
+ * A class that saves into PROM our information 
+ */
 public class PromEventDeliverer {
 	private String appName = "Pomodroid";
 	private String promDB = "prom";
 
+	/**
+	 * @param user
+	 * @return nuber of id uploaded
+	 */
 	public Integer getUploadId(User user) {
 		Object[] params = { new Integer(123), appName, promDB };
 		Object result = XmlRpcClient.fetchSingleResult(user.getPromUrl(),
@@ -16,6 +25,12 @@ public class PromEventDeliverer {
 		return (Integer) result;
 	}
 
+	/**
+	 * Upload the data
+	 * 
+	 * @param zipIni
+	 * @param user
+	 */
 	public void uploadData(byte[] zipIni, User user) {
 		try {
 
@@ -37,6 +52,13 @@ public class PromEventDeliverer {
 		}
 	}
 
+	/**
+	 * Check if the data have been uploaded correctly
+	 * 
+	 * @param zipIni
+	 * @param user
+	 * @return
+	 */
 	public int testUploadData(byte[] zipIni, User user) {
 		try {
 

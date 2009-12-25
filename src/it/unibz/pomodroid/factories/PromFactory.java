@@ -15,6 +15,13 @@ import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import android.util.Log;
 
+/**
+ * @author Thomas Schievenin
+ * 
+ * A class that saves all information about an activity it into PROM.
+ * Each activity taken from our internal database.
+ *
+ */
 public class PromFactory {
 
 	private static final int LOCATION_PLUGIN_ID = 15;
