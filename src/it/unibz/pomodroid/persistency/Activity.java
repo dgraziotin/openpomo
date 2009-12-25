@@ -1,10 +1,7 @@
 package it.unibz.pomodroid.persistency;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
-
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import android.util.Log;
@@ -146,5 +143,108 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		List<Activity> activities = Activity.getAll(dbHelper);
 		return ((activities == null) ?  0 :  activities.size());
 	}
+	
+	/**
+	 * @param origin
+	 * @param originId
+	 * @param dbHelper
+	 * @return a specific activity
+	 */
+	public static Activity getActivity(final String origin, final int originId,
+			DBHelper dbHelper) {
+		List<Activity> activities = null;
+		try{
+			activities = dbHelper.getDatabase().query(
+				new Predicate<Activity>() {
+					private static final long serialVersionUID = 1L;
 
+					public boolean match(Activity activity) {
+						return activity.getOrigin().equals(origin)
+								&& activity.getOriginId() == originId;
+					}
+				});
+		}catch(Exception e){
+			Log.e("Activity.getActivity()", "Problem: " + e.getMessage());
+		}
+		return activities.get(0);
+	}
+
+	/**
+	 * @param dbHelper
+	 * @return to do today activities
+	 */
+	public static List<Activity> getTodoToday(DBHelper dbHelper) {
+		List<Activity> activities = null;
+		try{
+			activities = dbHelper.getDatabase().query(
+				new Predicate<Activity>() {
+					private static final long serialVersionUID = 1L;
+
+					public boolean match(Activity activity) {
+						return activity.isTodoToday();
+					}
+				});
+		}catch(Exception e){
+			Log.e("Activity.getTodoToday()", "Problem: " + e.getMessage());
+		}
+		return activities;
+	}
+	
+	/**
+	 * @param dbHelper
+	 * @return all completed activities
+	 */
+	public static List<Activity> getCompleted(DBHelper dbHelper) {
+		List<Activity> activities = null;
+		try{
+			activities = dbHelper.getDatabase().query(
+				new Predicate<Activity>() {
+					private static final long serialVersionUID = 1L;
+
+					public boolean match(Activity activity) {
+						return activity.isDone();
+					}
+				});
+		}catch(Exception e){
+			Log.e("Activity.getCompleted()", "Problem: " + e.getMessage());
+		}
+		return activities;
+	}
+	
+	/**
+	 * @param dbHelper
+	 * @return all uncompleted activities
+	 */
+	public static List<Activity> getUncompleted(DBHelper dbHelper) {
+		List<Activity> activities = null;
+		try{
+			activities = dbHelper.getDatabase().query(
+				new Predicate<Activity>() {
+					private static final long serialVersionUID = 1L;
+
+					public boolean match(Activity activity) {
+						return !activity.isDone();
+					}
+				});
+		}catch(Exception e){
+			Log.e("Activity.getUncompleted()", "Problem: " + e.getMessage());
+		}
+		return activities;
+	}
+	
+	/**
+	 * Closes an activity
+	 * 
+	 * @param dbHelper
+	 */
+	public void close(DBHelper dbHelper) {
+		try{
+			this.setDone();
+			this.setTodoToday(false);
+			this.save(dbHelper);
+		}catch(Exception e){
+			Log.e("Activity.close()", "Problem: " + e.getMessage());
+		}
+	}
+	
 }
