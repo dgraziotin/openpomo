@@ -1,5 +1,6 @@
 package it.unibz.pomodroid.test;
 
+import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.PromEventDeliverer;
@@ -14,7 +15,7 @@ public class XmlRpcTest extends AndroidTestCase{
 		private static User user = null;
 		protected static DBHelper dbHelper;
 		protected static Context context = null;
-		public void setUp() {
+		public void setUp() throws PomodroidException{
 			XmlRpcTest.context = super.getContext();
 			if(dbHelper == null){
 				dbHelper = new DBHelper(context);

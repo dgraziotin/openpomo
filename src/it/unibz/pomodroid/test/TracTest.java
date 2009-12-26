@@ -3,6 +3,7 @@ package it.unibz.pomodroid.test;
 import java.util.HashMap;
 import java.util.Vector;
 
+import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.factories.ActivityFactory;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
@@ -25,14 +26,14 @@ public class TracTest extends AndroidTestCase{
 		}
 	}
 	
-	public void testNumberTickets(){
+	public void testNumberTickets() throws PomodroidException{
 		Log.d(LOG_TAG, "testNumberTickets");
 		User user = User.retrieve(dbHelper);
 		int numberTickets = ttf.getNumberTickets(user);
 		assertTrue(numberTickets >= 0);
 	}
 	
-	public void testTicketRetrieval(){
+	public void testTicketRetrieval() throws PomodroidException{
 		Log.d(LOG_TAG, "testTicketRetrieval");
 		User user = User.retrieve(dbHelper);
 		int numberTickets = ttf.getNumberTickets(user);
@@ -46,7 +47,7 @@ public class TracTest extends AndroidTestCase{
 		}
 	}
 	
-	public void testActivityFactory(){
+	public void testActivityFactory() throws PomodroidException{
 		Log.d(LOG_TAG, "testActivityFactory");
 		User user = User.retrieve(dbHelper);
 		int numberTickets = ttf.getNumberTickets(user);
