@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.test.AndroidTestCase;
 import android.util.Log;
+import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.*;
 
 public class PersistencyTest extends AndroidTestCase {
@@ -32,12 +33,12 @@ public class PersistencyTest extends AndroidTestCase {
 		assertNotNull(dbHelper.getDatabase());
 	}
 	
-	public void testUserPresence(){
+	public void testUserPresence() throws PomodroidException{
 		Log.d(LOG_TAG, "testUserPresence");
 		assertNotNull(User.retrieve(dbHelper));
 	}
 	
-	public void testUserEdit(){
+	public void testUserEdit() throws PomodroidException{
 		Log.d(LOG_TAG, "testUserEdit");
 		
 		User user = User.retrieve(dbHelper);
@@ -74,7 +75,7 @@ public class PersistencyTest extends AndroidTestCase {
 		assertTrue(numberActivities==this.numberOriginalActivities);
 	}
 	
-	public void testEventCreation(){
+	public void testEventCreation() throws PomodroidException{
 		Log.d(LOG_TAG, "testEventCreation");
 		
 		int numberPomodoro = 0;

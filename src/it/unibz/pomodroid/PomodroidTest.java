@@ -2,6 +2,7 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.test.TestSuite;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.test.AndroidTestRunner;
 import android.widget.Button;
@@ -25,12 +26,12 @@ public class PomodroidTest extends Activity {
         Button launcherButton = (Button)findViewById( R.id.launch_button );
         launcherButton.setOnClickListener( new View.OnClickListener() {
             public void onClick( View view ) {
-                startTest();
+					startTest();
             }
         } );
     }
 
-    private synchronized void startTest() {
+    private synchronized void startTest(){
         if( ( testRunnerThread != null ) &&
             !testRunnerThread.isAlive() )
             testRunnerThread = null;

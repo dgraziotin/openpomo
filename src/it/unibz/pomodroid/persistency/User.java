@@ -1,6 +1,7 @@
 package it.unibz.pomodroid.persistency;
 
 import com.db4o.ObjectSet;
+import it.unibz.pomodroid.exceptions.PomodroidException;
 
 import android.util.Log;
 
@@ -28,13 +29,15 @@ public class User extends it.unibz.pomodroid.models.User {
 	 * Save an user
 	 * 
 	 * @param dbHelper
+	 * @throws PomodroidException 
 	 */
-	public void save(DBHelper dbHelper){
+	public void save(DBHelper dbHelper) throws PomodroidException{
 		try{
 			dbHelper.getDatabase().store(this);
 			Log.i("User.save()", "User Saved.");
 		}catch(Exception e){
 			Log.e("User.save()", "Problem: " + e.getMessage());
+			throw new PomodroidException("ERROR in User.save()" + e.toString());
 		}
 	}
 	
@@ -43,15 +46,16 @@ public class User extends it.unibz.pomodroid.models.User {
 	 * 
 	 * @param dbHelper
 	 * @return an object of type user
+	 * @throws PomodroidException 
 	 */
-	public static User retrieve(DBHelper dbHelper){
+	public static User retrieve(DBHelper dbHelper) throws PomodroidException{
 		ObjectSet<User> users;
 		try{
 			users = dbHelper.getDatabase().queryByExample(User.class);
 			return users.next();
 		}catch(Exception e){
 			Log.e("User.retrieve()", "Problem: " + e.getMessage());
-			return null;
+			throw new PomodroidException("ERROR in User.retrieve()" + e.toString());
 		}
 	
 	}

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.factories.PromFactory;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
@@ -26,7 +27,7 @@ public class PromTest extends AndroidTestCase {
 		}
 	}
 
-	public void testGetUploadId() {
+	public void testGetUploadId() throws PomodroidException {
 		Log.d(LOG_TAG, "testGetUploadId");
 		PromEventDeliverer ped = new PromEventDeliverer();
 		User user = User.retrieve(dbHelper);
@@ -39,7 +40,7 @@ public class PromTest extends AndroidTestCase {
 		
 	}
 
-	public void testEntityDelivery() throws IOException {
+	public void testEntityDelivery() throws IOException, PomodroidException {
 		Log.d(LOG_TAG, "testEntityDelivery");
 		User user = User.retrieve(dbHelper);
 		PromEventDeliverer ped = new PromEventDeliverer();
