@@ -2,6 +2,7 @@ package it.unibz.pomodroid.services;
 
 import android.util.Log;
 
+import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.XmlRpcClient;
 
@@ -17,11 +18,11 @@ public class PromEventDeliverer {
 	/**
 	 * @param user
 	 * @return nuber of id uploaded
+	 * @throws PomodroidException 
 	 */
-	public Integer getUploadId(User user) {
+	public Integer getUploadId(User user) throws PomodroidException {
 		Object[] params = { new Integer(123), appName, promDB };
-		Object result = XmlRpcClient.fetchSingleResult(user.getPromUrl(),
-				"upload.getUploadID", params);
+		Object result = XmlRpcClient.fetchSingleResult(user.getPromUrl(),"upload.getUploadID", params);
 		return (Integer) result;
 	}
 
@@ -30,8 +31,9 @@ public class PromEventDeliverer {
 	 * 
 	 * @param zipIni
 	 * @param user
+	 * @throws PomodroidException 
 	 */
-	public void uploadData(byte[] zipIni, User user) {
+	public void uploadData(byte[] zipIni, User user) throws PomodroidException {
 		try {
 
 			Integer uploadId = getUploadId(user);
@@ -47,8 +49,8 @@ public class PromEventDeliverer {
 			}
 
 		} catch (Exception e) {
-			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: "
-					+ e.getMessage());
+			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: " + e.getMessage());
+			throw new PomodroidException("ERROR in PromEventDeliverer.uploadData() transer problem: "+e.getMessage());
 		}
 	}
 
@@ -58,8 +60,9 @@ public class PromEventDeliverer {
 	 * @param zipIni
 	 * @param user
 	 * @return
+	 * @throws PomodroidException 
 	 */
-	public int testUploadData(byte[] zipIni, User user) {
+	public int testUploadData(byte[] zipIni, User user) throws PomodroidException {
 		try {
 
 			Integer uploadId = getUploadId(user);
@@ -78,9 +81,8 @@ public class PromEventDeliverer {
 			}
 
 		} catch (Exception e) {
-			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: "
-					+ e.getMessage());
-			return -1;
+			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: "+ e.getMessage());
+			throw new PomodroidException("ERROR in PromEventDeliverer.testUploadData() transer problem: "+e.getMessage());
 		}
 	}
 

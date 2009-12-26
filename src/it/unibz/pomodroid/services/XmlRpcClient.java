@@ -1,5 +1,7 @@
 package it.unibz.pomodroid.services;
 
+import it.unibz.pomodroid.exceptions.PomodroidException;
+
 import java.net.URI;
 import org.xmlrpc.android.XMLRPCClient;
 import android.util.Log;
@@ -18,9 +20,10 @@ public class XmlRpcClient {
 	 * @param method
 	 * @param params
 	 * @return a single object
+	 * @throws PomodroidException 
 	 */
 	public static Object fetchSingleResult(String url, String method,
-			Object[] params) {
+			Object[] params) throws PomodroidException {
 
 		URI uri = URI.create(url);
 		XMLRPCClient client = new XMLRPCClient(uri);
@@ -31,6 +34,7 @@ public class XmlRpcClient {
 			result = client.call(method, params);
 		} catch (Exception e) {
 			Log.e("XML-RPC exception", e.toString());
+			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResult(): "+e.getMessage());
 		}
 		return result;
 	}
@@ -40,9 +44,10 @@ public class XmlRpcClient {
 	 * @param method
 	 * @param params
 	 * @return one or more objects
+	 * @throws PomodroidException 
 	 */
 	public static Object fetchMultiResults(String url, String method,
-			Object[] params) {
+			Object[] params) throws PomodroidException {
 
 		URI uri = URI.create(url);
 		XMLRPCClient client = new XMLRPCClient(uri);
@@ -53,6 +58,7 @@ public class XmlRpcClient {
 			result = (Object[]) client.call(method, params);
 		} catch (Exception e) {
 			Log.e("XML-RPC exception", e.toString());
+			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResults(): "+e.getMessage());
 		}
 		return result;
 	}
@@ -64,9 +70,10 @@ public class XmlRpcClient {
 	 * @param method
 	 * @param params
 	 * @return signle object
+	 * @throws PomodroidException 
 	 */
 	public static Object fetchSingleResult(String url, String username,
-			String password, String method, Object[] params) {
+			String password, String method, Object[] params) throws PomodroidException {
 
 		URI uri = URI.create(url);
 		XMLRPCClient client = new XMLRPCClient(uri);
@@ -79,6 +86,7 @@ public class XmlRpcClient {
 			result = client.call(method, params);
 		} catch (Exception e) {
 			Log.e("XML-RPC exception", e.toString());
+			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResult(): "+e.getMessage());
 		}
 		return result;
 	}
@@ -90,9 +98,10 @@ public class XmlRpcClient {
 	 * @param method
 	 * @param params
 	 * @return one or more objects
+	 * @throws PomodroidException 
 	 */
 	public static Object[] fetchMultiResults(String url, String username,
-			String password, String method, Object[] params) {
+			String password, String method, Object[] params) throws PomodroidException {
 
 		URI uri = URI.create(url);
 		XMLRPCClient client = new XMLRPCClient(uri);
@@ -105,6 +114,7 @@ public class XmlRpcClient {
 			result = (Object[]) client.call(method, params);
 		} catch (Exception e) {
 			Log.e("XML-RPC exception", e.toString());
+			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResults(): "+e.getMessage());
 		}
 		return result;
 	}

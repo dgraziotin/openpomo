@@ -15,12 +15,17 @@ public class PersistencyTest extends AndroidTestCase {
 	protected static Context context = null;
 	private int numberOriginalActivities = 0;
 	
-	public void setUp() {
+	public void setUp() throws PomodroidException {
 		PersistencyTest.context = super.getContext();
 		if(dbHelper == null){
 			dbHelper = new DBHelper(context);
 		}
-		numberOriginalActivities = Activity.getNumberActivities(dbHelper);
+		try {
+			numberOriginalActivities = Activity.getNumberActivities(dbHelper);
+		} catch (PomodroidException e) {
+			Log.e("PersistencyTest.setUp()", e.toString());
+			throw new PomodroidException("ERROR in PersistencyTest.setUp(): "+e.getMessage());
+		}
 	}
 	
 	public void testContext(){
@@ -28,7 +33,7 @@ public class PersistencyTest extends AndroidTestCase {
 		assertNotNull(context);
 	}
 	
-	public void testDatabaseConnection(){
+	public void testDatabaseConnection() throws PomodroidException{
 		Log.d(LOG_TAG, "testDatabaseConnection");
 		assertNotNull(dbHelper.getDatabase());
 	}
@@ -56,7 +61,7 @@ public class PersistencyTest extends AndroidTestCase {
 		assertTrue(user.getTracUsername().equals(oldUsername));
 	}
 	
-	public void testActivityCreation(){
+	public void testActivityCreation() throws PomodroidException{
 		Log.d(LOG_TAG, "testActivityCreation");
 		int numberPomodoro = 0;
 		Date today = new Date();
