@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import android.util.Log;
+import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 
@@ -26,8 +27,9 @@ public class TrackTicketFetcher {
 	 * @return tickets from TRAC
 	 * 
 	 * It retrieves all opened tickets from TRAC and returns them
+	 * @throws PomodroidException 
 	 */
-	public Vector<HashMap<String, Object>> fetch (User user, DBHelper dbHelper){
+	public Vector<HashMap<String, Object>> fetch (User user, DBHelper dbHelper) throws PomodroidException{
 		Vector<HashMap<String, Object>> tickets = new Vector<HashMap<String, Object>>(); 
 		
 		Vector<Integer> ticketIds;
@@ -64,8 +66,9 @@ public class TrackTicketFetcher {
 	/**
 	 * @param user user object
 	 * @return vector 
+	 * @throws PomodroidException 
 	 */
-	private Vector<Integer> getTicketIds (User user){
+	private Vector<Integer> getTicketIds (User user) throws PomodroidException{
 		String[] params = {"status!=closed"};
 		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
 		if (result != null){
@@ -77,14 +80,14 @@ public class TrackTicketFetcher {
 		return null;
 	}
 	
-	public int getNumberTickets(User user){
+	public int getNumberTickets(User user) throws PomodroidException{
 		Vector<Integer> ticketIds = this.getTicketIds(user);
 		return ((ticketIds == null) ?  0 :  ticketIds.size());
 	}
 	
 	@SuppressWarnings("unchecked")
 	// FIXME: the method should not be static
-	private HashMap<String,String> getTickets(User user, Integer[] id){
+	private HashMap<String,String> getTickets(User user, Integer[] id) throws PomodroidException{
 		Object[] ticket;
 		HashMap<String,String> attributes;
 		ticket = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.get",id);
@@ -96,10 +99,11 @@ public class TrackTicketFetcher {
 	 * @param user
 	 * @param milestoneId
 	 * @return
+	 * @throws PomodroidException 
 	 */
 	@SuppressWarnings("unchecked")
 	// FIXME: the method should not be static and should be private
-	private Date getDeadLine (User user, String milestoneId){
+	private Date getDeadLine (User user, String milestoneId) throws PomodroidException{
 		Date result;
 		Object dataObject;
 		String params[] = {milestoneId};

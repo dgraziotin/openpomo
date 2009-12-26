@@ -25,7 +25,7 @@ public class XmlRpcTest extends AndroidTestCase{
 			}
 		}
 
-		public void testTracConnection(){
+		public void testTracConnection() throws PomodroidException{
 			Log.d(LOG_TAG, "testTracConnection");
 			Object[] params = {};
 			// it should return an integer > 0

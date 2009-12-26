@@ -1,5 +1,7 @@
 package it.unibz.pomodroid.persistency;
 
+import it.unibz.pomodroid.exceptions.PomodroidException;
+
 import java.io.File;
 
 import android.content.Context;
@@ -8,6 +10,9 @@ import android.util.Log;
 import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
 import com.db4o.config.Configuration;
+import com.db4o.ext.DatabaseClosedException;
+import com.db4o.ext.Db4oIOException;
+import com.db4o.foundation.NotSupportedException;
 
 /**
  * @author Thomas Schievenin
@@ -44,15 +49,16 @@ public class DBHelper {
 	 * Getting the database
 	 * 
 	 * @return an object container
+	 * @throws PomodroidException 
 	 */
-	public ObjectContainer getDatabase() {
+	public ObjectContainer getDatabase() throws PomodroidException {
 		try {
 			if (database == null || database.ext().isClosed())
 				database = Db4o.openFile(dbConfig(), db4oDBFullPath(context));
 			return database;
 		} catch (Exception e) {
 			Log.e(DBHelper.class.getName(), e.toString());
-			return null;
+			throw new PomodroidException("ERROR in DBHelper.getDatabase():"+e.getMessage());
 		}
 	}
 
@@ -113,8 +119,9 @@ public class DBHelper {
 	 * Creates a copy of the DB
 	 * 
 	 * @param path
+	 * @throws PomodroidException
 	 */
-	public void backup(String path) {
+	public void backup(String path) throws PomodroidException {
 		getDatabase().ext().backup(path);
 	}
 
