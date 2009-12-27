@@ -4,7 +4,6 @@ import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import android.app.ListActivity;
@@ -29,10 +28,11 @@ public class ActivityInventorySheet extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activityinventorysheet);
+		setContentView(R.layout.activitysheet);
 		dbHelper = new DBHelper(this);
 		activities = new ArrayList<Activity>();
-		this.adapter = new ActivityAdapter(this, R.layout.row, activities);
+		this.adapter = new ActivityAdapter(this, R.layout.activityentry,
+				activities);
 		setListAdapter(this.adapter);
 
 		viewActivities = new Runnable() {
@@ -65,23 +65,23 @@ public class ActivityInventorySheet extends ListActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			View v = convertView;
-			if (v == null) {
-				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.row, null);
+			View view = convertView;
+			if (view == null) {
+				LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				view = layoutInflater.inflate(R.layout.activityentry, null);
 			}
-			Activity o = items.get(position);
-			if (o != null) {
-				TextView tt = (TextView) v.findViewById(R.id.toptext);
-				TextView bt = (TextView) v.findViewById(R.id.bottomtext);
+			Activity activity = items.get(position);
+			if (activity != null) {
+				TextView tt = (TextView) view.findViewById(R.id.toptext);
+				TextView bt = (TextView) view.findViewById(R.id.bottomtext);
 				if (tt != null) {
-					tt.setText("Name: " + o.getDescription());
+					tt.setText("Name: " + activity.getDescription());
 				}
 				if (bt != null) {
-					bt.setText("Status: " + o.getOrigin());
+					bt.setText("Status: " + activity.getOrigin());
 				}
 			}
-			return v;
+			return view;
 		}
 	}
 
@@ -90,15 +90,15 @@ public class ActivityInventorySheet extends ListActivity {
 			activities = new ArrayList<Activity>();
 			List<Activity> retrievedActivities = Activity.getAll(this.dbHelper);
 			activities.addAll(retrievedActivities);
-
-			Log.i("ARRAY", "" + activities.size());
+			Log.i("AIS.getActivities(): activities retrieved:", ""
+					+ activities.size());
 		} catch (Exception e) {
-			Log.e("BACKGROUND_PROC", e.getMessage());
+			Log.e("AIS.getActivities() thread: ", e.getMessage());
 		}
-		runOnUiThread(returnRes);
+		this.runOnUiThread(activitiesFetcher);
 	}
 
-	private Runnable returnRes = new Runnable() {
+	private Runnable activitiesFetcher = new Runnable() {
 
 		@Override
 		public void run() {
