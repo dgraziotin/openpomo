@@ -2,12 +2,9 @@ package it.unibz.pomodroid.factories;
 
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
-
-import android.util.Log;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 
 

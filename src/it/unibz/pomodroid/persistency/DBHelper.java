@@ -1,18 +1,12 @@
 package it.unibz.pomodroid.persistency;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
-
 import java.io.File;
-
 import android.content.Context;
 import android.util.Log;
-
 import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
 import com.db4o.config.Configuration;
-import com.db4o.ext.DatabaseClosedException;
-import com.db4o.ext.Db4oIOException;
-import com.db4o.foundation.NotSupportedException;
 
 /**
  * @author Thomas Schievenin

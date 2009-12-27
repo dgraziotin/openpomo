@@ -2,10 +2,8 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
