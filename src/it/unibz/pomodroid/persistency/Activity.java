@@ -1,5 +1,6 @@
 package it.unibz.pomodroid.persistency;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.db4o.ObjectSet;
@@ -26,7 +27,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @param originId
 	 * @param reporter
 	 * @param type
-	 * @param context
 	 */
 	public Activity(int numberPomodoro, Date received, Date deadline,
 			String summary, String description, String origin, int originId, String priority, String reporter,
@@ -36,6 +36,11 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Activity() {
+		super(0, new Date(), new Date(), "summary", "description", "origin",
+				0, "priority", "reporter", "type");
+		// TODO Auto-generated constructor stub
+	}
 	
 	
 	/**
@@ -137,12 +142,16 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		ObjectSet<Activity> result = null;
 		try{
 			result = dbHelper.getDatabase().queryByExample(Activity.class);
+			if (result==null)
+				Log.i("Activity.getAll()", "There are no activities stored in db");
 		}catch(Exception e){
 			Log.e("Activity.getAll()", "Problem: " + e.getMessage());
 			throw new PomodroidException("ERROR in Activity.getAll():"+e.getMessage());
 		}
 		return result;
 	}
+	
+
 	
 	/**
 	 * @param dbHelper

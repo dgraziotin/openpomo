@@ -12,4 +12,6 @@
 <AbsoluteLayout android:id="@+id/AbsoluteLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"></AbsoluteLayout>
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView01" android:text="Default Text"></TextView>
 <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/Button01" android:text="Launch Tests"></Button>
+<ListView android:id="@+id/SCHEDULE" android:layout_width="wrap_content" android:layout_height="wrap_content">
+</ListView>
 </LinearLayout>
