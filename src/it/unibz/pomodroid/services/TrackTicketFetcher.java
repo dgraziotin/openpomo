@@ -3,12 +3,10 @@ package it.unibz.pomodroid.services;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
-
 import android.util.Log;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
-
 
 /**
  * @author Thomas Schievenin

@@ -2,7 +2,6 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.test.TestSuite;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.test.AndroidTestRunner;
 import android.widget.Button;
