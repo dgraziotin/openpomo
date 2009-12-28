@@ -17,6 +17,12 @@ public class PomodroidException extends Exception{
 		// Call super class constructor
 		super(message);  
 	} 
+	
+	// Custom Exception Constructor
+	public PomodroidException(String message, String type) {
+		super(type+":"+message);
+		
+	} 
 
 
 
