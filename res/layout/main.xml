@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-<AbsoluteLayout android:id="@+id/AbsoluteLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"></AbsoluteLayout>
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/TextView01" android:text="Default Text"></TextView>
-<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/Button01" android:text="Launch Tests"></Button>
-<ListView android:id="@+id/SCHEDULE" android:layout_width="wrap_content" android:layout_height="wrap_content">
-</ListView>
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="@string/hello" />
+
+	<LinearLayout android:id="@+id/LinearLayout01"
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+	</LinearLayout>
+<Button android:text="Activity Inventory Sheet" android:id="@+id/ButtonAIS" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+<Button android:text="Todo Today Sheet" android:id="@+id/ButtonTTS" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+<Button android:text="Trash Sheet" android:id="@+id/ButtonTS" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+<Button android:text="Preferences" android:id="@+id/ButtonPreferences" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+<Button android:text="Tests" android:id="@+id/ButtonTests" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+
 </LinearLayout>
