@@ -20,7 +20,7 @@ import android.widget.TextView;
  * @author bodom_lx
  * 
  */
-public class ActivityInventorySheet extends ListActivity {
+public class TrashSheet extends ListActivity {
 
 	private ProgressDialog progressDialog = null;
 	private ArrayList<Activity> activities = null;
@@ -54,7 +54,7 @@ public class ActivityInventorySheet extends ListActivity {
 				"ActivityRetrieverThread");
 		thread.start();
 		// show a nice progress bar
-		progressDialog = ProgressDialog.show(ActivityInventorySheet.this,
+		progressDialog = ProgressDialog.show(TrashSheet.this,
 				"Please wait...", "Retrieving activities ...", true);
 	}
 
@@ -125,7 +125,7 @@ public class ActivityInventorySheet extends ListActivity {
 	private void retrieveActivities() {
 		try {
 			activities = new ArrayList<Activity>();
-			List<Activity> retrievedActivities = Activity.getUncompleted(this.dbHelper);
+			List<Activity> retrievedActivities = Activity.getCompleted(this.dbHelper);
 			activities.addAll(retrievedActivities);
 			Log.i("AIS.getActivities(): activities retrieved:", ""
 					+ activities.size());

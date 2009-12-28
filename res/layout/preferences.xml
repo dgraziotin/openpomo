@@ -1,7 +1,7 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:stretchColumns="1"
+        android:stretchColumns="0"
         >
     <TableRow>
         <TextView 
@@ -9,6 +9,8 @@
         	android:layout_height="wrap_content" 
         	android:text="Username"
         />
+   </TableRow>
+   <TableRow>
         <EditText 
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
@@ -21,6 +23,8 @@
         	android:layout_height="wrap_content" 
         	android:text="Password"
         />
+      </TableRow>
+   <TableRow>
         <EditText 
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
@@ -34,6 +38,8 @@
         	android:layout_height="wrap_content" 
         	android:text="Trac XML-RPC URL"
         />
+     </TableRow>
+   <TableRow>
         <EditText 
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
@@ -46,6 +52,8 @@
         	android:layout_height="wrap_content" 
         	android:text="PROM XML-RPC URL"
         />
+     </TableRow>
+   <TableRow>
         <EditText 
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 

@@ -3,5 +3,6 @@
     <string name="hello">Hello World, Pomodroid!</string>
     <string name="app_name">Pomodroid</string>
     <string name="launch_test">Launch test</string>
-    <string name="main_no_items">No activities to display</string>
+    <string name="no_activities">Sheet is empty</string>
+    
 </resources>

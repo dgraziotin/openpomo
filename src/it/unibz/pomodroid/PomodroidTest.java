@@ -4,10 +4,8 @@ import it.unibz.pomodroid.test.TestSuite;
 import android.app.Activity;
 import android.os.Bundle;
 import android.test.AndroidTestRunner;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.View;
 import android.util.Log;
 import junit.framework.TestListener;
 import junit.framework.Test;
@@ -22,12 +20,7 @@ public class PomodroidTest extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
-        Button launcherButton = (Button)findViewById( R.id.launch_button );
-        launcherButton.setOnClickListener( new View.OnClickListener() {
-            public void onClick( View view ) {
-					startTest();
-            }
-        } );
+		startTest();
     }
 
     private synchronized void startTest(){
