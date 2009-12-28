@@ -1,0 +1,56 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:stretchColumns="1"
+        >
+    <TableRow>
+        <TextView 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="Username"
+        />
+        <EditText 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:id="@+id/EditTextUsername"
+        />
+    </TableRow>
+     <TableRow>
+        <TextView 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="Password"
+        />
+        <EditText 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:id="@+id/EditTextPassword"
+        	android:password="true"
+        />
+    </TableRow>
+    <TableRow>
+        <TextView 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="Trac XML-RPC URL"
+        />
+        <EditText 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:id="@+id/EditTextTracUrl"
+        />
+    </TableRow>
+    <TableRow>
+        <TextView 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="PROM XML-RPC URL"
+        />
+        <EditText 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:id="@+id/EditTextPromUrl"
+        />
+    </TableRow>
+<Button android:text="Save" android:id="@+id/ButtonSavePreferences" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+</TableLayout>
