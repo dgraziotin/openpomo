@@ -5,4 +5,9 @@
     <string name="launch_test">Launch test</string>
     <string name="no_activities">Sheet is empty</string>
     
+    
+    <string name="activity_title">Set Activity</string> 
+    <string name="easy_label">To do today</string> 
+    <string name="medium_label">Done</string> 
+    <string name="hard_label">Trash it</string>
 </resources>
