@@ -4,9 +4,12 @@ import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -107,6 +110,7 @@ public class ActivityInventorySheet extends ListActivity {
 				@Override
 				public boolean onLongClick(View v) {
 					Log.i("TTS", "Clicked Activity: " + activity.getOriginId());
+					openActivityDialog();
 					return false;
 				}
 			});
@@ -152,4 +156,16 @@ public class ActivityInventorySheet extends ListActivity {
 			activityAdapter.notifyDataSetChanged();
 		}
 	};
+	
+	private void openActivityDialog() { 
+		new AlertDialog.Builder(this)
+	         .setTitle(R.string.activity_title) 
+	         .setItems(R.array.aitdialog,
+			  new DialogInterface.OnClickListener() { 
+			  	 public void onClick(DialogInterface dialoginterface, int i) { 
+				    Log.i("openActivityDialog()","Item selected:" + i);
+			     } 
+	          })
+	    .show();
+	}
 }
