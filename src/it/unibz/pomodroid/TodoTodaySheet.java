@@ -34,6 +34,7 @@ public class TodoTodaySheet extends ListActivity {
 	private ActivityAdapter activityAdapter = null;
 	private Runnable activityRetriever = null;
 	private DBHelper dbHelper = null;
+	private Context context = null;
 
 	/**
 	 * A customized ArrayAdapter for representing lists of Activities.
@@ -101,6 +102,7 @@ public class TodoTodaySheet extends ListActivity {
 		this.activityAdapter = new ActivityAdapter(this,
 				R.layout.activityentry, activities);
 		this.setListAdapter(this.activityAdapter);
+		this.context = this;
 	}
 
 	@Override
@@ -231,13 +233,16 @@ public class TodoTodaySheet extends ListActivity {
 			  		    		selectedActivity.setTodoToday(false);
 			  		    		selectedActivity.setUndone();
 			  		    		selectedActivity.save(dbHelper);
+			  		    		activityAdapter.remove(selectedActivity);
 			  		            break;
 			  		    case 2: Log.i("TTS.openactivityDialog()"," TTS setting done");
 			  		    		selectedActivity.close(dbHelper);
+			  		    		activityAdapter.remove(selectedActivity);
 			  		            break;
 			  		 }
-			  	   } catch (Exception e) {
+			  	   } catch (PomodroidException e) {
 			  		 Log.e("TTS.openActivityDialog()","Error: " + e.getMessage());
+			  		 e.alertUser(context);
 			  	   }
 			     } 
 	          })

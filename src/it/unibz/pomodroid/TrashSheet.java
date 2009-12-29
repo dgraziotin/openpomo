@@ -32,6 +32,7 @@ public class TrashSheet extends ListActivity {
 	private ActivityAdapter activityAdapter = null;
 	private Runnable activityRetriever = null;
 	private DBHelper dbHelper = null;
+	private Context context = null;
 
 	/**
 	 * A customized ArrayAdapter for representing lists of Activities.
@@ -98,6 +99,7 @@ public class TrashSheet extends ListActivity {
 		this.activityAdapter = new ActivityAdapter(this,
 				R.layout.activityentry, activities);
 		this.setListAdapter(this.activityAdapter);
+		this.context = this;
 	}
 
 	@Override
@@ -227,8 +229,9 @@ public class TrashSheet extends ListActivity {
 			  		    		activityAdapter.remove(selectedActivity);
 			  		    		break;
 			  		 }
-			  	   } catch (Exception e) {
+			  	   } catch (PomodroidException e) {
 			  		 Log.e("AIT.openActivityDialog()","Error: " + e.getMessage());
+			  		 e.alertUser(context);
 			  	   }
 			     } 
 	          })
