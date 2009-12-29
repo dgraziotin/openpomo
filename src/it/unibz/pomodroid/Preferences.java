@@ -53,6 +53,17 @@ public class Preferences extends Activity {
 
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+		this.dbHelper.close();
+	}
+
+	public void onStop() {
+		super.onResume();
+		this.dbHelper.close();
+	}
+
 	/**
 	 * Tests if the given credentials and URL for Trac are correct
 	 * 

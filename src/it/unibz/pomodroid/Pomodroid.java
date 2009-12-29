@@ -73,6 +73,18 @@ public class Pomodroid extends Activity implements OnClickListener {
 	}
 
 	@Override
+	public void onPause() {
+		super.onPause();
+		this.dbHelper.close();
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		this.dbHelper.close();
+	}
+
+	@Override
 	public void onClick(View v) {
 		Intent i = null;
 		switch (v.getId()) {
