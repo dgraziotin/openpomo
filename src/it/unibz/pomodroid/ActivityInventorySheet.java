@@ -1,5 +1,6 @@
 package it.unibz.pomodroid;
 
+
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
@@ -134,6 +135,10 @@ public class ActivityInventorySheet extends ListActivity {
 	 * @throws PomodroidException
 	 */
 	private void refreshSheet() throws PomodroidException {
+		this.activities = new ArrayList<Activity>();
+		this.activityAdapter = new ActivityAdapter(this,
+				R.layout.activityentry, activities);
+		this.setListAdapter(this.activityAdapter);
 		this.activityRetriever = new Runnable() {
 			@Override
 			public void run() {
@@ -159,6 +164,7 @@ public class ActivityInventorySheet extends ListActivity {
 				"Please wait...", "Retrieving activities ...", true);
 
 	}
+
 
 	/**
 	 * Gets the Activities from Activity.getAll() and adds them to the local

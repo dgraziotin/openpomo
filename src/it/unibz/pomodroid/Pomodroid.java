@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 public class Pomodroid extends Activity implements OnClickListener {
 	private DBHelper dbHelper;
-	private int SUB_ACTIVITY_REQUEST_CODE = 666;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
