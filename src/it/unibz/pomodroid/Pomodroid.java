@@ -9,10 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Pomodroid extends Activity implements OnClickListener {
 	private DBHelper dbHelper;
-
+	private int SUB_ACTIVITY_REQUEST_CODE = 666;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -128,4 +129,9 @@ public class Pomodroid extends Activity implements OnClickListener {
 >>>>>>> b8fec6e... first working alphas of AIS, TTS, TS, first mockup of launch Activity, centralized exception system:src/it/unibz/pomodroid/Pomodroid.java
 	}
 
+<<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 }
+=======
+
+}
+>>>>>>> b46b7f3... First version of a Pomodoro:src/it/unibz/pomodroid/Pomodroid.java

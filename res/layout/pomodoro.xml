@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   >
+
+<TextView
+    android:id="@+id/TextViewPomodoroTimer"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="25:00"
+    android:layout_gravity="center"
+    android:gravity="center" android:textSize="40px"/>
+<TextView
+    android:id="@+id/TextViewActivitySummary"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Activity Title"/>
+  <TextView
+    android:id="@+id/TextViewActivityDeadline"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Activity deadline..."/>    
+ <TextView
+    android:id="@+id/TextViewActivityDescription"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Activity description..."/>  
+  <TextView
+    android:id="@+id/TextViewActivityNumberPomodoro"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Number Pomodoro"/>   
+  <TextView
+    android:id="@+id/TextViewActivityReporter"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Activity reporter.."/>       
+<Button 
+	android:text="START"
+	android:id="@+id/ButtonPomodoroStart"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+</Button>
+<Button 
+	android:text="STOP"
+	android:id="@+id/ButtonPomodoroStop"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content">
+</Button>
+
+</LinearLayout>
