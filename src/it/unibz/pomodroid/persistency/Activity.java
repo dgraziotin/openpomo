@@ -34,9 +34,9 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Activity() {
-		super(0, new Date(), new Date(), "summary", "description", "origin",
-				0, "priority", "reporter", "type");
+	public Activity(int id) {
+		super(0, new Date(), new Date(), "ugo", "mmmmm.mmmmm.mmmmm.mmmmm.mmmmm", "origin",
+				id, "priority", "reporter", "type");
 		// TODO Auto-generated constructor stub
 	}
 	
