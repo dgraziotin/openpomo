@@ -15,6 +15,7 @@ public class User {
 	private String tracPassword;
 	private String tracUrl;
 	private String promUrl;
+	private int pomodoroMinutesDuration;
 	
 	/**
 	 * @param tracUsername pomodroid username
@@ -27,6 +28,7 @@ public class User {
 		this.tracPassword = tracPassword;
 		this.tracUrl = tracUrl;
 		this.promUrl = promUrl;
+		this.pomodoroMinutesDuration = 25;
 	}
 
 	/**
@@ -85,5 +87,19 @@ public class User {
 		this.tracUrl = tracUrl;
 	}
 	
+	/**
+	 * @return pomodoroMinutesDuration length of a Pomodoro in minutes
+	 */
+	public int getPomodoroMinutesDuration() {
+		return pomodoroMinutesDuration;
+	}
+
+	/**
+	 * @param pomodoroMinutesDuration length of a Pomodoro in minutes
+	 */
+	public void setPomodoroMinutesDuration(int pomodoroMinutesDuration) {
+		this.pomodoroMinutesDuration = pomodoroMinutesDuration;
+	}
+
 	
 }
