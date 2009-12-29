@@ -69,7 +69,7 @@ public class TrashSheet extends ListActivity {
 				TextView tt = (TextView) view.findViewById(R.id.toptext);
 				TextView bt = (TextView) view.findViewById(R.id.bottomtext);
 				if (tt != null) {
-					tt.setText(activity.getDescription());
+					tt.setText(activity.getShortDescription());
 				}
 				if (bt != null) {
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");

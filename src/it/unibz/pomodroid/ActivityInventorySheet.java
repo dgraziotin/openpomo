@@ -4,11 +4,9 @@ package it.unibz.pomodroid;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -65,12 +63,13 @@ public class ActivityInventorySheet extends ListActivity {
 				view = layoutInflater.inflate(R.layout.activityentry, null);
 			}
 			final Activity activity = items.get(position);
+			
 			// builds the components of the activity entry view
 			if (activity != null) {
 				TextView tt = (TextView) view.findViewById(R.id.toptext);
 				TextView bt = (TextView) view.findViewById(R.id.bottomtext);
 				if (tt != null) {
-					tt.setText(activity.getDescription());
+					tt.setText(activity.getShortDescription());
 				}
 				if (bt != null) {
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");

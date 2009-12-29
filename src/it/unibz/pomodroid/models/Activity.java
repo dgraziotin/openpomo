@@ -55,7 +55,7 @@ public class Activity {
 		this.todoToday = false;
 		this.done = false;
 	}
-
+	
 	/**
 	 * @return the number of pomodoro
 	 */
@@ -259,4 +259,10 @@ public class Activity {
 		this.done = false;
 	}
 
+	public String getShortDescription(){
+	   final int maxLength = 17;
+	   if (this.description.length()>maxLength)
+		 return description.substring(0, maxLength)+"...";
+	   return this.description;
+	}
 }
