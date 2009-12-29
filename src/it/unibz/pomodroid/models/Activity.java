@@ -255,5 +255,8 @@ public class Activity {
 		this.endDate = endDate;
 	}
 	
+	public void setUndone() {
+		this.done = false;
+	}
 
 }
