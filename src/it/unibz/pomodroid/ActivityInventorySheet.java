@@ -119,6 +119,7 @@ public class ActivityInventorySheet extends ListActivity {
 		this.dbHelper.close();
 	}
 
+	@Override
 	public void onStop() {
 		super.onResume();
 		this.dbHelper.close();
