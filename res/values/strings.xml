@@ -6,7 +6,8 @@
     <string name="no_activities">Sheet is empty</string>
     
     
-    <string name="activity_title">Set Activity</string> 
+    <string name="activity_title">Activity menu</string>
+    <string name="startp">Start Pomodoro</string>  
     <string name="todotoday">To do today</string> 
     <string name="done">Done</string> 
     <string name="ais">Inventory sheet</string>
