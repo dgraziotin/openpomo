@@ -218,11 +218,13 @@ public class TrashSheet extends ListActivity {
 			  		    		selectedActivity.setTodoToday(false);
 			  		    		selectedActivity.setUndone();
 			  		    		selectedActivity.save(dbHelper);
+			  		    		activityAdapter.remove(selectedActivity);
 			  		            break;
 			  		    case 1: Log.i("AIS.openactivityDialog()"," AIS setting todotoday true");
 			  		    		selectedActivity.setTodoToday(true);
 			  		    		selectedActivity.setUndone();
 			  		    		selectedActivity.save(dbHelper);
+			  		    		activityAdapter.remove(selectedActivity);
 			  		    		break;
 			  		 }
 			  	   } catch (Exception e) {

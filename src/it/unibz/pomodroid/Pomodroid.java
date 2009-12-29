@@ -1,7 +1,5 @@
 package it.unibz.pomodroid;
 
-import java.util.Date;
-
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
@@ -21,20 +19,6 @@ public class Pomodroid extends Activity implements OnClickListener {
 		setContentView(R.layout.main);
 		dbHelper = new DBHelper(this);
 		User user;
-		
-		dbHelper.deleteDatabase();
-		
-		it.unibz.pomodroid.persistency.User u = new it.unibz.pomodroid.persistency.User("tschievenin", "fargetta.", "https://babbage.inf.unibz.it/trac/AIT0910-projectpomodroid", "http://task3.cc:8080");
-		it.unibz.pomodroid.persistency.Activity a = new it.unibz.pomodroid.persistency.Activity(0, new Date(), new Date(), "Capezzolini", "ugogugugugu", "cazzo", 1, "ff", "io", "negro");
-		it.unibz.pomodroid.persistency.Activity b = new it.unibz.pomodroid.persistency.Activity(0, new Date(), new Date(), "Capezzolini", "ugogugugugu", "cazzo", 1, "ff", "io", "negro");
-		
-		try {
-			u.save(dbHelper);
-			a.save(dbHelper);a.save(dbHelper);a.save(dbHelper);b.save(dbHelper);b.save(dbHelper);
-		} catch (PomodroidException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
 		buttonAIS.setOnClickListener((OnClickListener) this);
