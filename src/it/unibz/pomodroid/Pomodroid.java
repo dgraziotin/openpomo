@@ -9,17 +9,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Pomodroid extends Activity implements OnClickListener {
 	private DBHelper dbHelper;
-
+	private int SUB_ACTIVITY_REQUEST_CODE = 666;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		dbHelper = new DBHelper(this);
 		User user;
-		
+		TextView textView = (TextView) findViewById(R.id.hello);
+		textView.setText("Pomodroid");
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
 		buttonAIS.setOnClickListener((OnClickListener) this);
 		Button buttonTTS = (Button) findViewById(R.id.ButtonTTS);
@@ -82,5 +84,6 @@ public class Pomodroid extends Activity implements OnClickListener {
 		}
 
 	}
+
 
 }

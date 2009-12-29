@@ -3,6 +3,7 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 	<TextView android:layout_width="fill_parent"
+		android:id="@+id/hello"
 		android:layout_height="wrap_content" android:text="@string/hello" />
 
 	<LinearLayout android:id="@+id/LinearLayout01"
@@ -14,5 +15,4 @@
 <Button android:text="Trash Sheet" android:id="@+id/ButtonTS" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 <Button android:text="Preferences" android:id="@+id/ButtonPreferences" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 <Button android:text="Tests" android:id="@+id/ButtonTests" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-
 </LinearLayout>

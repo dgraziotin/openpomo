@@ -13,6 +13,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import android.widget.TextView;
  * 
  */
 public class TodoTodaySheet extends ListActivity {
+	protected static final int SUB_ACTIVITY_REQUEST_CODE = 666;
 	private ProgressDialog progressDialog = null;
 	private ArrayList<Activity> activities = null;
 	private ActivityAdapter activityAdapter = null;
@@ -216,6 +218,14 @@ public class TodoTodaySheet extends ListActivity {
 			  	   try {
 			  		 switch (i) {
 			  		    case 0: Log.i("TTS.openactivityDialog()"," TTS starting pomodoro");
+			  					Intent intent = new Intent();
+			  					intent.setClass(getApplicationContext(), Pomodoro.class);
+			  					Bundle b = new Bundle();
+			  					b.putString("origin", selectedActivity.getOrigin());
+			  					b.putInt("originId", selectedActivity.getOriginId());
+			  					intent.putExtras(b);
+			  					startActivity(intent);
+			  					//startActivityForResult(intent,SUB_ACTIVITY_REQUEST_CODE);
 			  		    		break;
 			  		 	case 1: Log.i("TTS.openactivityDialog()"," TTS setting todotoday false");
 			  		    		selectedActivity.setTodoToday(false);
@@ -232,6 +242,17 @@ public class TodoTodaySheet extends ListActivity {
 			     } 
 	          })
 	    .show();
+	}
+	
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == SUB_ACTIVITY_REQUEST_CODE){
+				Bundle b = data.getExtras();
+				TextView textView = (TextView) findViewById(R.id.hello);
+				textView.setText(b.getString("TEXT"));
+        }
 	}
 
 }
