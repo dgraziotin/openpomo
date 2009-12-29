@@ -26,6 +26,7 @@ import android.widget.TextView;
  * @author bodom_lx
  * 
  */
+
 public class ActivityInventorySheet extends ListActivity {
 	private ProgressDialog progressDialog = null;
 	private ArrayList<Activity> activities = null;
@@ -48,8 +49,7 @@ public class ActivityInventorySheet extends ListActivity {
 		 * @param textViewResourceId
 		 * @param items
 		 */
-		public ActivityAdapter(Context context, int textViewResourceId,
-				ArrayList<Activity> items) {
+		public ActivityAdapter(Context context, int textViewResourceId, ArrayList<Activity> items) {
 			super(context, textViewResourceId, items);
 			this.items = items;
 		}
@@ -221,6 +221,7 @@ public class ActivityInventorySheet extends ListActivity {
 			  		            break;
 			  		    case 1: Log.i("AIS.openactivityDialog()"," AIS setting done");
 			  		    		selectedActivity.close(dbHelper);
+			  		    		activityAdapter.remove(selectedActivity);
 			  		            break;
 			  		 }
 			  	   } catch (Exception e) {

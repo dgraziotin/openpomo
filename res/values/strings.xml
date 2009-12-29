@@ -4,8 +4,6 @@
     <string name="app_name">Pomodroid</string>
     <string name="launch_test">Launch test</string>
     <string name="no_activities">Sheet is empty</string>
-    
-    
     <string name="activity_title">Activity menu</string>
     <string name="startp">Start Pomodoro</string>  
     <string name="todotoday">To do today</string> 

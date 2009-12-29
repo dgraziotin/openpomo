@@ -1,7 +1,5 @@
 package it.unibz.pomodroid;
 
-import java.util.Date;
-
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
@@ -19,6 +17,7 @@ public class Pomodroid extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+<<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 		dbHelper = new DBHelper(this);
 		User user;
 		
@@ -74,6 +73,8 @@ public class Pomodroid extends Activity implements OnClickListener {
 >>>>>>> 525ca77... 100% method coverage at this point for tests:src/it/unibz/pomodroid/Pomodroid.java
 		this.dbHelper.close();
 =======
+=======
+>>>>>>> b977627... Activity Inventory Sheet improved:src/it/unibz/pomodroid/Pomodroid.java
 		try {
 			user = User.retrieve(dbHelper);
 			if (user == null) {
