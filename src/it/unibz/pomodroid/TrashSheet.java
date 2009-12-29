@@ -1,12 +1,16 @@
 package it.unibz.pomodroid;
 
+import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
 import java.util.ArrayList;
 import java.util.List;
+
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,49 +25,15 @@ import android.widget.TextView;
  * 
  */
 public class TrashSheet extends ListActivity {
-
 	private ProgressDialog progressDialog = null;
 	private ArrayList<Activity> activities = null;
 	private ActivityAdapter activityAdapter = null;
 	private Runnable activityRetriever = null;
 	private DBHelper dbHelper = null;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activitysheet);
-		this.dbHelper = new DBHelper(this);
-		this.activities = new ArrayList<Activity>();
-
-		// first call the adapter to show zero Activities
-		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.activityentry, activities);
-		this.setListAdapter(this.activityAdapter);
-
-		// create a new Runnable to hold the methods to be executed in a Thread
-		this.activityRetriever = new Runnable() {
-			@Override
-			public void run() {
-				// retrieve the Activities from the database
-				retrieveActivities();
-			}
-		};
-
-		// create a new Thread that executes activityRetriever and start it
-		Thread thread = new Thread(null, activityRetriever,
-				"ActivityRetrieverThread");
-		thread.start();
-		// show a nice progress bar
-		progressDialog = ProgressDialog.show(TrashSheet.this,
-				"Please wait...", "Retrieving activities ...", true);
-	}
-
-	@Override
-	public void onPause() {
-		this.dbHelper.close();
-		super.onPause();
-	}
-
+	/**
+	 * A customized ArrayAdapter for representing lists of Activities.
+	 */
 	private class ActivityAdapter extends ArrayAdapter<Activity> {
 		private ArrayList<Activity> items;
 
@@ -107,11 +77,81 @@ public class TrashSheet extends ListActivity {
 				@Override
 				public boolean onLongClick(View v) {
 					Log.i("TTS", "Clicked Activity: " + activity.getOriginId());
+					openActivityDialog();
 					return false;
 				}
 			});
 			return view;
 		}
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activitysheet);
+		this.dbHelper = new DBHelper(this);
+		this.activities = new ArrayList<Activity>();
+		// first call the adapter to show zero Activities
+		this.activityAdapter = new ActivityAdapter(this,
+				R.layout.activityentry, activities);
+		this.setListAdapter(this.activityAdapter);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		try {
+			refreshSheet();
+		} catch (PomodroidException e) {
+			// TODO Auto-generated catch block
+			e.alertUser(this);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		this.dbHelper.close();
+	}
+
+	public void onStop() {
+		super.onResume();
+		this.dbHelper.close();
+	}
+
+	/**
+	 * Creates a new Runnable object, that is a call to retrieveActivities().
+	 * The method is for retrieving activities from the database. It creates a
+	 * Thread for the Runnable object, and runs it. Meanwhile, it shows a
+	 * ProgressDialog
+	 * 
+	 * @throws PomodroidException
+	 */
+	private void refreshSheet() throws PomodroidException {
+		this.activityRetriever = new Runnable() {
+			@Override
+			public void run() {
+				// retrieve the Activities from the database
+				try {
+					retrieveActivities();
+				} catch (PomodroidException e) {
+					// ugly but necessary
+					try {
+						throw new PomodroidException(e.getMessage());
+					} catch (PomodroidException e1) {
+
+					}
+				}
+			}
+		};
+		// create a new Thread that executes activityRetriever and start it
+		Thread thread = new Thread(null, activityRetriever,
+				"ActivityRetrieverThread");
+		thread.start();
+		// show a nice progress bar
+		progressDialog = ProgressDialog.show(TrashSheet.this,
+				"Please wait...", "Retrieving activities ...", true);
+
 	}
 
 	/**
@@ -120,17 +160,20 @@ public class TrashSheet extends ListActivity {
 	 * the new list of activities
 	 * 
 	 * @see it.unibz.pomodroid.persistency.Activity
+	 * @throws PomodroidException
 	 */
-
-	private void retrieveActivities() {
+	private void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
-			List<Activity> retrievedActivities = Activity.getCompleted(this.dbHelper);
+			List<Activity> retrievedActivities = Activity
+					.getCompleted(this.dbHelper);
 			activities.addAll(retrievedActivities);
 			Log.i("AIS.getActivities(): activities retrieved:", ""
 					+ activities.size());
 		} catch (Exception e) {
 			Log.e("AIS.getActivities() thread: ", e.getMessage());
+			throw new PomodroidException(
+					"Error in retrieving Activities from the DB!");
 		}
 		this.runOnUiThread(populateAdapter);
 	}
@@ -152,4 +195,17 @@ public class TrashSheet extends ListActivity {
 			activityAdapter.notifyDataSetChanged();
 		}
 	};
+
+	private void openActivityDialog() {
+		new AlertDialog.Builder(this).setTitle(R.string.activity_title)
+				.setItems(R.array.aitdialog,
+						new DialogInterface.OnClickListener() {
+							public void onClick(
+									DialogInterface dialoginterface, int i) {
+								Log.i("openActivityDialog()", "Item selected:"
+										+ i);
+							}
+						}).show();
+	}
+
 }

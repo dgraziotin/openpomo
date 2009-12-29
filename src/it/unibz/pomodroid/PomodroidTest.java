@@ -1,5 +1,6 @@
 package it.unibz.pomodroid;
 
+import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.test.TestSuite;
 import android.app.Activity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class PomodroidTest extends Activity {
         setContentView(R.layout.test);
 		startTest();
     }
+  
 
     private synchronized void startTest(){
         if( ( testRunnerThread != null ) &&
