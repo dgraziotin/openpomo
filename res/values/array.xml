@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <resources>
-<array name="aitdialog"> 
-  <item>@string/easy_label</item> 
-  <item>@string/medium_label</item> 
-  <item>@string/hard_label</item>
+
+<array name="ais_dialog"> 
+  <item>@string/todotoday</item> 
+  <item>@string/done</item>
 </array> 
+
+<array name="tts_dialog"> 
+  <item>@string/ais</item> 
+  <item>@string/done</item>
+</array> 
+
+<array name="ais_trash"> 
+  <item>@string/ais</item>
+  <item>@string/todotoday</item> 
+</array> 
+
 </resources>

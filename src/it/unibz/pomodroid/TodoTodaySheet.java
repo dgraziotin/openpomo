@@ -77,7 +77,7 @@ public class TodoTodaySheet extends ListActivity {
 				@Override
 				public boolean onLongClick(View v) {
 					Log.i("TTS", "Clicked Activity: " + activity.getOriginId());
-					openActivityDialog();
+					openActivityDialog(activity);
 					return false;
 				}
 			});
@@ -196,16 +196,36 @@ public class TodoTodaySheet extends ListActivity {
 		}
 	};
 
-	private void openActivityDialog() {
-		new AlertDialog.Builder(this).setTitle(R.string.activity_title)
-				.setItems(R.array.aitdialog,
-						new DialogInterface.OnClickListener() {
-							public void onClick(
-									DialogInterface dialoginterface, int i) {
-								Log.i("openActivityDialog()", "Item selected:"
-										+ i);
-							}
-						}).show();
+	
+	/**
+	 * This dialog gives the possibility to change the status of each activity
+	 * 
+	 * @param activity
+	 */
+	private void openActivityDialog(Activity activity){
+		final Activity selectedActivity = activity;
+		new AlertDialog.Builder(this)
+	         .setTitle(R.string.activity_title) 
+	         .setItems(R.array.tts_dialog,
+			  new DialogInterface.OnClickListener() { 
+			  	 public void onClick(DialogInterface dialoginterface, int i) {
+			  	   try {
+			  		 switch (i) {
+			  		    case 0: Log.i("TTS.openactivityDialog()"," TTS setting todotoday false");
+			  		    		selectedActivity.setTodoToday(false);
+			  		    		selectedActivity.setUndone();
+			  		    		selectedActivity.save(dbHelper);
+			  		            break;
+			  		    case 1: Log.i("TTS.openactivityDialog()"," TTS setting done");
+			  		    		selectedActivity.close(dbHelper);
+			  		            break;
+			  		 }
+			  	   } catch (Exception e) {
+			  		 Log.e("TTS.openActivityDialog()","Error: " + e.getMessage());
+			  	   }
+			     } 
+	          })
+	    .show();
 	}
 
 }

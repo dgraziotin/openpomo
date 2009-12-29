@@ -7,7 +7,7 @@
     
     
     <string name="activity_title">Set Activity</string> 
-    <string name="easy_label">To do today</string> 
-    <string name="medium_label">Done</string> 
-    <string name="hard_label">Trash it</string>
+    <string name="todotoday">To do today</string> 
+    <string name="done">Done</string> 
+    <string name="ais">Inventory sheet</string>
 </resources>

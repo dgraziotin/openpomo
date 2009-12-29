@@ -77,7 +77,7 @@ public class TrashSheet extends ListActivity {
 				@Override
 				public boolean onLongClick(View v) {
 					Log.i("TTS", "Clicked Activity: " + activity.getOriginId());
-					openActivityDialog();
+					openActivityDialog(activity);
 					return false;
 				}
 			});
@@ -196,16 +196,37 @@ public class TrashSheet extends ListActivity {
 		}
 	};
 
-	private void openActivityDialog() {
-		new AlertDialog.Builder(this).setTitle(R.string.activity_title)
-				.setItems(R.array.aitdialog,
-						new DialogInterface.OnClickListener() {
-							public void onClick(
-									DialogInterface dialoginterface, int i) {
-								Log.i("openActivityDialog()", "Item selected:"
-										+ i);
-							}
-						}).show();
+	
+	/**
+	 * This dialog gives the possibility to change the status of each activity
+	 * 
+	 * @param activity
+	 */
+	private void openActivityDialog(Activity activity){
+		final Activity selectedActivity = activity;
+		new AlertDialog.Builder(this)
+	         .setTitle(R.string.activity_title) 
+	         .setItems(R.array.ais_trash,
+			  new DialogInterface.OnClickListener() { 
+			  	 public void onClick(DialogInterface dialoginterface, int i) {
+			  	   try {
+			  		 switch (i) {
+			  		    case 0: Log.i("AIS.openactivityDialog()"," AIS setting ais");
+			  		    		selectedActivity.setTodoToday(false);
+			  		    		selectedActivity.setUndone();
+			  		    		selectedActivity.save(dbHelper);
+			  		            break;
+			  		    case 1: Log.i("AIS.openactivityDialog()"," AIS setting todotoday true");
+			  		    		selectedActivity.setTodoToday(true);
+			  		    		selectedActivity.setUndone();
+			  		    		selectedActivity.save(dbHelper);
+			  		    		break;
+			  		 }
+			  	   } catch (Exception e) {
+			  		 Log.e("AIT.openActivityDialog()","Error: " + e.getMessage());
+			  	   }
+			     } 
+	          })
+	    .show();
 	}
-
 }

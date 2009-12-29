@@ -78,7 +78,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @throws PomodroidException 
 	 */
 	public boolean save(DBHelper dbHelper) throws PomodroidException{
-		if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
+		//if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
 			try{
 				dbHelper.getDatabase().store(this);
 				return true;
@@ -86,8 +86,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 				Log.e("Activity.save(single)", "Problem: " + e.getMessage());
 				throw new PomodroidException("ERROR in Activity.save():"+e.getMessage());
 			}
-		}
-		return false;
+		//}
 	}
 
 	/**

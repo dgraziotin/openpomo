@@ -43,8 +43,9 @@ public class ActivityFactory {
 					ticket.get("priority").toString(),
 					ticket.get("reporter").toString(), 
 					ticket.get("type").toString());
-
-			activity.save(dbHelper);
+			
+			if (!Activity.isPresent(activity.getOrigin(),activity.getOriginId(),dbHelper))
+			  activity.save(dbHelper);
 		}
 
 		return ticketsNumber;
