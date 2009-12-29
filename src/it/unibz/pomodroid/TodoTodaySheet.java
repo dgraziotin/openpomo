@@ -3,6 +3,8 @@ package it.unibz.pomodroid;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,10 +68,12 @@ public class TodoTodaySheet extends ListActivity {
 				TextView tt = (TextView) view.findViewById(R.id.toptext);
 				TextView bt = (TextView) view.findViewById(R.id.bottomtext);
 				if (tt != null) {
-					tt.setText("Name: " + activity.getDescription());
+					tt.setText(activity.getDescription());
 				}
 				if (bt != null) {
-					bt.setText("Status: " + activity.getOrigin());
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+					bt.setText("Pomodoro#(" + activity.getNumberPomodoro() + ") - DeadLine (" + sdf.format(activity.getDeadline()) + ")");
+				
 				}
 			}
 			// bind a listener to the current Activity row
@@ -211,12 +215,14 @@ public class TodoTodaySheet extends ListActivity {
 			  	 public void onClick(DialogInterface dialoginterface, int i) {
 			  	   try {
 			  		 switch (i) {
-			  		    case 0: Log.i("TTS.openactivityDialog()"," TTS setting todotoday false");
+			  		    case 0: Log.i("TTS.openactivityDialog()"," TTS starting pomodoro");
+			  		    		break;
+			  		 	case 1: Log.i("TTS.openactivityDialog()"," TTS setting todotoday false");
 			  		    		selectedActivity.setTodoToday(false);
 			  		    		selectedActivity.setUndone();
 			  		    		selectedActivity.save(dbHelper);
 			  		            break;
-			  		    case 1: Log.i("TTS.openactivityDialog()"," TTS setting done");
+			  		    case 2: Log.i("TTS.openactivityDialog()"," TTS setting done");
 			  		    		selectedActivity.close(dbHelper);
 			  		            break;
 			  		 }

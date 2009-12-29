@@ -1,5 +1,7 @@
 package it.unibz.pomodroid;
 
+import java.util.Date;
+
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
@@ -19,6 +21,18 @@ public class Pomodroid extends Activity implements OnClickListener {
 		setContentView(R.layout.main);
 		dbHelper = new DBHelper(this);
 		User user;
+		
+		dbHelper.deleteDatabase();
+		
+		
+		try {
+			u.save(dbHelper);
+			a.save(dbHelper);a.save(dbHelper);a.save(dbHelper);b.save(dbHelper);b.save(dbHelper);
+		} catch (PomodroidException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
 		buttonAIS.setOnClickListener((OnClickListener) this);
 		Button buttonTTS = (Button) findViewById(R.id.ButtonTTS);

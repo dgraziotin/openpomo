@@ -3,6 +3,8 @@ package it.unibz.pomodroid;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,10 +68,11 @@ public class ActivityInventorySheet extends ListActivity {
 				TextView tt = (TextView) view.findViewById(R.id.toptext);
 				TextView bt = (TextView) view.findViewById(R.id.bottomtext);
 				if (tt != null) {
-					tt.setText("Name: " + activity.getDescription());
+					tt.setText(activity.getDescription());
 				}
 				if (bt != null) {
-					bt.setText("Status: " + activity.getOrigin());
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+					bt.setText("Pomodoro#(" + activity.getNumberPomodoro() + ") - DeadLine (" + sdf.format(activity.getDeadline()) + ")");
 				}
 			}
 			// bind a listener to the current Activity row

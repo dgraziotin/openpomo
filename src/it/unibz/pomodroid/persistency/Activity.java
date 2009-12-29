@@ -78,7 +78,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @throws PomodroidException 
 	 */
 	public boolean save(DBHelper dbHelper) throws PomodroidException{
-		//if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
+		 if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
 			try{
 				dbHelper.getDatabase().store(this);
 				return true;
@@ -86,7 +86,12 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 				Log.e("Activity.save(single)", "Problem: " + e.getMessage());
 				throw new PomodroidException("ERROR in Activity.save():"+e.getMessage());
 			}
-		//}
+		 } else {
+			Activity updateActivity = getActivity(this.getOrigin(),this.getOriginId(),dbHelper);
+			updateActivity.delete(dbHelper);
+			this.save(dbHelper);
+			return true;
+		 }
 	}
 
 	/**
@@ -202,7 +207,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 					private static final long serialVersionUID = 1L;
 
 					public boolean match(Activity activity) {
-						return activity.isTodoToday();
+						return activity.isTodoToday() && (!activity.isDone());
 					}
 				});
 		}catch(Exception e){
