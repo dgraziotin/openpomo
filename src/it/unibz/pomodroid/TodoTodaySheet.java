@@ -123,7 +123,7 @@ public class TodoTodaySheet extends ListActivity {
 	}
 
 	public void onStop() {
-		super.onResume();
+		super.onStop();
 		this.dbHelper.close();
 	}
 
@@ -136,6 +136,10 @@ public class TodoTodaySheet extends ListActivity {
 	 * @throws PomodroidException
 	 */
 	private void refreshSheet() throws PomodroidException {
+		this.activities = new ArrayList<Activity>();
+		this.activityAdapter = new ActivityAdapter(this,
+				R.layout.activityentry, activities);
+		this.setListAdapter(this.activityAdapter);
 		this.activityRetriever = new Runnable() {
 			@Override
 			public void run() {

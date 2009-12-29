@@ -133,6 +133,10 @@ public class TrashSheet extends ListActivity {
 	 * @throws PomodroidException
 	 */
 	private void refreshSheet() throws PomodroidException {
+		this.activities = new ArrayList<Activity>();
+		this.activityAdapter = new ActivityAdapter(this,
+				R.layout.activityentry, activities);
+		this.setListAdapter(this.activityAdapter);
 		this.activityRetriever = new Runnable() {
 			@Override
 			public void run() {
@@ -158,6 +162,7 @@ public class TrashSheet extends ListActivity {
 				"Please wait...", "Retrieving activities ...", true);
 
 	}
+
 
 	/**
 	 * Gets the Activities from Activity.getAll() and adds them to the local

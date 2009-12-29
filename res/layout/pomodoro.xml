@@ -3,7 +3,7 @@
    android:orientation="vertical"
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
-   >
+>
 
 <TextView
     android:id="@+id/TextViewPomodoroTimer"
@@ -13,30 +13,50 @@
     android:layout_gravity="center"
     android:gravity="center" android:textSize="40px"/>
 <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Summary:"/>
+<TextView
     android:id="@+id/TextViewActivitySummary"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Activity Title"/>
+    android:text="Activity Title" android:gravity="center"/>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Deadline"/>
   <TextView
     android:id="@+id/TextViewActivityDeadline"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Activity deadline..."/>    
+    android:text="Activity deadline..." android:gravity="center"/>    
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Description:"/>
  <TextView
     android:id="@+id/TextViewActivityDescription"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Activity description..."/>  
+    android:text="Activity description..." android:gravity="center"/>  
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Number Pomodoros:"/>
   <TextView
     android:id="@+id/TextViewActivityNumberPomodoro"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Number Pomodoro"/>   
+    android:text="Number Pomodoro" android:gravity="center"/>   
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Reporter:"/>
   <TextView
     android:id="@+id/TextViewActivityReporter"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Activity reporter.."/>       
+    android:text="Activity reporter.." android:gravity="center"/>       
 <Button 
 	android:text="START"
 	android:id="@+id/ButtonPomodoroStart"
@@ -49,5 +69,4 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content">
 </Button>
-
 </LinearLayout>
