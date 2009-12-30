@@ -140,6 +140,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 				Integer numberPomodoro = activity.getNumberPomodoro();
 				textViewActivityNumberPomodoro.setText(numberPomodoro
 						.toString());
+				activity = it.unibz.pomodroid.persistency.Activity.getActivity(activity.getOrigin(), activity.getOriginId(), dbHelper);
 			} catch (PomodroidException e) {
 				e.alertUser(context);
 			}
