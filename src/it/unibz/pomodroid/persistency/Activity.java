@@ -35,7 +35,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	}
 
 	public Activity(int id) {
-		super(0, new Date(), new Date(), "Titolo", "Descrizioneeeee", "autogen",
+		super(0, new Date(), new Date(), "Titolo","(" + id + ") Descrizioneeeee", "autogen",
 				id, "priority", "god", "type");
 		// TODO Auto-generated constructor stub
 	}
@@ -89,7 +89,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		} else {
 			try{
 				Activity updateActivity = getActivity(this.getOrigin(),this.getOriginId(),dbHelper);
-				updateActivity = this;
+				updateActivity.update(this);
 				dbHelper.getDatabase().store(updateActivity);
 			}catch(Exception e){
 				Log.e("Activity.save(single)", "Update Problem: " + e.getMessage());

@@ -31,6 +31,13 @@ public class User {
 		this.pomodoroMinutesDuration = 25;
 	}
 
+	public void update (User user){
+		this.tracUsername = user.getTracUsername();
+		this.tracPassword = user.getTracPassword();
+		this.tracUrl = user.getTracUrl();
+		this.promUrl = user.getPromUrl();
+		this.pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
+	}
 	/**
 	 * @return the absolute prom Url
 	 */

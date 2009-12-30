@@ -74,7 +74,7 @@ public class User extends it.unibz.pomodroid.models.User {
 		} else {
 			try{
 				User updateUser = retrieve(dbHelper);
-				updateUser = this;
+				updateUser.update(this);
 				dbHelper.getDatabase().store(updateUser);
 			}catch(Exception e){
 				Log.e("User.save()", "Update Problem: " + e.getMessage());
