@@ -138,8 +138,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 			try {
 				activity.save(dbHelper);
 				Integer numberPomodoro = activity.getNumberPomodoro();
-				textViewActivityNumberPomodoro.setText(numberPomodoro
-						.toString());
+				textViewActivityNumberPomodoro.setText(numberPomodoro.toString());
 				activity = it.unibz.pomodroid.persistency.Activity.getActivity(activity.getOrigin(), activity.getOriginId(), dbHelper);
 			} catch (PomodroidException e) {
 				e.alertUser(context);

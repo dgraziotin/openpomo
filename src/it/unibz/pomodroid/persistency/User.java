@@ -1,6 +1,10 @@
 package it.unibz.pomodroid.persistency;
 
+import java.util.List;
+
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
+
 import it.unibz.pomodroid.exceptions.PomodroidException;
 
 import android.util.Log;
@@ -26,18 +30,56 @@ public class User extends it.unibz.pomodroid.models.User {
 
 	
 	/**
+	 * @param username
+	 * @param dbHelper
+	 * @return
+	 * @throws PomodroidException
+	 */
+	public static boolean isPresent(final String username, DBHelper dbHelper) throws PomodroidException {
+		List<User> users;
+		try{
+			users = dbHelper.getDatabase().query(
+				new Predicate<User>() {
+					private static final long serialVersionUID = 1L;
+
+					public boolean match(User user) {
+						return user.getTracUsername().equals(username);
+					}
+				});
+			if (users.isEmpty())
+				return false;
+			else
+				return true;
+		}catch(Exception e){
+			Log.e("User.isPresent()", "Problem: " + e.getMessage());
+			throw new PomodroidException("ERROR in User.isPresent():"+e.getMessage());
+		}
+	}
+	
+	/**
 	 * Save an user
 	 * 
 	 * @param dbHelper
 	 * @throws PomodroidException 
 	 */
 	public void save(DBHelper dbHelper) throws PomodroidException{
-		try{
-			dbHelper.getDatabase().store(this);
-			Log.i("User.save()", "User Saved.");
-		}catch(Exception e){
-			Log.e("User.save()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in User.save()" + e.toString());
+		if (!isPresent(this.getTracUsername(),dbHelper)){
+			try{
+				dbHelper.getDatabase().store(this);
+				Log.i("User.save()", "User Saved.");
+			}catch(Exception e){
+				Log.e("User.save()", "Problem: " + e.getMessage());
+				throw new PomodroidException("ERROR in User.save()" + e.toString());
+			}
+		} else {
+			try{
+				User updateUser = retrieve(dbHelper);
+				updateUser = this;
+				dbHelper.getDatabase().store(updateUser);
+			}catch(Exception e){
+				Log.e("User.save()", "Update Problem: " + e.getMessage());
+				throw new PomodroidException("ERROR in User.save(update)" + e.toString());
+			}
 		}
 	}
 	

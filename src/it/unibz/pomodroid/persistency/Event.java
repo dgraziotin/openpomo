@@ -2,15 +2,13 @@ package it.unibz.pomodroid.persistency;
 
 import java.util.Date;
 import java.util.List;
-
 import android.util.Log;
-
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
-
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.exceptions.PomodroidException;
+
 /**
  * @author Thomas Schievenin
  * 
@@ -18,6 +16,7 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
  * database db40 the event is saved into a local database.
  *
  */
+
 public class Event extends it.unibz.pomodroid.models.Event{
 
 	/**

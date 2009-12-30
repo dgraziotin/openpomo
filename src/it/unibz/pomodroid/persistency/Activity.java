@@ -35,8 +35,8 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	}
 
 	public Activity(int id) {
-		super(0, new Date(), new Date(), "ugo", "mmmmm.mmmmm.mmmmm.mmmmm.mmmmm", "origin",
-				id, "priority", "reporter", "type");
+		super(0, new Date(), new Date(), "Titolo", "Descrizioneeeee", "autogen",
+				id, "priority", "god", "type");
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -78,7 +78,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @throws PomodroidException 
 	 */
 	public boolean save(DBHelper dbHelper) throws PomodroidException{
-		 if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
+		if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
 			try{
 				dbHelper.getDatabase().store(this);
 				return true;
@@ -86,12 +86,17 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 				Log.e("Activity.save(single)", "Problem: " + e.getMessage());
 				throw new PomodroidException("ERROR in Activity.save():"+e.getMessage());
 			}
-		 } else {
-			Activity updateActivity = getActivity(this.getOrigin(),this.getOriginId(),dbHelper);
-			updateActivity.delete(dbHelper);
-			this.save(dbHelper);
+		} else {
+			try{
+				Activity updateActivity = getActivity(this.getOrigin(),this.getOriginId(),dbHelper);
+				updateActivity = this;
+				dbHelper.getDatabase().store(updateActivity);
+			}catch(Exception e){
+				Log.e("Activity.save(single)", "Update Problem: " + e.getMessage());
+				throw new PomodroidException("ERROR in Activity.save(update):"+e.getMessage());
+			}
 			return true;
-		 }
+		}
 	}
 
 	/**
