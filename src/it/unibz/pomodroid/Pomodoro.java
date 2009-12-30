@@ -29,6 +29,8 @@ public class Pomodoro extends Activity implements OnClickListener {
 	private CountDown counter = null;
 	private DBHelper dbHelper = null;
 	private it.unibz.pomodroid.persistency.Activity activity = null;
+	private String activityOrigin = null;
+	private int activityOriginId = -1;
 	private User user = null;
 	private Context context = null;
 
@@ -40,11 +42,11 @@ public class Pomodoro extends Activity implements OnClickListener {
 		setContentView(R.layout.pomodoro);
 		this.dbHelper = new DBHelper(this);
 		this.context = this;
-		String origin = this.getIntent().getExtras().getString("origin");
-		int originId = this.getIntent().getExtras().getInt("originId");
+		this.activityOrigin = this.getIntent().getExtras().getString("origin");
+		this.activityOriginId = this.getIntent().getExtras().getInt("originId");
 		try {
 			this.activity = it.unibz.pomodroid.persistency.Activity
-					.getActivity(origin, originId, this.dbHelper);
+					.getActivity(this.activityOrigin, this.activityOriginId, this.dbHelper);
 			this.user = User.retrieve(dbHelper);
 		} catch (PomodroidException e) {
 			e.alertUser(this);
@@ -83,6 +85,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 	@Override
 	public void onPause() {
 		super.onPause();
+		this.dbHelper.close();
 		Intent intent = new Intent();
 		setResult(SUCCESS_RETURN_CODE, intent);
 	}
@@ -139,7 +142,6 @@ public class Pomodoro extends Activity implements OnClickListener {
 				activity.save(dbHelper);
 				Integer numberPomodoro = activity.getNumberPomodoro();
 				textViewActivityNumberPomodoro.setText(numberPomodoro.toString());
-				activity = it.unibz.pomodroid.persistency.Activity.getActivity(activity.getOrigin(), activity.getOriginId(), dbHelper);
 			} catch (PomodroidException e) {
 				e.alertUser(context);
 			}
