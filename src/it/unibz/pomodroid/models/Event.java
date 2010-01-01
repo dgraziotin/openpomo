@@ -15,7 +15,23 @@ public class Event {
 	private String value;
 	private Date timestamp;
 	private Activity activity;
+	private long atPomodoroValue;
+
 	
+	/**
+	 * @param type event type
+	 * @param value event value
+	 * @param timestamp date
+	 * @param activity reference to its activity
+	 */
+	public Event(String type, String value, Date timestamp,
+			Activity activity, long atPomodoroValue) {
+		this.type = type;
+		this.value = value;
+		this.timestamp = timestamp;
+		this.activity = activity;
+		this.atPomodoroValue = atPomodoroValue;
+	}
 	
 	/**
 	 * @param type event type
@@ -29,6 +45,7 @@ public class Event {
 		this.value = value;
 		this.timestamp = timestamp;
 		this.activity = activity;
+		this.atPomodoroValue = -1;
 	}
 	/**
 	 * @return the type
@@ -84,6 +101,14 @@ public class Event {
 	 */
 	public void setActivity(Activity activity) {
 		this.activity = activity;
+	}
+	
+	public long getAtPomodoroValue() {
+		return atPomodoroValue;
+	}
+	
+	public void setAtPomodoroValue(long atPomodoroValue) {
+		this.atPomodoroValue = atPomodoroValue;
 	}
 	
 }

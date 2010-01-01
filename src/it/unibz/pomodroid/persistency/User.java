@@ -94,7 +94,10 @@ public class User extends it.unibz.pomodroid.models.User {
 		ObjectSet<User> users;
 		try{
 			users = dbHelper.getDatabase().queryByExample(User.class);
-			return users.next();
+			if (users==null || users.isEmpty())
+				return null;
+			else
+				return users.next();
 		}catch(Exception e){
 			Log.e("User.retrieve()", "Problem: " + e.getMessage());
 			throw new PomodroidException("ERROR in User.retrieve()" + e.toString());

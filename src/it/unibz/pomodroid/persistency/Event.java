@@ -19,6 +19,8 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
 
 public class Event extends it.unibz.pomodroid.models.Event{
 
+	Activity activity = null;
+	
 	/**
 	 * @param type
 	 * @param value
@@ -28,6 +30,24 @@ public class Event extends it.unibz.pomodroid.models.Event{
 	public Event(String type, String value, Date timestamp,
 			Activity activity) {
 		super(type, value, timestamp, activity);
+		this.activity = activity;
+	}
+	
+	public Event(String type, String value, Date timestamp,
+			Activity activity, long atPomodoroValue){
+		super(type, value, timestamp, activity, atPomodoroValue);
+		this.activity = activity;
+	}
+
+	public Activity getActivity(){
+		return this.activity;
+	}
+	
+	/**
+	 * @param activity the activity to set
+	 */
+	public void setActivity(Activity activity) {
+		this.activity = activity;
 	}
 
 	

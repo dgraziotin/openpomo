@@ -9,7 +9,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.config.Configuration;
 
 /**
- * @author Thomas Schievenin
+ * @author Pomodroid - Team 02
  * 
  * This class manages the open source object database db40
  *
