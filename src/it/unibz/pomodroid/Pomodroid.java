@@ -1,8 +1,15 @@
 package it.unibz.pomodroid;
 
+import java.io.IOException;
+
 import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.factories.ActivityFactory;
+import it.unibz.pomodroid.factories.PromFactory;
 import it.unibz.pomodroid.persistency.DBHelper;
+import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
+import it.unibz.pomodroid.services.PromEventDeliverer;
+import it.unibz.pomodroid.services.TrackTicketFetcher;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,12 +20,12 @@ import android.widget.TextView;
 
 public class Pomodroid extends Activity implements OnClickListener {
 	private DBHelper dbHelper;
+	private User user;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		dbHelper = new DBHelper(this);
-		User user;
 		TextView textView = (TextView) findViewById(R.id.hello);
 		textView.setText("Pomodroid");
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
@@ -33,11 +40,16 @@ public class Pomodroid extends Activity implements OnClickListener {
 		buttonTests.setOnClickListener((OnClickListener) this);
 		
 		try {
-			user = User.retrieve(dbHelper);
+			this.user = User.retrieve(dbHelper);
 			if (user == null) {
 				Intent intent = new Intent(this, Preferences.class);
 				startActivity(intent);
 			}
+			/*
+			PromFactory promFactory = new PromFactory();
+			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
+			promEventDeliverer.uploadData(promFactory.createZip(Event.getAll(dbHelper), user), user);
+			*/
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}

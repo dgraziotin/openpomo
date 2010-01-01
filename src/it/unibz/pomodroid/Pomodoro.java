@@ -1,6 +1,9 @@
 package it.unibz.pomodroid;
 
+import java.util.Date;
+
 import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.persistency.DBHelper;
 import android.app.Activity;
@@ -94,10 +97,32 @@ public class Pomodoro extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.ButtonPomodoroStart:
+			Event event = new Event("pomodoro","start",new Date(),activity,pomodoroDurationMilliseconds);
+			try {
+				event.save(dbHelper);
+			} catch (PomodroidException e1) {
+				try {
+					throw new PomodroidException("ERROR! Could not create event! " + e1.getMessage());
+				} catch (PomodroidException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			counter.start();
 			this.buttonPomodoroStart.setClickable(false);
 			break;
 		case R.id.ButtonPomodoroStop:
+			Event event1 = new Event("pomodoro","stop",new Date(),activity,pomodoroDurationMilliseconds);
+			try {
+				event1.save(dbHelper);
+			} catch (PomodroidException e) {
+				try {
+					throw new PomodroidException("ERROR, could not save Event! " +e.getMessage());
+				} catch (PomodroidException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 			this.buttonPomodoroStart.setClickable(true);
 			try {
 				counter.stop();
@@ -134,6 +159,16 @@ public class Pomodoro extends Activity implements OnClickListener {
 
 		@Override
 		public void onFinish() {
+			Event event = new Event("pomodoro","finish",new Date(),activity,pomodoroDurationMilliseconds);
+			try {
+				event.save(dbHelper);
+			} catch (PomodroidException e) {
+				try {
+					throw new PomodroidException("ERROR, could not save Event! " +e.getMessage());
+				} catch (PomodroidException e1) {
+					
+				}
+			}
 			textViewPomodoroTimer.setText(getFormattedTimerValue(0));
 			buttonPomodoroStart.setClickable(true);
 			activity.setNumberPomodoro(activity.getNumberPomodoro() + 1);
@@ -154,6 +189,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 
 		public void stop() throws PomodroidException {
 			super.cancel();
+			
 			textViewPomodoroTimer
 					.setText(getFormattedTimerValue(pomodoroDurationMilliseconds));
 			throw new PomodroidException("Pomodoro Broken");

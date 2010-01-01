@@ -14,7 +14,8 @@ import it.unibz.pomodroid.services.XmlRpcClient;
 public class PromEventDeliverer {
 	private String appName = "Pomodroid";
 	private String promDB = "prom";
-
+	
+	
 	/**
 	 * @param user
 	 * @return nuber of id uploaded
@@ -33,7 +34,7 @@ public class PromEventDeliverer {
 	 * @param user
 	 * @throws PomodroidException 
 	 */
-	public void uploadData(byte[] zipIni, User user) throws PomodroidException {
+	public boolean uploadData(byte[] zipIni, User user) throws PomodroidException {
 		try {
 
 			Integer uploadId = getUploadId(user);
@@ -44,9 +45,10 @@ public class PromEventDeliverer {
 			Object ret = XmlRpcClient.fetchSingleResult(user.getPromUrl(),
 					"zipupload.uploadData", params);
 
-			if (((Integer) ret).intValue() >= 0) {
-				// TODO: delete events
-			}
+			if (((Integer) ret).intValue() >= 0)
+				return true;
+			else
+				return false;
 
 		} catch (Exception e) {
 			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: " + e.getMessage());
