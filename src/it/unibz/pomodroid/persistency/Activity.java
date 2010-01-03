@@ -1,4 +1,5 @@
 package it.unibz.pomodroid.persistency;
+
 import java.util.Date;
 import java.util.List;
 import com.db4o.ObjectSet;
@@ -10,9 +11,10 @@ import it.unibz.pomodroid.persistency.DBHelper;
 /**
  * @author Thomas Schievenin
  * 
- * A class representing an extension of the activity class. Whit the help of the open source object 
- * database db40 the activity is saved into a local database.
- *
+ *         A class representing an extension of the activity class. Whit the
+ *         help of the open source object database db40 the activity is saved
+ *         into a local database.
+ * 
  */
 public class Activity extends it.unibz.pomodroid.models.Activity {
 
@@ -27,20 +29,23 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @param type
 	 */
 	public Activity(int numberPomodoro, Date received, Date deadline,
-			String summary, String description, String origin, int originId, String priority, String reporter,
-			String type) {
+			String summary, String description, String origin, int originId,
+			String priority, String reporter, String type) {
 		super(numberPomodoro, received, deadline, summary, description, origin,
 				originId, priority, reporter, type);
 		// TODO Auto-generated constructor stub
 	}
 
 	public Activity(int id) {
-		super(0, new Date(), new Date(), "Titolo","(" + id + ") Descrizioneeeee", "autogen",
-				id, "priority", "god", "type");
+		super(0, new Date(), new Date(), "Titolo", "(" + id
+				+ ") Descrizioneeeee", "autogen", id, "priority", "god", "type");
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+	public Activity(String origin, int originId) {
+		super(origin, originId);
+	}
+
 	/**
 	 * 
 	 * @param origin
@@ -52,50 +57,68 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	public static boolean isPresent(final String origin, final int originId,
 			DBHelper dbHelper) throws PomodroidException {
 		List<Activity> activities;
-		try{
+		try {
 			activities = dbHelper.getDatabase().query(
-				new Predicate<Activity>() {
-					private static final long serialVersionUID = 1L;
+					new Predicate<Activity>() {
+						private static final long serialVersionUID = 1L;
 
-					public boolean match(Activity activity) {
-						return activity.getOrigin().equals(origin)
-								&& activity.getOriginId() == originId;
-					}
-				});
+						public boolean match(Activity activity) {
+							return activity.getOrigin().equals(origin)
+									&& activity.getOriginId() == originId;
+						}
+					});
 			if (activities.isEmpty())
 				return false;
 			else
 				return true;
-		}catch(Exception e){
+		} catch (Exception e) {
 			Log.e("Activity.isPresent()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.isPresent():"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.isPresent():"
+					+ e.getMessage());
 		}
 	}
 
 	/**
 	 * @param dbHelper
 	 * @return true if an activity is saved into the DB
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
-	public boolean save(DBHelper dbHelper) throws PomodroidException{
-		if (!isPresent(this.getOrigin(),this.getOriginId(),dbHelper)){
-			try{
+	public boolean save(DBHelper dbHelper) throws PomodroidException {
+		try {
+			if (!isPresent(this.getOrigin(), this.getOriginId(), dbHelper)) {
+
 				dbHelper.getDatabase().store(this);
 				return true;
-			}catch(Exception e){
-				Log.e("Activity.save(single)", "Problem: " + e.getMessage());
-				throw new PomodroidException("ERROR in Activity.save():"+e.getMessage());
+			} else {
+				return this.update(dbHelper);
 			}
-		} else {
-			try{
-				Activity updateActivity = getActivity(this.getOrigin(),this.getOriginId(),dbHelper);
-				updateActivity.update(this);
-				dbHelper.getDatabase().store(updateActivity);
-				return true;
-			}catch(Exception e){
-				Log.e("Activity.save(single)", "Update Problem: " + e.getMessage());
-				throw new PomodroidException("ERROR in Activity.save(update):"+e.getMessage());
-			}
+		} catch (Exception e) {
+			Log.e("Activity.save(single)", "Problem: " + e.getMessage());
+			throw new PomodroidException("ERROR in Activity.save():"
+					+ e.getMessage());
+		}finally{
+			dbHelper.close();
+		}
+
+	}
+
+	/**
+	 * @param dbHelper
+	 * @return true if an activity is saved into the DB
+	 * @throws PomodroidException
+	 */
+	private boolean update(DBHelper dbHelper) throws PomodroidException {
+		ObjectSet<Activity> result = dbHelper.getDatabase().queryByExample(
+				new Activity(getOrigin(), getOriginId()));
+		Activity found = (Activity) result.next();
+		found.update(this);
+		try {
+			dbHelper.getDatabase().store(found);
+			return true;
+		} catch (Exception e) {
+			Log.e("Activity.save(single)", "Update Problem: " + e.getMessage());
+			throw new PomodroidException("ERROR in Activity.save(update):"
+					+ e.getMessage());
 		}
 	}
 
@@ -104,123 +127,128 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * 
 	 * @param Activities
 	 * @param dbHelper
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
-	public void save(List<Activity> Activities, DBHelper dbHelper) throws PomodroidException {
-		try{
+	public void save(List<Activity> Activities, DBHelper dbHelper)
+			throws PomodroidException {
+		try {
 			for (Activity activity : Activities)
 				activity.save(dbHelper);
-		}catch(Exception e){
+		} catch (Exception e) {
 			Log.e("Activity.save(List)", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.save(List):"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.save(List):"
+					+ e.getMessage());
 		}
 	}
 
-	
-	
 	/**
 	 * Deletes all activities
 	 * 
 	 * @param dbHelper
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
 	public void delete(DBHelper dbHelper) throws PomodroidException {
 		ObjectSet<Activity> result;
-		try{
-		result = dbHelper.getDatabase()
-				.queryByExample(this);
-		Activity found = (Activity) result.next();
-		dbHelper.getDatabase().delete(found);
-		}catch(Exception e){
+		try {
+			result = dbHelper.getDatabase().queryByExample(this);
+			Activity found = (Activity) result.next();
+			dbHelper.getDatabase().delete(found);
+		} catch (Exception e) {
 			Log.e("Activity.delete()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.delete():"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.delete():"
+					+ e.getMessage());
 		}
 	}
 
-	
 	/**
 	 * Retrieves all activities
 	 * 
 	 * @param dbHelper
 	 * @return
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
-	public static List<Activity> getAll(DBHelper dbHelper) throws PomodroidException {
+	public static List<Activity> getAll(DBHelper dbHelper)
+			throws PomodroidException {
 		ObjectSet<Activity> result = null;
-		try{
+		try {
 			result = dbHelper.getDatabase().queryByExample(Activity.class);
-			if (result==null)
-				Log.i("Activity.getAll()", "There are no activities stored in db");
-		}catch(Exception e){
+			if (result == null)
+				Log.i("Activity.getAll()",
+						"There are no activities stored in db");
+		} catch (Exception e) {
 			Log.e("Activity.getAll()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.getAll():"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.getAll():"
+					+ e.getMessage());
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Retrieves all activities
 	 * 
 	 * @param dbHelper
 	 * @return
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
-	public static boolean deleteAll(DBHelper dbHelper) throws PomodroidException {
+	public static boolean deleteAll(DBHelper dbHelper)
+			throws PomodroidException {
 		ObjectSet<Activity> result = null;
-		try{
+		try {
 			result = dbHelper.getDatabase().queryByExample(Activity.class);
-			if (result==null){
-				Log.i("Activity.delete()", "There are no activities stored in db");
+			if (result == null) {
+				Log.i("Activity.delete()",
+						"There are no activities stored in db");
 				return true;
-			}else{
-				for(Activity ac : result){
+			} else {
+				for (Activity ac : result) {
 					ac.delete(dbHelper);
 				}
 				return true;
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			Log.e("Activity.getAll()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.getAll():"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.getAll():"
+					+ e.getMessage());
 		}
 	}
-	
 
-	
 	/**
 	 * @param dbHelper
 	 * @return the number of activities
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
-	public static int getNumberActivities(DBHelper dbHelper) throws PomodroidException{
+	public static int getNumberActivities(DBHelper dbHelper)
+			throws PomodroidException {
 		List<Activity> activities = Activity.getAll(dbHelper);
-		return ((activities == null) ?  0 :  activities.size());
+		return ((activities == null) ? 0 : activities.size());
 	}
-	
+
 	/**
 	 * @param origin
 	 * @param originId
 	 * @param dbHelper
 	 * @return a specific activity
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
 	public static Activity getActivity(final String origin, final int originId,
 			DBHelper dbHelper) throws PomodroidException {
 		List<Activity> activities = null;
 		Activity result;
-		try{
+		try {
 			activities = dbHelper.getDatabase().query(
-				new Predicate<Activity>() {
-					private static final long serialVersionUID = 1L;
+					new Predicate<Activity>() {
+						private static final long serialVersionUID = 1L;
 
-					public boolean match(Activity activity) {
-						return activity.getOrigin().equals(origin)
-								&& activity.getOriginId() == originId;
-					}
-				});
+						public boolean match(Activity activity) {
+							return activity.getOrigin().equals(origin)
+									&& activity.getOriginId() == originId;
+						}
+					});
 			result = activities.get(0);
-		}catch(Exception e){
+		} catch (Exception e) {
 			Log.e("Activity.getActivity()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.getActivity():"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.getActivity():"
+					+ e.getMessage());
 		}
 		return result;
 	}
@@ -228,87 +256,95 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	/**
 	 * @param dbHelper
 	 * @return to do today activities
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
-	public static List<Activity> getTodoToday(DBHelper dbHelper) throws PomodroidException {
+	public static List<Activity> getTodoToday(DBHelper dbHelper)
+			throws PomodroidException {
 		List<Activity> activities = null;
-		try{
+		try {
 			activities = dbHelper.getDatabase().query(
-				new Predicate<Activity>() {
-					private static final long serialVersionUID = 1L;
+					new Predicate<Activity>() {
+						private static final long serialVersionUID = 1L;
 
-					public boolean match(Activity activity) {
-						return activity.isTodoToday() && (!activity.isDone());
-					}
-				});
-		}catch(Exception e){
+						public boolean match(Activity activity) {
+							return activity.isTodoToday()
+									&& (!activity.isDone());
+						}
+					});
+		} catch (Exception e) {
 			Log.e("Activity.getTodoToday()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.getTodoToday():"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.getTodoToday():"
+					+ e.getMessage());
 		}
 		return activities;
 	}
-	
+
 	/**
 	 * @param dbHelper
 	 * @return all completed activities
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
-	public static List<Activity> getCompleted(DBHelper dbHelper) throws PomodroidException {
+	public static List<Activity> getCompleted(DBHelper dbHelper)
+			throws PomodroidException {
 		List<Activity> activities = null;
-		try{
+		try {
 			activities = dbHelper.getDatabase().query(
-				new Predicate<Activity>() {
-					private static final long serialVersionUID = 1L;
+					new Predicate<Activity>() {
+						private static final long serialVersionUID = 1L;
 
-					public boolean match(Activity activity) {
-						return activity.isDone();
-					}
-				});
-		}catch(Exception e){
+						public boolean match(Activity activity) {
+							return activity.isDone();
+						}
+					});
+		} catch (Exception e) {
 			Log.e("Activity.getCompleted()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.getCompleted():"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.getCompleted():"
+					+ e.getMessage());
 		}
 		return activities;
 	}
-	
+
 	/**
 	 * @param dbHelper
 	 * @return all uncompleted activities
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
-	public static List<Activity> getUncompleted(DBHelper dbHelper) throws PomodroidException {
+	public static List<Activity> getUncompleted(DBHelper dbHelper)
+			throws PomodroidException {
 		List<Activity> activities = null;
-		try{
+		try {
 			activities = dbHelper.getDatabase().query(
-				new Predicate<Activity>() {
-					private static final long serialVersionUID = 1L;
+					new Predicate<Activity>() {
+						private static final long serialVersionUID = 1L;
 
-					public boolean match(Activity activity) {
-						return !activity.isDone();
-					}
-				});
-		}catch(Exception e){
+						public boolean match(Activity activity) {
+							return !activity.isDone();
+						}
+					});
+		} catch (Exception e) {
 			Log.e("Activity.getUncompleted()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.getUncompleted():"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.getUncompleted():"
+					+ e.getMessage());
 		}
 		return activities;
 	}
-	
+
 	/**
 	 * Closes an activity
 	 * 
 	 * @param dbHelper
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
 	public void close(DBHelper dbHelper) throws PomodroidException {
-		try{
+		try {
 			this.setDone();
 			this.setTodoToday(false);
-			this.save(dbHelper);
-		}catch(Exception e){
+			this.update(dbHelper);
+		} catch (Exception e) {
 			Log.e("Activity.close()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in Activity.close():"+e.getMessage());
+			throw new PomodroidException("ERROR in Activity.close():"
+					+ e.getMessage());
 		}
 	}
-	
+
 }

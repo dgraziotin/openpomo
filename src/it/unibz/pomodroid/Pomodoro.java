@@ -31,7 +31,6 @@ public class Pomodoro extends Activity implements OnClickListener {
 	private Button buttonPomodoroStop = null;
 	private CountDown counter = null;
 	private DBHelper dbHelper = null;
-	private it.unibz.pomodroid.persistency.Activity activity = null;
 	private String activityOrigin = null;
 	private int activityOriginId = -1;
 	private User user = null;
@@ -47,8 +46,9 @@ public class Pomodoro extends Activity implements OnClickListener {
 		this.context = this;
 		this.activityOrigin = this.getIntent().getExtras().getString("origin");
 		this.activityOriginId = this.getIntent().getExtras().getInt("originId");
+		it.unibz.pomodroid.persistency.Activity activity = null;
 		try {
-			this.activity = it.unibz.pomodroid.persistency.Activity
+			activity = it.unibz.pomodroid.persistency.Activity
 					.getActivity(this.activityOrigin, this.activityOriginId, this.dbHelper);
 			this.user = User.retrieve(dbHelper);
 		} catch (PomodroidException e) {
@@ -67,14 +67,14 @@ public class Pomodoro extends Activity implements OnClickListener {
 		this.textViewActivityNumberPomodoro = (TextView) findViewById(R.id.TextViewActivityNumberPomodoro);
 		this.textViewActivityReporter = (TextView) findViewById(R.id.TextViewActivityReporter);
 
-		this.textViewActivitySummary.setText(this.activity.getSummary());
-		this.textViewActivityDeadline.setText(this.activity.getDeadline()
+		this.textViewActivitySummary.setText(activity.getSummary());
+		this.textViewActivityDeadline.setText(activity.getDeadline()
 				.toString());
 		this.textViewActivityDescription
-				.setText(this.activity.getDescription());
-		Integer numberPomodoro = this.activity.getNumberPomodoro();
+				.setText(activity.getDescription());
+		Integer numberPomodoro = activity.getNumberPomodoro();
 		this.textViewActivityNumberPomodoro.setText(numberPomodoro.toString());
-		this.textViewActivityReporter.setText(this.activity.getReporter());
+		this.textViewActivityReporter.setText(activity.getReporter());
 
 		this.pomodoroDurationMilliseconds = user.getPomodoroMinutesDuration()
 				* SECONDS_PER_MINUTES * MILLISECONDS_PER_SECONDS;
@@ -96,6 +96,15 @@ public class Pomodoro extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		it.unibz.pomodroid.persistency.Activity activity = null;
+		
+		try {
+			activity = it.unibz.pomodroid.persistency.Activity
+					.getActivity(this.activityOrigin, this.activityOriginId, this.dbHelper);
+		} catch (PomodroidException e) {
+			e.alertUser(this);
+		}
+		
 		switch (v.getId()) {
 		case R.id.ButtonPomodoroStart:
 			Event event = new Event("pomodoro","start",new Date(),activity,pomodoroDurationMilliseconds);
@@ -162,6 +171,13 @@ public class Pomodoro extends Activity implements OnClickListener {
 
 		@Override
 		public void onFinish() {
+			it.unibz.pomodroid.persistency.Activity activity = null;
+			try {
+				activity = it.unibz.pomodroid.persistency.Activity
+						.getActivity(activityOrigin, activityOriginId, dbHelper);
+			} catch (PomodroidException e) {
+				e.alertUser(context);
+			}
 			Event event = new Event("pomodoro","finish",new Date(),activity,pomodoroDurationMilliseconds);
 			try {
 				event.save(dbHelper);
