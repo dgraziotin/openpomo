@@ -19,7 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnLongClickListener;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -80,12 +80,11 @@ public class TodoTodaySheet extends ListActivity {
 				}
 			}
 			// bind a listener to the current Activity row
-			view.setOnLongClickListener(new OnLongClickListener() {
+			view.setOnClickListener(new OnClickListener() {
 				@Override
-				public boolean onLongClick(View v) {
+				public void onClick(View v) {
 					Log.i("TTS", "Clicked Activity: " + activity.getOriginId());
 					openActivityDialog(activity);
-					return false;
 				}
 			});
 			return view;
