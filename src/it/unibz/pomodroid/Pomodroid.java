@@ -102,6 +102,8 @@ public class Pomodroid extends Activity implements OnClickListener {
 				Intent intent = new Intent(this, Preferences.class);
 				startActivity(intent);
 			}
+			
+			
 			/*
 			PromFactory promFactory = new PromFactory();
 			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
@@ -123,6 +125,10 @@ public class Pomodroid extends Activity implements OnClickListener {
 	public void onStop() {
 		super.onStop();
 		this.dbHelper.close();
+	}
+	
+	public void onResume(){
+		super.onResume();
 	}
 
 	@Override

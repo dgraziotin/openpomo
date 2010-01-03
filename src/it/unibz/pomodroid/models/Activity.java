@@ -55,7 +55,12 @@ public class Activity {
 		this.todoToday = false;
 		this.done = false;
 	}
-
+	
+	public Activity (String origin, int originId) {
+		this.origin = origin;
+		this.originId = originId;
+	}
+	
 	public void update (Activity ac) {
 		this.numberPomodoro = ac.getNumberPomodoro();
 		this.received = ac.getReceived();
