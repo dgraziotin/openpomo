@@ -1,15 +1,9 @@
 package it.unibz.pomodroid;
 
-import java.io.IOException;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.factories.ActivityFactory;
-import it.unibz.pomodroid.factories.PromFactory;
 import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
-import it.unibz.pomodroid.services.PromEventDeliverer;
-import it.unibz.pomodroid.services.TrackTicketFetcher;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,13 +41,6 @@ public class Pomodroid extends Activity implements OnClickListener {
 				Intent intent = new Intent(this, Preferences.class);
 				startActivity(intent);
 			}
-			
-			
-			/*
-			PromFactory promFactory = new PromFactory();
-			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
-			promEventDeliverer.uploadData(promFactory.createZip(Event.getAll(dbHelper), user), user);
-			*/
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
