@@ -52,9 +52,16 @@ public class TracTest extends AndroidTestCase{
 		User user = User.retrieve(dbHelper);
 		int numberTickets = ttf.getNumberTickets(user);
 		int numberActivities = Activity.getNumberActivities(dbHelper);
+		Vector<HashMap<String, Object>> tickets = ttf.fetch(user, dbHelper);
 		if(numberTickets > numberActivities){
-			int activitiesStored = af.produce(ttf.fetch(user, dbHelper), dbHelper);
+			int activitiesStored = af.produce(tickets, dbHelper);
 			assert(activitiesStored > 0);
+			while (tickets.size() > 0){
+				String origin = user.getTracUrl();
+				int originId = (Integer) tickets.get(0).get("ticketId");
+				Activity ac = Activity.getActivity(origin, originId, dbHelper);
+				ac.delete(dbHelper);
+			}
 		}else{
 			assertTrue(true);
 		}

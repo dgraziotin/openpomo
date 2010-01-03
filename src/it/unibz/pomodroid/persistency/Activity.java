@@ -158,6 +158,32 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		return result;
 	}
 	
+	/**
+	 * Retrieves all activities
+	 * 
+	 * @param dbHelper
+	 * @return
+	 * @throws PomodroidException 
+	 */
+	public static boolean deleteAll(DBHelper dbHelper) throws PomodroidException {
+		ObjectSet<Activity> result = null;
+		try{
+			result = dbHelper.getDatabase().queryByExample(Activity.class);
+			if (result==null){
+				Log.i("Activity.delete()", "There are no activities stored in db");
+				return true;
+			}else{
+				for(Activity ac : result){
+					ac.delete(dbHelper);
+				}
+				return true;
+			}
+		}catch(Exception e){
+			Log.e("Activity.getAll()", "Problem: " + e.getMessage());
+			throw new PomodroidException("ERROR in Activity.getAll():"+e.getMessage());
+		}
+	}
+	
 
 	
 	/**

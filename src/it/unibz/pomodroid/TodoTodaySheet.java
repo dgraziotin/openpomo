@@ -183,9 +183,8 @@ public class TodoTodaySheet extends ListActivity {
 			Log.i("AIS.getActivities(): activities retrieved:", ""
 					+ activities.size());
 		} catch (Exception e) {
-			Log.e("AIS.getActivities() thread: ", e.getMessage());
 			throw new PomodroidException(
-					"Error in retrieving Activities from the DB!");
+					"Error in retrieving Activities from the DB! Please try again");
 		}
 		this.runOnUiThread(populateAdapter);
 	}

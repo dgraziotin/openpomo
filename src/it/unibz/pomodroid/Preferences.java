@@ -40,6 +40,24 @@ public class Preferences extends Activity {
 					testTracConnection();
 					testPromConnection();
 					updateUser();
+					throw new PomodroidException("Preferences saved.");
+				} catch (PomodroidException e) {
+					AlertDialog.Builder dialog = new AlertDialog.Builder(v
+							.getContext());
+					dialog.setTitle("ERROR");
+					dialog.setMessage(e.getMessage());
+					dialog.setNeutralButton("Ok", null);
+					dialog.create().show();
+				}
+			}
+		});
+		Button deleteActivitiesButton = (Button) findViewById(R.id.ButtonDeleteActivies);
+		deleteActivitiesButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					it.unibz.pomodroid.persistency.Activity.deleteAll(dbHelper);
+					throw new PomodroidException("All activities deleted!");
 				} catch (PomodroidException e) {
 					AlertDialog.Builder dialog = new AlertDialog.Builder(v
 							.getContext());

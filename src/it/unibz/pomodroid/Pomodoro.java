@@ -59,6 +59,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 		this.buttonPomodoroStart.setOnClickListener((OnClickListener) this);
 		this.buttonPomodoroStop = (Button) findViewById(R.id.ButtonPomodoroStop);
 		this.buttonPomodoroStop.setOnClickListener((OnClickListener) this);
+		this.buttonPomodoroStop.setClickable(false);
 
 		this.textViewActivitySummary = (TextView) findViewById(R.id.TextViewActivitySummary);
 		this.textViewActivityDeadline = (TextView) findViewById(R.id.TextViewActivityDeadline);
@@ -110,6 +111,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 			}
 			counter.start();
 			this.buttonPomodoroStart.setClickable(false);
+			this.buttonPomodoroStop.setClickable(true);
 			break;
 		case R.id.ButtonPomodoroStop:
 			Event event1 = new Event("pomodoro","stop",new Date(),activity,pomodoroDurationMilliseconds);
@@ -124,6 +126,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 				}
 			}
 			this.buttonPomodoroStart.setClickable(true);
+			this.buttonPomodoroStop.setClickable(false);
 			try {
 				counter.stop();
 			} catch (PomodroidException e) {
@@ -171,6 +174,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 			}
 			textViewPomodoroTimer.setText(getFormattedTimerValue(0));
 			buttonPomodoroStart.setClickable(true);
+			buttonPomodoroStop.setClickable(false);
 			activity.setNumberPomodoro(activity.getNumberPomodoro() + 1);
 
 			try {
