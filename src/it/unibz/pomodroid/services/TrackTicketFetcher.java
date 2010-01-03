@@ -45,7 +45,8 @@ public class TrackTicketFetcher {
 		     deadLine = getDeadLine(user, attributes.get("milestone").toString());
 		   }
 		   
-		   ticket.put("ticketId", (int)ticketId);
+		   ticket.put("originId", (int)ticketId);
+		   ticket.put("origin", user.getTracUrl());
 		   ticket.put("deadLine", deadLine);
 		   ticket.put("summary",attributes.get("summary"));
 		   ticket.put("description",attributes.get("description"));
