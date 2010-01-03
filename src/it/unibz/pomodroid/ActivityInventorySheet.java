@@ -76,6 +76,7 @@ public class ActivityInventorySheet extends ListActivity {
 					bt.setText("Pomodoro#(" + activity.getNumberPomodoro() + ") - DeadLine (" + sdf.format(activity.getDeadline()) + ")");
 				}
 			}
+			
 			// bind a listener to the current Activity row
 			view.setOnLongClickListener(new OnLongClickListener() {
 				@Override
@@ -96,8 +97,7 @@ public class ActivityInventorySheet extends ListActivity {
 		this.dbHelper = new DBHelper(this);
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
-		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.activityentry, activities);
+		this.activityAdapter = new ActivityAdapter(this, R.layout.activityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.context = this;
 	}
@@ -135,8 +135,7 @@ public class ActivityInventorySheet extends ListActivity {
 	 */
 	private void refreshSheet() throws PomodroidException {
 		this.activities = new ArrayList<Activity>();
-		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.activityentry, activities);
+		this.activityAdapter = new ActivityAdapter(this,R.layout.activityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.activityRetriever = new Runnable() {
 			@Override
@@ -155,12 +154,10 @@ public class ActivityInventorySheet extends ListActivity {
 			}
 		};
 		// create a new Thread that executes activityRetriever and start it
-		Thread thread = new Thread(null, activityRetriever,
-				"ActivityRetrieverThread");
+		Thread thread = new Thread(null, activityRetriever,"ActivityRetrieverThread");
 		thread.start();
 		// show a nice progress bar
-		progressDialog = ProgressDialog.show(ActivityInventorySheet.this,
-				"Please wait...", "Retrieving activities ...", true);
+		progressDialog = ProgressDialog.show(ActivityInventorySheet.this,"Please wait...", "Retrieving activities ...", true);
 
 	}
 
@@ -176,8 +173,7 @@ public class ActivityInventorySheet extends ListActivity {
 	private void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
-			List<Activity> retrievedActivities = Activity
-					.getUncompleted(this.dbHelper);
+			List<Activity> retrievedActivities = Activity.getUncompleted(this.dbHelper);
 			activities.addAll(retrievedActivities);
 			Log.i("AIS.getActivities(): activities retrieved:", ""
 					+ activities.size());

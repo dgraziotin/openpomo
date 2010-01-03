@@ -38,6 +38,8 @@ public class Pomodroid extends Activity implements OnClickListener {
 		buttonPreferences.setOnClickListener((OnClickListener) this);
 		Button buttonTests = (Button) findViewById(R.id.ButtonTests);
 		buttonTests.setOnClickListener((OnClickListener) this);
+		Button buttonTRAC = (Button) findViewById(R.id.ButtonTrac);
+		buttonTRAC.setOnClickListener((OnClickListener) this);
 		
 		try {
 			this.user = User.retrieve(dbHelper);
@@ -92,6 +94,11 @@ public class Pomodroid extends Activity implements OnClickListener {
 			i = new Intent(this, PomodroidTest.class);
 			startActivity(i);
 			break;
+		case R.id.ButtonTrac:
+			i = new Intent(this, TracTicket.class);
+			startActivity(i);
+			break;
+
 		}
 
 	}
