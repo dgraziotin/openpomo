@@ -57,6 +57,8 @@ public class Pomodroid extends Activity implements OnClickListener {
 		buttonPreferences.setOnClickListener((OnClickListener) this);
 		Button buttonTests = (Button) findViewById(R.id.ButtonTests);
 		buttonTests.setOnClickListener((OnClickListener) this);
+		Button buttonTRAC = (Button) findViewById(R.id.ButtonTrac);
+		buttonTRAC.setOnClickListener((OnClickListener) this);
 		
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
@@ -147,6 +149,11 @@ public class Pomodroid extends Activity implements OnClickListener {
 			i = new Intent(this, PomodroidTest.class);
 			startActivity(i);
 			break;
+		case R.id.ButtonTrac:
+			i = new Intent(this, TracTicket.class);
+			startActivity(i);
+			break;
+
 		}
 
 >>>>>>> b8fec6e... first working alphas of AIS, TTS, TS, first mockup of launch Activity, centralized exception system:src/it/unibz/pomodroid/Pomodroid.java

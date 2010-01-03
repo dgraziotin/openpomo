@@ -27,7 +27,7 @@ public class TrackTicketFetcher {
 	 * It retrieves all opened tickets from TRAC and returns them
 	 * @throws PomodroidException 
 	 */
-	public Vector<HashMap<String, Object>> fetch (User user, DBHelper dbHelper) throws PomodroidException{
+	public static Vector<HashMap<String, Object>> fetch (User user, DBHelper dbHelper) throws PomodroidException{
 		Vector<HashMap<String, Object>> tickets = new Vector<HashMap<String, Object>>(); 
 		
 		Vector<Integer> ticketIds;
@@ -66,7 +66,7 @@ public class TrackTicketFetcher {
 	 * @return vector 
 	 * @throws PomodroidException 
 	 */
-	private Vector<Integer> getTicketIds (User user) throws PomodroidException{
+	private static Vector<Integer> getTicketIds (User user) throws PomodroidException{
 		String[] params = {"status!=closed"};
 		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
 		if (result != null){
@@ -79,13 +79,13 @@ public class TrackTicketFetcher {
 	}
 	
 	public int getNumberTickets(User user) throws PomodroidException{
-		Vector<Integer> ticketIds = this.getTicketIds(user);
+		Vector<Integer> ticketIds = TrackTicketFetcher.getTicketIds(user);
 		return ((ticketIds == null) ?  0 :  ticketIds.size());
 	}
 	
 	@SuppressWarnings("unchecked")
 	// FIXME: the method should not be static
-	private HashMap<String,String> getTickets(User user, Integer[] id) throws PomodroidException{
+	private static HashMap<String,String> getTickets(User user, Integer[] id) throws PomodroidException{
 		Object[] ticket;
 		HashMap<String,String> attributes;
 		ticket = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.get",id);
@@ -101,7 +101,7 @@ public class TrackTicketFetcher {
 	 */
 	@SuppressWarnings("unchecked")
 	// FIXME: the method should not be static and should be private
-	private Date getDeadLine (User user, String milestoneId) throws PomodroidException{
+	private static Date getDeadLine (User user, String milestoneId) throws PomodroidException{
 		Date result;
 		Object dataObject;
 		String params[] = {milestoneId};

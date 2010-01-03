@@ -91,11 +91,11 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 				Activity updateActivity = getActivity(this.getOrigin(),this.getOriginId(),dbHelper);
 				updateActivity.update(this);
 				dbHelper.getDatabase().store(updateActivity);
+				return true;
 			}catch(Exception e){
 				Log.e("Activity.save(single)", "Update Problem: " + e.getMessage());
 				throw new PomodroidException("ERROR in Activity.save(update):"+e.getMessage());
 			}
-			return true;
 		}
 	}
 
