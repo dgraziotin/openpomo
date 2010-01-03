@@ -47,7 +47,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @param originId
 	 * @param dbHelper
 	 * @return a specific activity
-	 * @throws PomodroidException 
+	 * @throws PomodroidException
 	 */
 	public static boolean isPresent(final String origin, final int originId,
 			DBHelper dbHelper) throws PomodroidException {
