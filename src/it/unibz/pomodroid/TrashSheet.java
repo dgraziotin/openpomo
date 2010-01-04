@@ -236,6 +236,8 @@ public class TrashSheet extends ListActivity {
 			  	   } catch (PomodroidException e) {
 			  		 Log.e("AIT.openActivityDialog()","Error: " + e.getMessage());
 			  		 e.alertUser(context);
+			  	   } finally{
+			  		   dbHelper.close();
 			  	   }
 			     } 
 	          })
