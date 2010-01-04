@@ -96,10 +96,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.save(single)", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.save():"
 					+ e.toString());
-		}finally{
-			dbHelper.close();
 		}
-
 	}
 
 	/**
@@ -119,8 +116,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.save(single)", "Update Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.save(update):"
 					+ e.toString());
-		}finally{
-			dbHelper.close();
 		}
 	}
 
@@ -140,8 +135,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.save(List)", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.save(List):"
 					+ e.toString());
-		}finally{
-			dbHelper.close();
 		}
 	}
 
@@ -163,8 +156,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.delete()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.delete():"
 					+ e.toString());
-		}finally{
-			dbHelper.close();
 		}
 	}
 
@@ -217,8 +208,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.getAll()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getAll():"
 					+ e.toString());
-		}finally{
-			dbHelper.close();
 		}
 	}
 
@@ -354,8 +343,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.close()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.close():"
 					+ e.toString());
-		}finally{
-			dbHelper.close();
 		}
 	}
 

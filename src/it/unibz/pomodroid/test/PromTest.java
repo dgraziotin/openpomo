@@ -77,7 +77,7 @@ public class PromTest extends AndroidTestCase {
 		} else {
 			assertTrue(true);
 		}
-		//event.delete(dbHelper);
+		Event.delete(activity, dbHelper);
 		activity.delete(dbHelper);
 		
 	}

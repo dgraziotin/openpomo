@@ -65,13 +65,13 @@ public class PersistencyTest extends AndroidTestCase {
 		Log.d(LOG_TAG, "testActivityCreation");
 		int numberPomodoro = 0;
 		Date today = new Date();
-		String title = "activity title";
-		String summary = "activity summary";
-		String origin = "trac";
+		String title = "TEST";
+		String summary = "TEST";
+		String origin = "TEST";
 		int originId = 123;
-		String priority = "high";
-		String reporter = "dgraziotin";
-		String type = "bugfix";
+		String priority = "TEST";
+		String reporter = "TEST";
+		String type = "TEST";
 		Activity ac = new Activity(numberPomodoro,today,today,title,summary,origin,originId,priority,reporter,type);
 		ac.save(dbHelper);
 		assertTrue(Activity.isPresent(origin, originId, dbHelper));
@@ -80,7 +80,7 @@ public class PersistencyTest extends AndroidTestCase {
 		assertTrue(numberActivities==this.numberOriginalActivities);
 	}
 	
-	/* public void testEventCreation() throws PomodroidException{
+	public void testEventCreation() throws PomodroidException{
 		Log.d(LOG_TAG, "testEventCreation");
 		
 		int numberPomodoro = 0;
@@ -105,13 +105,12 @@ public class PersistencyTest extends AndroidTestCase {
 		assertNotNull(eventsForActivity);
 		assert(eventsForActivity.size()==1);
 		
-		for(Event ev : eventsForActivity)
-			ev.delete(dbHelper);
+		Event.delete(activity, dbHelper);
 		
 		activity.delete(dbHelper);
 		int numberActivities = Activity.getNumberActivities(dbHelper);
 		assertTrue(numberActivities==this.numberOriginalActivities);
-	}*/
+	}
 
 
 	public void tearDown(){
