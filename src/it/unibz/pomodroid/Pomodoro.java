@@ -107,7 +107,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 		
 		switch (v.getId()) {
 		case R.id.ButtonPomodoroStart:
-			Event event = new Event("pomodoro","start",new Date(),activity,pomodoroDurationMilliseconds);
+			Event event = new Event("pomodoro","start",new Date(),activity,pomodoroDurationMilliseconds / 1000);
 			try {
 				event.save(dbHelper);
 			} catch (PomodroidException e1) {
@@ -123,7 +123,8 @@ public class Pomodoro extends Activity implements OnClickListener {
 			this.buttonPomodoroStop.setClickable(true);
 			break;
 		case R.id.ButtonPomodoroStop:
-			Event event1 = new Event("pomodoro","stop",new Date(),activity,pomodoroDurationMilliseconds);
+			
+			Event event1 = new Event("pomodoro","stop",new Date(),activity,counter.getCurrentCoundDownMilliseconds() / 1000);
 			try {
 				event1.save(dbHelper);
 			} catch (PomodroidException e) {
@@ -164,9 +165,20 @@ public class Pomodoro extends Activity implements OnClickListener {
 	 *
 	 */
 	public class CountDown extends CountDownTimer {
+		private long currentCoundDownMilliseconds = -1;
+		
+		public long getCurrentCoundDownMilliseconds() {
+			return currentCoundDownMilliseconds;
+		}
+
+		public void setCurrentCoundDownMilliseconds(long currentCoundDownMilliseconds) {
+			this.currentCoundDownMilliseconds = currentCoundDownMilliseconds;
+		}
+
 		public CountDown(long durationMilliseconds,
 				long countDownIntervalMilliseconds) {
 			super(durationMilliseconds, countDownIntervalMilliseconds);
+			this.currentCoundDownMilliseconds = durationMilliseconds;
 		}
 
 		@Override
@@ -178,7 +190,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 			} catch (PomodroidException e) {
 				e.alertUser(context);
 			}
-			Event event = new Event("pomodoro","finish",new Date(),activity,pomodoroDurationMilliseconds);
+			Event event = new Event("pomodoro","finish",new Date(),activity,counter.getCurrentCoundDownMilliseconds() / 1000);
 			try {
 				event.save(dbHelper);
 			} catch (PomodroidException e) {
@@ -218,6 +230,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 
 		@Override
 		public void onTick(long millisUntilFinished) {
+			this.currentCoundDownMilliseconds = millisUntilFinished;
 			textViewPomodoroTimer
 					.setText(getFormattedTimerValue(millisUntilFinished));
 		}
