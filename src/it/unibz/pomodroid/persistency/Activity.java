@@ -72,9 +72,9 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			else
 				return true;
 		} catch (Exception e) {
-			Log.e("Activity.isPresent()", "Problem: " + e.getMessage());
+			Log.e("Activity.isPresent()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.isPresent():"
-					+ e.getMessage());
+					+ e.toString());
 		}
 	}
 
@@ -93,9 +93,9 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 				return this.update(dbHelper);
 			}
 		} catch (Exception e) {
-			Log.e("Activity.save(single)", "Problem: " + e.getMessage());
+			Log.e("Activity.save(single)", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.save():"
-					+ e.getMessage());
+					+ e.toString());
 		}finally{
 			dbHelper.close();
 		}
@@ -116,9 +116,11 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			dbHelper.getDatabase().store(found);
 			return true;
 		} catch (Exception e) {
-			Log.e("Activity.save(single)", "Update Problem: " + e.getMessage());
+			Log.e("Activity.save(single)", "Update Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.save(update):"
-					+ e.getMessage());
+					+ e.toString());
+		}finally{
+			dbHelper.close();
 		}
 	}
 
@@ -135,28 +137,34 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			for (Activity activity : Activities)
 				activity.save(dbHelper);
 		} catch (Exception e) {
-			Log.e("Activity.save(List)", "Problem: " + e.getMessage());
+			Log.e("Activity.save(List)", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.save(List):"
-					+ e.getMessage());
+					+ e.toString());
+		}finally{
+			dbHelper.close();
 		}
 	}
 
 	/**
-	 * Deletes all activities
+	 * Deletes an activity
 	 * 
 	 * @param dbHelper
 	 * @throws PomodroidException
 	 */
 	public void delete(DBHelper dbHelper) throws PomodroidException {
 		ObjectSet<Activity> result;
+		Activity toBeDeleted = null;
 		try {
-			result = dbHelper.getDatabase().queryByExample(this);
+			toBeDeleted = Activity.getActivity(this.getOrigin(), this.getOriginId(), dbHelper);
+			result = dbHelper.getDatabase().queryByExample(toBeDeleted);
 			Activity found = (Activity) result.next();
 			dbHelper.getDatabase().delete(found);
 		} catch (Exception e) {
-			Log.e("Activity.delete()", "Problem: " + e.getMessage());
+			Log.e("Activity.delete()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.delete():"
-					+ e.getMessage());
+					+ e.toString());
+		}finally{
+			dbHelper.close();
 		}
 	}
 
@@ -176,9 +184,9 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 				Log.i("Activity.getAll()",
 						"There are no activities stored in db");
 		} catch (Exception e) {
-			Log.e("Activity.getAll()", "Problem: " + e.getMessage());
+			Log.e("Activity.getAll()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getAll():"
-					+ e.getMessage());
+					+ e.toString());
 		}
 		return result;
 	}
@@ -206,9 +214,11 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 				return true;
 			}
 		} catch (Exception e) {
-			Log.e("Activity.getAll()", "Problem: " + e.getMessage());
+			Log.e("Activity.getAll()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getAll():"
-					+ e.getMessage());
+					+ e.toString());
+		}finally{
+			dbHelper.close();
 		}
 	}
 
@@ -246,9 +256,9 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 					});
 			result = activities.get(0);
 		} catch (Exception e) {
-			Log.e("Activity.getActivity()", "Problem: " + e.getMessage());
+			Log.e("Activity.getActivity()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getActivity():"
-					+ e.getMessage());
+					+ e.toString());
 		}
 		return result;
 	}
@@ -272,9 +282,9 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 						}
 					});
 		} catch (Exception e) {
-			Log.e("Activity.getTodoToday()", "Problem: " + e.getMessage());
+			Log.e("Activity.getTodoToday()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getTodoToday():"
-					+ e.getMessage());
+					+ e.toString());
 		}
 		return activities;
 	}
@@ -297,9 +307,9 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 						}
 					});
 		} catch (Exception e) {
-			Log.e("Activity.getCompleted()", "Problem: " + e.getMessage());
+			Log.e("Activity.getCompleted()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getCompleted():"
-					+ e.getMessage());
+					+ e.toString());
 		}
 		return activities;
 	}
@@ -322,9 +332,9 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 						}
 					});
 		} catch (Exception e) {
-			Log.e("Activity.getUncompleted()", "Problem: " + e.getMessage());
+			Log.e("Activity.getUncompleted()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getUncompleted():"
-					+ e.getMessage());
+					+ e.toString());
 		}
 		return activities;
 	}
@@ -341,9 +351,11 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			this.setTodoToday(false);
 			this.update(dbHelper);
 		} catch (Exception e) {
-			Log.e("Activity.close()", "Problem: " + e.getMessage());
+			Log.e("Activity.close()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.close():"
-					+ e.getMessage());
+					+ e.toString());
+		}finally{
+			dbHelper.close();
 		}
 	}
 

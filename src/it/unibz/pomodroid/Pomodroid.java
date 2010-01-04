@@ -1,7 +1,10 @@
 package it.unibz.pomodroid;
 
 
+import java.util.Date;
+
 import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 import android.app.Activity;

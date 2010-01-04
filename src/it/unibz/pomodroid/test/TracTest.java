@@ -58,7 +58,7 @@ public class TracTest extends AndroidTestCase{
 			assert(activitiesStored > 0);
 			while (tickets.size() > 0){
 				String origin = user.getTracUrl();
-				int originId = (Integer) tickets.get(0).get("ticketId");
+				int originId = (Integer) tickets.get(0).get("originId");
 				Activity ac = Activity.getActivity(origin, originId, dbHelper);
 				ac.delete(dbHelper);
 			}

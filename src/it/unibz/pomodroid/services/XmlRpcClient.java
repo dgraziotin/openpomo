@@ -34,7 +34,7 @@ public class XmlRpcClient {
 			result = client.call(method, params);
 		} catch (Exception e) {
 			Log.e("XML-RPC exception", e.toString());
-			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResult(): "+e.getMessage());
+			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResult(): "+e.toString());
 		}
 		return result;
 	}
@@ -58,7 +58,7 @@ public class XmlRpcClient {
 			result = (Object[]) client.call(method, params);
 		} catch (Exception e) {
 			Log.e("XML-RPC exception", e.toString());
-			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResults(): "+e.getMessage());
+			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResults(): "+e.toString());
 		}
 		return result;
 	}
@@ -86,7 +86,7 @@ public class XmlRpcClient {
 			result = client.call(method, params);
 		} catch (Exception e) {
 			Log.e("XML-RPC exception", e.toString());
-			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResult(): "+e.getMessage());
+			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResult(): "+e.toString());
 		}
 		return result;
 	}
@@ -114,7 +114,7 @@ public class XmlRpcClient {
 			result = (Object[]) client.call(method, params);
 		} catch (Exception e) {
 			Log.e("XML-RPC exception", e.toString());
-			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResults(): "+e.getMessage());
+			throw new PomodroidException("ERROR in XmlRpcClient.fetchSingleResults(): "+e.toString());
 		}
 		return result;
 	}

@@ -52,7 +52,7 @@ public class DBHelper {
 			return database;
 		} catch (Exception e) {
 			Log.e(DBHelper.class.getName(), e.toString());
-			throw new PomodroidException("ERROR in DBHelper.getDatabase():"+e.getMessage());
+			throw new PomodroidException("ERROR in DBHelper.getDatabase():"+e.toString());
 		}
 	}
 
