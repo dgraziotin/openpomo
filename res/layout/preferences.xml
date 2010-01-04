@@ -30,6 +30,7 @@
         	android:layout_height="wrap_content" 
         	android:id="@+id/EditTextPassword"
         	android:password="true"
+        	android:hint="TRAC babbage password" 
         />
     </TableRow>
     <TableRow>
@@ -44,6 +45,7 @@
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
         	android:id="@+id/EditTextTracUrl"
+        	android:hint="https://domain.ext/tracurl/xmlrpc" 
         />
     </TableRow>
     <TableRow>
@@ -58,9 +60,31 @@
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content" 
         	android:id="@+id/EditTextPromUrl"
+        	android:hint="http://domain.ext:port" 
+        />
+    </TableRow>
+    <TableRow>
+        <TextView 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:text="Pomodoro length (Minutes)"
+        />
+     </TableRow>
+   <TableRow>
+        <EditText 
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content" 
+        	android:id="@+id/EditTextPomodoroLength"
+        	android:numeric="integer" 
+			android:maxLength="2" 
+			android:hint="Enter length (max 99)" 
         />
     </TableRow>
 <Button android:text="Save" android:id="@+id/ButtonSavePreferences" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 <Button android:text="Delete Activities" android:id="@+id/ButtonDeleteActivies" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+
+
+
+
 
 </TableLayout>

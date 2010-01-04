@@ -132,10 +132,12 @@ public class Preferences extends Activity {
 		EditText tracUsernameEditText = (EditText) findViewById(R.id.EditTextUsername);
 		EditText tracPasswordEditText = (EditText) findViewById(R.id.EditTextPassword);
 		EditText promUrlEditText = (EditText) findViewById(R.id.EditTextPromUrl);
+		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 		if (nullOrEmpty(tracUrlEditText.getText().toString())
 				|| nullOrEmpty(tracUsernameEditText.getText().toString())
 				|| nullOrEmpty(tracPasswordEditText.getText().toString())
-				|| nullOrEmpty(promUrlEditText.getText().toString()))
+				|| nullOrEmpty(promUrlEditText.getText().toString())
+				|| nullOrEmpty(pomodoroLengthEditText.getText().toString()) )
 			throw new PomodroidException("ERROR: you must fill al data!");
 	}
 
@@ -147,10 +149,13 @@ public class Preferences extends Activity {
 		EditText tracUsernameEditText = (EditText) findViewById(R.id.EditTextUsername);
 		EditText tracPasswordEditText = (EditText) findViewById(R.id.EditTextPassword);
 		EditText promUrlEditText = (EditText) findViewById(R.id.EditTextPromUrl);
+		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 		tracUrlEditText.setText(user.getTracUrl());
 		tracUsernameEditText.setText(user.getTracUsername());
 		tracPasswordEditText.setText(user.getTracPassword());
 		promUrlEditText.setText(user.getPromUrl());
+		Integer pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
+		pomodoroLengthEditText.setText(pomodoroMinutesDuration.toString());
 	}
 
 	/**
@@ -161,6 +166,7 @@ public class Preferences extends Activity {
 		EditText tracUsernameEditText = (EditText) findViewById(R.id.EditTextUsername);
 		EditText tracPasswordEditText = (EditText) findViewById(R.id.EditTextPassword);
 		EditText promUrlEditText = (EditText) findViewById(R.id.EditTextPromUrl);
+		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 
 		User user = User.retrieve(dbHelper);
 
@@ -175,6 +181,7 @@ public class Preferences extends Activity {
 			user.setTracPassword(tracPasswordEditText.getText().toString());
 			user.setTracUrl(tracUrlEditText.getText().toString());
 			user.setPromUrl(promUrlEditText.getText().toString());
+			user.setPomodoroMinutesDuration(Integer.parseInt(pomodoroLengthEditText.getText().toString()));
 			user.save(dbHelper);
 
 		}
