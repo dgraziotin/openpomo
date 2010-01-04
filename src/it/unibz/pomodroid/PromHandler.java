@@ -1,20 +1,15 @@
 package it.unibz.pomodroid;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.services.PromEventDeliverer;
-import it.unibz.pomodroid.services.TrackTicketFetcher;
-import it.unibz.pomodroid.factories.ActivityFactory;
 import it.unibz.pomodroid.factories.PromFactory;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
