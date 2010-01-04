@@ -70,22 +70,28 @@ public class Event extends it.unibz.pomodroid.models.Event {
 	 * Delete all events
 	 * 
 	 * @param dbHelper
+	 * @return
 	 * @throws PomodroidException
 	 */
-	public static void deleteAll(DBHelper dbHelper) throws PomodroidException {
-		ObjectSet<Event> retrievedEvents;
-		try {
-			retrievedEvents = dbHelper.getDatabase()
-					.queryByExample(Event.class);
-			for(Event event : retrievedEvents)
-				delete(event.getActivity(),dbHelper);
+	
+	public static boolean deleteAll(DBHelper dbHelper) throws PomodroidException {
+		ObjectSet<Event> events = null;
+		try {			
+			events = dbHelper.getDatabase().query(new Predicate<Event>() {
+				private static final long serialVersionUID = 1L;
+				public boolean match(Event candidate){ 
+					return true;
+				}
+			}); 
+			while(events.hasNext()) {
+				dbHelper.getDatabase().delete(events.next());
+			}
+			return true;
 		} catch (Exception e) {
 			Log.e("Event.deleteAll()", "Problem: " + e.toString());
-			throw new PomodroidException("ERROR in Event.delete()"
-					+ e.toString());
+			throw new PomodroidException("ERROR in Event.deleteAll():"+ e.toString());
 		}
 	}
-
 	/**
 	 * Returns all events
 	 * 

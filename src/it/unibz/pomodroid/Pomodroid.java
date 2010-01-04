@@ -1,8 +1,11 @@
 package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.factories.PromFactory;
 import it.unibz.pomodroid.persistency.DBHelper;
+import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
+import it.unibz.pomodroid.services.PromEventDeliverer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +43,12 @@ public class Pomodroid extends Activity implements OnClickListener {
 				Intent intent = new Intent(this, Preferences.class);
 				startActivity(intent);
 			}
+			/*
+			 * PromEventDeliverer ped = new PromEventDeliverer();
+			 
+			PromFactory pf = new PromFactory();
+			ped.uploadData(pf.createZip(Event.getAll(dbHelper), user),  user);
+			*/
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
