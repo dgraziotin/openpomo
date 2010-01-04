@@ -2,6 +2,8 @@ package it.unibz.pomodroid.persistency;
 
 import java.util.Date;
 import java.util.List;
+
+import com.db4o.Db4o;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import android.util.Log;
@@ -183,31 +185,29 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	}
 
 	/**
-	 * Retrieves all activities
+	 * Delete all activities
 	 * 
 	 * @param dbHelper
 	 * @return
 	 * @throws PomodroidException
 	 */
-	public static boolean deleteAll(DBHelper dbHelper)
-			throws PomodroidException {
-		ObjectSet<Activity> result = null;
-		try {
-			result = dbHelper.getDatabase().queryByExample(Activity.class);
-			if (result == null) {
-				Log.i("Activity.delete()",
-						"There are no activities stored in db");
-				return true;
-			} else {
-				for (Activity ac : result) {
-					ac.delete(dbHelper);
+	
+	public static boolean deleteAll(DBHelper dbHelper) throws PomodroidException {
+		ObjectSet<Activity> activities = null;
+		try {			
+			activities = dbHelper.getDatabase().query(new Predicate<Activity>() {
+				private static final long serialVersionUID = 1L;
+				public boolean match(Activity candidate){ 
+					return true;
 				}
-				return true;
+			}); 
+			while(activities.hasNext()) {
+				dbHelper.getDatabase().delete(activities.next());
 			}
+			return true;
 		} catch (Exception e) {
-			Log.e("Activity.getAll()", "Problem: " + e.toString());
-			throw new PomodroidException("ERROR in Activity.getAll():"
-					+ e.toString());
+			Log.e("Activity.deleteAll()", "Problem: " + e.toString());
+			throw new PomodroidException("ERROR in Activity.deleteAll():"+ e.toString());
 		}
 	}
 

@@ -4,7 +4,6 @@
     <string name="app_name">Pomodroid</string>
     <string name="launch_test">Launch tests</string>
     <string name="no_activities">Sheet is empty</string>
-    <string name="no_ticket">No new tickets from TRAC</string>
     <string name="activity_title">Activity menu</string>
     <string name="startp">Face it</string>  
     <string name="todotoday">Schedule for Today</string> 
