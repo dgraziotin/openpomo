@@ -16,4 +16,5 @@
 <Button android:text="Preferences" android:id="@+id/ButtonPreferences" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 <Button android:text="Tests" android:id="@+id/ButtonTests" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 <Button android:text="Take tickets from TRAC" android:id="@+id/ButtonTrac" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+<Button android:text="Send Events to PROM" android:id="@+id/ButtonProm" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 </LinearLayout>

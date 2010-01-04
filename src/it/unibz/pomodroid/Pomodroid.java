@@ -20,6 +20,7 @@ public class Pomodroid extends Activity implements OnClickListener {
 		setContentView(R.layout.main);
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
+<<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 		dbHelper = new DBHelper(this);
 		User user;
 		
@@ -89,6 +90,8 @@ public class Pomodroid extends Activity implements OnClickListener {
 =======
 >>>>>>> 9fbd095... Bugfixes in persistency. First completed version of Prom events and properties:src/it/unibz/pomodroid/Pomodroid.java
 >>>>>>> 58d67ed... Bugfixes in persistency. First completed version of Prom events and properties:src/it/unibz/pomodroid/Pomodroid.java
+=======
+>>>>>>> dbc2a17... First addition of Prom Events delivering in GUI:src/it/unibz/pomodroid/Pomodroid.java
 		try {
 			this.user = User.retrieve(dbHelper);
 			if (user == null) {
@@ -154,6 +157,10 @@ public class Pomodroid extends Activity implements OnClickListener {
 			break;
 		case R.id.ButtonTrac:
 			i = new Intent(this, TracTicket.class);
+			startActivity(i);
+			break;
+		case R.id.ButtonProm:
+			i = new Intent(this, PromHandler.class);
 			startActivity(i);
 			break;
 
