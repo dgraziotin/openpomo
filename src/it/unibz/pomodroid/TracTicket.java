@@ -8,27 +8,27 @@ import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.TrackTicketFetcher;
 import it.unibz.pomodroid.factories.ActivityFactory;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.TextView;
 
 public class TracTicket extends Activity implements Runnable {
 	
 	private Vector<HashMap<String, Object>> tasks = null;
 	private DBHelper dbHelper = null;
 	private ProgressDialog progressDialog = null;
-	private TextView outputResult;
-	int taskAdded = 0;
-	
+	private String message = "No new tickets From TRAC";
+	private int taskAdded = 0;
+	private AlertDialog dialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.traclist);
 		this.dbHelper = new DBHelper(this);
-		outputResult = (TextView) findViewById(R.id.tracResult);
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class TracTicket extends Activity implements Runnable {
 	 * Method that starts a thread and shows a nice downloading bar.
 	 */
 	public void downloadData() {
-		progressDialog = ProgressDialog.show(this, "Downloading Data..", "Please wait", true, false);
+		progressDialog = ProgressDialog.show(this, "Please wait", "Downloading tickets from TRAC", true, false);
 	    Thread thread = new Thread(this);
 	    thread.start();
 	}
@@ -70,13 +70,38 @@ public class TracTicket extends Activity implements Runnable {
 	 */
 	private Handler handler = new Handler() {
 		@Override
-		public void handleMessage(Message msg) {
+		public void handleMessage(Message msg) {	
 			progressDialog.dismiss();
-			if (taskAdded!=0)
-				outputResult.setText("There are " + taskAdded + " new tickets downloaded from TRAC");
+			createDialog();
 		}
 	};
-	
+
+	/**
+	 * Method that shows a dialog and give the possibility both to retrieve (infinite times) tickets
+	 * from trac and exit the activity
+	 */
+	private void createDialog(){
+		dialog = new AlertDialog.Builder(TracTicket.this).create();
+		dialog.setTitle("Message");
+		if (taskAdded==0) {
+		  dialog.setButton("Retry", new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int whichButton){
+					onResume();
+				}
+		  });
+		} else {
+			message =  taskAdded + " new tickets downloaded";
+		}
+		dialog.setMessage(message);
+		dialog.setButton2("Exit", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton)
+			{
+				TracTicket.this.finish();
+			}
+		});
+		// setContentView(R.layout.main);
+		dialog.show();
+	}
 	
 	/**
 	 * @throws PomodroidException
