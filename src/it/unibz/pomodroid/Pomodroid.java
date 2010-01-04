@@ -1,13 +1,8 @@
 package it.unibz.pomodroid;
 
-import java.util.List;
-
 import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.factories.PromFactory;
 import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
-import it.unibz.pomodroid.services.PromEventDeliverer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

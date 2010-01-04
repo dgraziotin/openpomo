@@ -2,8 +2,6 @@ package it.unibz.pomodroid.persistency;
 
 import java.util.Date;
 import java.util.List;
-
-import com.db4o.Db4o;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import android.util.Log;

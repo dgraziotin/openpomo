@@ -15,6 +15,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+
+
+/**
+ * @author Thomas Schievenin
+ *
+ */
 public class TracTicket extends Activity implements Runnable {
 	
 	private Vector<HashMap<String, Object>> tasks = null;

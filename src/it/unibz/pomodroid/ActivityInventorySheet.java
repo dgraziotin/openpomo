@@ -93,6 +93,8 @@ public class ActivityInventorySheet extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activitysheet);
+		TextView textView = (TextView) findViewById(R.id.activityname);
+		textView.setText("Activity Inventory Sheet");
 		this.dbHelper = new DBHelper(this);
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
