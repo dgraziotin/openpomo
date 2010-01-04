@@ -10,93 +10,88 @@ import it.unibz.pomodroid.factories.ActivityFactory;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.TextView;
 
-public class TracTicket extends Activity {
+public class TracTicket extends Activity implements Runnable {
 	
 	private Vector<HashMap<String, Object>> tasks = null;
 	private DBHelper dbHelper = null;
 	private ProgressDialog progressDialog = null;
-	private Runnable tasksRetriever = null;
 	private TextView outputResult;
+	int taskAdded = 0;
 	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.traclist);
 		this.dbHelper = new DBHelper(this);
 		outputResult = (TextView) findViewById(R.id.tracResult);
-		outputResult.setText("cacca");
 	}
 	
 	@Override
 	public void onResume() {
+		downloadData();
 		super.onResume();
+	}
+	
+	/**
+	 * Method that starts a thread and shows a nice downloading bar.
+	 */
+	public void downloadData() {
+		progressDialog = ProgressDialog.show(this, "Downloading Data..", "Please wait", true, false);
+	    Thread thread = new Thread(this);
+	    thread.start();
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 * 
+	 * As soon as a thread starts, this method is called! It retrieves tickets from TRAC and when
+	 * all tickets are downloaded, it sends an empty message to the handler in order to inform the
+	 * system that the operation is finished.
+	 */
+	public void run() {
 		try {
-			refreshSheet();
+			retrieveTicketsFromTrac();
 		} catch (PomodroidException e) {
-			e.alertUser(this);
+			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		this.dbHelper.close();
-	}
-
-	@Override
-	public void onStop() {
-		super.onResume();
-		this.dbHelper.close();
+		handler.sendEmptyMessage(0);
 	}
 
 	
-	private void refreshSheet() throws PomodroidException {
-		this.tasks = new Vector<HashMap<String,Object>>();
-		this.tasksRetriever = new Runnable() {
-			@Override
-			public void run() {
-				// retrieve the Activities from the database
-				try {
-					retrieveTicketsFromTrac();
-				} catch (PomodroidException e) {
-					// ugly but necessary
-					try {
-						throw new PomodroidException(e.getMessage());
-					} catch (PomodroidException e1) {
-
-					}
-				}
-			}
-		};
-		// create a new Thread that executes tasksRetriever and start it
-		Thread thread = new Thread(null, tasksRetriever,"TasksRetrieverThread");
-		thread.start();
-		// show a nice progress bar
-		progressDialog = ProgressDialog.show(TracTicket.this,"Please wait...", "Retrieving tickets from TRAC ...", true);
-
-	}
-
+	/**
+	 * This handler waits until the method run() sends an empty message in order to inform us that
+	 * the "retrieving phase" is finished.
+	 */
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			progressDialog.dismiss();
+			if (taskAdded!=0)
+				outputResult.setText("There are " + taskAdded + " new tickets downloaded from TRAC");
+		}
+	};
+	
+	
+	/**
+	 * @throws PomodroidException
+	 * 
+	 * This method takes all not-closed tikets from track, then inserts them into the local DB.
+	 * 
+	 */
 	private void retrieveTicketsFromTrac() throws PomodroidException{
-		int taskAdded = 0;
 		try {
 			User user = User.retrieve(dbHelper);
 			tasks = TrackTicketFetcher.fetch(user, dbHelper);
 			taskAdded = ActivityFactory.produce(tasks,dbHelper);
-			Log.i("UFFAAA","uffa: " + taskAdded);
-			showResult(taskAdded);
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
-	}
-	
-	private synchronized void showResult(int taskRetrieved){
-		// String a = " ticket/s from Trac have been added into the AIS!";
-		progressDialog.dismiss();
-		// if (taskRetrieved!=0)
-		// outputResult.setText("fff");
 	}
 
 }

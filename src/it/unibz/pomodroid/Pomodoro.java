@@ -191,7 +191,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 			textViewPomodoroTimer.setText(getFormattedTimerValue(0));
 			buttonPomodoroStart.setClickable(true);
 			buttonPomodoroStop.setClickable(false);
-			activity.setNumberPomodoro(activity.getNumberPomodoro() + 1);
+			activity.addOnePomodoro();
 
 			try {
 				activity.save(dbHelper);
@@ -200,6 +200,7 @@ public class Pomodoro extends Activity implements OnClickListener {
 			} catch (PomodroidException e) {
 				e.alertUser(context);
 			}
+			
 			try {
 				throw new PomodroidException("Pomodoro Finished.");
 			} catch (PomodroidException e) {

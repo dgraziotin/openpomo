@@ -28,6 +28,7 @@ import android.widget.TextView;
  * 
  */
 public class TodoTodaySheet extends ListActivity {
+	
 	protected static final int SUB_ACTIVITY_REQUEST_CODE = 666;
 	private ProgressDialog progressDialog = null;
 	private ArrayList<Activity> activities = null;
@@ -63,7 +64,7 @@ public class TodoTodaySheet extends ListActivity {
 			// inflate the layout of an activity row in the current view
 			if (view == null) {
 				LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = layoutInflater.inflate(R.layout.activityentry, null);
+				view = layoutInflater.inflate(R.layout.ttsactivityentry, null);
 			}
 			final Activity activity = items.get(position);
 			// builds the components of the activity entry view
@@ -99,7 +100,7 @@ public class TodoTodaySheet extends ListActivity {
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
 		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.activityentry, activities);
+				R.layout.ttsactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.context = this;
 	}
@@ -137,7 +138,7 @@ public class TodoTodaySheet extends ListActivity {
 	private void refreshSheet() throws PomodroidException {
 		this.activities = new ArrayList<Activity>();
 		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.activityentry, activities);
+				R.layout.ttsactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.activityRetriever = new Runnable() {
 			@Override

@@ -56,8 +56,7 @@ public class ActivityFactory {
 
 			if (!Activity.isPresent(activity.getOrigin(), activity
 					.getOriginId(), dbHelper)) {
-				// FIXME: leave the comment out!
-				// activity.save(dbHelper);
+				activity.save(dbHelper);
 				ticketsNumber++;
 			}
 

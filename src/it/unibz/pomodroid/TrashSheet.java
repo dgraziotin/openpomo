@@ -61,7 +61,7 @@ public class TrashSheet extends ListActivity {
 			// inflate the layout of an activity row in the current view
 			if (view == null) {
 				LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = layoutInflater.inflate(R.layout.activityentry, null);
+				view = layoutInflater.inflate(R.layout.trashactivityentry, null);
 			}
 			final Activity activity = items.get(position);
 			// builds the components of the activity entry view
@@ -96,7 +96,7 @@ public class TrashSheet extends ListActivity {
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
 		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.activityentry, activities);
+				R.layout.trashactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.context = this;
 	}
@@ -134,7 +134,7 @@ public class TrashSheet extends ListActivity {
 	private void refreshSheet() throws PomodroidException {
 		this.activities = new ArrayList<Activity>();
 		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.activityentry, activities);
+				R.layout.trashactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.activityRetriever = new Runnable() {
 			@Override
