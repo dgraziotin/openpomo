@@ -36,7 +36,8 @@ public class PromEventDeliverer {
 	 */
 	public boolean uploadData(byte[] zipIni, User user) throws PomodroidException {
 		try {
-
+			if (zipIni==null || zipIni.length==0)
+				return false;
 			Integer uploadId = getUploadId(user);
 
 			Log.i("PromEventDeliverer.uploadData()", "Upload ID:" + uploadId);

@@ -33,7 +33,8 @@ public class Pomodroid extends Activity implements OnClickListener {
 		buttonTests.setOnClickListener((OnClickListener) this);
 		Button buttonTRAC = (Button) findViewById(R.id.ButtonTrac);
 		buttonTRAC.setOnClickListener((OnClickListener) this);
-		
+		Button buttonProm = (Button) findViewById(R.id.ButtonProm);
+		buttonProm.setOnClickListener((OnClickListener) this);
 		try {
 			this.user = User.retrieve(dbHelper);
 			if (user == null) {
@@ -99,6 +100,10 @@ public class Pomodroid extends Activity implements OnClickListener {
 			break;
 		case R.id.ButtonTrac:
 			i = new Intent(this, TracTicket.class);
+			startActivity(i);
+			break;
+		case R.id.ButtonProm:
+			i = new Intent(this, PromHandler.class);
 			startActivity(i);
 			break;
 

@@ -77,9 +77,9 @@ public class Pomodoro extends Activity implements OnClickListener {
 		this.textViewActivityNumberPomodoro.setText(numberPomodoro.toString());
 		this.textViewActivityReporter.setText(activity.getReporter());
 
-		this.pomodoroDurationMilliseconds = user.getPomodoroMinutesDuration()
-				* SECONDS_PER_MINUTES * MILLISECONDS_PER_SECONDS;
-		//this.pomodoroDurationMilliseconds = 10000; // FIXME: delete it before
+		//this.pomodoroDurationMilliseconds = user.getPomodoroMinutesDuration()
+		//		* SECONDS_PER_MINUTES * MILLISECONDS_PER_SECONDS;
+		this.pomodoroDurationMilliseconds = 10000; // FIXME: delete it before
 													// production!
 		counter = new CountDown(this.pomodoroDurationMilliseconds,
 				MILLISECONDS_PER_SECONDS);

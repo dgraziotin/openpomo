@@ -94,6 +94,7 @@ public class PromFactory {
 	 */
 	public byte[] createZip(List<Event> events, User user)
 			throws PomodroidException {
+		
 		byte[] ret = null;
 
 		ByteArrayOutputStream dest = new ByteArrayOutputStream();
@@ -124,13 +125,10 @@ public class PromFactory {
 			out.flush();
 			ret = dest.toByteArray();
 			out.close();
-		} catch (PomodroidException e) {
+		} catch (Exception e) {
 			Log.i("PromFactory.createZip", "ERROR: " +e.toString());
 			throw new PomodroidException("ERROR in PromFactory.createZip():"+ e.toString());
-		} catch (IOException e){
-			Log.i("PromFactory.createZip", "ERROR: " +e.toString());
-			throw new PomodroidException("ERROR in PromFactory.createZip():"+ e.toString());
-		}
+		} 
 		return ret;
 	}
 }
