@@ -121,13 +121,13 @@ public class Pomodroid extends Activity implements OnClickListener {
 	}
 	
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-	    menu.add(0, AIS, 0, "Activity Inventory Sheet").setIcon(android.R.drawable.ic_menu_upload);
-	    menu.add(0, TTS, 0, "Todo Today Sheet").setIcon(android.R.drawable.ic_menu_upload);
-	    menu.add(0, TS,  0, "Trash Sheet").setIcon(android.R.drawable.ic_menu_delete);
-	    menu.add(0, PRE, 0, "TRAC/PROM").setIcon(android.R.drawable.ic_menu_send);
-	    menu.add(0, SET, 0, "Settings").setIcon(android.R.drawable.ic_menu_preferences);
-	    return true;
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, AIS, 0, "Activity Inventory Sheet").setIcon(android.R.drawable.ic_menu_upload);
+		menu.add(0, TTS, 0, "Todo Today Sheet").setIcon(android.R.drawable.ic_menu_upload);
+		menu.add(0, TS,  0, "Trash Sheet").setIcon(android.R.drawable.ic_menu_delete);
+		menu.add(0, PRE, 0, "TRAC/PROM").setIcon(android.R.drawable.ic_menu_send);
+		menu.add(0, SET, 0, "Settings").setIcon(android.R.drawable.ic_menu_preferences);
+		return true;
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
