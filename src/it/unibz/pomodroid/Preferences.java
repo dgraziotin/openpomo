@@ -43,14 +43,9 @@ public class Preferences extends Activity {
 					testTracConnection();
 					testPromConnection();
 					updateUser();
-					throw new PomodroidException("Preferences saved.");
+					throw new PomodroidException("Preferences saved.","INFO");
 				} catch (PomodroidException e) {
-					AlertDialog.Builder dialog = new AlertDialog.Builder(v
-							.getContext());
-					dialog.setTitle("ERROR");
-					dialog.setMessage(e.getMessage());
-					dialog.setNeutralButton("Ok", null);
-					dialog.create().show();
+					e.alertUser(context);
 				}
 			}
 		});

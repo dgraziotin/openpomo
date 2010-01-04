@@ -246,6 +246,8 @@ public class TodoTodaySheet extends ListActivity {
 			  	   } catch (PomodroidException e) {
 			  		 Log.e("TTS.openActivityDialog()","Error: " + e.getMessage());
 			  		 e.alertUser(context);
+			  	   } finally{
+			  		   dbHelper.close();
 			  	   }
 			     } 
 	          })
