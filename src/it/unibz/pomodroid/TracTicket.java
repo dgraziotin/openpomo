@@ -10,6 +10,7 @@ import it.unibz.pomodroid.factories.ActivityFactory;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,12 +30,14 @@ public class TracTicket extends Activity implements Runnable {
 	private String message = "No new tickets From TRAC";
 	private int taskAdded = 0;
 	private AlertDialog dialog;
+	private Context context = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.traclist);
 		this.dbHelper = new DBHelper(this);
+		this.context = this;
 	}
 	
 	@Override
@@ -121,7 +124,7 @@ public class TracTicket extends Activity implements Runnable {
 			tasks = TrackTicketFetcher.fetch(user, dbHelper);
 			taskAdded = ActivityFactory.produce(tasks,dbHelper);
 		} catch (PomodroidException e) {
-			e.alertUser(this);
+			e.alertUser(context);
 		}
 	}
 

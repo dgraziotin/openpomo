@@ -35,8 +35,6 @@ public class Pomodoro extends Activity implements OnClickListener {
 	private User user = null;
 	private Context context = null;
 	
-
-
 	/** Called when the activity is first created. */
 
 	@Override
