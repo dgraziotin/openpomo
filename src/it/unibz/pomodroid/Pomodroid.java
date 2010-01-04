@@ -1,5 +1,7 @@
 package it.unibz.pomodroid;
 
+import java.util.List;
+
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.factories.PromFactory;
 import it.unibz.pomodroid.persistency.DBHelper;
@@ -99,11 +101,16 @@ public class Pomodroid extends Activity implements OnClickListener {
 				startActivity(intent);
 			}
 			/*
-			 * PromEventDeliverer ped = new PromEventDeliverer();
-			 
+			PromEventDeliverer ped = new PromEventDeliverer();
 			PromFactory pf = new PromFactory();
-			ped.uploadData(pf.createZip(Event.getAll(dbHelper), user),  user);
+			List<Event> events = Event.getAll(dbHelper);
+			
+			byte[] zipIni = pf.createZip(events, user);
+			if(ped.uploadData(zipIni, user))
+				Event.deleteAll(dbHelper);
+			textView.setText(zipIni.toString());
 			*/
+			
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}

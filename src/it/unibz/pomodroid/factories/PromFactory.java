@@ -72,13 +72,12 @@ public class PromFactory {
 					+ "pomodoro = " + activity.getNumberPomodoro() + "\n"
 					+ "pomodoroDuration = " + event.getAtPomodoroValue() + "\n"
 					+ "repositoryurl = " + activity.getOrigin() + "\n"
-					+ "issueid = " + activity.getOriginId() + "\n"
-					+ "issuedescription = " + activity.getDescription() + "\n";
+					+ "issueid = " + activity.getOriginId() + "\n";
 
 		} catch (Exception e) {
-			/* Log.e("PromFactory.createIniEntry", e.toString());
+			Log.e("PromFactory.createIniEntry", e.toString());
 			throw new PomodroidException(
-					"ERROR in PromFactory.createIniEntry():" + e.toString()); */
+					"ERROR in PromFactory.createIniEntry():" + e.toString());
 		}
 		return ini;
 	}
