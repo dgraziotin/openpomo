@@ -1,7 +1,6 @@
 package it.unibz.pomodroid;
 
 import java.util.Date;
-
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
@@ -35,6 +34,8 @@ public class Pomodoro extends Activity implements OnClickListener {
 	private int activityOriginId = -1;
 	private User user = null;
 	private Context context = null;
+	
+
 
 	/** Called when the activity is first created. */
 

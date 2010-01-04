@@ -93,6 +93,8 @@ public class TrashSheet extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activitysheet);
 		this.dbHelper = new DBHelper(this);
+		TextView textView = (TextView) findViewById(R.id.activityname);
+		textView.setText("Trash Sheet");
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
 		this.activityAdapter = new ActivityAdapter(this,

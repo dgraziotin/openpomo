@@ -7,7 +7,6 @@ import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.XmlRpcClient;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
