@@ -51,8 +51,8 @@ public class PromEventDeliverer {
 				return false;
 
 		} catch (Exception e) {
-			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in PromEventDeliverer.uploadData() transer problem: "+e.getMessage());
+			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: " + e.toString());
+			throw new PomodroidException("ERROR in PromEventDeliverer.uploadData() transer problem: "+e.toString());
 		}
 	}
 
@@ -83,8 +83,8 @@ public class PromEventDeliverer {
 			}
 
 		} catch (Exception e) {
-			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: "+ e.getMessage());
-			throw new PomodroidException("ERROR in PromEventDeliverer.testUploadData() transer problem: "+e.getMessage());
+			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: "+ e.toString());
+			throw new PomodroidException("ERROR in PromEventDeliverer.testUploadData() transer problem: "+e.toString());
 		}
 	}
 

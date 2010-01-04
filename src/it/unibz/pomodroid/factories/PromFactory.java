@@ -76,7 +76,7 @@ public class PromFactory {
 					+ "issuedescription = " + activity.getDescription() + "\n";
 
 		} catch (Exception e) {
-			/* Log.e("PromFactory.createIniEntry", e.getMessage());
+			/* Log.e("PromFactory.createIniEntry", e.toString());
 			throw new PomodroidException(
 					"ERROR in PromFactory.createIniEntry():" + e.toString()); */
 		}
@@ -126,10 +126,10 @@ public class PromFactory {
 			ret = dest.toByteArray();
 			out.close();
 		} catch (PomodroidException e) {
-			Log.i("PromFactory.createZip", "ERROR: " +e.getMessage());
+			Log.i("PromFactory.createZip", "ERROR: " +e.toString());
 			throw new PomodroidException("ERROR in PromFactory.createZip():"+ e.toString());
 		} catch (IOException e){
-			Log.i("PromFactory.createZip", "ERROR: " +e.getMessage());
+			Log.i("PromFactory.createZip", "ERROR: " +e.toString());
 			throw new PomodroidException("ERROR in PromFactory.createZip():"+ e.toString());
 		}
 		return ret;

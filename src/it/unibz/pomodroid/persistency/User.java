@@ -51,8 +51,8 @@ public class User extends it.unibz.pomodroid.models.User {
 			else
 				return true;
 		}catch(Exception e){
-			Log.e("User.isPresent()", "Problem: " + e.getMessage());
-			throw new PomodroidException("ERROR in User.isPresent():"+e.getMessage());
+			Log.e("User.isPresent()", "Problem: " + e.toString());
+			throw new PomodroidException("ERROR in User.isPresent():"+e.toString());
 		}
 	}
 	
@@ -68,8 +68,10 @@ public class User extends it.unibz.pomodroid.models.User {
 				dbHelper.getDatabase().store(this);
 				Log.i("User.save()", "User Saved.");
 			}catch(Exception e){
-				Log.e("User.save()", "Problem: " + e.getMessage());
+				Log.e("User.save()", "Problem: " + e.toString());
 				throw new PomodroidException("ERROR in User.save()" + e.toString());
+			}finally{
+				dbHelper.close();
 			}
 		} else {
 			try{
@@ -77,8 +79,10 @@ public class User extends it.unibz.pomodroid.models.User {
 				updateUser.update(this);
 				dbHelper.getDatabase().store(updateUser);
 			}catch(Exception e){
-				Log.e("User.save()", "Update Problem: " + e.getMessage());
+				Log.e("User.save()", "Update Problem: " + e.toString());
 				throw new PomodroidException("ERROR in User.save(update)" + e.toString());
+			}finally{
+				dbHelper.close();
 			}
 		}
 	}
@@ -99,7 +103,7 @@ public class User extends it.unibz.pomodroid.models.User {
 			else
 				return users.next();
 		}catch(Exception e){
-			Log.e("User.retrieve()", "Problem: " + e.getMessage());
+			Log.e("User.retrieve()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in User.retrieve()" + e.toString());
 		}
 	

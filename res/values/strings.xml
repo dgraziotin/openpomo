@@ -2,12 +2,12 @@
 <resources>
     <string name="hello">Hello World, Pomodroid!</string>
     <string name="app_name">Pomodroid</string>
-    <string name="launch_test">Launch test</string>
+    <string name="launch_test">Launch tests</string>
     <string name="no_activities">Sheet is empty</string>
     <string name="no_ticket">No new tickets from TRAC</string>
     <string name="activity_title">Activity menu</string>
-    <string name="startp">Start Pomodoro</string>  
-    <string name="todotoday">To do today</string> 
-    <string name="done">Done</string> 
-    <string name="ais">Inventory sheet</string>
+    <string name="startp">Face it</string>  
+    <string name="todotoday">Schedule for Today</string> 
+    <string name="done">Trash it</string> 
+    <string name="ais">Move to AIS</string>
 </resources>

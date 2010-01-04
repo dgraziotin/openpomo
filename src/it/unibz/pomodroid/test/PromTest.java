@@ -44,10 +44,8 @@ public class PromTest extends AndroidTestCase {
 		Log.d(LOG_TAG, "testEntityDelivery");
 		User user = User.retrieve(dbHelper);
 		PromEventDeliverer ped = new PromEventDeliverer();
-		PromFactory pf = new PromFactory();
-		
-		
-Log.d(LOG_TAG, "testEventCreation");
+		PromFactory pf = new PromFactory();	
+		Log.d(LOG_TAG, "testEventCreation");
 		int numberPomodoro = 0;
 		Date today = new Date();
 		String title = "activity title";
@@ -79,7 +77,7 @@ Log.d(LOG_TAG, "testEventCreation");
 		} else {
 			assertTrue(true);
 		}
-		event.delete(dbHelper);
+		//event.delete(dbHelper);
 		activity.delete(dbHelper);
 		
 	}
