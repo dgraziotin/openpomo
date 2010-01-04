@@ -63,8 +63,6 @@ public class Event extends it.unibz.pomodroid.models.Event {
 		} catch (Exception e) {
 			Log.e("Event.save(single)", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Event.save()" + e.toString());
-		} finally {
-			dbHelper.close();
 		}
 	}
 
@@ -79,13 +77,12 @@ public class Event extends it.unibz.pomodroid.models.Event {
 		try {
 			retrievedEvents = dbHelper.getDatabase()
 					.queryByExample(Event.class);
-			dbHelper.getDatabase().delete(retrievedEvents);
+			for(Event event : retrievedEvents)
+				delete(event.getActivity(),dbHelper);
 		} catch (Exception e) {
 			Log.e("Event.deleteAll()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Event.delete()"
 					+ e.toString());
-		} finally {
-			dbHelper.close();
 		}
 	}
 
@@ -143,8 +140,6 @@ public class Event extends it.unibz.pomodroid.models.Event {
 			Log.e("Event.delete()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Event.delete()"
 					+ e.toString());
-		} finally {
-			dbHelper.close();
 		}
 	}
 

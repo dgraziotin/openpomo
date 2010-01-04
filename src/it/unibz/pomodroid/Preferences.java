@@ -2,11 +2,13 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
+import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.XmlRpcClient;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +18,13 @@ import android.widget.EditText;
 
 public class Preferences extends Activity {
 	private DBHelper dbHelper;
-
+	private Context context;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.preferences);
 		dbHelper = new DBHelper(this);
+		this.context = this;
 		try {
 			User user = User.retrieve(dbHelper);
 			if (user != null)
@@ -57,14 +60,12 @@ public class Preferences extends Activity {
 			public void onClick(View v) {
 				try {
 					it.unibz.pomodroid.persistency.Activity.deleteAll(dbHelper);
-					throw new PomodroidException("All activities deleted!");
+					Event.deleteAll(dbHelper);
+					throw new PomodroidException("All activities and events deleted!","INFO");
 				} catch (PomodroidException e) {
-					AlertDialog.Builder dialog = new AlertDialog.Builder(v
-							.getContext());
-					dialog.setTitle("ERROR");
-					dialog.setMessage(e.getMessage());
-					dialog.setNeutralButton("Ok", null);
-					dialog.create().show();
+					e.alertUser(context);
+				}finally{
+					dbHelper.close();
 				}
 			}
 		});
