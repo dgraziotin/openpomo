@@ -63,15 +63,14 @@ public class Activity {
 	
 	public void update (Activity ac) {
 		this.numberPomodoro = ac.getNumberPomodoro();
-		this.received = ac.getReceived();
-		this.deadline = ac.getDeadline();
+		// this.deadline = ac.getDeadline();
 		this.summary = ac.getSummary();
-		this.description = ac.getDescription();
-		this.origin = ac.getOrigin();
-		this.originId = ac.getOriginId();
-		this.priority = ac.getPriority();
-		this.reporter = ac.getReporter();
-		this.type = ac.getType();
+		// this.description = ac.getDescription();
+		// this.origin = ac.getOrigin();
+		// this.originId = ac.getOriginId();
+		// this.priority = ac.getPriority();
+		// this.reporter = ac.getReporter();
+		// this.type = ac.getType();
 		this.todoToday = ac.isTodoToday();
 		this.done = ac.isDone();
 	}
@@ -283,5 +282,9 @@ public class Activity {
 	   if (this.description.length()>maxLength)
 		 return description.substring(0, maxLength)+"...";
 	   return this.description;
+	}
+	
+	public void addOnePomodoro (){
+		this.numberPomodoro++;
 	}
 }
