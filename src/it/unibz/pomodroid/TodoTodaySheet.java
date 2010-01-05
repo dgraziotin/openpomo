@@ -2,22 +2,13 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
-import it.unibz.pomodroid.persistency.DBHelper;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 /**
  * @author bodom_lx
@@ -25,50 +16,13 @@ import android.widget.TextView;
  */
 public class TodoTodaySheet extends SharedListActivity {
 	
-	protected static final int SUB_ACTIVITY_REQUEST_CODE = 666;
-	private ProgressDialog progressDialog = null;
-	private ArrayList<Activity> activities = null;
-	private ActivityAdapter activityAdapter = null;
-	private Runnable activityRetriever = null;
-	private DBHelper dbHelper = null;
-	private Context context = null;
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.setResourceLayout(R.layout.ttsactivityentry);
+		super.setContext(this);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activitysheet);
-		this.dbHelper = new DBHelper(this);
-		TextView textView = (TextView) findViewById(R.id.activityname);
-		textView.setText(R.string.tts);
-		this.activities = new ArrayList<Activity>();
-		// first call the adapter to show zero Activities
-		this.activityAdapter = new ActivityAdapter(this,R.layout.ttsactivityentry, activities);
-		this.setListAdapter(this.activityAdapter);
-		this.context = this;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		try {
-			refreshSheet();
-		} catch (PomodroidException e) {
-			// TODO Auto-generated catch block
-			e.alertUser(this);
-		}
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		this.dbHelper.close();
-	}
-
-	public void onStop() {
-		super.onStop();
-		this.dbHelper.close();
 	}
 
 	/**
@@ -79,7 +33,8 @@ public class TodoTodaySheet extends SharedListActivity {
 	 * 
 	 * @throws PomodroidException
 	 */
-	private void refreshSheet() throws PomodroidException {
+	@Override
+	protected void refreshSheet() throws PomodroidException {
 		this.activities = new ArrayList<Activity>();
 		this.activityAdapter = new ActivityAdapter(this, R.layout.ttsactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
@@ -103,7 +58,7 @@ public class TodoTodaySheet extends SharedListActivity {
 		Thread thread = new Thread(null, activityRetriever,"ActivityRetrieverThread");
 		thread.start();
 		// show a nice progress bar
-		progressDialog = ProgressDialog.show(TodoTodaySheet.this,context.getString(R.string.plswait), context.getString(R.string.retactivities), true);
+		progressDialog = ProgressDialog.show(TodoTodaySheet.this, getString(R.string.plswait), getString(R.string.retactivities), true);
 
 	}
 
@@ -115,7 +70,8 @@ public class TodoTodaySheet extends SharedListActivity {
 	 * @see it.unibz.pomodroid.persistency.Activity
 	 * @throws PomodroidException
 	 */
-	private void retrieveActivities() throws PomodroidException {
+	@Override
+	protected void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
 			List<Activity> retrievedActivities = Activity.getTodoToday(this.dbHelper);
@@ -131,7 +87,7 @@ public class TodoTodaySheet extends SharedListActivity {
 	 * displayed. It also adds the activities to the adapter, taking them from
 	 * the local List of activities
 	 */
-	private Runnable populateAdapter = new Runnable() {
+	protected Runnable populateAdapter = new Runnable() {
 		@Override
 		public void run() {
 			if (activities != null && activities.size() > 0) {
@@ -150,6 +106,7 @@ public class TodoTodaySheet extends SharedListActivity {
 	 * 
 	 * @param activity
 	 */
+	@Override
 	protected void openActivityDialog(Activity activity){
 		final Activity selectedActivity = activity;
 		new AlertDialog.Builder(this)
@@ -178,7 +135,7 @@ public class TodoTodaySheet extends SharedListActivity {
 			  		            break;
 			  		 }
 			  	   } catch (PomodroidException e) {
-			  		 e.alertUser(context);
+			  		 e.alertUser(getContext());
 			  	   } finally{
 			  		   dbHelper.close();
 			  	   }
@@ -187,15 +144,4 @@ public class TodoTodaySheet extends SharedListActivity {
 	    .show();
 	}
 	
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == SUB_ACTIVITY_REQUEST_CODE){
-				Bundle b = data.getExtras();
-				TextView textView = (TextView) findViewById(R.id.hello);
-				textView.setText(b.getString("TEXT"));
-        }
-	}
-
 }

@@ -7,7 +7,6 @@ import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.TrackTicketFetcher;
 import it.unibz.pomodroid.factories.ActivityFactory;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;

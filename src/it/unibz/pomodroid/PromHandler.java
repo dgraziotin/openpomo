@@ -7,7 +7,6 @@ import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.factories.PromFactory;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;

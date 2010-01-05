@@ -2,70 +2,23 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
-import it.unibz.pomodroid.persistency.DBHelper;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
 /**
  * @author bodom_lx
  * 
  */
 public class TrashSheet extends SharedListActivity {
-	private ProgressDialog progressDialog = null;
-	private ArrayList<Activity> activities = null;
-	private ActivityAdapter activityAdapter = null;
-	private Runnable activityRetriever = null;
-	private DBHelper dbHelper = null;
-	private Context context = null;
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.setResourceLayout(R.layout.trashactivityentry);
+		super.setContext(this);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activitysheet);
-		this.dbHelper = new DBHelper(this);
-		TextView textView = (TextView) findViewById(R.id.activityname);
-		textView.setText(R.string.ts);
-		this.activities = new ArrayList<Activity>();
-		// first call the adapter to show zero Activities
-		this.activityAdapter = new ActivityAdapter(this,R.layout.trashactivityentry, activities);
-		this.setListAdapter(this.activityAdapter);
-		this.context = this;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		try {
-			refreshSheet();
-		} catch (PomodroidException e) {
-			// TODO Auto-generated catch block
-			e.alertUser(this);
-		}
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		this.dbHelper.close();
-	}
-
-	public void onStop() {
-		super.onResume();
-		this.dbHelper.close();
 	}
 
 	/**
@@ -76,7 +29,8 @@ public class TrashSheet extends SharedListActivity {
 	 * 
 	 * @throws PomodroidException
 	 */
-	private void refreshSheet() throws PomodroidException {
+	@Override
+	protected void refreshSheet() throws PomodroidException {
 		this.activities = new ArrayList<Activity>();
 		this.activityAdapter = new ActivityAdapter(this,R.layout.trashactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
@@ -100,7 +54,7 @@ public class TrashSheet extends SharedListActivity {
 		Thread thread = new Thread(null, activityRetriever,"ActivityRetrieverThread");
 		thread.start();
 		// show a nice progress bar
-		progressDialog = ProgressDialog.show(TrashSheet.this,context.getString(R.string.plswait), context.getString(R.string.retactivities), true);
+		progressDialog = ProgressDialog.show(TrashSheet.this,getString(R.string.plswait), getString(R.string.retactivities), true);
 
 	}
 
@@ -113,7 +67,8 @@ public class TrashSheet extends SharedListActivity {
 	 * @see it.unibz.pomodroid.persistency.Activity
 	 * @throws PomodroidException
 	 */
-	private void retrieveActivities() throws PomodroidException {
+	@Override
+	protected void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
 			List<Activity> retrievedActivities = Activity.getCompleted(this.dbHelper);
@@ -148,6 +103,7 @@ public class TrashSheet extends SharedListActivity {
 	 * 
 	 * @param activity
 	 */
+	@Override
 	protected void openActivityDialog(Activity activity){
 		final Activity selectedActivity = activity;
 		new AlertDialog.Builder(this)
@@ -169,7 +125,7 @@ public class TrashSheet extends SharedListActivity {
 			  		    		break;
 			  		 }
 			  	   } catch (PomodroidException e) {
-			  		 e.alertUser(context);
+			  		 e.alertUser(getContext());
 			  	   } finally{
 			  		   dbHelper.close();
 			  	   }

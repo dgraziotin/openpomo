@@ -1,22 +1,18 @@
 package it.unibz.pomodroid;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +30,63 @@ public abstract class SharedListActivity extends ListActivity
 	
 	protected int resourceLayout = -1;
 	
+	protected ProgressDialog progressDialog = null;
+	protected ArrayList<Activity> activities = null;
+	protected ActivityAdapter activityAdapter = null;
+	protected Runnable activityRetriever = null;
+	protected DBHelper dbHelper = null;
+	private Context context = null;
 	
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
 	public int getResourceLayout() {
 		return resourceLayout;
 	}
 
 	public void setResourceLayout(int resourceLayout) {
 		this.resourceLayout = resourceLayout;
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activitysheet);
+		this.dbHelper = new DBHelper(this);
+		TextView textView = (TextView) findViewById(R.id.activityname);
+		textView.setText(R.string.tts);
+		this.activities = new ArrayList<Activity>();
+		// first call the adapter to show zero Activities
+		this.activityAdapter = new ActivityAdapter(this,R.layout.ttsactivityentry, activities);
+		this.setListAdapter(this.activityAdapter);
+		this.context = this;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		try {
+			refreshSheet();
+		} catch (PomodroidException e) {
+			// TODO Auto-generated catch block
+			e.alertUser(this);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		this.dbHelper.close();
+	}
+
+	public void onStop() {
+		super.onStop();
+		this.dbHelper.close();
 	}
 
 	
@@ -98,7 +144,35 @@ public abstract class SharedListActivity extends ListActivity
 		}
 	}
 	
+	/**
+	 * Creates a new Runnable object, that is a call to retrieveActivities().
+	 * The method is for retrieving activities from the database. It creates a
+	 * Thread for the Runnable object, and runs it. Meanwhile, it shows a
+	 * ProgressDialog
+	 * 
+	 * @throws PomodroidException
+	 */
+	protected abstract void refreshSheet() throws PomodroidException;
+
+	/**
+	 * Gets the Activities from Activity.getAll() and adds them to the local
+	 * list of activities. It calls populateAdapter to populate the adapter with
+	 * the new list of activities
+	 * 
+	 * @see it.unibz.pomodroid.persistency.Activity
+	 * @throws PomodroidException
+	 */
+	protected abstract void retrieveActivities() throws PomodroidException;
+
+
+	
+	/**
+	 * This dialog gives the possibility to change the status of each activity
+	 * 
+	 * @param activity
+	 */
 	protected abstract void openActivityDialog(Activity activity);
+	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

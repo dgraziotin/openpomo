@@ -5,7 +5,6 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.persistency.DBHelper;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;

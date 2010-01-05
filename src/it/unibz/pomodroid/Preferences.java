@@ -6,7 +6,6 @@ import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.XmlRpcClient;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
