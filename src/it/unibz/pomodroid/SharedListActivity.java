@@ -1,7 +1,9 @@
 package it.unibz.pomodroid;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,8 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Class to represent common behaviors and aspects of Pomodroid's ListActivities
@@ -193,8 +197,38 @@ public abstract class SharedListActivity extends ListActivity {
 					openActivityDialog(activity);
 				}
 			});
+			// bind a listener to the current Activity row
+			view.setOnLongClickListener(new OnLongClickListener() {
+				
+				@Override
+				public boolean onLongClick(View v) {
+					createDialog(activity);
+					return false;
+				}
+			});
 			return view;
 		}
+	}
+	
+	/**
+	 * Creates a dialog that reports useful information about an Activity.
+	 * To be used when a User holds a click on an Activity
+	 */
+	private void createDialog(Activity activity){
+		AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
+		dialog.setTitle("Activity Details");
+		  dialog.setButton("Dismiss", new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int whichButton){
+					dialog.dismiss();
+				}
+		  });
+		String message = 	"Reporter:\n" + activity.getReporter() + "\n" +
+							"Type:\n" + activity.getType() + "\n" +
+							"Priority:\n" + activity.getPriority() + "\n" +
+							"Deadline:\n" + activity.getDeadline().toString() + "\n\n" +
+							"Description:\n " + activity.getDescription() + "\n";
+		dialog.setMessage(message);
+		dialog.show();
 	}
 
 	/**
