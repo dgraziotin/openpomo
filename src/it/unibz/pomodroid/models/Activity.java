@@ -278,7 +278,7 @@ public class Activity {
 	}
 
 	public String getShortDescription(){
-	   final int maxLength = 25;
+	   final int maxLength = 30;
 	   if (this.description.length()>maxLength)
 		 return description.substring(0, maxLength).replaceAll("\n", " ")+"...";
 	   return this.description.replaceAll("\n", " ");

@@ -13,7 +13,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +72,7 @@ public class ActivityInventorySheet extends ListActivity {
 				}
 				if (bt != null) {
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-					bt.setText("Pomodoro#(" + activity.getNumberPomodoro() + ") - DeadLine (" + sdf.format(activity.getDeadline()) + ")");
+					bt.setText(R.string.pomodoro_nr + "(" + activity.getNumberPomodoro() + ") - "+ R.string.deadline +" (" + sdf.format(activity.getDeadline()) + ")");
 				}
 			}
 			
@@ -81,7 +80,6 @@ public class ActivityInventorySheet extends ListActivity {
 			view.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Log.i("AIS", "Clicked Activity: " + activity.getOriginId());
 					openActivityDialog(activity);
 				}
 			});
@@ -94,7 +92,7 @@ public class ActivityInventorySheet extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activitysheet);
 		TextView textView = (TextView) findViewById(R.id.activityname);
-		textView.setText("Activity Inventory Sheet");
+		textView.setText(R.string.ais);
 		this.dbHelper = new DBHelper(this);
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
@@ -157,7 +155,7 @@ public class ActivityInventorySheet extends ListActivity {
 		// create a new Thread that executes activityRetriever and start it
 		Thread thread = new Thread(null, activityRetriever,"ActivityRetrieverThread");
 		thread.start();
-		// show a nice progress bar
+		// show a nice progress bar (we cannot use R.strings!)
 		progressDialog = ProgressDialog.show(ActivityInventorySheet.this,"Please wait...", "Retrieving activities ...", true);
 
 	}
@@ -176,12 +174,8 @@ public class ActivityInventorySheet extends ListActivity {
 			activities = new ArrayList<Activity>();
 			List<Activity> retrievedActivities = Activity.getUncompleted(this.dbHelper);
 			activities.addAll(retrievedActivities);
-			Log.i("AIS.getActivities(): activities retrieved:", ""
-					+ activities.size());
 		} catch (Exception e) {
-			Log.e("AIS.getActivities() thread: ", e.getMessage());
-			throw new PomodroidException(
-					"Error in retrieving Activities from the DB!");
+			throw new PomodroidException("Error in retrieving Activities from the DB!");
 		}
 		this.runOnUiThread(populateAdapter);
 	}
@@ -219,18 +213,15 @@ public class ActivityInventorySheet extends ListActivity {
 			  	 public void onClick(DialogInterface dialoginterface, int i) {
 			  	   try {
 			  		 switch (i) {
-			  		    case 0: Log.i("AIS.openactivityDialog()"," AIS setting todotoday true");
-			  		    		selectedActivity.setTodoToday(true);
+			  		    case 0: selectedActivity.setTodoToday(true);
 			  		    		selectedActivity.setUndone();
 			  		    		selectedActivity.save(dbHelper);
 			  		            break;
-			  		    case 1: Log.i("AIS.openactivityDialog()"," AIS setting done");
-			  		    		selectedActivity.close(dbHelper);
+			  		    case 1: selectedActivity.close(dbHelper);
 			  		    		activityAdapter.remove(selectedActivity);
 			  		            break;
 			  		 }
 			  	   } catch (PomodroidException e) {
-			  		 Log.e("AIT.openActivityDialog()","Error: " + e.getMessage());
 			  		 e.alertUser(context);
 			  	   }finally{
 			  		   dbHelper.close();

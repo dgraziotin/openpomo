@@ -3,18 +3,15 @@ package it.unibz.pomodroid;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,14 +70,13 @@ public class TrashSheet extends ListActivity {
 				}
 				if (bt != null) {
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-					bt.setText("Pomodoro#(" + activity.getNumberPomodoro() + ") - DeadLine (" + sdf.format(activity.getDeadline()) + ")");
+					bt.setText(R.string.pomodoro_nr+ "(" + activity.getNumberPomodoro() + ") - "+ R.string.deadline +" (" + sdf.format(activity.getDeadline()) + ")");
 				}
 			}
 			// bind a listener to the current Activity row
 			view.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Log.i("TS", "Clicked Activity: " + activity.getOriginId());
 					openActivityDialog(activity);
 				}
 			});
@@ -94,11 +90,10 @@ public class TrashSheet extends ListActivity {
 		setContentView(R.layout.activitysheet);
 		this.dbHelper = new DBHelper(this);
 		TextView textView = (TextView) findViewById(R.id.activityname);
-		textView.setText("Trash Sheet");
+		textView.setText(R.string.ts);
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
-		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.trashactivityentry, activities);
+		this.activityAdapter = new ActivityAdapter(this,R.layout.trashactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.context = this;
 	}
@@ -135,8 +130,7 @@ public class TrashSheet extends ListActivity {
 	 */
 	private void refreshSheet() throws PomodroidException {
 		this.activities = new ArrayList<Activity>();
-		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.trashactivityentry, activities);
+		this.activityAdapter = new ActivityAdapter(this,R.layout.trashactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.activityRetriever = new Runnable() {
 			@Override
@@ -155,12 +149,10 @@ public class TrashSheet extends ListActivity {
 			}
 		};
 		// create a new Thread that executes activityRetriever and start it
-		Thread thread = new Thread(null, activityRetriever,
-				"ActivityRetrieverThread");
+		Thread thread = new Thread(null, activityRetriever,"ActivityRetrieverThread");
 		thread.start();
 		// show a nice progress bar
-		progressDialog = ProgressDialog.show(TrashSheet.this,
-				"Please wait...", "Retrieving activities ...", true);
+		progressDialog = ProgressDialog.show(TrashSheet.this,"Please wait...", "Retrieving activities ...", true);
 
 	}
 
@@ -176,15 +168,10 @@ public class TrashSheet extends ListActivity {
 	private void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
-			List<Activity> retrievedActivities = Activity
-					.getCompleted(this.dbHelper);
+			List<Activity> retrievedActivities = Activity.getCompleted(this.dbHelper);
 			activities.addAll(retrievedActivities);
-			Log.i("AIS.getActivities(): activities retrieved:", ""
-					+ activities.size());
 		} catch (Exception e) {
-			Log.e("AIS.getActivities() thread: ", e.getMessage());
-			throw new PomodroidException(
-					"Error in retrieving Activities from the DB!");
+			throw new PomodroidException("Error in retrieving Activities from the DB!");
 		}
 		this.runOnUiThread(populateAdapter);
 	}
@@ -222,21 +209,18 @@ public class TrashSheet extends ListActivity {
 			  	 public void onClick(DialogInterface dialoginterface, int i) {
 			  	   try {
 			  		 switch (i) {
-			  		    case 0: Log.i("AIS.openactivityDialog()"," AIS setting ais");
-			  		    		selectedActivity.setTodoToday(false);
+			  		    case 0: selectedActivity.setTodoToday(false);
 			  		    		selectedActivity.setUndone();
 			  		    		selectedActivity.save(dbHelper);
 			  		    		activityAdapter.remove(selectedActivity);
 			  		            break;
-			  		    case 1: Log.i("AIS.openactivityDialog()"," AIS setting todotoday true");
-			  		    		selectedActivity.setTodoToday(true);
+			  		    case 1: selectedActivity.setTodoToday(true);
 			  		    		selectedActivity.setUndone();
 			  		    		selectedActivity.save(dbHelper);
 			  		    		activityAdapter.remove(selectedActivity);
 			  		    		break;
 			  		 }
 			  	   } catch (PomodroidException e) {
-			  		 Log.e("AIT.openActivityDialog()","Error: " + e.getMessage());
 			  		 e.alertUser(context);
 			  	   } finally{
 			  		   dbHelper.close();

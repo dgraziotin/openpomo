@@ -8,5 +8,11 @@
     <string name="startp">Face it</string>  
     <string name="todotoday">Schedule for Today</string> 
     <string name="done">Trash it</string> 
-    <string name="ais">Move to AIS</string>
+    <string name="moveais">Move to AIS</string>
+    <string name="pomodoro_nr">Pomodoro #</string>
+    <string name="deadline">DeadLine</string>
+    <string name="ais">Activity Inventory Sheet</string>
+    <string name="tts">Todo Today Sheet</string>
+    <string name="ts">Trash Sheet</string>
+    <string name="no_events">No Events to be sent to PROM are available</string>
 </resources>

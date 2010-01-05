@@ -203,7 +203,7 @@ public class Pomodroid extends Activity implements OnClickListener {
 	    case PRE: i = new Intent(this, TracTicket.class);
 		  		  startActivity(i);
 		          return true;
-	    case SET: i = new Intent(this, Preferences.class);
+	    case SET: i = new Intent(this, TabPreferences.class);
 	    		  startActivity(i);
 	    		  return true;
 	    }

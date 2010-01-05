@@ -8,12 +8,12 @@
 
 <array name="tts_dialog"> 
   <item>@string/startp</item> 
-  <item>@string/ais</item> 
+  <item>@string/moveais</item> 
   <item>@string/done</item>
 </array> 
 
 <array name="ais_trash"> 
-  <item>@string/ais</item>
+  <item>@string/moveais</item>
   <item>@string/todotoday</item> 
 </array> 
 

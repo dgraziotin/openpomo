@@ -15,12 +15,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-
-
 /**
  * @author Thomas Schievenin
  *
  */
+
 public class PromHandler extends Activity implements Runnable {
 	
 	private DBHelper dbHelper = null;
@@ -123,7 +122,6 @@ public class PromHandler extends Activity implements Runnable {
 				PromHandler.this.finish();
 			}
 		});
-		// setContentView(R.layout.main);
 		dialog.show();
 	}
 	

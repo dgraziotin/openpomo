@@ -108,7 +108,6 @@ public class TracTicket extends Activity implements Runnable {
 				TracTicket.this.finish();
 			}
 		});
-		// setContentView(R.layout.main);
 		dialog.show();
 	}
 	
