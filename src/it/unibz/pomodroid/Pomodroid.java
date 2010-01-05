@@ -3,11 +3,8 @@ package it.unibz.pomodroid;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -45,18 +42,7 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 			if (user == null) {
 				Intent intent = new Intent(this, Preferences.class);
 				startActivity(intent);
-			}
-			/*
-			PromEventDeliverer ped = new PromEventDeliverer();
-			PromFactory pf = new PromFactory();
-			List<Event> events = Event.getAll(dbHelper);
-			
-			byte[] zipIni = pf.createZip(events, user);
-			if(ped.uploadData(zipIni, user))
-				Event.deleteAll(dbHelper);
-			textView.setText(zipIni.toString());
-			*/
-			
+			}	
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
