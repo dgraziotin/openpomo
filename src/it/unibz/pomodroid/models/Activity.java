@@ -280,8 +280,8 @@ public class Activity {
 	public String getShortDescription(){
 	   final int maxLength = 25;
 	   if (this.description.length()>maxLength)
-		 return description.substring(0, maxLength)+"...";
-	   return this.description;
+		 return description.substring(0, maxLength).replaceAll("\n", " ")+"...";
+	   return this.description.replaceAll("\n", " ");
 	}
 	
 	public void addOnePomodoro (){
