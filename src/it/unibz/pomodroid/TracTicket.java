@@ -22,7 +22,7 @@ import android.os.Message;
  * @author Thomas Schievenin
  *
  */
-public class TracTicket extends Activity implements Runnable {
+public class TracTicket extends SharedActivity implements Runnable {
 	
 	private Vector<HashMap<String, Object>> tasks = null;
 	private DBHelper dbHelper = null;

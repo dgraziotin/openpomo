@@ -15,7 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class Pomodoro extends Activity implements OnClickListener {
+public class Pomodoro extends SharedActivity implements OnClickListener {
 	public final static int SUCCESS_RETURN_CODE = 1;
 	private final static int SECONDS_PER_MINUTES = 60;
 	private final static int MILLISECONDS_PER_SECONDS = 1000;

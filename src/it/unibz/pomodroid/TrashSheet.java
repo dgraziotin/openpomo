@@ -23,7 +23,7 @@ import android.widget.TextView;
  * @author bodom_lx
  * 
  */
-public class TrashSheet extends ListActivity {
+public class TrashSheet extends SharedListActivity {
 	private ProgressDialog progressDialog = null;
 	private ArrayList<Activity> activities = null;
 	private ActivityAdapter activityAdapter = null;

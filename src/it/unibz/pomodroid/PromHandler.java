@@ -20,7 +20,7 @@ import android.os.Message;
  *
  */
 
-public class PromHandler extends Activity implements Runnable {
+public class PromHandler extends SharedActivity implements Runnable {
 	
 	private DBHelper dbHelper = null;
 	private ProgressDialog progressDialog = null;

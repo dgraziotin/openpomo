@@ -25,7 +25,7 @@ import android.widget.TextView;
  * 
  */
 
-public class ActivityInventorySheet extends ListActivity {
+public class ActivityInventorySheet extends SharedListActivity {
 	private ProgressDialog progressDialog = null;
 	private ArrayList<Activity> activities = null;
 	private ActivityAdapter activityAdapter = null;

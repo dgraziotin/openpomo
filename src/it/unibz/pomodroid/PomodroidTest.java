@@ -10,7 +10,7 @@ import junit.framework.TestListener;
 import junit.framework.Test;
 import junit.framework.AssertionFailedError;
 
-public class PomodroidTest extends Activity {
+public class PomodroidTest extends SharedActivity {
     static final String LOG_TAG = "junit";
     Thread testRunnerThread = null;
 
