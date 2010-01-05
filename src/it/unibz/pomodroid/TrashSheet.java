@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -70,7 +69,7 @@ public class TrashSheet extends SharedListActivity {
 				}
 				if (bt != null) {
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-					bt.setText(R.string.pomodoro_nr+ "(" + activity.getNumberPomodoro() + ") - "+ R.string.deadline +" (" + sdf.format(activity.getDeadline()) + ")");
+					bt.setText(context.getString(R.string.pomodoro_nr) + "(" + activity.getNumberPomodoro() + ") - "+ context.getString(R.string.deadline) +" (" + sdf.format(activity.getDeadline()) + ")");
 				}
 			}
 			// bind a listener to the current Activity row
@@ -152,7 +151,7 @@ public class TrashSheet extends SharedListActivity {
 		Thread thread = new Thread(null, activityRetriever,"ActivityRetrieverThread");
 		thread.start();
 		// show a nice progress bar
-		progressDialog = ProgressDialog.show(TrashSheet.this,"Please wait...", "Retrieving activities ...", true);
+		progressDialog = ProgressDialog.show(TrashSheet.this,context.getString(R.string.plswait), context.getString(R.string.retactivities), true);
 
 	}
 

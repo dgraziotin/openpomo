@@ -15,4 +15,7 @@
     <string name="tts">Todo Today Sheet</string>
     <string name="ts">Trash Sheet</string>
     <string name="no_events">No Events to be sent to PROM are available</string>
+    <string name="plswait">Please wait...</string>
+    <string name="retactivities">Retrieving activities ...</string>
+    
 </resources>
