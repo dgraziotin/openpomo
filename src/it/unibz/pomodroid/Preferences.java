@@ -14,7 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class Preferences extends Activity {
+public class Preferences extends SharedActivity {
 	private DBHelper dbHelper;
 	private Context context;
 	@Override

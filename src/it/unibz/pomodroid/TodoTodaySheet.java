@@ -24,7 +24,7 @@ import android.widget.TextView;
  * @author bodom_lx
  * 
  */
-public class TodoTodaySheet extends ListActivity {
+public class TodoTodaySheet extends SharedListActivity {
 	
 	protected static final int SUB_ACTIVITY_REQUEST_CODE = 666;
 	private ProgressDialog progressDialog = null;
