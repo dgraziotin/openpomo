@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.test.AndroidTestRunner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
 import junit.framework.TestListener;
 import junit.framework.Test;
 import junit.framework.AssertionFailedError;
@@ -133,7 +132,7 @@ class TestRunner implements Runnable,TestListener  {
                                     findViewById( R.id.errorCounter );
             failureCounterText = (TextView)parentActivity.
                                     findViewById( R.id.failureCounter );
-            Log.d( LOG_TAG, "Test started" );
+
             AndroidTestRunner testRunner = new AndroidTestRunner();
             TestSuite test = new TestSuite();
             test.context = parentActivity;
@@ -141,13 +140,10 @@ class TestRunner implements Runnable,TestListener  {
             testRunner.addTestListener( this );
             testRunner.setContext( parentActivity );
             testRunner.runTest();
-            Log.d( LOG_TAG, "Test ended" );
         }
 
 // TestListener
         public void addError(Test test, Throwable t) {
-            Log.d( LOG_TAG, "addError: "+test.getClass().getName() );
-            Log.d( LOG_TAG, t.getMessage(), t );
             ++errorCounter;
             TestDisplay td = new TestDisplay(
                     TestDisplay.displayEvent.ERROR,
@@ -163,8 +159,6 @@ class TestRunner implements Runnable,TestListener  {
         }
 
         public void addFailure(Test test, AssertionFailedError t) {
-            Log.d( LOG_TAG, "addFailure: "+test.getClass().getName() );
-            Log.d( LOG_TAG, t.getMessage(), t );
             ++failureCounter;
             TestDisplay td = new TestDisplay(
                     TestDisplay.displayEvent.FAILURE,
@@ -180,7 +174,6 @@ class TestRunner implements Runnable,TestListener  {
         }
 
         public void endTest(Test test) {
-            Log.d( LOG_TAG, "endTest: "+test.getClass().getName() );
             TestDisplay td = new TestDisplay(
                     TestDisplay.displayEvent.END_TEST,
                     test.getClass().getName(),
@@ -195,7 +188,6 @@ class TestRunner implements Runnable,TestListener  {
         }
 
         public void startTest(Test test) {
-            Log.d( LOG_TAG, "startTest: "+test.getClass().getName() );
             ++testCounter;
             TestDisplay td = new TestDisplay(
                     TestDisplay.displayEvent.START_TEST,

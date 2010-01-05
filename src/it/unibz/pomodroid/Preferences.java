@@ -9,7 +9,6 @@ import it.unibz.pomodroid.services.XmlRpcClient;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -83,7 +82,6 @@ public class Preferences extends Activity {
 	 * @throws PomodroidException
 	 */
 	private void testTracConnection() throws PomodroidException {
-		Log.d("Prefences", "testTracConnection");
 		EditText tracUrl = (EditText) findViewById(R.id.EditTextTracUrl);
 		EditText tracUsername = (EditText) findViewById(R.id.EditTextUsername);
 		EditText tracPassword = (EditText) findViewById(R.id.EditTextPassword);
@@ -93,8 +91,7 @@ public class Preferences extends Activity {
 				.toString(), tracUsername.getText().toString(), tracPassword
 				.getText().toString(), "system.listMethods", params);
 		if (!(result.length > 0)) {
-			throw new PomodroidException(
-					"ERROR: something is wrong with Trac. Check username, password, URL and connectivity!");
+			throw new PomodroidException("ERROR: something is wrong with Trac. Check username, password, URL and connectivity!");
 		}
 	}
 
@@ -104,7 +101,6 @@ public class Preferences extends Activity {
 	 * @throws PomodroidException
 	 */
 	private void testPromConnection() throws PomodroidException {
-		Log.d("Preferences", "testPromConnection");
 		PromEventDeliverer ped = new PromEventDeliverer();
 		EditText tracUrlEditText = (EditText) findViewById(R.id.EditTextTracUrl);
 		EditText tracUsernameEditText = (EditText) findViewById(R.id.EditTextUsername);
@@ -117,8 +113,7 @@ public class Preferences extends Activity {
 						.toString());
 		int id = ped.getUploadId(user);
 		if (!(id > 0)) {
-			throw new PomodroidException(
-					"ERROR: something is wrong with PROM. Check URL and connectivity!");
+			throw new PomodroidException("ERROR: something is wrong with PROM. Check URL and connectivity!");
 		}
 	}
 

@@ -3,11 +3,9 @@ package it.unibz.pomodroid;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -15,7 +13,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +73,7 @@ public class TodoTodaySheet extends ListActivity {
 				}
 				if (bt != null) {
 					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-					bt.setText("Pomodoro#(" + activity.getNumberPomodoro() + ") - DeadLine (" + sdf.format(activity.getDeadline()) + ")");
+					bt.setText(R.string.pomodoro_nr + "(" + activity.getNumberPomodoro() + ") - "+ R.string.deadline +" (" + sdf.format(activity.getDeadline()) + ")");
 				
 				}
 			}
@@ -84,7 +81,6 @@ public class TodoTodaySheet extends ListActivity {
 			view.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					Log.i("TTS", "Clicked Activity: " + activity.getOriginId());
 					openActivityDialog(activity);
 				}
 			});
@@ -98,11 +94,10 @@ public class TodoTodaySheet extends ListActivity {
 		setContentView(R.layout.activitysheet);
 		this.dbHelper = new DBHelper(this);
 		TextView textView = (TextView) findViewById(R.id.activityname);
-		textView.setText("Todo Today Sheet");
+		textView.setText(R.string.tts);
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
-		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.ttsactivityentry, activities);
+		this.activityAdapter = new ActivityAdapter(this,R.layout.ttsactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.context = this;
 	}
@@ -159,12 +154,10 @@ public class TodoTodaySheet extends ListActivity {
 			}
 		};
 		// create a new Thread that executes activityRetriever and start it
-		Thread thread = new Thread(null, activityRetriever,
-				"ActivityRetrieverThread");
+		Thread thread = new Thread(null, activityRetriever,"ActivityRetrieverThread");
 		thread.start();
 		// show a nice progress bar
-		progressDialog = ProgressDialog.show(TodoTodaySheet.this,
-				"Please wait...", "Retrieving activities ...", true);
+		progressDialog = ProgressDialog.show(TodoTodaySheet.this,"Please wait...", "Retrieving activities ...", true);
 
 	}
 
@@ -179,14 +172,10 @@ public class TodoTodaySheet extends ListActivity {
 	private void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
-			List<Activity> retrievedActivities = Activity
-					.getTodoToday(this.dbHelper);
+			List<Activity> retrievedActivities = Activity.getTodoToday(this.dbHelper);
 			activities.addAll(retrievedActivities);
-			Log.i("AIS.getActivities(): activities retrieved:", ""
-					+ activities.size());
 		} catch (Exception e) {
-			throw new PomodroidException(
-					"Error in retrieving Activities from the DB! Please try again");
+			throw new PomodroidException("Error in retrieving Activities from the DB! Please try again");
 		}
 		this.runOnUiThread(populateAdapter);
 	}
@@ -224,8 +213,7 @@ public class TodoTodaySheet extends ListActivity {
 			  	 public void onClick(DialogInterface dialoginterface, int i) {
 			  	   try {
 			  		 switch (i) {
-			  		    case 0: Log.i("TTS.openactivityDialog()"," TTS starting pomodoro");
-			  					Intent intent = new Intent();
+			  		    case 0: Intent intent = new Intent();
 			  					intent.setClass(getApplicationContext(), Pomodoro.class);
 			  					Bundle b = new Bundle();
 			  					b.putString("origin", selectedActivity.getOrigin());
@@ -234,19 +222,16 @@ public class TodoTodaySheet extends ListActivity {
 			  					startActivity(intent);
 			  					//startActivityForResult(intent,SUB_ACTIVITY_REQUEST_CODE);
 			  		    		break;
-			  		 	case 1: Log.i("TTS.openactivityDialog()"," TTS setting todotoday false");
-			  		    		selectedActivity.setTodoToday(false);
+			  		 	case 1: selectedActivity.setTodoToday(false);
 			  		    		selectedActivity.setUndone();
 			  		    		selectedActivity.save(dbHelper);
 			  		    		activityAdapter.remove(selectedActivity);
 			  		            break;
-			  		    case 2: Log.i("TTS.openactivityDialog()"," TTS setting done");
-			  		    		selectedActivity.close(dbHelper);
+			  		    case 2: selectedActivity.close(dbHelper);
 			  		    		activityAdapter.remove(selectedActivity);
 			  		            break;
 			  		 }
 			  	   } catch (PomodroidException e) {
-			  		 Log.e("TTS.openActivityDialog()","Error: " + e.getMessage());
 			  		 e.alertUser(context);
 			  	   } finally{
 			  		   dbHelper.close();
