@@ -32,62 +32,10 @@ public class ActivityInventorySheet extends SharedListActivity {
 	private DBHelper dbHelper = null;
 	private Context context = null;
 
-	/**
-	 * A customized ArrayAdapter for representing lists of Activities.
-	 */
-	private class ActivityAdapter extends ArrayAdapter<Activity> {
-		private ArrayList<Activity> items;
-
-		/**
-		 * This constructor calls the constructor of ArrayAdapter, setting the
-		 * context, the textView id and the items that will hold to be displayed
-		 * in the UI
-		 * 
-		 * @param context
-		 * @param textViewResourceId
-		 * @param items
-		 */
-		public ActivityAdapter(Context context, int textViewResourceId, ArrayList<Activity> items) {
-			super(context, textViewResourceId, items);
-			this.items = items;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = convertView;
-			// inflate the layout of an activity row in the current view
-			if (view == null) {
-				LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = layoutInflater.inflate(R.layout.aisactivityentry, null);
-			}
-			final Activity activity = items.get(position);
-			
-			// builds the components of the activity entry view
-			if (activity != null) {
-				TextView tt = (TextView) view.findViewById(R.id.toptext);
-				TextView bt = (TextView) view.findViewById(R.id.bottomtext);
-				if (tt != null) {
-					tt.setText(activity.getShortDescription());
-				}
-				if (bt != null) {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-					bt.setText(context.getString(R.string.pomodoro_nr) + "(" + activity.getNumberPomodoro() + ") - "+ context.getString(R.string.deadline) +" (" + sdf.format(activity.getDeadline()) + ")");
-				}
-			}
-			
-			// bind a listener to the current Activity row
-			view.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					openActivityDialog(activity);
-				}
-			});
-			return view;
-		}
-	}
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		super.setResourceLayout(R.layout.aisactivityentry);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activitysheet);
 		TextView textView = (TextView) findViewById(R.id.activityname);
@@ -203,7 +151,7 @@ public class ActivityInventorySheet extends SharedListActivity {
 	 * 
 	 * @param activity
 	 */
-	private void openActivityDialog(Activity activity){
+	protected void openActivityDialog(Activity activity){
 		final Activity selectedActivity = activity;
 		new AlertDialog.Builder(this)
 	         .setTitle(R.string.activity_title) 
