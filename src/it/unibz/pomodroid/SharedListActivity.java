@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+import it.unibz.pomodroid.SharedMenu;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,11 +27,6 @@ import android.widget.TextView;
  * methods useful to work with the Adapter.
  */
 public abstract class SharedListActivity extends ListActivity {
-	private static final int AIS = 0;
-	private static final int TTS = 1;
-	private static final int TS = 2;
-	private static final int PRE = 3;
-	private static final int SET = 4;
 
 	protected int resourceLayout = -1;
 
@@ -83,6 +78,7 @@ public abstract class SharedListActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SharedMenu.setContext(this);
 		setContentView(R.layout.activitysheet);
 		this.dbHelper = new DBHelper(this);
 		TextView textView = (TextView) findViewById(R.id.activityname);
@@ -310,49 +306,19 @@ public abstract class SharedListActivity extends ListActivity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, AIS, 0, "Activity Inventory Sheet").setIcon(
-				android.R.drawable.ic_menu_upload);
-		menu.add(0, TTS, 0, "Todo Today Sheet").setIcon(
-				android.R.drawable.ic_menu_upload);
-		menu.add(0, TS, 0, "Trash Sheet").setIcon(
-				android.R.drawable.ic_menu_delete);
-		menu.add(0, PRE, 0, "TRAC/PROM").setIcon(
-				android.R.drawable.ic_menu_send);
-		menu.add(0, SET, 0, "Settings").setIcon(
-				android.R.drawable.ic_menu_preferences);
-		return true;
-	}
+        super.onCreateOptionsMenu(menu);
+        SharedMenu.onCreateOptionsMenu(menu);
+        return true;
+    }
 
 	/**
 	 * Defines the actions to be performed when the user clicks on a menu item.
 	 * 
 	 * @param menu
 	 */
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent i;
-		switch (item.getItemId()) {
-		case AIS:
-			i = new Intent(this, ActivityInventorySheet.class);
-			startActivity(i);
-			return true;
-		case TTS:
-			i = new Intent(this, TodoTodaySheet.class);
-			startActivity(i);
-			return true;
-		case TS:
-			i = new Intent(this, TrashSheet.class);
-			startActivity(i);
-			return true;
-		case PRE:
-			i = new Intent(this, TracTicket.class);
-			startActivity(i);
-			return true;
-		case SET:
-			i = new Intent(this, Preferences.class);
-			startActivity(i);
-			return true;
-		}
-		return false;
+		return SharedMenu.onOptionsItemSelected(item);
 	}
 
 }
