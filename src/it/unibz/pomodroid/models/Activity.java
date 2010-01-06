@@ -1,4 +1,5 @@
 package it.unibz.pomodroid.models;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -111,6 +112,13 @@ public class Activity {
 		return deadline;
 	}
 
+	/**
+	 * @return the deadline as a string
+	 */
+	public String getStringDeadline() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(this.deadline).toString();
+	}
 	/**
 	 * @param deadline
 	 *            deadline to set
