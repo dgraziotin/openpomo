@@ -1,12 +1,10 @@
 package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.XmlRpcClient;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,22 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class Preferences extends SharedActivity {
-	private DBHelper dbHelper;
-	private Context context;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.preferences);
-		dbHelper = new DBHelper(this);
-		this.context = this;
-		try {
-			User user = User.retrieve(dbHelper);
-			if (user != null)
-				fillEditTexts(user);
-		} catch (PomodroidException e1) {
-			// TODO Auto-generated catchblock
-			e1.printStackTrace();
-		}
+		if (super.user != null)
+			fillEditTexts(super.user);
 
 		Button saveButton = (Button) findViewById(R.id.ButtonSavePreferences);
 		saveButton.setOnClickListener(new OnClickListener() {
@@ -64,16 +53,6 @@ public class Preferences extends SharedActivity {
 
 	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		this.dbHelper.close();
-	}
-
-	public void onStop() {
-		super.onResume();
-		this.dbHelper.close();
-	}
 
 	/**
 	 * Tests if the given credentials and URL for Trac are correct
@@ -162,21 +141,19 @@ public class Preferences extends SharedActivity {
 		EditText promUrlEditText = (EditText) findViewById(R.id.EditTextPromUrl);
 		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 
-		User user = User.retrieve(dbHelper);
-
-		if (user == null) {
-			user = new User(tracUsernameEditText.getText().toString(),
+		if (super.user == null) {
+			super.user = new User(tracUsernameEditText.getText().toString(),
 					tracPasswordEditText.getText().toString(), tracUrlEditText
 							.getText().toString(), promUrlEditText.getText()
 							.toString());
-			user.save(dbHelper);
+			super.user.save(super.dbHelper);
 		} else {
-			user.setTracUsername(tracUsernameEditText.getText().toString());
-			user.setTracPassword(tracPasswordEditText.getText().toString());
-			user.setTracUrl(tracUrlEditText.getText().toString());
-			user.setPromUrl(promUrlEditText.getText().toString());
-			user.setPomodoroMinutesDuration(Integer.parseInt(pomodoroLengthEditText.getText().toString()));
-			user.save(dbHelper);
+			super.user.setTracUsername(tracUsernameEditText.getText().toString());
+			super.user.setTracPassword(tracPasswordEditText.getText().toString());
+			super.user.setTracUrl(tracUrlEditText.getText().toString());
+			super.user.setPromUrl(promUrlEditText.getText().toString());
+			super.user.setPomodoroMinutesDuration(Integer.parseInt(pomodoroLengthEditText.getText().toString()));
+			super.user.save(super.dbHelper);
 
 		}
 	}

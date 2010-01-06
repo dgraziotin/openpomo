@@ -1,8 +1,5 @@
 package it.unibz.pomodroid;
 
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.persistency.User;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,15 +9,11 @@ import android.widget.TextView;
 
 public class Pomodroid extends SharedActivity implements OnClickListener {
 	
-	private DBHelper dbHelper;
-	private User user;
-
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.main);
-		dbHelper = new DBHelper(this);
 		TextView textView = (TextView) findViewById(R.id.hello);
 		textView.setText("Pomodroid");
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
@@ -37,32 +30,11 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 		buttonTRAC.setOnClickListener((OnClickListener) this);
 		Button buttonProm = (Button) findViewById(R.id.ButtonProm);
 		buttonProm.setOnClickListener((OnClickListener) this);
-		try {
-			this.user = User.retrieve(dbHelper);
-			if (user == null) {
-				Intent intent = new Intent(this, Preferences.class);
-				startActivity(intent);
-			}	
-		} catch (PomodroidException e) {
-			e.alertUser(this);
-		}
+		if (user == null) {
+			Intent intent = new Intent(this, Preferences.class);
+			startActivity(intent);
+		}	
 
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		this.dbHelper.close();
-	}
-	
-	@Override
-	public void onStop() {
-		super.onStop();
-		this.dbHelper.close();
-	}
-	
-	public void onResume(){
-		super.onResume();
 	}
 
 	@Override
