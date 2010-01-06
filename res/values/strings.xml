@@ -9,13 +9,16 @@
     <string name="todotoday">Schedule for Today</string> 
     <string name="done">Trash it</string> 
     <string name="moveais">Move to AIS</string>
-    <string name="pomodoro_nr">Pomodoro #</string>
-    <string name="deadline">DeadLine</string>
+    <string name="pomodoro_nr">Pomodoro#</string>
+    <string name="deadline">Deadline</string>
     <string name="ais">Activity Inventory Sheet</string>
     <string name="tts">Todo Today Sheet</string>
     <string name="ts">Trash Sheet</string>
     <string name="no_events">No Events to be sent to PROM are available</string>
     <string name="plswait">Please wait...</string>
     <string name="retactivities">Retrieving activities ...</string>
-    
+    <string name="reporter">Reporter</string>
+    <string name="type">Type</string>
+    <string name="priority">Priority</string>
+    <string name="description">Description</string>
 </resources>

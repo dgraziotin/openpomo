@@ -34,12 +34,10 @@ public class ActivityInventorySheet extends SharedListActivity {
 	protected void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
-			List<Activity> retrievedActivities = Activity
-					.getUncompleted(this.dbHelper);
+			List<Activity> retrievedActivities = Activity.getUncompleted(this.dbHelper);
 			activities.addAll(retrievedActivities);
 		} catch (Exception e) {
-			throw new PomodroidException(
-					"Error in retrieving Activities from the DB!");
+			throw new PomodroidException("Error in retrieving Activities from the DB!");
 		}
 		this.runOnUiThread(populateAdapter);
 	}

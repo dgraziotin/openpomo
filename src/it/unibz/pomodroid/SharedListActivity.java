@@ -11,10 +11,7 @@ import android.view.MenuItem;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +20,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Class to represent common behaviors and aspects of Pomodroid's ListActivities
@@ -93,8 +89,7 @@ public abstract class SharedListActivity extends ListActivity {
 		textView.setText(R.string.tts);
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
-		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.ttsactivityentry, activities);
+		this.activityAdapter = new ActivityAdapter(this,R.layout.ttsactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 		this.context = this;
 	}
@@ -182,11 +177,10 @@ public abstract class SharedListActivity extends ListActivity {
 					tt.setText(activity.getShortDescription());
 				}
 				if (bt != null) {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-					bt.setText(R.string.pomodoro_nr + "("
+					bt.setText(context.getString(R.string.pomodoro_nr) + "("
 							+ activity.getNumberPomodoro() + ") - "
-							+ R.string.deadline + " ("
-							+ sdf.format(activity.getDeadline()) + ")");
+							+ context.getString(R.string.deadline) + " ("
+							+ activity.getStringDeadline() + ")");
 
 				}
 			}
@@ -222,11 +216,11 @@ public abstract class SharedListActivity extends ListActivity {
 					dialog.dismiss();
 				}
 		  });
-		String message = 	"Reporter:\n" + activity.getReporter() + "\n" +
-							"Type:\n" + activity.getType() + "\n" +
-							"Priority:\n" + activity.getPriority() + "\n" +
-							"Deadline:\n" + activity.getDeadline().toString() + "\n\n" +
-							"Description:\n " + activity.getDescription() + "\n";
+		String message = 	context.getString(R.string.reporter) + ": " + activity.getReporter() + "\n" +
+							context.getString(R.string.type) + ": " + activity.getType() + "\n" +
+							context.getString(R.string.priority) + ": " + activity.getPriority() + "\n" +
+							context.getString(R.string.deadline) + ": " + activity.getStringDeadline() + "\n\n" +
+							context.getString(R.string.description) + ": " + activity.getDescription() + "\n";
 		dialog.setMessage(message);
 		dialog.show();
 	}
@@ -261,8 +255,7 @@ public abstract class SharedListActivity extends ListActivity {
 			}
 		};
 		// create a new Thread that executes activityRetriever and start it
-		Thread thread = new Thread(null, activityRetriever,
-				"ActivityRetrieverThread");
+		Thread thread = new Thread(null, activityRetriever,"ActivityRetrieverThread");
 		thread.start();
 		// show a nice progress bar
 		progressDialog = ProgressDialog.show(getContext(),
