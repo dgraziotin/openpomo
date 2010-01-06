@@ -12,6 +12,7 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+<<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 		setContentView(R.layout.main);
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
@@ -117,6 +118,9 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 	
 	public void onResume(){
 		super.onResume();
+=======
+		}	
+>>>>>>> 81881a4... Refactoring and cleanup, bugs fixed:src/it/unibz/pomodroid/Pomodroid.java
 	}
 
 	@Override

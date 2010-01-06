@@ -46,7 +46,7 @@ public class PomodroidException extends Exception{
 			dialog.setTitle(title);
 		else
 			dialog.setTitle("WARNING");
-		dialog.setMessage(this.toString());
+		dialog.setMessage(this.getMessage());
 		dialog.setNeutralButton("Ok", null);
 		dialog.create().show();
 	}

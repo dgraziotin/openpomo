@@ -14,7 +14,6 @@ import java.util.Vector;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,7 +39,7 @@ public class Services extends SharedActivity implements OnClickListener,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tracprom);
+		setContentView(R.layout.services);
 		List<Event> events = null;
 		PromFactory promFactory = new PromFactory();
 		try {
