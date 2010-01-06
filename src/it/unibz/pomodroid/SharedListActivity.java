@@ -81,8 +81,6 @@ public abstract class SharedListActivity extends ListActivity {
 		SharedMenu.setContext(this);
 		setContentView(R.layout.activitysheet);
 		this.dbHelper = new DBHelper(this);
-		TextView textView = (TextView) findViewById(R.id.activityname);
-		textView.setText(R.string.tts);
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
 		this.activityAdapter = new ActivityAdapter(this,R.layout.ttsactivityentry, activities);

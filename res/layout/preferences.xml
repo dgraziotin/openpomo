@@ -82,10 +82,4 @@
         />
     </TableRow>
 <Button android:text="Save" android:id="@+id/ButtonSavePreferences" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-<Button android:text="Delete Activities" android:id="@+id/ButtonDeleteActivies" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-
-
-
-
-
 </TableLayout>

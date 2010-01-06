@@ -1,7 +1,6 @@
 package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.XmlRpcClient;
@@ -35,22 +34,6 @@ public class Preferences extends SharedActivity {
 				}
 			}
 		});
-		Button deleteActivitiesButton = (Button) findViewById(R.id.ButtonDeleteActivies);
-		deleteActivitiesButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				try {
-					it.unibz.pomodroid.persistency.Activity.deleteAll(dbHelper);
-					Event.deleteAll(dbHelper);
-					throw new PomodroidException("All activities and events deleted!","INFO");
-				} catch (PomodroidException e) {
-					e.alertUser(context);
-				}finally{
-					dbHelper.close();
-				}
-			}
-		});
-
 	}
 
 
