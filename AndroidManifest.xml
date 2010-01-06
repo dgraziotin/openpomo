@@ -17,6 +17,15 @@
 		<activity android:name=".TodoTodaySheet"
 			android:label="@string/app_name">
 		</activity>
+		<activity android:name=".DeleteActivity"
+			android:label="@string/app_name">
+		</activity>
+		<activity android:name=".TracPromMenu"
+			android:label="@string/app_name">
+		</activity>
+		<activity android:name=".TabPreferences"
+			android:label="@string/app_name">
+		</activity>
 		<activity android:name=".TrashSheet" android:label="@string/app_name">
 		</activity>
 		<activity android:name=".Pomodoro"
