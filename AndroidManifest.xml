@@ -20,7 +20,7 @@
 		<activity android:name=".DeleteActivity"
 			android:label="@string/app_name">
 		</activity>
-		<activity android:name=".TracPromMenu"
+		<activity android:name=".Services"
 			android:label="@string/tracprom">
 		</activity>
 		<activity android:name=".TabPreferences"

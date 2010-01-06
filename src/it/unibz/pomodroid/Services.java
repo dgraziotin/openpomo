@@ -22,7 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class TracPromMenu extends SharedActivity implements OnClickListener,
+public class Services extends SharedActivity implements OnClickListener,
 		Runnable {
 
 	private ProgressDialog progressDialog = null;
@@ -66,13 +66,13 @@ public class TracPromMenu extends SharedActivity implements OnClickListener,
 		} else {
 			source = PROM;
 		}
-		downloadData();
+		useServices();
 	}
 
 	/**
 	 * Method that starts a thread and shows a nice downloading bar.
 	 */
-	public void downloadData() {
+	public void useServices() {
 		String message = null;
 		if (source == PROM)
 			message = "Sending Data to PROM";
@@ -85,14 +85,13 @@ public class TracPromMenu extends SharedActivity implements OnClickListener,
 		thread.start();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see java.lang.Runnable#run()
-	 * 
-	 * As soon as a thread starts, this method is called! It retrieves tickets
-	 * from TRAC and when all tickets are downloaded, it sends an empty message
-	 * to the handler in order to inform the system that the operation is
+	 * As soon as a thread starts, this method is called.
+	 * If source == PROM, it sends the events to PROM
+	 * If source == TRAC, it retrieves tickets from TRAC.
+	 * When the operation is finished,it sends an empty message to the handler
+	 * in order to inform the system that the operation is
 	 * finished.
 	 */
 	public void run() {
@@ -186,8 +185,8 @@ public class TracPromMenu extends SharedActivity implements OnClickListener,
 	/**
 	 * @throws PomodroidException
 	 * 
-	 *             This method takes all not-closed tikets from track, then
-	 *             inserts them into the local DB.
+	 * This method takes all not-closed tickets from trac, then
+	 * inserts them into the local DB.
 	 * 
 	 */
 	private void sendPromEvents() throws PomodroidException {

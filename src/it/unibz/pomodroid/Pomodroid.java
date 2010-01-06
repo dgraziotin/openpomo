@@ -12,8 +12,8 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.main);
+<<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
@@ -98,6 +98,8 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 			e.alertUser(this);
 		}
 
+=======
+>>>>>>> 9a06c9c... added Services.java in Manifest:src/it/unibz/pomodroid/Pomodroid.java
 	}
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 
