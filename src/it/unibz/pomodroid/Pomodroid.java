@@ -1,8 +1,5 @@
 package it.unibz.pomodroid;
 
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.persistency.User;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,13 +9,10 @@ import android.widget.TextView;
 
 public class Pomodroid extends SharedActivity implements OnClickListener {
 	
-	private DBHelper dbHelper;
-	private User user;
-
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.main);
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 <<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
@@ -105,6 +99,7 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 		}
 
 	}
+<<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 
 	@Override
 	public void onPause() {
@@ -160,4 +155,6 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 >>>>>>> b8fec6e... first working alphas of AIS, TTS, TS, first mockup of launch Activity, centralized exception system:src/it/unibz/pomodroid/Pomodroid.java
 	}
 	
+=======
+>>>>>>> 19e0939... First version of enhanced use of SharedActivity:src/it/unibz/pomodroid/Pomodroid.java
 }

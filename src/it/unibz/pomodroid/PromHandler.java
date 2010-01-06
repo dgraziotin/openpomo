@@ -2,8 +2,6 @@ package it.unibz.pomodroid;
 
 import java.util.List;
 import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.factories.PromFactory;
@@ -20,28 +18,23 @@ import android.os.Message;
  */
 
 public class PromHandler extends SharedActivity implements Runnable {
-	
-	private DBHelper dbHelper = null;
 	private ProgressDialog progressDialog = null;
 	private String message = "No Events to be sent to PROM are available";
 	private int numberEvents = 0;
 	private AlertDialog dialog;
 	private byte[] zipIni = null;
-	private User user = null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.traclist);
-		user = null;
 		List<Event> events = null;
-		this.dbHelper = new DBHelper(this);
 		PromFactory promFactory = new PromFactory();
 		try {
-			user = User.retrieve(dbHelper);
-			events = Event.getAll(dbHelper);
+			events = Event.getAll(super.dbHelper);
 			if(!(events==null || events.size()==0)){
 				numberEvents = events.size();
-				zipIni = promFactory.createZip(events, user);		
+				this.zipIni = promFactory.createZip(events, super.user);		
 			}
 		} catch (PomodroidException e) {
 			e.alertUser(this);
@@ -54,11 +47,6 @@ public class PromHandler extends SharedActivity implements Runnable {
 		downloadData();
 	}
 	
-	@Override
-	public void onPause() {
-		super.onPause();
-		this.dbHelper.close();
-	}
 	/**
 	 * Method that starts a thread and shows a nice downloading bar.
 	 */
@@ -69,7 +57,7 @@ public class PromHandler extends SharedActivity implements Runnable {
 	}
 	
 	
-	/* (non-Javadoc)
+	/**
 	 * @see java.lang.Runnable#run()
 	 * 
 	 * As soon as a thread starts, this method is called! It retrieves tickets from TRAC and when
@@ -132,11 +120,11 @@ public class PromHandler extends SharedActivity implements Runnable {
 	 */
 	private void sendPromEvents() throws PomodroidException{
 		try {
-			if(zipIni==null )
+			if(this.zipIni==null )
 				return;
 			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
-			if(promEventDeliverer.uploadData(zipIni, user))
-				Event.deleteAll(dbHelper);
+			if(promEventDeliverer.uploadData(this.zipIni, super.user))
+				Event.deleteAll(super.dbHelper);
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
