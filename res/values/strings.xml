@@ -24,4 +24,6 @@
     <string name="preferences">Preferences</string>
 	<string name="db4o">Db4o Actions</string>
 	<string name="tests">Tests</string>
+	<string name="settings">Settings</string>
+	<string name="tracprom">Trac/Prom Actions</string>
 </resources>
