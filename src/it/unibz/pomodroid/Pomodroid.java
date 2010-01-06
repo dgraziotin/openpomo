@@ -13,7 +13,7 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.main);
+		setContentView(R.layout.pomodroid);
 		TextView textView = (TextView) findViewById(R.id.hello);
 		textView.setText("Pomodroid");
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
