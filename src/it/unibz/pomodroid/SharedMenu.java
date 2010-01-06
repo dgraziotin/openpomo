@@ -52,7 +52,7 @@ class SharedMenu {
 			SharedMenu.context.startActivity(i);
 			return true;
 		case PRE:
-			i = new Intent(SharedMenu.context, TracPromMenu.class);
+			i = new Intent(SharedMenu.context, Services.class);
 			SharedMenu.context.startActivity(i);
 			return true;
 		case SET:
