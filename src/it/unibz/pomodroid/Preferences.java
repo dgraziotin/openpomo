@@ -33,7 +33,7 @@ public class Preferences extends SharedActivity {
 					e.alertUser(context);
 				}
 			}
-		});
+			});
 	}
 
 

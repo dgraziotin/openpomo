@@ -68,7 +68,7 @@ public class TrackTicketFetcher {
 	 * @throws PomodroidException 
 	 */
 	private static Vector<Integer> getTicketIds (User user) throws PomodroidException{
-		String[] params = {"status!=closed"};
+		String[] params = {"status!=closed&owner="+user.getTracUsername()};
 		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
 		if (result != null){
 			Vector<Integer> ticketsIds = new Vector<Integer>();
