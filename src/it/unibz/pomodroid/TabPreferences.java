@@ -14,11 +14,11 @@ public class TabPreferences extends TabActivity{
 	    mTabHost = getTabHost();
 	    
 	    mTabHost.addTab(mTabHost.newTabSpec("pref").setContent(new Intent(TabPreferences.this, Preferences.class)).
-	    		 setIndicator("Preferences", getResources().getDrawable(android.R.drawable.ic_menu_preferences)));
+	    		 setIndicator(this.getString(R.string.preferences), getResources().getDrawable(android.R.drawable.ic_menu_preferences)));
 	    mTabHost.addTab(mTabHost.newTabSpec("db4o").setContent(new Intent(TabPreferences.this, DeleteActivity.class)).
-	    		 setIndicator("Db4o Actions", getResources().getDrawable(android.R.drawable.ic_menu_edit)));
+	    		 setIndicator(this.getString(R.string.db4o), getResources().getDrawable(android.R.drawable.ic_menu_edit)));
 	    mTabHost.addTab(mTabHost.newTabSpec("test").setContent(new Intent(TabPreferences.this,PomodroidTest.class)).
-	    		 setIndicator("Tests", getResources().getDrawable(android.R.drawable.ic_menu_directions)));
+	    		 setIndicator(this.getString(R.string.tests), getResources().getDrawable(android.R.drawable.ic_menu_directions)));
 
 	}
 }

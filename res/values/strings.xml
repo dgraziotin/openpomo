@@ -21,4 +21,7 @@
     <string name="type">Type</string>
     <string name="priority">Priority</string>
     <string name="description">Description</string>
+    <string name="preferences">Preferences</string>
+	<string name="db4o">Db4o Actions</string>
+	<string name="tests">Tests</string>
 </resources>
