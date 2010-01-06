@@ -61,14 +61,6 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 			i = new Intent(this, PomodroidTest.class);
 			startActivity(i);
 			break;
-		case R.id.ButtonTrac:
-			i = new Intent(this, TracTicket.class);
-			startActivity(i);
-			break;
-		case R.id.ButtonProm:
-			i = new Intent(this, PromHandler.class);
-			startActivity(i);
-			break;
 
 		}
 
