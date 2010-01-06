@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:layout_width="fill_parent"
+		android:id="@+id/hello"
+		android:layout_height="wrap_content" android:text="@string/hello" />
+
+	<LinearLayout android:id="@+id/LinearLayout01"
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+	</LinearLayout>
+<Button android:text="Take tickets from TRAC" android:id="@+id/ButtonTrac" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+<Button android:text="Send Events to PROM" android:id="@+id/ButtonProm" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+</LinearLayout>
