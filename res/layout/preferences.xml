@@ -1,3 +1,7 @@
+<ScrollView android:id="@+id/ScrollView01" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                xmlns:android="http://schemas.android.com/apk/res/android">
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -83,3 +87,4 @@
     </TableRow>
 <Button android:text="Save" android:id="@+id/ButtonSavePreferences" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 </TableLayout>
+</ScrollView>
