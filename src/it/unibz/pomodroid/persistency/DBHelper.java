@@ -2,9 +2,12 @@ package it.unibz.pomodroid.persistency;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import java.io.File;
+import java.io.IOException;
+
 import android.content.Context;
 import android.util.Log;
 import com.db4o.Db4o;
+import com.db4o.defragment.Defragment;
 import com.db4o.ObjectContainer;
 import com.db4o.config.Configuration;
 
@@ -82,6 +85,8 @@ public class DBHelper {
 		configuration.lockDatabaseFile(false);
 		configuration.objectClass(Activity.class).objectField("origin").indexed(true);
 		configuration.objectClass(Activity.class).objectField("originId").indexed(true);
+		configuration.objectClass(Activity.class).objectField("isTodoToday").indexed(true);
+		configuration.objectClass(Activity.class).objectField("isDone").indexed(true);
 		configuration.objectClass(Event.class).objectField("activity").indexed(true);
 		return configuration;
 	}
@@ -93,6 +98,14 @@ public class DBHelper {
 	 */
 	public String db4oDBFullPath(Context context) {
 		return context.getDir("data", 0) + "/" + "android.db4o";
+	}
+	
+	public void defragment() throws PomodroidException{
+		try {
+			Defragment.defrag((db4oDBFullPath(context)));
+		} catch (Exception e) {
+			throw new PomodroidException("Error in defragment: "+e.toString());
+		}
 	}
 
 	/**
