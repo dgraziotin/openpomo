@@ -79,6 +79,10 @@ public class DBHelper {
 	 */
 	private Configuration dbConfig() {
 		Configuration configuration = Db4o.newConfiguration();
+		configuration.lockDatabaseFile(false);
+		configuration.objectClass(Activity.class).objectField("origin").indexed(true);
+		configuration.objectClass(Activity.class).objectField("originId").indexed(true);
+		configuration.objectClass(Event.class).objectField("activity").indexed(true);
 		return configuration;
 	}
 
