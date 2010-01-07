@@ -2,19 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
+	
+	<ImageView android:id="@+id/imagebutton"
+  			android:src="@drawable/pomodoro"
+  			android:layout_width="wrap_content"
+  			android:layout_height="wrap_content" />
+	
 	<TextView android:layout_width="fill_parent"
 		android:id="@+id/hello"
-		android:layout_height="wrap_content" android:text="@string/hello" />
-
-	<LinearLayout android:id="@+id/LinearLayout01"
-		android:layout_width="wrap_content" android:layout_height="wrap_content">
-
-	</LinearLayout>
-<Button android:text="Activity Inventory Sheet" android:id="@+id/ButtonAIS" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Todo Today Sheet" android:id="@+id/ButtonTTS" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Trash Sheet" android:id="@+id/ButtonTS" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Preferences" android:id="@+id/ButtonPreferences" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Tests" android:id="@+id/ButtonTests" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Take tickets from TRAC" android:id="@+id/ButtonTrac" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Send Events to PROM" android:id="@+id/ButtonProm" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+		android:layout_height="wrap_content" android:text="@string/hello"/>
+		
 </LinearLayout>
