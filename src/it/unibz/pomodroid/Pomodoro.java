@@ -59,7 +59,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 		this.textViewActivitySummary.setText(activity.getSummary());
 		this.textViewActivityDeadline
-				.setText(activity.getDeadline().toString());
+				.setText(activity.getStringDeadline());
 		this.textViewActivityDescription.setText(activity.getDescription());
 		Integer numberPomodoro = activity.getNumberPomodoro();
 		this.textViewActivityNumberPomodoro.setText(numberPomodoro.toString());

@@ -1,19 +1,14 @@
 package it.unibz.pomodroid;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
 
-public class Pomodroid extends SharedActivity implements OnClickListener {
+public class Pomodroid extends SharedActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.pomodroid);
+		/*
 		TextView textView = (TextView) findViewById(R.id.hello);
 		textView.setText("Pomodroid");
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
@@ -34,9 +29,11 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 			Intent intent = new Intent(this, Preferences.class);
 			startActivity(intent);
 		}	
+		*/
 
 	}
 
+	/*
 	@Override
 	public void onClick(View v) {
 		Intent i = null;
@@ -63,8 +60,5 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 			break;
 
 		}
-
-	}
-	
-
+	*/
 }
