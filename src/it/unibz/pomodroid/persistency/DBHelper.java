@@ -102,6 +102,9 @@ public class DBHelper {
 	
 	public void defragment() throws PomodroidException{
 		try {
+			String db4oPath = db4oDBFullPath(context);
+			String db4oPathBackup = db4oPath.concat(".backup");
+			new File(db4oPathBackup).delete();
 			Defragment.defrag((db4oDBFullPath(context)));
 		} catch (Exception e) {
 			throw new PomodroidException("Error in defragment: "+e.toString());

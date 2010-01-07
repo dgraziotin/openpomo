@@ -17,6 +17,8 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
 		buttonDeleteActivitiesEvents.setOnClickListener((OnClickListener) this);
 		Button buttonDeleteDatabase = (Button) findViewById(R.id.ButtonDeleteDatabase);
 		buttonDeleteDatabase.setOnClickListener((OnClickListener) this);
+		Button buttonDefragmentDatabase = (Button) findViewById(R.id.ButtonDefragmentDatabase);
+		buttonDefragmentDatabase.setOnClickListener((OnClickListener) this);
 	}
 
 	@Override
@@ -34,17 +36,28 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
 				dbHelper.close();
 			}
 			break;
-		case R.id.ButtonDeleteDatabase:
+		case R.id.ButtonDefragmentDatabase:
 			try {
-				dbHelper.deleteDatabase();
+				dbHelper.defragment();
 				throw new PomodroidException(
-						"Database destroyed. Please restart Pomodroid.", "INFO");
+						"Database defragmented.", "INFO");
 			} catch (PomodroidException e) {
 				e.alertUser(context);
 			} finally {
 				dbHelper.close();
 			}
+		break;
+	case R.id.ButtonDeleteDatabase:
+		try {
+			dbHelper.deleteDatabase();
+			throw new PomodroidException(
+					"Database destroyed. Please restart Pomodroid.", "INFO");
+		} catch (PomodroidException e) {
+			e.alertUser(context);
+		} finally {
+			dbHelper.close();
 		}
+	}
 	}
 
 }

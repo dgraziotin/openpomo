@@ -35,10 +35,8 @@ public class XmlRpcTest extends AndroidTestCase{
 		
 		public void testPromConnection() throws Exception{
 			Log.d(LOG_TAG, "testPromConnection");
-
 			PromEventDeliverer ped = new PromEventDeliverer();
 			int id = ped.getUploadId(user);
-
 			assert(id > 0);
 		}
 		
