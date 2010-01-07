@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import it.unibz.pomodroid.SharedMenu;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
+import it.unibz.pomodroid.persistency.User;
+
 import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -81,11 +84,21 @@ public abstract class SharedListActivity extends ListActivity {
 		SharedMenu.setContext(this);
 		setContentView(R.layout.activitysheet);
 		this.dbHelper = new DBHelper(this);
+		this.context = this;
+		try {
+			User user = User.retrieve(dbHelper);
+			if (user == null) {
+				Intent intent = new Intent(this, Preferences.class);
+				startActivity(intent);
+			}
+		} catch (PomodroidException e) {
+			e.alertUser(this);
+		}
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
 		this.activityAdapter = new ActivityAdapter(this,R.layout.ttsactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
-		this.context = this;
+		
 	}
 
 	/**
