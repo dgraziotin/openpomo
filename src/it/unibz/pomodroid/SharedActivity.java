@@ -2,6 +2,7 @@ package it.unibz.pomodroid;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +44,10 @@ public abstract class SharedActivity extends Activity {
 		this.context = this;
 		try {
 			user = User.retrieve(dbHelper);
+			if (user == null && !this.getClass().equals(Preferences.class)) {
+				Intent intent = new Intent(this, Preferences.class);
+				startActivity(intent);
+			}
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}

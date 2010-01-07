@@ -1,9 +1,9 @@
 package it.unibz.pomodroid;
-
+import android.content.Intent;
 import android.os.Bundle;
 
 public class Pomodroid extends SharedActivity {
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -164,30 +164,8 @@ public class Pomodroid extends SharedActivity {
 }
 =======
 		setContentView(R.layout.pomodroid);
-		/*
-		TextView textView = (TextView) findViewById(R.id.hello);
-		textView.setText("Pomodroid");
-		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
-		buttonAIS.setOnClickListener((OnClickListener) this);
-		Button buttonTTS = (Button) findViewById(R.id.ButtonTTS);
-		buttonTTS.setOnClickListener((OnClickListener) this);
-		Button buttonTS = (Button) findViewById(R.id.ButtonTS);
-		buttonTS.setOnClickListener((OnClickListener) this);
-		Button buttonPreferences = (Button) findViewById(R.id.ButtonPreferences);
-		buttonPreferences.setOnClickListener((OnClickListener) this);
-		Button buttonTests = (Button) findViewById(R.id.ButtonTests);
-		buttonTests.setOnClickListener((OnClickListener) this);
-		Button buttonTRAC = (Button) findViewById(R.id.ButtonTrac);
-		buttonTRAC.setOnClickListener((OnClickListener) this);
-		Button buttonProm = (Button) findViewById(R.id.ButtonProm);
-		buttonProm.setOnClickListener((OnClickListener) this);
-		if (user == null) {
-			Intent intent = new Intent(this, Preferences.class);
-			startActivity(intent);
-		}	
-		*/
-
 	}
+<<<<<<< HEAD:src/it/unibz/pomodroid/Pomodroid.java
 
 	/*
 	@Override
@@ -219,3 +197,6 @@ public class Pomodroid extends SharedActivity {
 	*/
 }
 >>>>>>> 2f6885d... labels changed, and coolest interface done:src/it/unibz/pomodroid/Pomodroid.java
+=======
+}
+>>>>>>> ec31d99... added method to protect the other Activities until user sets preferences:src/it/unibz/pomodroid/Pomodroid.java
