@@ -16,50 +16,27 @@
     android:layout_gravity="center"
     android:gravity="center" android:textSize="40px"/>
 <TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Summary:"/>
-<TextView
     android:id="@+id/TextViewActivitySummary"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Activity Title" android:gravity="center"/>
-<TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Deadline"/>
-  <TextView
-    android:id="@+id/TextViewActivityDeadline"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Activity deadline..." android:gravity="center"/>    
-<TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Description:"/>
+    android:textSize="20sp"
+    android:text="Activity Title"
+    android:gravity="left"/>
  <TextView
     android:id="@+id/TextViewActivityDescription"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Activity description..." android:gravity="center"/>  
-<TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Number Pomodoros:"/>
+    android:text="Activity description..."
+    android:layout_marginTop="15sp" 
+    android:gravity="left"/>  
   <TextView
     android:id="@+id/TextViewActivityNumberPomodoro"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:text="Number Pomodoro" android:gravity="center"/>   
-<TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Reporter:"/>
-  <TextView
-    android:id="@+id/TextViewActivityReporter"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Activity reporter.." android:gravity="center"/>       
+    android:layout_marginTop="15sp"
+    android:text="Number Pomodoro" 
+    android:gravity="left"/>   
+
 <Button 
 	android:text="START"
 	android:id="@+id/ButtonPomodoroStart"
