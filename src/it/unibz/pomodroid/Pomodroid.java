@@ -1,5 +1,4 @@
 package it.unibz.pomodroid;
-import android.content.Intent;
 import android.os.Bundle;
 
 public class Pomodroid extends SharedActivity {

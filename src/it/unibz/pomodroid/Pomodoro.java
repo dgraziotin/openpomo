@@ -18,10 +18,8 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	private int pomodoroDurationMilliseconds;
 	private TextView textViewPomodoroTimer = null;
 	private TextView textViewActivitySummary = null;
-	private TextView textViewActivityDeadline = null;
 	private TextView textViewActivityDescription = null;
 	private TextView textViewActivityNumberPomodoro = null;
-	private TextView textViewActivityReporter = null;
 	private Button buttonPomodoroStart = null;
 	private Button buttonPomodoroStop = null;
 	private CountDown counter = null;
@@ -52,19 +50,13 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		this.buttonPomodoroStop.setClickable(false);
 
 		this.textViewActivitySummary = (TextView) findViewById(R.id.TextViewActivitySummary);
-		this.textViewActivityDeadline = (TextView) findViewById(R.id.TextViewActivityDeadline);
 		this.textViewActivityDescription = (TextView) findViewById(R.id.TextViewActivityDescription);
 		this.textViewActivityNumberPomodoro = (TextView) findViewById(R.id.TextViewActivityNumberPomodoro);
-		this.textViewActivityReporter = (TextView) findViewById(R.id.TextViewActivityReporter);
-
-		this.textViewActivitySummary.setText(activity.getSummary());
-		this.textViewActivityDeadline
-				.setText(activity.getStringDeadline());
-		this.textViewActivityDescription.setText(activity.getDescription());
+		this.textViewActivitySummary.setText(activity.getSummary() +" ("+ activity.getStringDeadline()+")");
+		this.textViewActivityDescription.setText(activity.getDescription() + " (Given by: " + activity.getReporter()+")");
 		Integer numberPomodoro = activity.getNumberPomodoro();
-		this.textViewActivityNumberPomodoro.setText(numberPomodoro.toString());
-		this.textViewActivityReporter.setText(activity.getReporter());
-
+		this.textViewActivityNumberPomodoro.setText("Number of pomodoro: " + numberPomodoro.toString());
+		
 		// this.pomodoroDurationMilliseconds = user.getPomodoroMinutesDuration()
 		// * SECONDS_PER_MINUTES * MILLISECONDS_PER_SECONDS;
 		this.pomodoroDurationMilliseconds = 10000; // FIXME: delete it before
@@ -196,7 +188,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 			try {
 				activity.save(dbHelper);
 				Integer numberPomodoro = activity.getNumberPomodoro();
-				textViewActivityNumberPomodoro.setText(numberPomodoro
+				textViewActivityNumberPomodoro.setText("Number of pomodoro: "+ numberPomodoro
 						.toString());
 			} catch (PomodroidException e) {
 				e.alertUser(context);
