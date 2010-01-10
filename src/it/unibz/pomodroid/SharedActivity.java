@@ -44,6 +44,8 @@ public abstract class SharedActivity extends Activity {
 		this.context = this;
 		try {
 			user = User.retrieve(dbHelper);
+			// protect the other activities: they can't be called until user
+			// sets preferences
 			if (user == null && !this.getClass().equals(Preferences.class)) {
 				Intent intent = new Intent(this, Preferences.class);
 				startActivity(intent);
