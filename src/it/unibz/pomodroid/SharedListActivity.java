@@ -181,7 +181,7 @@ public abstract class SharedListActivity extends ListActivity {
 				TextView tt = (TextView) view.findViewById(R.id.toptext);
 				TextView bt = (TextView) view.findViewById(R.id.bottomtext);
 				if (tt != null) {
-					tt.setText(activity.getShortDescription());
+					tt.setText(activity.getShortSummary());
 				}
 				if (bt != null) {
 					bt.setText(context.getString(R.string.pomodoro_nr) + "("
