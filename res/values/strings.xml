@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Welcome in Pomodroid! Set up your preferences and get started with your activities! Download them from TRAC, work on them and then send your events to PROM. Don't be lazy!!!</string>
-    <string name="cleanDB">Tap one of the buttons in order to modify directly db4o database</string>
-    <string name="tracprominfo">Click the buttons in order to retrieve tickets from TRAC or send events to PROM</string>
-    <string name="app_name">Pomodroid</string>
-    <string name="launch_test">Launch tests</string>
-    <string name="no_activities">Sheet is empty</string>
-    <string name="activity_title">Activity menu</string>
-    <string name="startp">Face it</string>  
-    <string name="todotoday">Schedule for Today</string> 
-    <string name="done">Trash it</string> 
-    <string name="moveais">Move to AIS</string>
-    <string name="pomodoro_nr">Pomodoro#</string>
-    <string name="deadline">Deadline</string>
-    <string name="ais">Pomodroid - Activity Inventory Sheet</string>
-    <string name="tts">Pomodroid - Todo Today Sheet</string>
-    <string name="ts">Pomodroid - Trash Sheet</string>
-    <string name="no_events">No Events to be sent to PROM are available</string>
-    <string name="plswait">Please wait...</string>
-    <string name="retactivities">Retrieving activities ...</string>
-    <string name="reporter">Reporter</string>
-    <string name="type">Type</string>
-    <string name="priority">Priority</string>
-    <string name="description">Description</string>
-    <string name="preferences">Preferences</string>
+	<string name="hello">Welcome to Pomodroid, the Android tool that lets
+		you download tickets from a Trac environment, organize them
+		in activities and face them according to the Pomodoro Technique. Pomodroid
+		will automatically collect
+		metrics while you are working and let you send them to Prom.
+		Press the Menu button to access all Pomodroid functionalities.
+	</string>
+	<string name="cleanDB">Tap one of the buttons in order to modify directly
+		db4o database</string>
+	<string name="tracprominfo">Click the buttons in order to retrieve tickets from
+		TRAC or send events to PROM</string>
+	<string name="app_name">Pomodroid</string>
+	<string name="launch_test">Launch tests</string>
+	<string name="no_activities">Sheet is empty</string>
+	<string name="activity_title">Activity menu</string>
+	<string name="startp">Face it</string>
+	<string name="todotoday">Schedule for Today</string>
+	<string name="done">Trash it</string>
+	<string name="moveais">Move to AIS</string>
+	<string name="pomodoro_nr">Pomodoro#</string>
+	<string name="deadline">Deadline</string>
+	<string name="ais">Pomodroid - Activity Inventory Sheet</string>
+	<string name="tts">Pomodroid - Todo Today Sheet</string>
+	<string name="ts">Pomodroid - Trash Sheet</string>
+	<string name="no_events">No Events to be sent to PROM are available</string>
+	<string name="plswait">Please wait...</string>
+	<string name="retactivities">Retrieving activities ...</string>
+	<string name="reporter">Reporter</string>
+	<string name="type">Type</string>
+	<string name="priority">Priority</string>
+	<string name="description">Description</string>
+	<string name="preferences">Preferences</string>
 	<string name="db4o">Db4o Actions</string>
 	<string name="tests">Tests</string>
 	<string name="settings">Pomodroid - Settings</string>
