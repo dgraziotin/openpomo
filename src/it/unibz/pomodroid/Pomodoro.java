@@ -195,15 +195,20 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 			}
 
 			try {
-				throw new PomodroidException("Pomodoro Finished.");
+				if (user.isLongerBreak(dbHelper))
+				  throw new PomodroidException("Take a long break.");
+				else
+				  throw new PomodroidException("Take a short break.");
 			} catch (PomodroidException e) {
 				e.alertUser(context, "INFO");
+			}
+			finally {
+				dbHelper.close();
 			}
 		}
 
 		public void stop() throws PomodroidException {
 			super.cancel();
-
 			textViewPomodoroTimer
 					.setText(getFormattedTimerValue(pomodoroDurationMilliseconds));
 			throw new PomodroidException("Pomodoro Broken");

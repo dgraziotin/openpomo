@@ -1,5 +1,7 @@
 package it.unibz.pomodroid.models;
 
+import java.util.Date;
+
 /**
  * 
  * @author Thomas Schievenin
@@ -17,6 +19,9 @@ public class User {
 	private String promUrl;
 	private int pomodoroMinutesDuration;
 	
+	private Date dateFacedPomodoro;
+	private int facedPomodoro;
+	
 	/**
 	 * @param tracUsername pomodroid username
 	 * @param tracPassword pomodroid password
@@ -29,6 +34,8 @@ public class User {
 		this.tracUrl = tracUrl;
 		this.promUrl = promUrl;
 		this.pomodoroMinutesDuration = 25;
+		this.dateFacedPomodoro = new Date();
+		this.facedPomodoro = 0;
 	}
 
 	public void update (User user){
@@ -108,5 +115,28 @@ public class User {
 		this.pomodoroMinutesDuration = pomodoroMinutesDuration;
 	}
 
+	public Date getDateFacedPomodoro() {
+		return dateFacedPomodoro;
+	}
+
+	public void setDateFacedPomodoro(Date dateFacedPomodoro) {
+		this.dateFacedPomodoro = dateFacedPomodoro;
+	}
+
+	public int getFacedPomodoro() {
+		return facedPomodoro;
+	}
+
+	public void setFacedPomodoro(int facedPomodoro) {
+		this.facedPomodoro = facedPomodoro;
+	}
+
+	public boolean isFourthPomodoro(){
+		return (this.facedPomodoro % 4==0) ;
+	}
+	
+	public void addPomodoro(){
+		 this.facedPomodoro++;
+	}
 	
 }

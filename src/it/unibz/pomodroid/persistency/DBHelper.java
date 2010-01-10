@@ -2,8 +2,6 @@ package it.unibz.pomodroid.persistency;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import java.io.File;
-import java.io.IOException;
-
 import android.content.Context;
 import android.util.Log;
 import com.db4o.Db4o;
