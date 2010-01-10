@@ -14,7 +14,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,7 +31,7 @@ public class Services extends SharedActivity implements OnClickListener,
 	private Vector<HashMap<String, Object>> tasks = null;
 	private int taskAdded = 0;
 	private String message = null;
-
+	private List<Event> events = null;
 	private static final int PROM = 1;
 	private static final int TRAC = 2;
 	private static int source = -1;
@@ -38,7 +40,6 @@ public class Services extends SharedActivity implements OnClickListener,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.services);
-		List<Event> events = null;
 		PromFactory promFactory = new PromFactory();
 		try {
 			events = Event.getAll(super.dbHelper);
@@ -152,6 +153,7 @@ public class Services extends SharedActivity implements OnClickListener,
 			this.message = "No Events for PROM available";
 		} else {
 			message = numberEvents + " Events sent.";
+			numberEvents = 0;
 		}
 		dialog.setMessage(message);
 		dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
@@ -188,8 +190,9 @@ public class Services extends SharedActivity implements OnClickListener,
 	 */
 	private void sendPromEvents() throws PomodroidException {
 		try {
-			if (this.zipIni == null)
+			if (this.zipIni == null){
 				return;
+			}
 			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
 			if (promEventDeliverer.uploadData(this.zipIni, super.user))
 				Event.deleteAll(super.dbHelper);

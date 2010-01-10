@@ -80,6 +80,8 @@ public class User extends it.unibz.pomodroid.models.User {
 			}catch(Exception e){
 				Log.e("User.save()", "Update Problem: " + e.toString());
 				throw new PomodroidException("ERROR in User.save(update)" + e.toString());
+			}finally{
+				dbHelper.close();
 			}
 		}
 	}

@@ -36,8 +36,11 @@ public class PromEventDeliverer {
 	 */
 	public boolean uploadData(byte[] zipIni, User user) throws PomodroidException {
 		try {
-			if (zipIni==null || zipIni.length==0)
+			
+			
+			if (zipIni==null || zipIni.length==0){
 				return false;
+			}
 			Integer uploadId = getUploadId(user);
 
 			Log.i("PromEventDeliverer.uploadData()", "Upload ID:" + uploadId);
@@ -45,16 +48,18 @@ public class PromEventDeliverer {
 
 			Object ret = XmlRpcClient.fetchSingleResult(user.getPromUrl(),
 					"zipupload.uploadData", params);
-
+			
 			if (((Integer) ret).intValue() >= 0)
 				return true;
 			else
 				return false;
+			
 
 		} catch (Exception e) {
 			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: " + e.toString());
 			throw new PomodroidException("ERROR in PromEventDeliverer.uploadData() transer problem: "+e.toString());
 		}
+		
 	}
 
 	/**
