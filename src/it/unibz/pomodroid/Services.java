@@ -74,9 +74,9 @@ public class Services extends SharedActivity implements OnClickListener,
 	public void useServices() {
 		String message = null;
 		if (source == PROM)
-			message = context.getString(R.string.sendtoprom);
+			message = "Sending Data to PROM";
 		else
-			message = context.getString(R.string.retrievefromtrac);
+			message = "Downloading tickets from TRAC";
 
 		progressDialog = ProgressDialog.show(this, "Please wait", message,
 				true, false);
@@ -130,9 +130,9 @@ public class Services extends SharedActivity implements OnClickListener,
 		this.dialog.setTitle("Message");
 
 		if (this.taskAdded == 0)
-			this.message = context.getString(R.string.nonewtickets);
+			this.message = "No new tickets From TRAC";
 		else
-			this.message = this.taskAdded +" "+ context.getString(R.string.nonewtickets);
+			this.message = this.taskAdded + " new tickets downloaded";
 
 		this.dialog.setMessage(this.message);
 		this.dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
@@ -151,9 +151,9 @@ public class Services extends SharedActivity implements OnClickListener,
 		dialog = new AlertDialog.Builder(this).create();
 		dialog.setTitle("Message");
 		if (numberEvents == 0) {
-			this.message = context.getString(R.string.noeventsavailable);
+			this.message = "No Events for PROM available";
 		} else {
-			message = numberEvents + " " + context.getString(R.string.eventsent);
+			message = numberEvents + " Events sent.";
 		}
 		dialog.setMessage(message);
 		dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
@@ -197,8 +197,6 @@ public class Services extends SharedActivity implements OnClickListener,
 				Event.deleteAll(super.dbHelper);
 		} catch (PomodroidException e) {
 			e.alertUser(this);
-		// } finally {
-		//	super.dbHelper.close();
 		}
 	}
 
