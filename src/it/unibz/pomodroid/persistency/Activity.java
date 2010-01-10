@@ -96,6 +96,8 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.save(single)", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.save():"
 					+ e.toString());
+		} finally {
+			dbHelper.close();
 		}
 	}
 
@@ -116,6 +118,8 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.save(single)", "Update Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.save(update):"
 					+ e.toString());
+		} finally {
+			dbHelper.close();
 		}
 	}
 
@@ -156,6 +160,8 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.delete()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.delete():"
 					+ e.toString());
+		} finally {
+			dbHelper.close();
 		}
 	}
 
@@ -172,12 +178,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		try {
 			result = dbHelper.getDatabase().queryByExample(Activity.class);
 			if (result == null)
-				Log.i("Activity.getAll()",
-						"There are no activities stored in db");
+				Log.i("Activity.getAll()", "There are no activities stored in db");
 		} catch (Exception e) {
 			Log.e("Activity.getAll()", "Problem: " + e.toString());
-			throw new PomodroidException("ERROR in Activity.getAll():"
-					+ e.toString());
+			throw new PomodroidException("ERROR in Activity.getAll():" + e.toString());
 		}
 		return result;
 	}
@@ -206,6 +210,8 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		} catch (Exception e) {
 			Log.e("Activity.deleteAll()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.deleteAll():"+ e.toString());
+		} finally {
+			dbHelper.close();
 		}
 	}
 
@@ -341,6 +347,8 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.close()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.close():"
 					+ e.toString());
+		}finally {
+			dbHelper.close();
 		}
 	}
 
