@@ -1,5 +1,6 @@
 package it.unibz.pomodroid.persistency;
 
+import java.util.Date;
 import java.util.List;
 
 import com.db4o.ObjectSet;
@@ -104,4 +105,32 @@ public class User extends it.unibz.pomodroid.models.User {
 		}
 	
 	}
+	
+	public boolean isSameDay(DBHelper dbHelper) throws PomodroidException{
+		User user = User.retrieve(dbHelper);
+		Date today = new Date();
+		// FIXME: use method after or before instead of 3 different methods
+		// today.setHours(23);
+		// today.setMinutes(59);
+		// today.setSeconds(59);
+		// return today.after(user.getDateFacedPomodoro());
+		return (today.getDay() == user.getDateFacedPomodoro().getDay() && 
+				today.getMonth() == user.getDateFacedPomodoro().getMonth() &&
+				today.getYear() == user.getDateFacedPomodoro().getYear());
+	}
+	
+	public boolean isLongerBreak(DBHelper dbHelper) throws PomodroidException{
+		User user = User.retrieve(dbHelper);
+		if (isSameDay(dbHelper)) {
+			user.addPomodoro();
+			user.save(dbHelper);
+			return user.isFourthPomodoro();
+		} else {
+			user.setFacedPomodoro(1);
+			user.setDateFacedPomodoro(new Date());
+			user.save(dbHelper);
+			return false;
+		}
+	}
+
 }
