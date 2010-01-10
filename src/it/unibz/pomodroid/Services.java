@@ -6,11 +6,9 @@ import it.unibz.pomodroid.factories.PromFactory;
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.TrackTicketFetcher;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
