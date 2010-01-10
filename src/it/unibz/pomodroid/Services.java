@@ -199,7 +199,7 @@ public class Services extends SharedActivity implements OnClickListener,
 			e.alertUser(this);
 		// } finally {
 		//	super.dbHelper.close();
-		// }
+		}
 	}
 
 }
