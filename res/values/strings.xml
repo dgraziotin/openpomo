@@ -36,4 +36,10 @@
 	<string name="tests">Tests</string>
 	<string name="settings">Pomodroid - Settings</string>
 	<string name="tracprom">Pomodroid - Trac/Prom Actions</string>
+	<string name="sendtoprom">Sending Data to PROM</string>
+	<string name="retrievefromtrac">Downloading tickets from TRAC</string>
+	<string name="nonewtickets">No new tickets From TRAC</string>
+	<string name="newtickets">new tickets downloaded</string>
+	<string name="noeventsavailable">No Events for PROM available</string>
+	<string name="eventsent">Events sent.</string>
 </resources>
