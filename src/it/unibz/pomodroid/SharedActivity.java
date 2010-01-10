@@ -40,7 +40,7 @@ public abstract class SharedActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SharedMenu.setContext(this);
-		this.dbHelper = new DBHelper(this);
+		this.dbHelper = new DBHelper(getApplicationContext());
 		this.context = this;
 		try {
 			user = User.retrieve(dbHelper);

@@ -83,7 +83,7 @@ public abstract class SharedListActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		SharedMenu.setContext(this);
 		setContentView(R.layout.activitysheet);
-		this.dbHelper = new DBHelper(this);
+		this.dbHelper = new DBHelper(getApplicationContext());
 		this.context = this;
 		try {
 			User user = User.retrieve(dbHelper);
@@ -181,7 +181,7 @@ public abstract class SharedListActivity extends ListActivity {
 				TextView tt = (TextView) view.findViewById(R.id.toptext);
 				TextView bt = (TextView) view.findViewById(R.id.bottomtext);
 				if (tt != null) {
-					tt.setText(activity.getShortSummary());
+					tt.setText(activity.getShortDescription());
 				}
 				if (bt != null) {
 					bt.setText(context.getString(R.string.pomodoro_nr) + "("
