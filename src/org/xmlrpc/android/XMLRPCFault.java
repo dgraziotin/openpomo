@@ -8,7 +8,7 @@ public class XMLRPCFault extends XMLRPCException {
 	private String faultString;
 	private int faultCode;
 
-	public XMLRPCFault(String faultString, int faultCode) {
+	public XMLRPCFault(String faultString, int faultCode) throws XMLRPCException {
 		super("XMLRPC Fault: " + faultString + " [code " + faultCode + "]");
 		this.faultString = faultString;
 		this.faultCode = faultCode;

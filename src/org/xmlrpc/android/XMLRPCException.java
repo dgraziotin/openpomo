@@ -1,6 +1,6 @@
 package org.xmlrpc.android;
 
-public class XMLRPCException extends Exception {
+public class XMLRPCException extends it.unibz.pomodroid.exceptions.PomodroidException {
 
 	/**
 	 * 

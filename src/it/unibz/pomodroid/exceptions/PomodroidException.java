@@ -17,6 +17,13 @@ public class PomodroidException extends Exception{
 
 	// Default constructor 
 	// initializes custom exception variable to none
+	public PomodroidException(Exception e) {
+		// call superclass constructor
+		super();            
+	}
+	
+	// Default constructor 
+	// initializes custom exception variable to none
 	public PomodroidException() {
 		// call superclass constructor
 		super();            
