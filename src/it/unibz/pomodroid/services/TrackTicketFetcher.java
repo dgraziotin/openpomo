@@ -28,7 +28,7 @@ public class TrackTicketFetcher {
 	 * It retrieves all opened tickets from TRAC and returns them
 	 * @throws PomodroidException 
 	 */
-	public static Vector<HashMap<String, Object>> fetch (User user, DBHelper dbHelper) throws PomodroidException{
+	public Vector<HashMap<String, Object>> fetch (User user, DBHelper dbHelper) throws PomodroidException{
 		Vector<HashMap<String, Object>> tickets = new Vector<HashMap<String, Object>>(); 
 		
 		Vector<Integer> ticketIds;
@@ -68,7 +68,7 @@ public class TrackTicketFetcher {
 	 * @return vector 
 	 * @throws PomodroidException 
 	 */
-	private static Vector<Integer> getTicketIds (User user) throws PomodroidException{
+	private Vector<Integer> getTicketIds (User user) throws PomodroidException{
 		String[] params = {"status!=closed&owner="+user.getTracUsername()};
 		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
 		if (result != null){
@@ -86,7 +86,7 @@ public class TrackTicketFetcher {
 	 * @throws PomodroidException
 	 */
 	public int getNumberTickets(User user) throws PomodroidException{
-		Vector<Integer> ticketIds = TrackTicketFetcher.getTicketIds(user);
+		Vector<Integer> ticketIds = this.getTicketIds(user);
 		return ((ticketIds == null) ?  0 :  ticketIds.size());
 	}
 	
@@ -107,8 +107,7 @@ public class TrackTicketFetcher {
 	 * @throws PomodroidException 
 	 */
 	@SuppressWarnings("unchecked")
-	// FIXME: the method should not be static and should be private
-	private static Date getDeadLine (User user, String milestoneId) throws PomodroidException{
+	private  Date getDeadLine (User user, String milestoneId) throws PomodroidException{
 		Date result;
 		Object dataObject;
 		String params[] = {milestoneId};
