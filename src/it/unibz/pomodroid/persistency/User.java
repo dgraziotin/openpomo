@@ -11,13 +11,12 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
 import android.util.Log;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it> 
- *
  * A class representing an extension of the user class. Whit the help of the open source object 
  * database db40 an user is saved into a local database.
  * 
  * NB: only one user will be stored into the db.
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it> 
  *
  */
 public class User extends it.unibz.pomodroid.models.User {

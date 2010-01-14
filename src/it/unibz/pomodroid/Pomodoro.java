@@ -12,13 +12,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
+ * This class implements graphically the pomodoro technique. Here we have
+ * the counter and the description of the activity to face.
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
- * 
- *      This class implements graphically the pomodoro technique. Here we have
- *      the counter and the description of the activity to face.
- * 
+ * @see android.view.View.OnClickListener;
  */
 
 public class Pomodoro extends SharedActivity implements OnClickListener {

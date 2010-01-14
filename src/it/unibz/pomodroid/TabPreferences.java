@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.widget.TabHost;
 
 /**
+ * This class implements the tabview visible within the users preferences
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- *
- * This class implements the tabview visible within the users preferences
+ * @see android.app.TabActivity
  */
 public class TabPreferences extends TabActivity{
 	

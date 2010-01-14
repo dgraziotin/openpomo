@@ -3,11 +3,10 @@ package it.unibz.pomodroid.models;
 import java.util.Date;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * 
  * A class representing an event. Each event has its type (string), value (string), date (date) and reference to
  * its activity.
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  *
  */
 public class Event {

@@ -5,3 +5,5 @@ it.unibz.pomodroid.models
 it.unibz.pomodroid.persistency
 it.unibz.pomodroid.services
 it.unibz.pomodroid.test
+org.xmlrpc
+org.xmlrpc.android

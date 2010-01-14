@@ -25,13 +25,13 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
+ * Class to represent common behaviors and aspects of Pomodroid's
+ * ListActivities It defines the shared Menu, an ArrayAdapter to
+ * represent Activities, and the methods useful to work with the
+ * Adapter.
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * 
- *         Class to represent common behaviors and aspects of Pomodroid's
- *         ListActivities It defines the shared Menu, an ArrayAdapter to
- *         represent Activities, and the methods useful to work with the
- *         Adapter.
+ * @see adroid.app.ListActivity
  */
 public abstract class SharedListActivity extends ListActivity {
 

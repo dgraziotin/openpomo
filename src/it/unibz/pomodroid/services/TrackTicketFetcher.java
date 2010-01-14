@@ -9,12 +9,12 @@ import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
  * A class that retrieves tickets from TRAC. Initially, this class takes all opened tickets, than theirs information.
  * Finally it calls the class activity and store them into the db. 
  *
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  */
 
 public class TrackTicketFetcher {

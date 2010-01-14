@@ -3,13 +3,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- *  
  * A class representing an activity. Each activity is described by its number of pomodoro (integer number),
  * received date (date), deadline (date), summary (string), description (string), origin (string i.e. trac), 
  * origin id (integer that refers to its origin), priority (string), reporter (string), type (string), 
  * todoToday (boolean), done (boolean) and endDate (date).
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
  */
 
