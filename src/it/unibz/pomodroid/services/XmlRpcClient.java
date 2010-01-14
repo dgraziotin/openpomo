@@ -7,7 +7,8 @@ import org.xmlrpc.android.XMLRPCClient;
 import android.util.Log;
 
 /**
- * @author Thomas Schievenin
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it> * 
  * 
  * A class that uses the remote procedure call protocol XML-RPC to retrieve information through the HTTP 
  * as a transport mechanism.

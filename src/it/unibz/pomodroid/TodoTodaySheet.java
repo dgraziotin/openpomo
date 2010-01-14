@@ -10,11 +10,21 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
- * @author bodom_lx
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @see it.unibz.pomodroid.SharedListActivity
  * 
+ * Todo Today Sheet class is an extension of Shared List activity.
+ * This class shows to the user which activities have to be done today.
+ * 
+ * Here we can face the activity, move it into the activity inventory sheet or
+ * into the trash sheet.
  */
 public class TodoTodaySheet extends SharedListActivity {
 
+	/* (non-Javadoc)
+	 * @see it.unibz.pomodroid.SharedListActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.setResourceLayout(R.layout.ttsactivityentry);
@@ -23,7 +33,7 @@ public class TodoTodaySheet extends SharedListActivity {
 	}
 
 	/**
-	 * Gets the Activities from Activity.getAll() and adds them to the local
+	 * Gets the Activities from Activity.getTodoToday() and adds them to the local
 	 * list of activities. It calls populateAdapter to populate the adapter with
 	 * the new list of activities
 	 * 
@@ -34,8 +44,7 @@ public class TodoTodaySheet extends SharedListActivity {
 	protected void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
-			List<Activity> retrievedActivities = Activity
-					.getTodoToday(this.dbHelper);
+			List<Activity> retrievedActivities = Activity.getTodoToday(this.dbHelper);
 			activities.addAll(retrievedActivities);
 		} catch (Exception e) {
 			throw new PomodroidException(

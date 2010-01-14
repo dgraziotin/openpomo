@@ -9,11 +9,12 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 
 /**
- * @author Thomas Schievenin
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
- *         A class representing an extension of the activity class. Whit the
- *         help of the open source object database db40 the activity is saved
- *         into a local database.
+ * A class representing an extension of the activity class. Whit the
+ * help of the open source object database db40 the activity is saved
+ * into a local database.
  * 
  */
 public class Activity extends it.unibz.pomodroid.models.Activity {
@@ -36,12 +37,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Activity(int id) {
-		super(0, new Date(), new Date(), "Titolo", "(" + id
-				+ ") Descrizioneeeee", "autogen", id, "priority", "god", "type");
-		// TODO Auto-generated constructor stub
-	}
-
+	/**
+	 * @param origin
+	 * @param originId
+	 */
 	public Activity(String origin, int originId) {
 		super(origin, originId);
 	}

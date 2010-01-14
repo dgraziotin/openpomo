@@ -5,6 +5,13 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * 
+ * This class implements the menu that is visible from all other classes
+ */
+
 class SharedMenu {
 	private static final int AIS = 0;
 	private static final int TTS = 1;
@@ -14,14 +21,28 @@ class SharedMenu {
 
 	private static Context context = null;
 
+	/**
+	 * @return context object
+	 */
 	public static Context getContext() {
 		return context;
 	}
 
+	/**
+	 * @param context
+	 *
+	 * the content to set
+	 */
 	public static void setContext(Context context) {
 		SharedMenu.context = context;
 	}
 
+	/**
+	 * @param menu
+	 * @return
+	 * 
+	 * We specify the menu labels and theirs icons
+	 */
 	public static boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, AIS, 0, "Activity Inventory Sheet").setIcon(
 				android.R.drawable.ic_menu_upload);
@@ -36,6 +57,12 @@ class SharedMenu {
 		return true;
 	}
 
+	/**
+	 * @param item
+	 * @return
+	 * 
+	 * As soon as the user click on the menu a new intent is created
+	 */
 	public static boolean onOptionsItemSelected(MenuItem item) {
 		Intent i;
 		switch (item.getItemId()) {

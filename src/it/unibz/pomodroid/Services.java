@@ -14,15 +14,22 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class Services extends SharedActivity implements OnClickListener,
-		Runnable {
+/**
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @see it.unibz.pomodroid.SharedActivity
+ * 
+ *
+ * This class is in charge of retrieving tickets from trac and seding events to prom.
+ * 
+ */
+
+public class Services extends SharedActivity implements OnClickListener, Runnable {
 
 	private ProgressDialog progressDialog = null;
 	private int numberEvents = 0;
@@ -36,6 +43,9 @@ public class Services extends SharedActivity implements OnClickListener,
 	private static final int TRAC = 2;
 	private static int source = -1;
 
+	/* (non-Javadoc)
+	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,6 +67,9 @@ public class Services extends SharedActivity implements OnClickListener,
 		buttonProm.setOnClickListener((OnClickListener) this);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.ButtonTrac) {
@@ -167,8 +180,8 @@ public class Services extends SharedActivity implements OnClickListener,
 	/**
 	 * @throws PomodroidException
 	 * 
-	 *             This method takes all not-closed tikets from track, then
-	 *             inserts them into the local DB.
+	 * This method takes all not-closed tikets from track, then
+	 * inserts them into the local DB.
 	 * 
 	 */
 	private void retrieveTicketsFromTrac() throws PomodroidException {

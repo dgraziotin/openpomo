@@ -2,7 +2,6 @@ package it.unibz.pomodroid.persistency;
 
 import java.util.Date;
 import java.util.List;
-import android.util.Log;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import it.unibz.pomodroid.persistency.Activity;
@@ -10,11 +9,12 @@ import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 
 /**
- * @author Thomas Schievenin
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it> * 
  * 
- *         A class representing an extension of the event class. Whit the help
- *         of the open source object database db40 the event is saved into a
- *         local database.
+ * A class representing an extension of the event class. Whit the help
+ * of the open source object database db40 the event is saved into a
+ * local database.
  * 
  */
 
@@ -33,12 +33,22 @@ public class Event extends it.unibz.pomodroid.models.Event {
 		this.activity = activity;
 	}
 
+	/**
+	 * @param type
+	 * @param value
+	 * @param timestamp
+	 * @param activity
+	 * @param atPomodoroValue
+	 */
 	public Event(String type, String value, Date timestamp, Activity activity,
 			long atPomodoroValue) {
 		super(type, value, timestamp, activity, atPomodoroValue);
 		this.activity = activity;
 	}
 
+	/* (non-Javadoc)
+	 * @see it.unibz.pomodroid.models.Event#getActivity()
+	 */
 	public Activity getActivity() {
 		return this.activity;
 	}
@@ -61,7 +71,6 @@ public class Event extends it.unibz.pomodroid.models.Event {
 		try {
 			dbHelper.getDatabase().store(this);
 		} catch (Exception e) {
-			Log.e("Event.save(single)", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Event.save()" + e.toString());
 		}finally{
 			dbHelper.commit();
@@ -92,7 +101,6 @@ public class Event extends it.unibz.pomodroid.models.Event {
 			}
 			return true;
 		} catch (Exception e) {
-			Log.e("Event.deleteAll()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Event.deleteAll():"
 					+ e.toString());
 		}finally{
@@ -114,12 +122,19 @@ public class Event extends it.unibz.pomodroid.models.Event {
 			result = dbHelper.getDatabase().queryByExample(Event.class);
 			return result;
 		} catch (Exception e) {
-			Log.e("Event.getAll()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Event.getAll()"
 					+ e.toString());
 		}
 	}
 
+	/**
+	 * @param activity
+	 * @param dbHelper
+	 * @return
+	 * @throws PomodroidException
+	 * 
+	 * Gets all events
+	 */
 	public static List<Event> getAll(final Activity activity, DBHelper dbHelper)
 			throws PomodroidException {
 		ObjectSet<Event> result;
@@ -134,7 +149,6 @@ public class Event extends it.unibz.pomodroid.models.Event {
 				}
 			});
 		} catch (Exception e) {
-			Log.e("Event.getAll()", "Problem: " + e.getMessage());
 			throw new PomodroidException("ERROR in Event.getAll()"
 					+ e.toString());
 		}
@@ -143,17 +157,22 @@ public class Event extends it.unibz.pomodroid.models.Event {
 
 	
 
+	/**
+	 * @param activity
+	 * @param dbHelper
+	 * @throws PomodroidException
+	 * 
+	 * Deletes all events
+	 */
 	public static void delete(final Activity activity, DBHelper dbHelper)
 			throws PomodroidException {
 		try {
 			List<Event> eventsForActivity = Event.getAll(activity, dbHelper);
-			Log.i("Event.delete()", "Event that will be deleted: "
-					+ eventsForActivity.size());
+			
 			for (Event ev : eventsForActivity) {
 				dbHelper.getDatabase().delete(ev);
 			}
 		} catch (Exception e) {
-			Log.e("Event.delete()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Event.delete()"
 					+ e.toString());
 		}finally{

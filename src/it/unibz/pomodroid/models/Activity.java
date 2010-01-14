@@ -3,8 +3,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author Thomas Schievenin
- * 
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ *  
  * A class representing an activity. Each activity is described by its number of pomodoro (integer number),
  * received date (date), deadline (date), summary (string), description (string), origin (string i.e. trac), 
  * origin id (integer that refers to its origin), priority (string), reporter (string), type (string), 
@@ -64,14 +65,7 @@ public class Activity {
 	
 	public void update (Activity ac) {
 		this.numberPomodoro = ac.getNumberPomodoro();
-		// this.deadline = ac.getDeadline();
 		this.summary = ac.getSummary();
-		// this.description = ac.getDescription();
-		// this.origin = ac.getOrigin();
-		// this.originId = ac.getOriginId();
-		// this.priority = ac.getPriority();
-		// this.reporter = ac.getReporter();
-		// this.type = ac.getType();
 		this.todoToday = ac.isTodoToday();
 		this.done = ac.isDone();
 	}
@@ -281,10 +275,16 @@ public class Activity {
 		this.endDate = endDate;
 	}
 	
+	/**
+	 *  Set done to false
+	 */
 	public void setUndone() {
 		this.done = false;
 	}
 
+	/**
+	 * @return short summary description (for UI)
+	 */
 	public String getShortSummary(){
 	   final int maxLength = 30;
 	   if (this.summary.length()>maxLength)
@@ -292,6 +292,9 @@ public class Activity {
 	   return this.summary.replaceAll("\n", " ");
 	}
 	
+	/**
+	 * Add one pomodoro
+	 */
 	public void addOnePomodoro (){
 		this.numberPomodoro++;
 	}

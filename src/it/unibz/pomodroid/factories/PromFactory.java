@@ -18,10 +18,11 @@ import android.util.Log;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 
 /**
- * @author Thomas Schievenin
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>* 
  * 
- *         A class that saves all information about an activity it into PROM.
- *         Each activity taken from our internal database.
+ * A class that saves all information about an activity it into PROM.
+ * Each activity taken from our internal database.
  * 
  */
 public class PromFactory {
@@ -114,12 +115,6 @@ public class PromFactory {
 				prefix++;
 
 			}
-
-			Log
-					.i("PromFactory.createZip", "Events processed: "
-							+ events.size());
-			Log.i("PromFactory.createZip", "Zip file contains " + prefix
-					+ " files");
 
 			out.finish();
 			out.flush();

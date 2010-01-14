@@ -1,13 +1,12 @@
 package it.unibz.pomodroid.services;
 
-import android.util.Log;
-
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.XmlRpcClient;
 
 /**
- * @author Thomas Schievenin
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  *
  * A class that saves into PROM our information 
  */
@@ -43,7 +42,6 @@ public class PromEventDeliverer {
 			}
 			Integer uploadId = getUploadId(user);
 
-			Log.i("PromEventDeliverer.uploadData()", "Upload ID:" + uploadId);
 			Object[] params = { uploadId, appName, promDB, zipIni };
 
 			Object ret = XmlRpcClient.fetchSingleResult(user.getPromUrl(),
@@ -56,7 +54,6 @@ public class PromEventDeliverer {
 			
 
 		} catch (Exception e) {
-			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: " + e.toString());
 			throw new PomodroidException("ERROR in PromEventDeliverer.uploadData() transer problem: "+e.toString());
 		}
 		
@@ -75,8 +72,6 @@ public class PromEventDeliverer {
 
 			Integer uploadId = getUploadId(user);
 
-			Log.i("PromEventDeliverer.testUploadData()", "Upload ID:"
-					+ uploadId);
 			Object[] params = { uploadId, appName, promDB, zipIni };
 
 			Object ret = XmlRpcClient.fetchSingleResult(user.getPromUrl(),
@@ -89,7 +84,6 @@ public class PromEventDeliverer {
 			}
 
 		} catch (Exception e) {
-			Log.e("PromEventDeliverer.uploadData()", "Tranfer problem: "+ e.toString());
 			throw new PomodroidException("ERROR in PromEventDeliverer.testUploadData() transer problem: "+e.toString());
 		}
 	}
