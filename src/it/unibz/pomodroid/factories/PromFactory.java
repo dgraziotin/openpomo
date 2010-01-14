@@ -18,11 +18,11 @@ import android.util.Log;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>* 
- * 
+ *
  * A class that saves all information about an activity it into PROM.
  * Each activity taken from our internal database.
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>* 
  * 
  */
 public class PromFactory {

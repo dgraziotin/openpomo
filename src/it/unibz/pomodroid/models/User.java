@@ -3,11 +3,10 @@ package it.unibz.pomodroid.models;
 import java.util.Date;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- *
  * A class representing a tipical pomodroid user. Each user has its username (string), password (tring), 
  * trac url (absolute url), prom url (absolute url).
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
  */
 

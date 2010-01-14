@@ -9,12 +9,12 @@ import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it> * 
- * 
  * A class representing an extension of the event class. Whit the help
  * of the open source object database db40 the event is saved into a
  * local database.
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it> * 
+ * 
  * 
  */
 

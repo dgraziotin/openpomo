@@ -11,12 +11,11 @@ import java.util.Vector;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 
 /**
+ *  A class that saves all information about tickets it into the
+ *  database. Each ticket taken from TRAC is checked. If some information
+ *  are empty, the class provides some auto-generated values.
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * 
- *         A class that saves all information about tickets it into the
- *         database. Each ticket taken from TRAC is checked. If some information
- *         are empty, the class provides some auto-generated values.
  * 
  */
 public class ActivityFactory {

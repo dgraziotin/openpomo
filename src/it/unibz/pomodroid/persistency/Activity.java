@@ -9,12 +9,11 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * 
  * A class representing an extension of the activity class. Whit the
  * help of the open source object database db40 the activity is saved
  * into a local database.
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
  */
 public class Activity extends it.unibz.pomodroid.models.Activity {

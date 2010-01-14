@@ -6,10 +6,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 /**
+ * This class implements the menu that is visible from all other classes
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * 
- * This class implements the menu that is visible from all other classes
+ * @see android.view.Menu
  */
 
 class SharedMenu {

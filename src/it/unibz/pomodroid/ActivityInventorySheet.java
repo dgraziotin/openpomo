@@ -9,15 +9,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * @see it.unibz.pomodroid.SharedListActivity
- * 
  * Activity Inventory Sheet class is an extension of Shared List activity.
  * This class shows to the user which activities are not faced yet, but have 
  * to be done.
  * The only way to erase an activity from this sheet is to put it into the trash.
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
+ * @see it.unibz.pomodroid.SharedListActivity
  */
 
 

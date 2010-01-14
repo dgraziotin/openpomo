@@ -5,10 +5,10 @@ import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.XmlRpcClient;
 
 /**
+ * A class that saves into PROM our information 
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  *
- * A class that saves into PROM our information 
  */
 public class PromEventDeliverer {
 	private String appName = "Pomodroid";

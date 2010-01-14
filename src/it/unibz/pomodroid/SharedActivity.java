@@ -13,11 +13,11 @@ import it.unibz.pomodroid.persistency.User;
 
 
 /**
+ * Base-class of all activities. Defines common behavior for all Activities
+ * of Pomodroid.
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * 
- * Base-class of all activities
- *
+ * @see android.app.Activity
  */
 public abstract class SharedActivity extends Activity {
 	

@@ -10,15 +10,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 /**
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * @see it.unibz.pomodroid.SharedListActivity
- * 
  * Todo Today Sheet class is an extension of Shared List activity.
  * This class shows to the user which activities have to be done today.
  * 
  * Here we can face the activity, move it into the activity inventory sheet or
  * into the trash sheet.
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @see it.unibz.pomodroid.SharedListActivity
  */
 public class TodoTodaySheet extends SharedListActivity {
 

@@ -8,13 +8,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
+ * This class allows us to manipulate the content of the object oriented database db4o.
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
- * 
- *      This class allows us to manipulate the content of the object oriented
- *      database db4o.
- * 
+ * @see android.view.View.OnClickListener
  */
 
 public class CleanDatabase extends SharedActivity implements OnClickListener {

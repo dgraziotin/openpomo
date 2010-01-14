@@ -10,10 +10,9 @@ import com.db4o.ObjectContainer;
 import com.db4o.config.Configuration;
 
 /**
+ * This class manages the open source object database db40
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * 
- * This class manages the open source object database db40
  *
  */
 

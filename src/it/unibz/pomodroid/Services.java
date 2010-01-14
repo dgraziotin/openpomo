@@ -20,13 +20,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
+ * This class is in charge of retrieving tickets from trac and seding events to prom.
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
- * 
- *
- * This class is in charge of retrieving tickets from trac and seding events to prom.
- * 
  */
 
 public class Services extends SharedActivity implements OnClickListener, Runnable {

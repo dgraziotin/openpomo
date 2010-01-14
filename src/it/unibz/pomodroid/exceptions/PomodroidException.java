@@ -4,10 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 
 /**
+ * All exception that can occur will be propagated and shown thanks to this class.
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
- * All exception that can occur will be shown thanks to this class.
  */
 public class PomodroidException extends Exception{
 	
