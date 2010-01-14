@@ -344,6 +344,10 @@ AuthScope.ANY_REALM),
 			// check status code
 			int statusCode = response.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK) {
+				if(statusCode==HttpStatus.SC_NOT_FOUND)
+					throw new XMLRPCException("404 Not found. Please make sure that URL is correct.");
+				if(statusCode==HttpStatus.SC_UNAUTHORIZED)
+					throw new XMLRPCException("Not authorized. Please make sure that username and passwords are correct.");
 				throw new XMLRPCException("HTTP status code: " + statusCode + " != " + HttpStatus.SC_OK);
 			}
 

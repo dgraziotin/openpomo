@@ -209,7 +209,6 @@ public class Services extends SharedActivity implements OnClickListener, Runnabl
 			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
 			if (promEventDeliverer.uploadData(this.zipIni, super.user)){
 				Event.deleteAll(super.dbHelper);
-				events.clear();
 				events=null;
 			}
 		} catch (PomodroidException e) {
