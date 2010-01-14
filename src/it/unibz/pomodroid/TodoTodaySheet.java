@@ -89,7 +89,7 @@ public class TodoTodaySheet extends SharedListActivity {
 								} catch (PomodroidException e) {
 									e.alertUser(getContext());
 								} finally {
-									dbHelper.close();
+									dbHelper.commit();
 								}
 							}
 						}).show();

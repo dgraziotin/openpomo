@@ -62,7 +62,7 @@ public class TracTest extends AndroidTestCase{
 	}
 	
 	public void tearDown(){
-		dbHelper.close();
+		dbHelper.commit();
 	}
 	public void testAndroidTestCaseSetupProperly() {
 		super.testAndroidTestCaseSetupProperly();

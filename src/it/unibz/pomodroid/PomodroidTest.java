@@ -4,6 +4,9 @@ import it.unibz.pomodroid.test.TestSuite;
 import android.app.Activity;
 import android.os.Bundle;
 import android.test.AndroidTestRunner;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import junit.framework.TestListener;
@@ -19,7 +22,15 @@ public class PomodroidTest extends SharedActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
-		startTest();
+		Button launchTestButton = (Button) findViewById(R.id.ButtonTests);
+		launchTestButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startTest();
+				
+			}
+		}
+		);
     }
   
 
