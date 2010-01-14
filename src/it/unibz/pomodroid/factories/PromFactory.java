@@ -31,7 +31,7 @@ public class PromFactory {
 	private static final int ANDROID_APPLICATION_ID = 1000;
 	public static final String PROM_DATE_FORMAT = "yyyyMMddHHmmss";
 
-	public static void promify(List<Event> events, User user)
+	public void promify(List<Event> events, User user)
 			throws PomodroidException {
 		List<String> iniEvents = new ArrayList<String>();
 		for (Event event : events) {
@@ -51,7 +51,7 @@ public class PromFactory {
 	 * @param trip_id
 	 * @return
 	 */
-	public static String createIniEntry(Event event, User user)
+	public String createIniEntry(Event event, User user)
 			throws PomodroidException {
 
 		String entity = "/" + event.getType() + "=" + event.getValue();
@@ -107,7 +107,7 @@ public class PromFactory {
 			for (Event event : events) {
 				ZipEntry entry = new ZipEntry(prefix + ".ini");
 				out.putNextEntry(entry);
-				byte[] buffer = PromFactory.createIniEntry(event, user)
+				byte[] buffer = this.createIniEntry(event, user)
 						.getBytes();
 				out.write(buffer);
 				out.flush();
