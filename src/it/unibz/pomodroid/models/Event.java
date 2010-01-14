@@ -3,7 +3,8 @@ package it.unibz.pomodroid.models;
 import java.util.Date;
 
 /**
- * @author Thomas Schievenin
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
  * A class representing an event. Each event has its type (string), value (string), date (date) and reference to
  * its activity.
@@ -103,10 +104,18 @@ public class Event {
 		this.activity = activity;
 	}
 	
+	/**
+	 * @return number of pomodoro
+	 */
 	public long getAtPomodoroValue() {
 		return atPomodoroValue;
 	}
 	
+	/**
+	 * @param atPomodoroValue
+	 * 
+	 * The number of pomodoro to set
+	 */
 	public void setAtPomodoroValue(long atPomodoroValue) {
 		this.atPomodoroValue = atPomodoroValue;
 	}

@@ -11,6 +11,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @see it.unibz.pomodroid.SharedActivity
+ * 
+ * This class implements graphically the pomodoro technique. Here we have the counter
+ * and the description of the activity to face.
+ * 
+ */
+
 public class Pomodoro extends SharedActivity implements OnClickListener {
 	public final static int SUCCESS_RETURN_CODE = 1;
 	private final static int SECONDS_PER_MINUTES = 60;
@@ -28,6 +38,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 	/** Called when the activity is first created. */
 
+	/* (non-Javadoc)
+	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,16 +70,24 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		Integer numberPomodoro = activity.getNumberPomodoro();
 		this.textViewActivityNumberPomodoro.setText("Number of pomodoro: " + numberPomodoro.toString());
 		
-		// this.pomodoroDurationMilliseconds = user.getPomodoroMinutesDuration()
-		// * SECONDS_PER_MINUTES * MILLISECONDS_PER_SECONDS;
-		this.pomodoroDurationMilliseconds = 10000; // FIXME: delete it before
-		// production!
+		this.pomodoroDurationMilliseconds = user.getPomodoroMinutesDuration() * SECONDS_PER_MINUTES * MILLISECONDS_PER_SECONDS;
+		
+		/*
+		 * If you want to set the pomodoro duration equals to 10 seconds remove the following comment symbol
+		 */
+		
+		//this.pomodoroDurationMilliseconds = 10000; // FIXME: delete it before production!
+		
+		
 		counter = new CountDown(this.pomodoroDurationMilliseconds,
 				MILLISECONDS_PER_SECONDS);
 		this.textViewPomodoroTimer.setText(this
 				.getFormattedTimerValue(this.pomodoroDurationMilliseconds));
 	}
 
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
 	@Override
 	public void onClick(View v) {
 		it.unibz.pomodroid.persistency.Activity activity = null;
@@ -137,28 +158,42 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		return time;
 	}
 
+
 	/**
-	 * @author bodom_lx
-	 * 
+	 * This class implements the pomodoro countdown
+	 *
 	 */
 	public class CountDown extends CountDownTimer {
 		private long currentCoundDownMilliseconds = -1;
 
+		/**
+		 * @return current countdown in milliseconds
+		 */
 		public long getCurrentCoundDownMilliseconds() {
 			return currentCoundDownMilliseconds;
 		}
 
+		/**
+		 * @param currentCoundDownMilliseconds
+		 */
 		public void setCurrentCoundDownMilliseconds(
 				long currentCoundDownMilliseconds) {
 			this.currentCoundDownMilliseconds = currentCoundDownMilliseconds;
 		}
 
+		/**
+		 * @param durationMilliseconds
+		 * @param countDownIntervalMilliseconds
+		 */
 		public CountDown(long durationMilliseconds,
 				long countDownIntervalMilliseconds) {
 			super(durationMilliseconds, countDownIntervalMilliseconds);
 			this.currentCoundDownMilliseconds = durationMilliseconds;
 		}
 
+		/* (non-Javadoc)
+		 * @see android.os.CountDownTimer#onFinish()
+		 */
 		@Override
 		public void onFinish() {
 			it.unibz.pomodroid.persistency.Activity activity = null;
@@ -207,6 +242,11 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 			}
 		}
 
+		/**
+		 * @throws PomodroidException
+		 * 
+		 * Stops the counter
+		 */
 		public void stop() throws PomodroidException {
 			super.cancel();
 			textViewPomodoroTimer
@@ -214,6 +254,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 			throw new PomodroidException(context.getString(R.string.pomodoro_broken));
 		}
 
+		/* (non-Javadoc)
+		 * @see android.os.CountDownTimer#onTick(long)
+		 */
 		@Override
 		public void onTick(long millisUntilFinished) {
 			this.currentCoundDownMilliseconds = millisUntilFinished;

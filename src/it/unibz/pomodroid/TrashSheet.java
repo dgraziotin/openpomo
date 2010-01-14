@@ -9,8 +9,15 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 /**
- * @author bodom_lx
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @see it.unibz.pomodroid.SharedListActivity
  * 
+ * Trash Sheet class is an extension of Shared List activity.
+ * This class shows to the user which activities are done.
+ * 
+ * From here we can move an activity into the todo today sheet (and automatically into
+ * the activity inventory sheet) or into the activity inventory sheet.
  */
 public class TrashSheet extends SharedListActivity {
 
@@ -22,7 +29,7 @@ public class TrashSheet extends SharedListActivity {
 	}
 
 	/**
-	 * Gets the Activities from Activity.getAll() and adds them to the local
+	 * Gets the Activities from Activity.getCompleted() and adds them to the local
 	 * list of activities. It calls populateAdapter to populate the adapter with
 	 * the new list of activities
 	 * 
@@ -34,8 +41,7 @@ public class TrashSheet extends SharedListActivity {
 	protected void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
-			List<Activity> retrievedActivities = Activity
-					.getCompleted(this.dbHelper);
+			List<Activity> retrievedActivities = Activity.getCompleted(this.dbHelper);
 			activities.addAll(retrievedActivities);
 		} catch (Exception e) {
 			throw new PomodroidException(

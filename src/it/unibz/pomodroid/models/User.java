@@ -3,8 +3,8 @@ package it.unibz.pomodroid.models;
 import java.util.Date;
 
 /**
- * 
- * @author Thomas Schievenin
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  *
  * A class representing a tipical pomodroid user. Each user has its username (string), password (tring), 
  * trac url (absolute url), prom url (absolute url).
@@ -38,6 +38,11 @@ public class User {
 		this.facedPomodoro = 0;
 	}
 
+	/**
+	 * @param user
+	 * 
+	 * This method updates some class variables 
+	 */
 	public void update (User user){
 		this.tracUsername = user.getTracUsername();
 		this.tracPassword = user.getTracPassword();
@@ -115,26 +120,50 @@ public class User {
 		this.pomodoroMinutesDuration = pomodoroMinutesDuration;
 	}
 
+	/**
+	 * @return date
+	 * 
+	 * this date is related to the number of pomodoro faced.
+	 */
 	public Date getDateFacedPomodoro() {
 		return dateFacedPomodoro;
 	}
 
+	/**
+	 * @param dateFacedPomodoro
+	 * Set the date
+	 */
 	public void setDateFacedPomodoro(Date dateFacedPomodoro) {
 		this.dateFacedPomodoro = dateFacedPomodoro;
 	}
 
+	/**
+	 * @return faced pomodoro
+	 * This number is related to the date (methods above)
+	 */
 	public int getFacedPomodoro() {
 		return facedPomodoro;
 	}
 
+	/**
+	 * @param facedPomodoro
+	 * The pomodoro faced to set
+	 */
 	public void setFacedPomodoro(int facedPomodoro) {
 		this.facedPomodoro = facedPomodoro;
 	}
 
+	/**
+	 * @return
+	 * Every 4 pomodoro the user should do a longer break
+	 */
 	public boolean isFourthPomodoro(){
 		return (this.facedPomodoro % 4==0) ;
 	}
 	
+	/**
+	 * Add one pomodoro
+	 */
 	public void addPomodoro(){
 		 this.facedPomodoro++;
 	}

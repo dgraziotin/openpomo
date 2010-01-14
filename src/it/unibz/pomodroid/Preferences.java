@@ -10,8 +10,24 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
+ * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @see it.unibz.pomodroid.SharedActivity
+ * 
+ *
+ * This class implements the user preferences. Here the user can set its user and password
+ * for prom/trac connections and the duration of one pomodoro. As soon as the user clicks
+ * the button "save" some tests will check the correctness of the data. 
+ * 
+ * The user can also manipulate the DB and launch the tests.
+ */
+
 public class Preferences extends SharedActivity {
 
+	/* (non-Javadoc)
+	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
