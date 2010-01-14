@@ -28,9 +28,10 @@ import android.widget.TextView;
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
- * Class to represent common behaviors and aspects of Pomodroid's ListActivities
- * It defines the shared Menu, an ArrayAdapter to represent Activities, and the
- * methods useful to work with the Adapter.
+ *         Class to represent common behaviors and aspects of Pomodroid's
+ *         ListActivities It defines the shared Menu, an ArrayAdapter to
+ *         represent Activities, and the methods useful to work with the
+ *         Adapter.
  */
 public abstract class SharedListActivity extends ListActivity {
 
@@ -99,9 +100,10 @@ public abstract class SharedListActivity extends ListActivity {
 		}
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
-		this.activityAdapter = new ActivityAdapter(this,R.layout.ttsactivityentry, activities);
+		this.activityAdapter = new ActivityAdapter(this,
+				R.layout.ttsactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
-		
+
 	}
 
 	/**
@@ -180,56 +182,68 @@ public abstract class SharedListActivity extends ListActivity {
 			final Activity activity = items.get(position);
 			// builds the components of the activity entry view
 			if (activity != null) {
-				TextView tt = (TextView) view.findViewById(R.id.toptext);
-				TextView bt = (TextView) view.findViewById(R.id.bottomtext);
-				if (tt != null) {
-					tt.setText(activity.getShortSummary());
-				}
-				if (bt != null) {
-					bt.setText(context.getString(R.string.pomodoro_nr) + "("
-							+ activity.getNumberPomodoro() + ") - "
-							+ context.getString(R.string.deadline) + " ("
-							+ activity.getStringDeadline() + ")");
-
-				}
+				TextView textViewTopText = (TextView) view.findViewById(R.id.toptext);
+				TextView textViewBottomText = (TextView) view.findViewById(R.id.bottomtext);
+				textViewTopText.setText(activity.getShortSummary());
+				textViewBottomText.setText(context.getString(R.string.pomodoro_nr) 
+						+ "(" + activity.getNumberPomodoro() + ") - "
+						+ context.getString(R.string.deadline)
+						+ " (" + activity.getStringDeadline() + ")");
 			}
-			// bind a listener to the current Activity row
-			view.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					openActivityDialog(activity);
-				}
-			});
-			// bind a listener to the current Activity row
-			view.setOnLongClickListener(new OnLongClickListener() {
-				
-				@Override
-				public boolean onLongClick(View v) {
-					createDialog(activity);
-					return false;
-				}
-			});
+			view = addListeners(view, activity);
 			return view;
 		}
 	}
-	
+
 	/**
-	 * Creates a dialog that reports useful information about an Activity.
-	 * To be used when a User holds a click on an Activity
+	 * This method attaches listeners to a View, given the Activity associated
+	 * to that view.
+	 * 
+	 * @param view
+	 * @param activity
+	 * @return view
 	 */
-	private void createDialog(Activity activity){
+	private View addListeners(View view, final Activity activity) {
+		// bind a listener to the current Activity row
+		view.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				openActivityDialog(activity);
+			}
+		});
+		// bind a listener to the current Activity row
+		view.setOnLongClickListener(new OnLongClickListener() {
+
+			@Override
+			public boolean onLongClick(View v) {
+				createDialog(activity);
+				return false;
+			}
+		});
+		return view;
+	}
+
+	/**
+	 * Creates a dialog that reports useful information about an Activity. To be
+	 * used when a User holds a click on an Activity
+	 */
+	private void createDialog(Activity activity) {
 		AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
 		dialog.setTitle("Activity Details");
-		  dialog.setButton("Dismiss", new DialogInterface.OnClickListener(){
-				public void onClick(DialogInterface dialog, int whichButton){
-					dialog.dismiss();
-				}
-		  });
-		String message = 	context.getString(R.string.reporter) + ": " + activity.getReporter() + "\n" +
-							context.getString(R.string.type) + ": " + activity.getType() + "\n" +
-							context.getString(R.string.priority) + ": " + activity.getPriority() + "\n" +
-							context.getString(R.string.deadline) + ": " + activity.getStringDeadline() + "\n\n" +
-							context.getString(R.string.description) + ": " + activity.getDescription() + "\n";
+		dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				dialog.dismiss();
+			}
+		});
+		String message = context.getString(R.string.reporter) + ": "
+				+ activity.getReporter() + "\n"
+				+ context.getString(R.string.type) + ": " + activity.getType()
+				+ "\n" + context.getString(R.string.priority) + ": "
+				+ activity.getPriority() + "\n"
+				+ context.getString(R.string.deadline) + ": "
+				+ activity.getStringDeadline() + "\n\n"
+				+ context.getString(R.string.description) + ": "
+				+ activity.getDescription() + "\n";
 		dialog.setMessage(message);
 		dialog.show();
 	}
@@ -264,7 +278,8 @@ public abstract class SharedListActivity extends ListActivity {
 			}
 		};
 		// create a new Thread that executes activityRetriever and start it
-		Thread thread = new Thread(null, activityRetriever,"ActivityRetrieverThread");
+		Thread thread = new Thread(null, activityRetriever,
+				"ActivityRetrieverThread");
 		thread.start();
 		// show a nice progress bar
 		progressDialog = ProgressDialog.show(getContext(),
@@ -319,10 +334,10 @@ public abstract class SharedListActivity extends ListActivity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        SharedMenu.onCreateOptionsMenu(menu);
-        return true;
-    }
+		super.onCreateOptionsMenu(menu);
+		SharedMenu.onCreateOptionsMenu(menu);
+		return true;
+	}
 
 	/**
 	 * Defines the actions to be performed when the user clicks on a menu item.

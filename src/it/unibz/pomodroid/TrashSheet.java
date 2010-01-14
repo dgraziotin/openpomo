@@ -11,13 +11,12 @@ import android.os.Bundle;
 /**
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
- * @see it.unibz.pomodroid.SharedListActivity
- * 
  * Trash Sheet class is an extension of Shared List activity.
  * This class shows to the user which activities are done.
  * 
  * From here we can move an activity into the todo today sheet (and automatically into
  * the activity inventory sheet) or into the activity inventory sheet.
+ * @see it.unibz.pomodroid.SharedListActivity
  */
 public class TrashSheet extends SharedListActivity {
 

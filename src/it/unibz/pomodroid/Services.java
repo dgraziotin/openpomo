@@ -187,8 +187,9 @@ public class Services extends SharedActivity implements OnClickListener, Runnabl
 	private void retrieveTicketsFromTrac() throws PomodroidException {
 		try {
 			TrackTicketFetcher tracTicketFetcher = new TrackTicketFetcher();
+			ActivityFactory activityFactory = new ActivityFactory();
 			this.tasks = tracTicketFetcher.fetch(super.user, super.dbHelper);
-			this.taskAdded = ActivityFactory
+			this.taskAdded = activityFactory
 					.produce(this.tasks, super.dbHelper);
 		} catch (PomodroidException e) {
 			e.alertUser(super.context);
