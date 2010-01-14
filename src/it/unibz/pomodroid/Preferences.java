@@ -95,6 +95,8 @@ public class Preferences extends SharedActivity {
 				|| nullOrEmpty(promUrlEditText.getText().toString())
 				|| nullOrEmpty(pomodoroLengthEditText.getText().toString()) )
 			throw new PomodroidException("ERROR: you must fill al data!");
+		if (Integer.parseInt(pomodoroLengthEditText.getText().toString())==0)
+			throw new PomodroidException("ERROR: Please set a correct Pomodoro length value (1-99)");
 	}
 
 	/**

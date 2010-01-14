@@ -64,7 +64,6 @@ public abstract class SharedActivity extends Activity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		this.dbHelper.close();
 	}
 	
 	public void onResume(){

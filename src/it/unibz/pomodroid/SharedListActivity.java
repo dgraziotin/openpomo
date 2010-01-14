@@ -135,7 +135,6 @@ public abstract class SharedListActivity extends ListActivity {
 	 */
 	public void onStop() {
 		super.onStop();
-		this.dbHelper.close();
 	}
 
 	/**
