@@ -16,8 +16,8 @@ import android.widget.TextView;
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
  * 
- * This class implements graphically the pomodoro technique. Here we have the counter
- * and the description of the activity to face.
+ *      This class implements graphically the pomodoro technique. Here we have
+ *      the counter and the description of the activity to face.
  * 
  */
 
@@ -38,7 +38,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 	/** Called when the activity is first created. */
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
@@ -65,81 +67,65 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		this.textViewActivitySummary = (TextView) findViewById(R.id.TextViewActivitySummary);
 		this.textViewActivityDescription = (TextView) findViewById(R.id.TextViewActivityDescription);
 		this.textViewActivityNumberPomodoro = (TextView) findViewById(R.id.TextViewActivityNumberPomodoro);
-		this.textViewActivitySummary.setText(activity.getSummary() +" ("+ activity.getStringDeadline()+")");
-		this.textViewActivityDescription.setText(activity.getDescription() + " (Given by: " + activity.getReporter()+")");
+		this.textViewActivitySummary.setText(activity.getSummary() + " ("
+				+ activity.getStringDeadline() + ")");
+		this.textViewActivityDescription.setText(activity.getDescription()
+				+ " (Given by: " + activity.getReporter() + ")");
 		Integer numberPomodoro = activity.getNumberPomodoro();
-		this.textViewActivityNumberPomodoro.setText("Number of pomodoro: " + numberPomodoro.toString());
-		
-		this.pomodoroDurationMilliseconds = user.getPomodoroMinutesDuration() * SECONDS_PER_MINUTES * MILLISECONDS_PER_SECONDS;
-		
+		this.textViewActivityNumberPomodoro.setText("Number of pomodoro: "
+				+ numberPomodoro.toString());
+
+		this.pomodoroDurationMilliseconds = user.getPomodoroMinutesDuration()
+				* SECONDS_PER_MINUTES * MILLISECONDS_PER_SECONDS;
+
 		/*
-		 * If you want to set the pomodoro duration equals to 10 seconds remove the following comment symbol
+		 * If you want to set the pomodoro duration equals to 10 seconds remove
+		 * the following comment symbol
 		 */
-		
-		//this.pomodoroDurationMilliseconds = 10000; // FIXME: delete it before production!
-		
-		
+
+		// this.pomodoroDurationMilliseconds = 10000; // FIXME: delete it before
+		// production!
+
 		counter = new CountDown(this.pomodoroDurationMilliseconds,
 				MILLISECONDS_PER_SECONDS);
 		this.textViewPomodoroTimer.setText(this
 				.getFormattedTimerValue(this.pomodoroDurationMilliseconds));
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
 	@Override
 	public void onClick(View v) {
 		it.unibz.pomodroid.persistency.Activity activity = null;
-
 		try {
 			activity = it.unibz.pomodroid.persistency.Activity.getActivity(
 					this.activityOrigin, this.activityOriginId, super.dbHelper);
+			switch (v.getId()) {
+			case R.id.ButtonPomodoroStart:
+				Event event = new Event("pomodoro", "start", new Date(),
+						activity, pomodoroDurationMilliseconds / 1000);
+
+				event.save(super.dbHelper);
+				counter.start();
+				this.buttonPomodoroStart.setClickable(false);
+				this.buttonPomodoroStop.setClickable(true);
+				break;
+			case R.id.ButtonPomodoroStop:
+
+				Event event1 = new Event("pomodoro", "stop", new Date(),
+						activity,
+						counter.getCurrentCoundDownMilliseconds() / 1000);
+				event1.save(super.dbHelper);
+				this.buttonPomodoroStart.setClickable(true);
+				this.buttonPomodoroStop.setClickable(false);
+				counter.stop();
+				break;
+			}
 		} catch (PomodroidException e) {
 			e.alertUser(this);
-		}
-
-		switch (v.getId()) {
-		case R.id.ButtonPomodoroStart:
-			Event event = new Event("pomodoro", "start", new Date(), activity,
-					pomodoroDurationMilliseconds / 1000);
-			try {
-				event.save(super.dbHelper);
-			} catch (PomodroidException e1) {
-				try {
-					throw new PomodroidException(
-							"ERROR! Could not create event! " + e1.getMessage());
-				} catch (PomodroidException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			counter.start();
-			this.buttonPomodoroStart.setClickable(false);
-			this.buttonPomodoroStop.setClickable(true);
-			break;
-		case R.id.ButtonPomodoroStop:
-
-			Event event1 = new Event("pomodoro", "stop", new Date(), activity,
-					counter.getCurrentCoundDownMilliseconds() / 1000);
-			try {
-				event1.save(super.dbHelper);
-			} catch (PomodroidException e) {
-				try {
-					throw new PomodroidException(
-							"ERROR, could not save Event! " + e.getMessage());
-				} catch (PomodroidException e1) {
-					e1.printStackTrace();
-				}
-			}
-			this.buttonPomodoroStart.setClickable(true);
-			this.buttonPomodoroStop.setClickable(false);
-			try {
-				counter.stop();
-			} catch (PomodroidException e) {
-				e.alertUser(context, "INFO");
-			}
-			break;
 		}
 	}
 
@@ -158,10 +144,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		return time;
 	}
 
-
 	/**
 	 * This class implements the pomodoro countdown
-	 *
+	 * 
 	 */
 	public class CountDown extends CountDownTimer {
 		private long currentCoundDownMilliseconds = -1;
@@ -191,7 +176,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 			this.currentCoundDownMilliseconds = durationMilliseconds;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see android.os.CountDownTimer#onFinish()
 		 */
 		@Override
@@ -200,44 +187,30 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 			try {
 				activity = it.unibz.pomodroid.persistency.Activity.getActivity(
 						activityOrigin, activityOriginId, dbHelper);
-			} catch (PomodroidException e) {
-				e.alertUser(context);
-			}
-			Event event = new Event("pomodoro", "finish", new Date(), activity,
-					counter.getCurrentCoundDownMilliseconds() / 1000);
-			try {
+
+				Event event = new Event("pomodoro", "finish", new Date(),
+						activity,
+						counter.getCurrentCoundDownMilliseconds() / 1000);
 				event.save(dbHelper);
-			} catch (PomodroidException e) {
-				try {
-					throw new PomodroidException(
-							"ERROR, could not save Event! " + e.getMessage());
-				} catch (PomodroidException e1) {
 
-				}
-			}
-			textViewPomodoroTimer.setText(getFormattedTimerValue(0));
-			buttonPomodoroStart.setClickable(true);
-			buttonPomodoroStop.setClickable(false);
-			activity.addOnePomodoro();
-
-			try {
+				textViewPomodoroTimer.setText(getFormattedTimerValue(0));
+				buttonPomodoroStart.setClickable(true);
+				buttonPomodoroStop.setClickable(false);
+				activity.addOnePomodoro();
 				activity.save(dbHelper);
 				Integer numberPomodoro = activity.getNumberPomodoro();
-				textViewActivityNumberPomodoro.setText("Number of pomodoro: "+ numberPomodoro
-						.toString());
+				textViewActivityNumberPomodoro.setText("Number of pomodoro: "
+						+ numberPomodoro.toString());
+				if (user.isLongerBreak(dbHelper))
+					throw new PomodroidException(context
+							.getString(R.string.pomodoro_short_break));
+				else
+					throw new PomodroidException(context
+							.getString(R.string.pomodoro_long_break));
+
 			} catch (PomodroidException e) {
 				e.alertUser(context);
-			}
-
-			try {
-				if (user.isLongerBreak(dbHelper))
-				  throw new PomodroidException(context.getString(R.string.pomodoro_short_break));
-				else
-				  throw new PomodroidException(context.getString(R.string.pomodoro_long_break));
-			} catch (PomodroidException e) {
-				e.alertUser(context, "INFO");
-			}
-			finally {
+			} finally {
 				dbHelper.commit();
 			}
 		}
@@ -245,16 +218,19 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		/**
 		 * @throws PomodroidException
 		 * 
-		 * Stops the counter
+		 *             Stops the counter
 		 */
 		public void stop() throws PomodroidException {
 			super.cancel();
 			textViewPomodoroTimer
 					.setText(getFormattedTimerValue(pomodoroDurationMilliseconds));
-			throw new PomodroidException(context.getString(R.string.pomodoro_broken));
+			throw new PomodroidException(context
+					.getString(R.string.pomodoro_broken));
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see android.os.CountDownTimer#onTick(long)
 		 */
 		@Override

@@ -145,8 +145,7 @@ public class Preferences extends SharedActivity {
 		if (super.user == null) {
 			super.user = new User(tracUsernameEditText.getText().toString(),
 					tracPasswordEditText.getText().toString(), tracUrlEditText
-							.getText().toString(), promUrlEditText.getText()
-							.toString());
+					.getText().toString(), promUrlEditText.getText().toString());
 			super.user.save(super.dbHelper);
 		} else {
 			super.user.setTracUsername(tracUsernameEditText.getText().toString());
@@ -155,7 +154,6 @@ public class Preferences extends SharedActivity {
 			super.user.setPromUrl(promUrlEditText.getText().toString());
 			super.user.setPomodoroMinutesDuration(Integer.parseInt(pomodoroLengthEditText.getText().toString()));
 			super.user.save(super.dbHelper);
-
 		}
 	}
 

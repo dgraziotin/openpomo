@@ -64,7 +64,7 @@ class SharedMenu {
 	 * As soon as the user click on the menu a new intent is created
 	 */
 	public static boolean onOptionsItemSelected(MenuItem item) {
-		Intent i;
+		Intent i; 
 		switch (item.getItemId()) {
 		case AIS:
 			i = new Intent(SharedMenu.context, ActivityInventorySheet.class);
