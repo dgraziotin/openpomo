@@ -33,7 +33,7 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
 			} catch (PomodroidException e) {
 				e.alertUser(context);
 			} finally {
-				dbHelper.close();
+				dbHelper.commit();
 			}
 			break;
 		case R.id.ButtonDefragmentDatabase:
@@ -44,7 +44,7 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
 			} catch (PomodroidException e) {
 				e.alertUser(context);
 			} finally {
-				dbHelper.close();
+				dbHelper.commit();
 			}
 		break;
 	case R.id.ButtonDeleteDatabase:
@@ -55,7 +55,7 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
 		} catch (PomodroidException e) {
 			e.alertUser(context);
 		} finally {
-			dbHelper.close();
+			dbHelper.commit();
 		}
 	}
 	}

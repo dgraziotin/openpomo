@@ -125,7 +125,7 @@ public abstract class SharedListActivity extends ListActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		this.dbHelper.close();
+		this.dbHelper.commit();
 	}
 
 	/**

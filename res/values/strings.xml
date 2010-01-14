@@ -36,4 +36,7 @@
 	<string name="tests">Tests</string>
 	<string name="settings">Pomodroid - Settings</string>
 	<string name="tracprom">Pomodroid - Trac/Prom Actions</string>
+	<string name="pomodoro_short_break">Pomodoro finished. Please take a short break.</string>
+	<string name="pomodoro_long_break">Pomodoro finished. Please take a longer break.</string>
+	<string name="pomodoro_broken">Pomodoro broken!</string>
 </resources>

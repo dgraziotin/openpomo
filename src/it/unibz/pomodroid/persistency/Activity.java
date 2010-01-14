@@ -97,7 +97,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			throw new PomodroidException("ERROR in Activity.save():"
 					+ e.toString());
 		} finally {
-			dbHelper.close();
+			dbHelper.commit();
 		}
 	}
 
@@ -119,7 +119,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			throw new PomodroidException("ERROR in Activity.save(update):"
 					+ e.toString());
 		} finally {
-			dbHelper.close();
+			dbHelper.commit();
 		}
 	}
 
@@ -161,7 +161,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			throw new PomodroidException("ERROR in Activity.delete():"
 					+ e.toString());
 		} finally {
-			dbHelper.close();
+			dbHelper.commit();
 		}
 	}
 
@@ -211,7 +211,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			Log.e("Activity.deleteAll()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.deleteAll():"+ e.toString());
 		} finally {
-			dbHelper.close();
+			dbHelper.commit();
 		}
 	}
 
@@ -348,7 +348,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			throw new PomodroidException("ERROR in Activity.close():"
 					+ e.toString());
 		}finally {
-			dbHelper.close();
+			dbHelper.commit();
 		}
 	}
 

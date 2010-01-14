@@ -58,7 +58,7 @@ public abstract class SharedActivity extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		this.dbHelper.close();
+		this.dbHelper.commit();
 	}
 	
 	@Override

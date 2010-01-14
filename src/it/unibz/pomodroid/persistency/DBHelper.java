@@ -118,6 +118,15 @@ public class DBHelper {
 			database = null;
 		}
 	}
+	
+	/**
+	 * Forces a commit to the database
+	 */
+	public void commit() {
+		if (database != null) {
+			database.commit();
+		}
+	}
 
 	/**
 	 * Deleting the database
