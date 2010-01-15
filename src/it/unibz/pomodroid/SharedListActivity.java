@@ -30,6 +30,7 @@ import android.widget.TextView;
  * Adapter.
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * 
  * @see adroid.app.ListActivity
  */
 public abstract class SharedListActivity extends ListActivity {
@@ -183,7 +184,10 @@ public abstract class SharedListActivity extends ListActivity {
 			if (activity != null) {
 				TextView textViewTopText = (TextView) view.findViewById(R.id.toptext);
 				TextView textViewBottomText = (TextView) view.findViewById(R.id.bottomtext);
-				textViewTopText.setText(activity.getShortSummary());
+				if (getResourceLayout()==R.layout.aisactivityentry && activity.isTodoToday())
+				    textViewTopText.setText("TTS: " + activity.getShortSummary());
+				else
+					textViewTopText.setText(activity.getShortSummary());
 				textViewBottomText.setText(context.getString(R.string.pomodoro_nr) 
 						+ "(" + activity.getNumberPomodoro() + ") - "
 						+ context.getString(R.string.deadline)

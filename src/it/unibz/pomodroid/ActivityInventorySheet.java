@@ -71,6 +71,7 @@ public class ActivityInventorySheet extends SharedListActivity {
 										selectedActivity.setTodoToday(true);
 										selectedActivity.setUndone();
 										selectedActivity.save(dbHelper);
+										activityAdapter.notifyDataSetChanged();
 										break;
 									case 1:
 										selectedActivity.close(dbHelper);
@@ -80,7 +81,7 @@ public class ActivityInventorySheet extends SharedListActivity {
 								} catch (PomodroidException e) {
 									e.alertUser(getContext());
 								} finally {
-									dbHelper.commit();
+								    dbHelper.commit();
 								}
 							}
 						}).show();
