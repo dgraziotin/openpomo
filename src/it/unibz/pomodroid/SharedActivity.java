@@ -33,9 +33,9 @@ public abstract class SharedActivity extends Activity {
 	}
 
 	/**
-	 * @param dbHelper
-	 * 
 	 * Set dbHelper
+	 * @param dbHelper
+	 *
 	 */
 	public void setDbHelper(DBHelper dbHelper) {
 		this.dbHelper = dbHelper;
@@ -49,9 +49,9 @@ public abstract class SharedActivity extends Activity {
 	}
 
 	/**
+	 * User to set
 	 * @param user
 	 * 
-	 * User to set
 	 */
 	public void setUser(User user) {
 		this.user = user;

@@ -54,8 +54,8 @@ public class Event extends it.unibz.pomodroid.models.Event {
 	}
 
 	/**
+	 * the activity to set
 	 * @param activity
-	 *            the activity to set
 	 */
 	public void setActivity(Activity activity) {
 		this.activity = activity;
@@ -128,12 +128,13 @@ public class Event extends it.unibz.pomodroid.models.Event {
 	}
 
 	/**
+	 * Gets all events
+	 * 
 	 * @param activity
 	 * @param dbHelper
 	 * @return
 	 * @throws PomodroidException
 	 * 
-	 * Gets all events
 	 */
 	public static List<Event> getAll(final Activity activity, DBHelper dbHelper)
 			throws PomodroidException {
@@ -158,11 +159,12 @@ public class Event extends it.unibz.pomodroid.models.Event {
 	
 
 	/**
+	 * Deletes all events
+	 * 
 	 * @param activity
 	 * @param dbHelper
 	 * @throws PomodroidException
 	 * 
-	 * Deletes all events
 	 */
 	public static void delete(final Activity activity, DBHelper dbHelper)
 			throws PomodroidException {

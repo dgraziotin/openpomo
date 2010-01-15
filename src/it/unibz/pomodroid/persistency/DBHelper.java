@@ -66,8 +66,9 @@ public class DBHelper {
 	}
 
 	/**
+	 * the context to set
 	 * @param context
-	 *            the context to set
+	 * 
 	 */
 	public void setContext(Context context) {
 		this.context = context;

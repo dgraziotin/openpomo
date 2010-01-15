@@ -111,9 +111,8 @@ public class Event {
 	}
 	
 	/**
-	 * @param atPomodoroValue
-	 * 
 	 * The number of pomodoro to set
+	 * @param atPomodoroValue
 	 */
 	public void setAtPomodoroValue(long atPomodoroValue) {
 		this.atPomodoroValue = atPomodoroValue;

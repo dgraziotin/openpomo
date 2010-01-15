@@ -50,9 +50,9 @@ public class PomodroidException extends Exception{
 	}
 
 	/**
+	 * the title to set
 	 * @param title
 	 * 
-	 * the title to set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -60,9 +60,8 @@ public class PomodroidException extends Exception{
 	
 
 	/**
-	 * @param context
-	 * 
 	 * This method shows an exeption
+	 * @param context
 	 * 
 	 */
 	public void alertUser(Context context){
@@ -77,10 +76,10 @@ public class PomodroidException extends Exception{
 	}
 	
 	/**
+	 * This method shows a simply message (information)
 	 * @param context
 	 * @param title
-	 * 
-	 * This method shows a simply message (information)
+	 *
 	 */
 	public void alertUser(Context context, String title){
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context); 
