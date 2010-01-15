@@ -74,8 +74,7 @@ public class ActivityInventorySheet extends SharedListActivity {
 										break;
 									case 1:
 										selectedActivity.close(dbHelper);
-										activityAdapter
-												.remove(selectedActivity);
+										activityAdapter.remove(selectedActivity);
 										break;
 									}
 								} catch (PomodroidException e) {
