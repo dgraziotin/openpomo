@@ -29,19 +29,19 @@ class SharedMenu {
 	}
 
 	/**
+	 * the content to set
 	 * @param context
 	 *
-	 * the content to set
 	 */
 	public static void setContext(Context context) {
 		SharedMenu.context = context;
 	}
 
 	/**
+	 * We specify the menu labels and theirs icons
 	 * @param menu
 	 * @return
-	 * 
-	 * We specify the menu labels and theirs icons
+	 *
 	 */
 	public static boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, AIS, 0, "Activity Inventory Sheet").setIcon(
@@ -58,10 +58,10 @@ class SharedMenu {
 	}
 
 	/**
+	 * As soon as the user click on the menu a new intent is created
 	 * @param item
 	 * @return
 	 * 
-	 * As soon as the user click on the menu a new intent is created
 	 */
 	public static boolean onOptionsItemSelected(MenuItem item) {
 		Intent i; 

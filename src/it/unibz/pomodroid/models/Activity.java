@@ -76,8 +76,9 @@ public class Activity {
 	}
 
 	/**
+	 * sets the number of pomodoro
 	 * @param numberPomodoro
-	 *            sets the number of pomodoro
+	 * 
 	 */
 	public void setNumberPomodoro(int numberPomodoro) {
 		this.numberPomodoro = numberPomodoro;
@@ -91,8 +92,9 @@ public class Activity {
 	}
 
 	/**
+	 * received date to set
 	 * @param received
-	 *            received date to set
+	 * 
 	 */
 	public void setReceived(Date received) {
 		this.received = received;
@@ -113,8 +115,9 @@ public class Activity {
 		return sdf.format(this.deadline).toString();
 	}
 	/**
+	 * deadline to set
 	 * @param deadline
-	 *            deadline to set
+	 * 
 	 */
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
@@ -128,8 +131,9 @@ public class Activity {
 	}
 
 	/**
+	 * description to set
 	 * @param description
-	 *            description to set
+	 * 
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -143,8 +147,9 @@ public class Activity {
 	}
 
 	/**
+	 * origin to set
 	 * @param origin
-	 *            origin to set
+	 * 
 	 */
 	public void setOrigin(String origin) {
 		this.origin = origin;
@@ -158,8 +163,9 @@ public class Activity {
 	}
 
 	/**
+	 * origin_id to set
 	 * @param originId
-	 *            origin_id to set
+	 * 
 	 */
 	public void setOriginId(int originId) {
 		this.originId = originId;
@@ -173,8 +179,9 @@ public class Activity {
 	}
 
 	/**
+	 * reporter name to set
 	 * @param reporter
-	 *            reporter name to set
+	 * 
 	 */
 	public void setReporter(String reporter) {
 		this.reporter = reporter;
@@ -188,8 +195,9 @@ public class Activity {
 	}
 
 	/**
+	 * the type to set
 	 * @param type
-	 *            the type to set
+	 * 
 	 */
 	public void setType(String type) {
 		this.type = type;
@@ -205,8 +213,8 @@ public class Activity {
 
 	
 	/**
+	 * summary to set
 	 * @param summary
-	 * 			summary to set
 	 */
 	public void setSummary(String summary) {
 		this.summary = summary;
@@ -222,8 +230,8 @@ public class Activity {
 
 	
 	/**
+	 * the priority to set
 	 * @param priority
-	 * 			the priority to set
 	 */
 	public void setPriority(String priority) {
 		this.priority = priority;
@@ -237,8 +245,9 @@ public class Activity {
 	}
 
 	/**
+	 * the todoToday to set
 	 * @param todoToday
-	 * 			the todoToday to set
+	 * 
 	 */
 	public void setTodoToday(boolean todoToday) {
 		this.todoToday = todoToday;
@@ -267,8 +276,9 @@ public class Activity {
 	}
 
 	/**
+	 * the date to set
 	 * @param date
-	 * 			the date to set
+	 * 
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;

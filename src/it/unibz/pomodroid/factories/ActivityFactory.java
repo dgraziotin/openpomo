@@ -2,11 +2,8 @@ package it.unibz.pomodroid.factories;
 
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
-
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Vector;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 
@@ -90,12 +87,12 @@ public class ActivityFactory {
 	}
 
 	/**
+	 * Checks if there are empty fields and fills them with a default value
+	 * 
 	 * @param ticket
 	 * @return ticket
 	 * @throws PomodroidException
 	 * 
-	 *             Checks if there are empty fields and fills them with a
-	 *             default value
 	 */
 	private HashMap<String, Object> fillEmptyFields(
 			HashMap<String, Object> ticket) throws PomodroidException {
@@ -107,11 +104,11 @@ public class ActivityFactory {
 	}
 
 	/**
+	 * Checks whether a string is null or empty
 	 * @param string
 	 * @return
 	 * @throws PomodroidException
 	 * 
-	 *             Checks whether a string is null or empty
 	 */
 	private boolean isEmpty(String string) throws PomodroidException {
 		return (string.equals("") || string.equals(null));

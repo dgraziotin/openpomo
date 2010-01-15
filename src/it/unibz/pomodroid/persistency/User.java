@@ -111,10 +111,10 @@ public class User extends it.unibz.pomodroid.models.User {
 	}
 	
 	/**
+	 * Check if the date saved into the db is equal to the current one.
 	 * @param userDate
 	 * @return
 	 * 
-	 * Check if the date saved into the db is equal to the current one.
 	 */
 	public boolean isSameDay(Date userDate){
 		Date today = new Date();
@@ -124,11 +124,11 @@ public class User extends it.unibz.pomodroid.models.User {
 	}
 	
 	/**
+	 * Checks whether the user should do a short or long break
+	 *  
 	 * @param dbHelper
 	 * @return
 	 * @throws PomodroidException
-	 * 
-	 * Checks whether the user should do a short or long break
 	 */
 	public boolean isLongerBreak(DBHelper dbHelper) throws PomodroidException{
 		User user = User.retrieve(dbHelper);

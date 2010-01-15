@@ -215,9 +215,10 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		}
 
 		/**
+		 * Stops the counter
+		 * 
 		 * @throws PomodroidException
 		 * 
-		 *             Stops the counter
 		 */
 		public void stop() throws PomodroidException {
 			super.cancel();

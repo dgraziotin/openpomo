@@ -37,10 +37,11 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.view.View.OnClickListener#onClick(android.view.View)
-	 * 
 	 * Regarding to the button that has been clicked, the related action is
 	 * called.
+	 * 
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 * 
 	 */
 	@Override
 	public void onClick(View v) {

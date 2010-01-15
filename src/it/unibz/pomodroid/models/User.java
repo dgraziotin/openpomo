@@ -38,9 +38,9 @@ public class User {
 	}
 
 	/**
+	 * This method updates some class variables 
 	 * @param user
 	 * 
-	 * This method updates some class variables 
 	 */
 	public void update (User user){
 		this.tracUsername = user.getTracUsername();
@@ -120,41 +120,44 @@ public class User {
 	}
 
 	/**
+	 * this date is related to the number of pomodoro faced.
 	 * @return date
 	 * 
-	 * this date is related to the number of pomodoro faced.
 	 */
 	public Date getDateFacedPomodoro() {
 		return dateFacedPomodoro;
 	}
 
 	/**
-	 * @param dateFacedPomodoro
 	 * Set the date
+	 * @param dateFacedPomodoro
 	 */
 	public void setDateFacedPomodoro(Date dateFacedPomodoro) {
 		this.dateFacedPomodoro = dateFacedPomodoro;
 	}
 
 	/**
-	 * @return faced pomodoro
 	 * This number is related to the date (methods above)
+	 * @return faced pomodoro
+	 *
 	 */
 	public int getFacedPomodoro() {
 		return facedPomodoro;
 	}
 
 	/**
-	 * @param facedPomodoro
 	 * The pomodoro faced to set
+	 * @param facedPomodoro
+	 * 
 	 */
 	public void setFacedPomodoro(int facedPomodoro) {
 		this.facedPomodoro = facedPomodoro;
 	}
 
 	/**
-	 * @return
 	 * Every 4 pomodoro the user should do a longer break
+	 * @return
+	 * 
 	 */
 	public boolean isFourthPomodoro(){
 		return (this.facedPomodoro % 4==0) ;
