@@ -163,32 +163,14 @@ public class Services extends SharedActivity implements OnClickListener {
 			case Services.MESSAGE_EXCEPTION:
 				serviceThread.interrupt();
 				progressDialog.dismiss();
-				AlertDialog dialog = new AlertDialog.Builder(context).create();
-				dialog.setTitle("ERROR");
-				Bundle bundle = message.getData();
-				dialog.setMessage(bundle.getString("Exception"));
-				dialog.setButton("Dismiss",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-							}
-						});
-				dialog.show();
+				Bundle exceptionBundle = message.getData();
+				PomodroidException.createAlert(context, "ERROR", exceptionBundle.getString("message"));
 				break;
 			case Services.MESSAGE_INFORMATION:
 				serviceThread.interrupt();
 				progressDialog.dismiss();
-				AlertDialog dialog2 = new AlertDialog.Builder(context).create();
-				dialog2.setTitle("Information");
-				Bundle bundle2 = message.getData();
-				dialog2.setMessage(bundle2.getString("Information"));
-				dialog2.setButton("Dismiss",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-							}
-						});
-				dialog2.show();
+				Bundle informationBundle = message.getData();
+				PomodroidException.createAlert(context, "INFO", informationBundle.getString("message"));
 				break;
 
 			}
@@ -256,12 +238,7 @@ public class Services extends SharedActivity implements OnClickListener {
 					.produce(this.tasks, super.dbHelper);
 
 		} catch (Exception e) {
-			Message message = new Message();
-			Bundle bundle = new Bundle();
-			bundle.putString("Exception", e.toString());
-			message.setData(bundle);
-			message.what = Services.MESSAGE_EXCEPTION;
-			handler.sendMessage(message);
+			sendMessageHandler(Services.MESSAGE_EXCEPTION, e.toString());
 			return;
 		}
 		Message message = new Message();
@@ -280,12 +257,7 @@ public class Services extends SharedActivity implements OnClickListener {
 		try {
 			if (this.zipIni == null || events == null) {
 				progressDialog.dismiss();
-				Message message = new Message();
-				Bundle bundle = new Bundle();
-				bundle.putString("Information", "No Events for PROM available");
-				message.setData(bundle);
-				message.what = Services.MESSAGE_INFORMATION;
-				handler.sendMessage(message);
+				sendMessageHandler(Services.MESSAGE_INFORMATION, "No Events for PROM available.");
 				return;
 			}
 			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
@@ -294,12 +266,7 @@ public class Services extends SharedActivity implements OnClickListener {
 				events = null;
 			}
 		} catch (Exception e) {
-			Message message = new Message();
-			Bundle bundle = new Bundle();
-			bundle.putString("Exception", e.toString());
-			message.setData(bundle);
-			message.what = Services.MESSAGE_EXCEPTION;
-			handler.sendMessage(message);
+			sendMessageHandler(Services.MESSAGE_EXCEPTION, e.toString());
 			return;
 		}
 		Message message = new Message();
@@ -307,6 +274,19 @@ public class Services extends SharedActivity implements OnClickListener {
 		handler.sendMessage(message);
 	}
 	
+	/**
+	 * Sends a customized message to the Handler.
+	 * @param messageType the type of message
+	 * @param messageValue the text of the message
+	 */
+	private void sendMessageHandler(int messageType, String messageValue){
+		Message message = new Message();
+		Bundle bundle = new Bundle();
+		bundle.putString("message", messageValue);
+		message.setData(bundle);
+		message.what = messageType;
+		handler.sendMessage(message);
+	}
 
 
 
