@@ -21,11 +21,12 @@ public class TrackTicketFetcher {
 
 	
 	/**
+	 * It retrieves all opened tickets from TRAC and returns them
+	 * 
 	 * @param user user object
 	 * @param dbHelper connection to the db
 	 * @return tickets from TRAC
-	 * 
-	 * It retrieves all opened tickets from TRAC and returns them
+	 *
 	 * @throws PomodroidException 
 	 */
 	public Vector<HashMap<String, Object>> fetch (User user, DBHelper dbHelper) throws PomodroidException{
