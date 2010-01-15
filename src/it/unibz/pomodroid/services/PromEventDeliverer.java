@@ -54,7 +54,7 @@ public class PromEventDeliverer {
 			
 
 		} catch (Exception e) {
-			throw new PomodroidException("ERROR in PromEventDeliverer.uploadData() transer problem: "+e.toString());
+			throw new PomodroidException(e.toString());
 		}
 		
 	}

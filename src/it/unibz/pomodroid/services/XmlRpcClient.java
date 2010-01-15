@@ -1,9 +1,13 @@
 package it.unibz.pomodroid.services;
 
+import android.net.NetworkInfo;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 
 import java.net.URI;
 import org.xmlrpc.android.XMLRPCClient;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.util.Log;
 
 /**
@@ -117,5 +121,19 @@ public class XmlRpcClient {
 			throw new PomodroidException("Connection failed: "+e.toString());
 		}
 		return result;
+	}
+	
+	/**
+	 *@return boolean return true if the application can access the internet
+	 */
+	public static boolean isInternetAvailable(Context context){
+        NetworkInfo connectionAvailable = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+		if(connectionAvailable==null || !connectionAvailable.isConnected()){
+			return false;
+		}
+		if(connectionAvailable.isRoaming()){
+			return true;
+		}
+		return true;
 	}
 }
