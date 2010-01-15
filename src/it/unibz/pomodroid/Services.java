@@ -14,33 +14,49 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
- * This class is in charge of retrieving tickets from trac and seding events to prom.
+ * This class is in charge of retrieving tickets from trac and seding events to
+ * prom.
+ * 
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
  */
 
-public class Services extends SharedActivity implements OnClickListener, Runnable {
+public class Services extends SharedActivity implements OnClickListener {
 
 	private ProgressDialog progressDialog = null;
-	private int numberEvents = 0;
 	private AlertDialog dialog;
+	private Thread serviceThread = null;
+	private Thread timeoutHandlerThread = null;
+	
 	private byte[] zipIni = null;
 	private Vector<HashMap<String, Object>> tasks = null;
+	
 	private int taskAdded = 0;
+	private int numberEvents = 0;
 	private String message = null;
 	private List<Event> events = null;
+	
 	private static final int PROM = 1;
 	private static final int TRAC = 2;
 	private static int source = -1;
+	
+	private static final long DEFAULT_TIMEOUT = 3000; // 5 minutes
+	private static final int MESSAGE_OK = 0x333;
+	private static final int MESSAGE_TIMEOUT = 0x666;
+	public static boolean stopFlag = false;
+	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
@@ -63,8 +79,17 @@ public class Services extends SharedActivity implements OnClickListener, Runnabl
 		Button buttonProm = (Button) findViewById(R.id.ButtonProm);
 		buttonProm.setOnClickListener((OnClickListener) this);
 	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		this.serviceThread.interrupt();
+		this.serviceThread.stop();
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
 	@Override
@@ -89,30 +114,71 @@ public class Services extends SharedActivity implements OnClickListener, Runnabl
 
 		progressDialog = ProgressDialog.show(this, "Please wait", message,
 				true, false);
-		Thread thread = new Thread(this);
-		thread.start();
+		// create a new Thread that executes activityRetriever and start it
+		this.serviceThread = new Thread(null, stopAfterWhile,
+				"UserServiceThread");
+		this.serviceThread.start();
+		// create a new Thread that executes activityRetriever and start it
+		this.timeoutHandlerThread = new Thread(null, useServices,
+				"UserServiceThread");
+		this.timeoutHandlerThread.start();
+		
 	}
 
-	/**
-	 * @see java.lang.Runnable#run()
-	 * As soon as a thread starts, this method is called.
-	 * If source == PROM, it sends the events to PROM
-	 * If source == TRAC, it retrieves tickets from TRAC.
-	 * When the operation is finished,it sends an empty message to the handler
-	 * in order to inform the system that the operation is
-	 * finished.
-	 */
-	public void run() {
-		try {
-			if (source == PROM)
-				sendPromEvents();
-			else
-				retrieveTicketsFromTrac();
-		} catch (PomodroidException e) {
-			e.printStackTrace();
+	protected Runnable useServices = new Runnable() {
+		/**
+		 * As soon as a thread starts, this method is called. If source == PROM,
+		 * it sends the events to PROM If source == TRAC, it retrieves tickets
+		 * from TRAC. When the operation is finished,it sends an empty message
+		 * to the handler in order to inform the system that the operation is
+		 * finished.
+		 */
+		@Override
+		public void run() {
+			if(stopFlag==true)
+				return;
+				try {
+					if (source == PROM)
+						sendPromEvents();
+					else
+						retrieveTicketsFromTrac();
+				} catch (PomodroidException e) {
+					e.printStackTrace();
+				}
+				if(stopFlag==true)
+					return;
+				Message message = new Message();
+				message.what = Services.MESSAGE_OK;
+				handler.sendMessage(message);
+
 		}
-		handler.sendEmptyMessage(0);
-	}
+	};
+	
+	protected Runnable stopAfterWhile = new Runnable() {
+		/**
+		 * As soon as a thread starts, this method is called. If source == PROM,
+		 * it sends the events to PROM If source == TRAC, it retrieves tickets
+		 * from TRAC. When the operation is finished,it sends an empty message
+		 * to the handler in order to inform the system that the operation is
+		 * finished.
+		 */
+		@Override
+		public void run() {
+			/*long triggerTime = System.currentTimeMillis() + DEFAULT_TIMEOUT;
+			while(System.currentTimeMillis() < triggerTime){
+				
+			}*/
+			try {
+				Thread.sleep(DEFAULT_TIMEOUT);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Message message = new Message();
+			message.what = Services.MESSAGE_TIMEOUT;
+			handler.sendMessage(message);
+		}
+	};
 
 	/**
 	 * This handler waits until the method run() sends an empty message in order
@@ -121,11 +187,29 @@ public class Services extends SharedActivity implements OnClickListener, Runnabl
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			progressDialog.dismiss();
-			if (source == PROM)
-				createDialogProm();
-			else
-				createDialogTrac();
+			if (msg.what == Services.MESSAGE_OK) {
+				progressDialog.dismiss();
+				if (source == PROM)
+					createDialogProm();
+				else
+					createDialogTrac();
+			}
+			
+			if(msg.what == Services.MESSAGE_TIMEOUT){
+					progressDialog.dismiss();
+					stopFlag = true;
+					serviceThread.interrupt();
+					AlertDialog dialog = new AlertDialog.Builder(context).create();
+					dialog.setTitle("ERROR");
+					dialog.setMessage("Fuck off your Internet Connection");
+					dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							finish();
+						}
+					});
+					dialog.show();
+					
+			}
 		}
 
 	};
@@ -177,8 +261,8 @@ public class Services extends SharedActivity implements OnClickListener, Runnabl
 	/**
 	 * @throws PomodroidException
 	 * 
-	 * This method takes all not-closed tikets from track, then
-	 * inserts them into the local DB.
+	 *             This method takes all not-closed tikets from track, then
+	 *             inserts them into the local DB.
 	 * 
 	 */
 	private void retrieveTicketsFromTrac() throws PomodroidException {
@@ -189,26 +273,26 @@ public class Services extends SharedActivity implements OnClickListener, Runnabl
 			this.taskAdded = activityFactory
 					.produce(this.tasks, super.dbHelper);
 		} catch (PomodroidException e) {
-			e.alertUser(super.context);
+			e.alertUser(this);
 		}
 	}
 
 	/**
 	 * @throws PomodroidException
 	 * 
-	 * This method takes all not-closed tickets from trac, then
-	 * inserts them into the local DB.
+	 *             This method takes all not-closed tickets from trac, then
+	 *             inserts them into the local DB.
 	 * 
 	 */
 	private void sendPromEvents() throws PomodroidException {
 		try {
-			if (this.zipIni == null){
+			if (this.zipIni == null) {
 				return;
 			}
 			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
-			if (promEventDeliverer.uploadData(this.zipIni, super.user)){
+			if (promEventDeliverer.uploadData(this.zipIni, super.user)) {
 				Event.deleteAll(super.dbHelper);
-				events=null;
+				events = null;
 			}
 		} catch (PomodroidException e) {
 			e.alertUser(this);
