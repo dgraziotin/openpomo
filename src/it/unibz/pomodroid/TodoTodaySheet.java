@@ -72,14 +72,13 @@ public class TodoTodaySheet extends SharedListActivity {
 										intent.setClass(
 												getApplicationContext(),
 												Pomodoro.class);
-										Bundle b = new Bundle();
-										b.putString("origin", selectedActivity
+										Bundle bundle = new Bundle();
+										bundle.putString("origin", selectedActivity
 												.getOrigin());
-										b.putInt("originId", selectedActivity
+										bundle.putInt("originId", selectedActivity
 												.getOriginId());
-										intent.putExtras(b);
+										intent.putExtras(bundle);
 										startActivity(intent);
-										// startActivityForResult(intent,SUB_ACTIVITY_REQUEST_CODE);
 										break;
 									case 1:
 										selectedActivity.setTodoToday(false);

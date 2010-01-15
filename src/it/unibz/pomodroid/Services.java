@@ -6,9 +6,14 @@ import it.unibz.pomodroid.factories.PromFactory;
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.TrackTicketFetcher;
+import it.unibz.pomodroid.services.XmlRpcClient;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+
+import org.xmlrpc.android.XMLRPCException;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -34,25 +39,22 @@ public class Services extends SharedActivity implements OnClickListener {
 	private ProgressDialog progressDialog = null;
 	private AlertDialog dialog;
 	private Thread serviceThread = null;
-	private Thread timeoutHandlerThread = null;
-	
+
 	private byte[] zipIni = null;
 	private Vector<HashMap<String, Object>> tasks = null;
-	
+
 	private int taskAdded = 0;
 	private int numberEvents = 0;
 	private String message = null;
 	private List<Event> events = null;
-	
+
 	private static final int PROM = 1;
 	private static final int TRAC = 2;
 	private static int source = -1;
-	
-	private static final long DEFAULT_TIMEOUT = 3000; // 5 minutes
-	private static final int MESSAGE_OK = 0x333;
-	private static final int MESSAGE_TIMEOUT = 0x666;
-	public static boolean stopFlag = false;
-	
+
+	private static final int MESSAGE_OK = 1;
+	private static final int MESSAGE_EXCEPTION = 2;
+	private static final int MESSAGE_INFORMATION = 3;
 
 	/*
 	 * (non-Javadoc)
@@ -79,9 +81,9 @@ public class Services extends SharedActivity implements OnClickListener {
 		Button buttonProm = (Button) findViewById(R.id.ButtonProm);
 		buttonProm.setOnClickListener((OnClickListener) this);
 	}
-	
+
 	@Override
-	public void onDestroy(){
+	public void onDestroy() {
 		super.onDestroy();
 		this.serviceThread.interrupt();
 		this.serviceThread.stop();
@@ -94,12 +96,19 @@ public class Services extends SharedActivity implements OnClickListener {
 	 */
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.ButtonTrac) {
-			source = TRAC;
-		} else {
-			source = PROM;
+		if (XmlRpcClient.isInternetAvailable(context)){
+			if (v.getId() == R.id.ButtonTrac)
+				source = TRAC;
+			else
+				source = PROM;
+			useServices();
+		}else{
+			try {
+				throw new PomodroidException("No Internet connection available. Please try again when a Connection is available.");
+			} catch (PomodroidException e) {
+				e.alertUser(context);
+			}
 		}
-		useServices();
 	}
 
 	/**
@@ -107,22 +116,16 @@ public class Services extends SharedActivity implements OnClickListener {
 	 */
 	public void useServices() {
 		String message = null;
-		if (source == PROM)
+		if (source == PROM){
 			message = "Sending Data to PROM";
-		else
+		}else{
 			message = "Downloading tickets from TRAC";
-
+		}
 		progressDialog = ProgressDialog.show(this, "Please wait", message,
 				true, false);
 		// create a new Thread that executes activityRetriever and start it
-		this.serviceThread = new Thread(null, stopAfterWhile,
-				"UserServiceThread");
+		this.serviceThread = new Thread(null, useServices, "UserServiceThread");
 		this.serviceThread.start();
-		// create a new Thread that executes activityRetriever and start it
-		this.timeoutHandlerThread = new Thread(null, useServices,
-				"UserServiceThread");
-		this.timeoutHandlerThread.start();
-		
 	}
 
 	protected Runnable useServices = new Runnable() {
@@ -135,48 +138,10 @@ public class Services extends SharedActivity implements OnClickListener {
 		 */
 		@Override
 		public void run() {
-			if(stopFlag==true)
-				return;
-				try {
-					if (source == PROM)
-						sendPromEvents();
-					else
-						retrieveTicketsFromTrac();
-				} catch (PomodroidException e) {
-					e.printStackTrace();
-				}
-				if(stopFlag==true)
-					return;
-				Message message = new Message();
-				message.what = Services.MESSAGE_OK;
-				handler.sendMessage(message);
-
-		}
-	};
-	
-	protected Runnable stopAfterWhile = new Runnable() {
-		/**
-		 * As soon as a thread starts, this method is called. If source == PROM,
-		 * it sends the events to PROM If source == TRAC, it retrieves tickets
-		 * from TRAC. When the operation is finished,it sends an empty message
-		 * to the handler in order to inform the system that the operation is
-		 * finished.
-		 */
-		@Override
-		public void run() {
-			/*long triggerTime = System.currentTimeMillis() + DEFAULT_TIMEOUT;
-			while(System.currentTimeMillis() < triggerTime){
-				
-			}*/
-			try {
-				Thread.sleep(DEFAULT_TIMEOUT);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Message message = new Message();
-			message.what = Services.MESSAGE_TIMEOUT;
-			handler.sendMessage(message);
+			if (source == PROM)
+				sendPromEvents();
+			else
+				retrieveTicketsFromTrac();
 		}
 	};
 
@@ -186,29 +151,46 @@ public class Services extends SharedActivity implements OnClickListener {
 	 */
 	private Handler handler = new Handler() {
 		@Override
-		public void handleMessage(Message msg) {
-			if (msg.what == Services.MESSAGE_OK) {
+		public void handleMessage(Message message) {
+			switch (message.what) {
+			case Services.MESSAGE_OK:
 				progressDialog.dismiss();
 				if (source == PROM)
 					createDialogProm();
 				else
 					createDialogTrac();
-			}
-			
-			if(msg.what == Services.MESSAGE_TIMEOUT){
-					progressDialog.dismiss();
-					stopFlag = true;
-					serviceThread.interrupt();
-					AlertDialog dialog = new AlertDialog.Builder(context).create();
-					dialog.setTitle("ERROR");
-					dialog.setMessage("Fuck off your Internet Connection");
-					dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-							finish();
-						}
-					});
-					dialog.show();
-					
+				break;
+			case Services.MESSAGE_EXCEPTION:
+				serviceThread.interrupt();
+				progressDialog.dismiss();
+				AlertDialog dialog = new AlertDialog.Builder(context).create();
+				dialog.setTitle("ERROR");
+				Bundle bundle = message.getData();
+				dialog.setMessage(bundle.getString("Exception"));
+				dialog.setButton("Dismiss",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+							}
+						});
+				dialog.show();
+				break;
+			case Services.MESSAGE_INFORMATION:
+				serviceThread.interrupt();
+				progressDialog.dismiss();
+				AlertDialog dialog2 = new AlertDialog.Builder(context).create();
+				dialog2.setTitle("Information");
+				Bundle bundle2 = message.getData();
+				dialog2.setMessage(bundle2.getString("Information"));
+				dialog2.setButton("Dismiss",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+							}
+						});
+				dialog2.show();
+				break;
+
 			}
 		}
 
@@ -261,20 +243,30 @@ public class Services extends SharedActivity implements OnClickListener {
 	/**
 	 * @throws PomodroidException
 	 * 
-	 *             This method takes all not-closed tikets from track, then
+	 *             This method takes all not-closed tickets from track, then
 	 *             inserts them into the local DB.
 	 * 
 	 */
-	private void retrieveTicketsFromTrac() throws PomodroidException {
+	private void retrieveTicketsFromTrac() {
 		try {
 			TrackTicketFetcher tracTicketFetcher = new TrackTicketFetcher();
 			ActivityFactory activityFactory = new ActivityFactory();
 			this.tasks = tracTicketFetcher.fetch(super.user, super.dbHelper);
 			this.taskAdded = activityFactory
 					.produce(this.tasks, super.dbHelper);
-		} catch (PomodroidException e) {
-			e.alertUser(this);
+
+		} catch (Exception e) {
+			Message message = new Message();
+			Bundle bundle = new Bundle();
+			bundle.putString("Exception", e.toString());
+			message.setData(bundle);
+			message.what = Services.MESSAGE_EXCEPTION;
+			handler.sendMessage(message);
+			return;
 		}
+		Message message = new Message();
+		message.what = Services.MESSAGE_OK;
+		handler.sendMessage(message);
 	}
 
 	/**
@@ -284,9 +276,16 @@ public class Services extends SharedActivity implements OnClickListener {
 	 *             inserts them into the local DB.
 	 * 
 	 */
-	private void sendPromEvents() throws PomodroidException {
+	private void sendPromEvents() {
 		try {
-			if (this.zipIni == null) {
+			if (this.zipIni == null || events == null) {
+				progressDialog.dismiss();
+				Message message = new Message();
+				Bundle bundle = new Bundle();
+				bundle.putString("Information", "No Events for PROM available");
+				message.setData(bundle);
+				message.what = Services.MESSAGE_INFORMATION;
+				handler.sendMessage(message);
 				return;
 			}
 			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
@@ -294,9 +293,21 @@ public class Services extends SharedActivity implements OnClickListener {
 				Event.deleteAll(super.dbHelper);
 				events = null;
 			}
-		} catch (PomodroidException e) {
-			e.alertUser(this);
+		} catch (Exception e) {
+			Message message = new Message();
+			Bundle bundle = new Bundle();
+			bundle.putString("Exception", e.toString());
+			message.setData(bundle);
+			message.what = Services.MESSAGE_EXCEPTION;
+			handler.sendMessage(message);
+			return;
 		}
+		Message message = new Message();
+		message.what = Services.MESSAGE_OK;
+		handler.sendMessage(message);
 	}
+	
+
+
 
 }

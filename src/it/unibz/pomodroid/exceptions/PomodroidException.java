@@ -88,5 +88,19 @@ public class PomodroidException extends Exception{
 		dialog.setNeutralButton("Ok", null);
 		dialog.create().show();
 	}
+	
+	/**
+	 * This method shows a simply message (information)
+	 * @param context
+	 * @param title
+	 *
+	 */
+	public static void createAlert(Context context, String title, String message){
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context); 
+		dialog.setTitle(title);
+		dialog.setMessage(message);
+		dialog.setNeutralButton("Ok", null);
+		dialog.create().show();
+	}
 
 }
