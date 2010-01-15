@@ -13,7 +13,6 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
-
 import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
