@@ -1,5 +1,7 @@
 package it.unibz.pomodroid;
 
+import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.services.XmlRpcClient;
 import it.unibz.pomodroid.test.TestSuite;
 import android.app.Activity;
 import android.os.Bundle;
@@ -26,8 +28,12 @@ public class PomodroidTest extends SharedActivity {
 		launchTestButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startTest();
-				
+				if (XmlRpcClient.isInternetAvailable(context)) {
+					startTest();
+				} else {
+					PomodroidException.createAlert(context, "ERROR", context
+							.getString(R.string.no_internet_available));
+				}
 			}
 		}
 		);

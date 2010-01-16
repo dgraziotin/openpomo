@@ -11,10 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 /**
- * This class implements the user preferences. Here the user can set its user and password
- * for prom/trac connections and the duration of one pomodoro. As soon as the user clicks
- * the button "save" some tests will check the correctness of the data. 
- * The user can also manipulate the DB and launch the tests.
+ * This class implements the user preferences. Here the user can set its user
+ * and password for prom/trac connections and the duration of one pomodoro. As
+ * soon as the user clicks the button "save" some tests will check the
+ * correctness of the data. The user can also manipulate the DB and launch the
+ * tests.
+ * 
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
@@ -22,7 +24,9 @@ import android.widget.EditText;
 
 public class Preferences extends SharedActivity {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
@@ -36,19 +40,24 @@ public class Preferences extends SharedActivity {
 		saveButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				try {
-					checkUserInput();
-					testTracConnection();
-					testPromConnection();
-					updateUser();
-					throw new PomodroidException("Preferences saved.","INFO");
-				} catch (PomodroidException e) {
-					e.alertUser(context);
+				if (XmlRpcClient.isInternetAvailable(context)) {
+					try {
+						checkUserInput();
+						testTracConnection();
+						testPromConnection();
+						updateUser();
+						throw new PomodroidException("Preferences saved.",
+								"INFO");
+					} catch (PomodroidException e) {
+						e.alertUser(context);
+					}
+				} else {
+					PomodroidException.createAlert(context, "ERROR", context
+							.getString(R.string.no_internet_available));
 				}
 			}
-			});
+		});
 	}
-
 
 	/**
 	 * Tests if the given credentials and URL for Trac are correct
@@ -65,7 +74,8 @@ public class Preferences extends SharedActivity {
 				.toString(), tracUsername.getText().toString(), tracPassword
 				.getText().toString(), "system.listMethods", params);
 		if (!(result.length > 0)) {
-			throw new PomodroidException("ERROR: something is wrong with Trac. Check username, password, URL and connectivity!");
+			throw new PomodroidException(
+					"ERROR: something is wrong with Trac. Check username, password, URL and connectivity!");
 		}
 	}
 
@@ -87,7 +97,8 @@ public class Preferences extends SharedActivity {
 						.toString());
 		int id = ped.getUploadId(user);
 		if (!(id > 0)) {
-			throw new PomodroidException("ERROR: something is wrong with PROM. Check URL and connectivity!");
+			throw new PomodroidException(
+					"ERROR: something is wrong with PROM. Check URL and connectivity!");
 		}
 	}
 
@@ -106,10 +117,11 @@ public class Preferences extends SharedActivity {
 				|| nullOrEmpty(tracUsernameEditText.getText().toString())
 				|| nullOrEmpty(tracPasswordEditText.getText().toString())
 				|| nullOrEmpty(promUrlEditText.getText().toString())
-				|| nullOrEmpty(pomodoroLengthEditText.getText().toString()) )
+				|| nullOrEmpty(pomodoroLengthEditText.getText().toString()))
 			throw new PomodroidException("ERROR: you must fill al data!");
-		if (Integer.parseInt(pomodoroLengthEditText.getText().toString())==0)
-			throw new PomodroidException("ERROR: Please set a correct Pomodoro length value (1-99)");
+		if (Integer.parseInt(pomodoroLengthEditText.getText().toString()) == 0)
+			throw new PomodroidException(
+					"ERROR: Please set a correct Pomodoro length value (1-99)");
 	}
 
 	/**
@@ -142,14 +154,18 @@ public class Preferences extends SharedActivity {
 		if (super.user == null) {
 			super.user = new User(tracUsernameEditText.getText().toString(),
 					tracPasswordEditText.getText().toString(), tracUrlEditText
-					.getText().toString(), promUrlEditText.getText().toString());
+							.getText().toString(), promUrlEditText.getText()
+							.toString());
 			super.user.save(super.dbHelper);
 		} else {
-			super.user.setTracUsername(tracUsernameEditText.getText().toString());
-			super.user.setTracPassword(tracPasswordEditText.getText().toString());
+			super.user.setTracUsername(tracUsernameEditText.getText()
+					.toString());
+			super.user.setTracPassword(tracPasswordEditText.getText()
+					.toString());
 			super.user.setTracUrl(tracUrlEditText.getText().toString());
 			super.user.setPromUrl(promUrlEditText.getText().toString());
-			super.user.setPomodoroMinutesDuration(Integer.parseInt(pomodoroLengthEditText.getText().toString()));
+			super.user.setPomodoroMinutesDuration(Integer
+					.parseInt(pomodoroLengthEditText.getText().toString()));
 			super.user.save(super.dbHelper);
 		}
 	}

@@ -1,90 +1,60 @@
-<ScrollView android:id="@+id/ScrollView01" 
-                android:layout_width="fill_parent" 
-                android:layout_height="fill_parent" 
-                xmlns:android="http://schemas.android.com/apk/res/android">
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:stretchColumns="0"
-        >
-    <TableRow>
-        <TextView 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:text="Username"
-        />
-   </TableRow>
-   <TableRow>
-        <EditText 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:id="@+id/EditTextUsername"
-        	android:hint="TRAC babbage username" 
-        />
-    </TableRow>
-     <TableRow>
-        <TextView 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:text="Password"
-        />
-      </TableRow>
-   <TableRow>
-        <EditText 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:id="@+id/EditTextPassword"
-        	android:password="true"
-        	android:hint="TRAC babbage password" 
-        />
-    </TableRow>
-    <TableRow>
-        <TextView 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:text="Trac XML-RPC URL"
-        />
-     </TableRow>
-   <TableRow>
-        <EditText 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:id="@+id/EditTextTracUrl"
-        	android:hint="https://domain.ext/tracurl/xmlrpc" 
-        />
-    </TableRow>
-    <TableRow>
-        <TextView 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:text="PROM XML-RPC URL"
-        />
-     </TableRow>
-   <TableRow>
-        <EditText 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:id="@+id/EditTextPromUrl"
-        	android:hint="http://domain.ext:port" 
-        />
-    </TableRow>
-    <TableRow>
-        <TextView 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:text="Pomodoro length (Minutes)"
-        />
-     </TableRow>
-   <TableRow>
-        <EditText 
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content" 
-        	android:id="@+id/EditTextPomodoroLength"
-        	android:numeric="integer" 
-			android:maxLength="2" 
-			android:hint="Enter length (max 99)" 
-        />
-    </TableRow>
-<Button android:text="Save" android:id="@+id/ButtonSavePreferences" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-</TableLayout>
+<ScrollView android:id="@+id/ScrollView01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:stretchColumns="0">
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Please set every field of this window. Pomodroid checks the validity of the services and credentials on the fly. Therefore, in order to save your settings you must have an active connection" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Username" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextUsername"
+				android:hint="TRAC babbage username" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Password" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextPassword"
+				android:password="true" android:hint="TRAC babbage password" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Trac XML-RPC URL" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextTracUrl"
+				android:hint="https://domain.ext/tracurl/xmlrpc" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="PROM XML-RPC URL" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextPromUrl"
+				android:hint="http://domain.ext:port" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Pomodoro length (Minutes)" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextPomodoroLength"
+				android:numeric="integer" android:maxLength="2" android:hint="Enter length (max 99)" />
+		</TableRow>
+		<Button android:text="Save" android:id="@+id/ButtonSavePreferences"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	</TableLayout>
 </ScrollView>

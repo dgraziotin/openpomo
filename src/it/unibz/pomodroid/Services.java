@@ -37,21 +37,19 @@ import android.widget.Button;
 public class Services extends SharedActivity implements OnClickListener {
 
 	private ProgressDialog progressDialog = null;
-	private AlertDialog dialog;
 	private Thread serviceThread = null;
 
-	private byte[] zipIni = null;
-	private Vector<HashMap<String, Object>> tasks = null;
+	private byte[] promZipIniFile = null;
+	private Vector<HashMap<String, Object>> tracTasks = null;
 
-	private int taskAdded = 0;
-	private int numberEvents = 0;
-	private String message = null;
-	private List<Event> events = null;
+	private int tracTasksAdded = 0;
+	private int promEventsPresent = 0;
+	private List<Event> promEvents = null;
 
-	private static final int PROM = 1;
-	private static final int TRAC = 2;
-	private static int source = -1;
+	private static int serviceChosen = -1;
 
+	private static final int SERVICE_PROM = 1;
+	private static final int SERVICE_TRAC = 2;
 	private static final int MESSAGE_OK = 1;
 	private static final int MESSAGE_EXCEPTION = 2;
 	private static final int MESSAGE_INFORMATION = 3;
@@ -67,10 +65,10 @@ public class Services extends SharedActivity implements OnClickListener {
 		setContentView(R.layout.services);
 		PromFactory promFactory = new PromFactory();
 		try {
-			events = Event.getAll(super.dbHelper);
-			if (!(events == null || events.size() == 0)) {
-				numberEvents = events.size();
-				this.zipIni = promFactory.createZip(events, super.user);
+			this.promEvents = Event.getAll(super.dbHelper);
+			if (!(promEvents == null || promEvents.size() == 0)) {
+				this.promEventsPresent = promEvents.size();
+				this.promZipIniFile = promFactory.createZip(this.promEvents, super.user);
 			}
 		} catch (PomodroidException e) {
 			e.alertUser(super.context);
@@ -98,25 +96,21 @@ public class Services extends SharedActivity implements OnClickListener {
 	public void onClick(View v) {
 		if (XmlRpcClient.isInternetAvailable(context)){
 			if (v.getId() == R.id.ButtonTrac)
-				source = TRAC;
+				Services.serviceChosen = SERVICE_TRAC;
 			else
-				source = PROM;
+				Services.serviceChosen = SERVICE_PROM;
 			useServices();
 		}else{
-			try {
-				throw new PomodroidException("No Internet connection available. Please try again when a Connection is available.");
-			} catch (PomodroidException e) {
-				e.alertUser(context);
-			}
+			PomodroidException.createAlert(context, "ERROR", context.getString(R.string.no_internet_available));
 		}
 	}
 
 	/**
-	 * Method that starts a thread and shows a nice downloading bar.
+	 * Method that starts a thread and shows a nice download bar.
 	 */
 	public void useServices() {
 		String message = null;
-		if (source == PROM){
+		if (Services.serviceChosen == Services.SERVICE_PROM){
 			message = "Sending Data to PROM";
 		}else{
 			message = "Downloading tickets from TRAC";
@@ -127,18 +121,18 @@ public class Services extends SharedActivity implements OnClickListener {
 		this.serviceThread = new Thread(null, useServices, "UserServiceThread");
 		this.serviceThread.start();
 	}
-
+	
+	/**
+	 * As soon as a thread starts, this method is called. If serviceChosen == SERVICE_PROM,
+	 * it sends the events to PROM. If serviceChosen == SERVICE_TRAC, it retrieves tickets
+	 * from TRAC. When the operation is finished,it sends an empty message
+	 * to the handler in order to inform the system that the operation is
+	 * finished.
+	 */
 	protected Runnable useServices = new Runnable() {
-		/**
-		 * As soon as a thread starts, this method is called. If source == PROM,
-		 * it sends the events to PROM If source == TRAC, it retrieves tickets
-		 * from TRAC. When the operation is finished,it sends an empty message
-		 * to the handler in order to inform the system that the operation is
-		 * finished.
-		 */
 		@Override
 		public void run() {
-			if (source == PROM)
+			if (serviceChosen == SERVICE_PROM)
 				sendPromEvents();
 			else
 				retrieveTicketsFromTrac();
@@ -155,7 +149,7 @@ public class Services extends SharedActivity implements OnClickListener {
 			switch (message.what) {
 			case Services.MESSAGE_OK:
 				progressDialog.dismiss();
-				if (source == PROM)
+				if (serviceChosen == SERVICE_PROM)
 					createDialogProm();
 				else
 					createDialogTrac();
@@ -183,21 +177,12 @@ public class Services extends SharedActivity implements OnClickListener {
 	 * (infinite times) tickets from trac and exit the activity
 	 */
 	private void createDialogTrac() {
-		this.dialog = new AlertDialog.Builder(this).create();
-		this.dialog.setTitle("Message");
-
-		if (this.taskAdded == 0)
-			this.message = "No new tickets From TRAC";
+		String message = null;
+		if (this.tracTasksAdded == 0)
+			message = "No new tickets From TRAC";
 		else
-			this.message = this.taskAdded + " new tickets downloaded";
-
-		this.dialog.setMessage(this.message);
-		this.dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				dialog.dismiss();
-			}
-		});
-		this.dialog.show();
+			message = this.tracTasksAdded + " new tickets downloaded";
+		PomodroidException.createAlert(context, "INFO", message);
 	}
 
 	/**
@@ -205,21 +190,14 @@ public class Services extends SharedActivity implements OnClickListener {
 	 * (infinite times) tickets from trac and exit the activity
 	 */
 	private void createDialogProm() {
-		dialog = new AlertDialog.Builder(this).create();
-		dialog.setTitle("Message");
-		if (numberEvents == 0) {
-			this.message = "No Events for PROM available";
+		String message = null;
+		if (promEventsPresent == 0) {
+			message = "No Events for PROM available";
 		} else {
-			message = numberEvents + " Events sent.";
-			numberEvents = 0;
+			message = promEventsPresent + " Events sent.";
+			promEventsPresent = 0;
 		}
-		dialog.setMessage(message);
-		dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				dialog.dismiss();
-			}
-		});
-		dialog.show();
+		PomodroidException.createAlert(context, "INFO", message);
 	}
 
 	/**
@@ -233,17 +211,15 @@ public class Services extends SharedActivity implements OnClickListener {
 		try {
 			TrackTicketFetcher tracTicketFetcher = new TrackTicketFetcher();
 			ActivityFactory activityFactory = new ActivityFactory();
-			this.tasks = tracTicketFetcher.fetch(super.user, super.dbHelper);
-			this.taskAdded = activityFactory
-					.produce(this.tasks, super.dbHelper);
+			this.tracTasks = tracTicketFetcher.fetch(super.user, super.dbHelper);
+			this.tracTasksAdded = activityFactory
+					.produce(this.tracTasks, super.dbHelper);
 
 		} catch (Exception e) {
 			sendMessageHandler(Services.MESSAGE_EXCEPTION, e.toString());
 			return;
 		}
-		Message message = new Message();
-		message.what = Services.MESSAGE_OK;
-		handler.sendMessage(message);
+		sendMessageHandler(Services.MESSAGE_OK, "");
 	}
 
 	/**
@@ -255,23 +231,21 @@ public class Services extends SharedActivity implements OnClickListener {
 	 */
 	private void sendPromEvents() {
 		try {
-			if (this.zipIni == null || events == null) {
+			if (this.promZipIniFile == null || promEvents == null) {
 				progressDialog.dismiss();
 				sendMessageHandler(Services.MESSAGE_INFORMATION, "No Events for PROM available.");
 				return;
 			}
 			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
-			if (promEventDeliverer.uploadData(this.zipIni, super.user)) {
+			if (promEventDeliverer.uploadData(this.promZipIniFile, super.user)) {
 				Event.deleteAll(super.dbHelper);
-				events = null;
+				promEvents = null;
 			}
 		} catch (Exception e) {
 			sendMessageHandler(Services.MESSAGE_EXCEPTION, e.toString());
 			return;
 		}
-		Message message = new Message();
-		message.what = Services.MESSAGE_OK;
-		handler.sendMessage(message);
+		sendMessageHandler(Services.MESSAGE_OK, "");
 	}
 	
 	/**
@@ -281,9 +255,11 @@ public class Services extends SharedActivity implements OnClickListener {
 	 */
 	private void sendMessageHandler(int messageType, String messageValue){
 		Message message = new Message();
-		Bundle bundle = new Bundle();
-		bundle.putString("message", messageValue);
-		message.setData(bundle);
+		if(!messageValue.equals("")){
+			Bundle bundle = new Bundle();
+			bundle.putString("message", messageValue);
+			message.setData(bundle);
+		}
 		message.what = messageType;
 		handler.sendMessage(message);
 	}
