@@ -9,6 +9,8 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -82,7 +84,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		 * the following comment symbol
 		 */
 
-		// this.pomodoroDurationMilliseconds = 10000; // FIXME: delete it before
+		this.pomodoroDurationMilliseconds = 5000; // FIXME: delete it before
 		// production!
 
 		counter = new CountDown(this.pomodoroDurationMilliseconds,
@@ -108,6 +110,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 						activity, pomodoroDurationMilliseconds / 1000);
 
 				event.save(super.dbHelper);
+				
+				ScrollView scrollView = (ScrollView) findViewById(R.id.ScrollView01);
+				scrollView.fullScroll(ScrollView.FOCUS_UP);
 				counter.start();
 				this.buttonPomodoroStart.setClickable(false);
 				this.buttonPomodoroStop.setClickable(true);

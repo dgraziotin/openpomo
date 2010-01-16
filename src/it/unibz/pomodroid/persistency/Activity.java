@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import com.db4o.query.Query;
+
 import android.util.Log;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
@@ -16,7 +18,7 @@ import it.unibz.pomodroid.persistency.DBHelper;
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
  */
-public class Activity extends it.unibz.pomodroid.models.Activity {
+public class Activity extends it.unibz.pomodroid.models.Activity{
 
 	/**
 	 * @param numberPomodoro
@@ -259,19 +261,18 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @return to do today activities
 	 * @throws PomodroidException
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Activity> getTodoToday(DBHelper dbHelper)
 			throws PomodroidException {
 		List<Activity> activities = null;
+		Query query= null;
 		try {
-			activities = dbHelper.getDatabase().query(
-					new Predicate<Activity>() {
-						private static final long serialVersionUID = 1L;
-
-						public boolean match(Activity activity) {
-							return activity.isTodoToday()
-									&& (!activity.isDone());
-						}
-					});
+				query = dbHelper.getDatabase().query();
+				query.constrain(Activity.class);
+				query.descend("done").constrain(false);
+				query.descend("todoToday").constrain(true);
+				query.descend("deadline").orderAscending();
+				activities = query.execute();
 		} catch (Exception e) {
 			Log.e("Activity.getTodoToday()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getTodoToday():"
@@ -285,18 +286,17 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @return all completed activities
 	 * @throws PomodroidException
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Activity> getCompleted(DBHelper dbHelper)
 			throws PomodroidException {
 		List<Activity> activities = null;
+		Query query= null;
 		try {
-			activities = dbHelper.getDatabase().query(
-					new Predicate<Activity>() {
-						private static final long serialVersionUID = 1L;
-
-						public boolean match(Activity activity) {
-							return activity.isDone();
-						}
-					});
+			query = dbHelper.getDatabase().query();
+			query.constrain(Activity.class);
+			query.descend("done").constrain(true);
+			query.descend("deadline").orderAscending();
+			activities = query.execute();
 		} catch (Exception e) {
 			Log.e("Activity.getCompleted()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getCompleted():"
@@ -310,18 +310,17 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 	 * @return all uncompleted activities
 	 * @throws PomodroidException
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Activity> getUncompleted(DBHelper dbHelper)
 			throws PomodroidException {
 		List<Activity> activities = null;
+		Query query= null;
 		try {
-			activities = dbHelper.getDatabase().query(
-					new Predicate<Activity>() {
-						private static final long serialVersionUID = 1L;
-
-						public boolean match(Activity activity) {
-							return !activity.isDone();
-						}
-					});
+			query = dbHelper.getDatabase().query();
+			query.constrain(Activity.class);
+			query.descend("done").constrain(false);
+			query.descend("deadline").orderAscending();
+			activities = query.execute();
 		} catch (Exception e) {
 			Log.e("Activity.getUncompleted()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Activity.getUncompleted():"
@@ -349,5 +348,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity {
 			dbHelper.commit();
 		}
 	}
+
 
 }
