@@ -11,12 +11,7 @@ import it.unibz.pomodroid.services.XmlRpcClient;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-
-import org.xmlrpc.android.XMLRPCException;
-
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
