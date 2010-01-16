@@ -81,11 +81,10 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 		/*
 		 * If you want to set the pomodoro duration equals to 10 seconds remove
-		 * the following comment symbol
+		 * the following comment
 		 */
 
-		this.pomodoroDurationMilliseconds = 5000; // FIXME: delete it before
-		// production!
+		// this.pomodoroDurationMilliseconds = 5000; 
 
 		counter = new CountDown(this.pomodoroDurationMilliseconds,
 				MILLISECONDS_PER_SECONDS);
