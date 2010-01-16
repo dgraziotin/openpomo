@@ -121,27 +121,6 @@
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=Pomodroid/src<it.unibz.pomodroid{Pomodroid.java[Pomodroid"/>
-      <targetType="=Pomodroid/src<it.unibz.pomodroid{SharedActivity.java[SharedActivity"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
-      <sourceType="=Pomodroid/src<it.unibz.pomodroid{PomodroidTest.java[PomodroidTest"/>
-      <targetType="=Pomodroid/src<it.unibz.pomodroid{PomodroidTest.java[TestRunner"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=Pomodroid/src<it.unibz.pomodroid{TrashSheet.java[TrashSheet"/>
-      <targetType="=Pomodroid/src<it.unibz.pomodroid{SharedListActivity.java[SharedListActivity"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
       <sourceType="=Pomodroid/src<it.unibz.pomodroid{Services.java[Services"/>
       <targetType="=Pomodroid/src<it.unibz.pomodroid{SharedActivity.java[SharedActivity"/>
       <bendpoints>
@@ -156,14 +135,7 @@
    </relationship>
    <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=Pomodroid/src<it.unibz.pomodroid{PomodroidTest.java[PomodroidTest"/>
-      <targetType="=Pomodroid/src<it.unibz.pomodroid{SharedActivity.java[SharedActivity"/>
-      <bendpoints>
-      </bendpoints>
-   </relationship>
-   <relationship>
-      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=Pomodroid/src<it.unibz.pomodroid{ActivityInventorySheet.java[ActivityInventorySheet"/>
+      <sourceType="=Pomodroid/src<it.unibz.pomodroid{TodoTodaySheet.java[TodoTodaySheet"/>
       <targetType="=Pomodroid/src<it.unibz.pomodroid{SharedListActivity.java[SharedListActivity"/>
       <bendpoints>
       </bendpoints>
@@ -176,9 +148,37 @@
       </bendpoints>
    </relationship>
    <relationship>
+      <class="edu.buffalo.cse.green.relationship.dependency.DependencyIPart"/>
+      <sourceType="=Pomodroid/src<it.unibz.pomodroid{PomodroidTest.java[PomodroidTest"/>
+      <targetType="=Pomodroid/src<it.unibz.pomodroid{PomodroidTest.java[TestRunner"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
       <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
-      <sourceType="=Pomodroid/src<it.unibz.pomodroid{TodoTodaySheet.java[TodoTodaySheet"/>
+      <sourceType="=Pomodroid/src<it.unibz.pomodroid{PomodroidTest.java[PomodroidTest"/>
+      <targetType="=Pomodroid/src<it.unibz.pomodroid{SharedActivity.java[SharedActivity"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=Pomodroid/src<it.unibz.pomodroid{TrashSheet.java[TrashSheet"/>
       <targetType="=Pomodroid/src<it.unibz.pomodroid{SharedListActivity.java[SharedListActivity"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=Pomodroid/src<it.unibz.pomodroid{ActivityInventorySheet.java[ActivityInventorySheet"/>
+      <targetType="=Pomodroid/src<it.unibz.pomodroid{SharedListActivity.java[SharedListActivity"/>
+      <bendpoints>
+      </bendpoints>
+   </relationship>
+   <relationship>
+      <class="edu.buffalo.cse.green.relationship.generalization.GeneralizationPart"/>
+      <sourceType="=Pomodroid/src<it.unibz.pomodroid{Pomodroid.java[Pomodroid"/>
+      <targetType="=Pomodroid/src<it.unibz.pomodroid{SharedActivity.java[SharedActivity"/>
       <bendpoints>
       </bendpoints>
    </relationship>
