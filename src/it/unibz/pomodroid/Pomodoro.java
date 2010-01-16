@@ -207,10 +207,10 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 						+ numberPomodoro.toString());
 				if (user.isLongerBreak(dbHelper))
 					throw new PomodroidException(context
-							.getString(R.string.pomodoro_short_break));
+							.getString(R.string.pomodoro_long_break));
 				else
 					throw new PomodroidException(context
-							.getString(R.string.pomodoro_long_break));
+							.getString(R.string.pomodoro_short_break));
 
 			} catch (PomodroidException e) {
 				e.alertUser(context);

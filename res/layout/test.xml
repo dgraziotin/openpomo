@@ -6,7 +6,7 @@
     >
 	<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="This windows is for launching some internal tests to check the validity of the functionalities of Pomodroid. The tests make use of Internet connections. Therefore, in order to run the tests you must have an active connection" />
+				android:text="This window is for launching some internal tests to check the validity of the functionalities of Pomodroid. The tests make use of Internet connections. Therefore, in order to run the tests you must have an active connection" />
 	<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="Tests make heavy use of threads. If an error happens, try to run the tests again." />
