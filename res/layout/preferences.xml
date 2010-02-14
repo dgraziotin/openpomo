@@ -38,15 +38,6 @@
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="PROM XML-RPC URL" />
-		</TableRow>
-		<TableRow>
-			<EditText android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/EditTextPromUrl"
-				android:hint="http://domain.ext:port" />
-		</TableRow>
-		<TableRow>
-			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:text="Pomodoro length (Minutes)" />
 		</TableRow>
 		<TableRow>

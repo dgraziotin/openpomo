@@ -4,7 +4,6 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.factories.ActivityFactory;
 import it.unibz.pomodroid.factories.PromFactory;
 import it.unibz.pomodroid.persistency.Event;
-import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.TrackTicketFetcher;
 import it.unibz.pomodroid.services.XmlRpcClient;
 
@@ -224,21 +223,6 @@ public class Services extends SharedActivity implements OnClickListener {
 	 * 
 	 */
 	private void sendPromEvents() {
-		try {
-			if (this.promZipIniFile == null || promEvents == null) {
-				progressDialog.dismiss();
-				sendMessageHandler(Services.MESSAGE_INFORMATION, "No Events for PROM available.");
-				return;
-			}
-			PromEventDeliverer promEventDeliverer = new PromEventDeliverer();
-			if (promEventDeliverer.uploadData(this.promZipIniFile, super.user)) {
-				Event.deleteAll(super.dbHelper);
-				promEvents = null;
-			}
-		} catch (Exception e) {
-			sendMessageHandler(Services.MESSAGE_EXCEPTION, e.toString());
-			return;
-		}
 		sendMessageHandler(Services.MESSAGE_OK, "");
 	}
 	

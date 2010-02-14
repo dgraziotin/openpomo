@@ -10,6 +10,5 @@ public class TestSuite extends junit.framework.TestSuite {
         addTestSuite( PersistencyTest.class );
         addTestSuite( XmlRpcTest.class );
         addTestSuite( TracTest.class );
-        addTestSuite( PromTest.class );
     }
 }

@@ -2,7 +2,6 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.User;
-import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.XmlRpcClient;
 import android.os.Bundle;
 import android.view.View;
@@ -44,7 +43,6 @@ public class Preferences extends SharedActivity {
 					try {
 						checkUserInput();
 						testTracConnection();
-						testPromConnection();
 						updateUser();
 						throw new PomodroidException("Preferences saved.",
 								"INFO");
@@ -80,29 +78,6 @@ public class Preferences extends SharedActivity {
 	}
 
 	/**
-	 * Tests if the given credentials and URL for PROM are correct
-	 * 
-	 * @throws PomodroidException
-	 */
-	private void testPromConnection() throws PomodroidException {
-		PromEventDeliverer ped = new PromEventDeliverer();
-		EditText tracUrlEditText = (EditText) findViewById(R.id.EditTextTracUrl);
-		EditText tracUsernameEditText = (EditText) findViewById(R.id.EditTextUsername);
-		EditText tracPasswordEditText = (EditText) findViewById(R.id.EditTextPassword);
-		EditText promUrlEditText = (EditText) findViewById(R.id.EditTextPromUrl);
-
-		User user = new User(tracUsernameEditText.getText().toString(),
-				tracPasswordEditText.getText().toString(), tracUrlEditText
-						.getText().toString(), promUrlEditText.getText()
-						.toString());
-		int id = ped.getUploadId(user);
-		if (!(id > 0)) {
-			throw new PomodroidException(
-					"ERROR: something is wrong with PROM. Check URL and connectivity!");
-		}
-	}
-
-	/**
 	 * Tests if all the data is correctly filled by user
 	 * 
 	 * @throws PomodroidException
@@ -111,12 +86,10 @@ public class Preferences extends SharedActivity {
 		EditText tracUrlEditText = (EditText) findViewById(R.id.EditTextTracUrl);
 		EditText tracUsernameEditText = (EditText) findViewById(R.id.EditTextUsername);
 		EditText tracPasswordEditText = (EditText) findViewById(R.id.EditTextPassword);
-		EditText promUrlEditText = (EditText) findViewById(R.id.EditTextPromUrl);
 		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 		if (nullOrEmpty(tracUrlEditText.getText().toString())
 				|| nullOrEmpty(tracUsernameEditText.getText().toString())
 				|| nullOrEmpty(tracPasswordEditText.getText().toString())
-				|| nullOrEmpty(promUrlEditText.getText().toString())
 				|| nullOrEmpty(pomodoroLengthEditText.getText().toString()))
 			throw new PomodroidException("ERROR: you must fill al data!");
 		if (Integer.parseInt(pomodoroLengthEditText.getText().toString()) == 0)
@@ -131,12 +104,11 @@ public class Preferences extends SharedActivity {
 		EditText tracUrlEditText = (EditText) findViewById(R.id.EditTextTracUrl);
 		EditText tracUsernameEditText = (EditText) findViewById(R.id.EditTextUsername);
 		EditText tracPasswordEditText = (EditText) findViewById(R.id.EditTextPassword);
-		EditText promUrlEditText = (EditText) findViewById(R.id.EditTextPromUrl);
+
 		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 		tracUrlEditText.setText(user.getTracUrl());
 		tracUsernameEditText.setText(user.getTracUsername());
 		tracPasswordEditText.setText(user.getTracPassword());
-		promUrlEditText.setText(user.getPromUrl());
 		Integer pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
 		pomodoroLengthEditText.setText(pomodoroMinutesDuration.toString());
 	}
@@ -148,14 +120,12 @@ public class Preferences extends SharedActivity {
 		EditText tracUrlEditText = (EditText) findViewById(R.id.EditTextTracUrl);
 		EditText tracUsernameEditText = (EditText) findViewById(R.id.EditTextUsername);
 		EditText tracPasswordEditText = (EditText) findViewById(R.id.EditTextPassword);
-		EditText promUrlEditText = (EditText) findViewById(R.id.EditTextPromUrl);
 		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 
 		if (super.user == null) {
 			super.user = new User(tracUsernameEditText.getText().toString(),
 					tracPasswordEditText.getText().toString(), tracUrlEditText
-							.getText().toString(), promUrlEditText.getText()
-							.toString());
+							.getText().toString(),"");
 			super.user.save(super.dbHelper);
 		} else {
 			super.user.setTracUsername(tracUsernameEditText.getText()
@@ -163,7 +133,6 @@ public class Preferences extends SharedActivity {
 			super.user.setTracPassword(tracPasswordEditText.getText()
 					.toString());
 			super.user.setTracUrl(tracUrlEditText.getText().toString());
-			super.user.setPromUrl(promUrlEditText.getText().toString());
 			super.user.setPomodoroMinutesDuration(Integer
 					.parseInt(pomodoroLengthEditText.getText().toString()));
 			super.user.save(super.dbHelper);

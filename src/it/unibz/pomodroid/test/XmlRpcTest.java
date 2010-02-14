@@ -3,7 +3,6 @@ package it.unibz.pomodroid.test;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
-import it.unibz.pomodroid.services.PromEventDeliverer;
 import it.unibz.pomodroid.services.XmlRpcClient;
 
 import android.content.Context;
@@ -33,12 +32,6 @@ public class XmlRpcTest extends AndroidTestCase{
 			assertTrue(result.length > 0);
 		}
 		
-		public void testPromConnection() throws Exception{
-			Log.d(LOG_TAG, "testPromConnection");
-			PromEventDeliverer ped = new PromEventDeliverer();
-			int id = ped.getUploadId(user);
-			assert(id > 0);
-		}
 		
 		public void tearDown(){
 			dbHelper.commit();
