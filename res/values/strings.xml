@@ -5,6 +5,8 @@
 		in activities and face them according to the Pomodoro Technique. Pomodroid
 		will automatically collect metrics while you are working.
 		Press the Menu button to access all Pomodroid functionalities.
+		THIS IS ALPHA SOFTWARE: please visit http://bd-things.net/projects/pomodroid/
+		for more info and links to documentation.
 	</string>
 	<string name="cleanDB">Tap one of the buttons in order to modify directly
 		db4o database</string>
