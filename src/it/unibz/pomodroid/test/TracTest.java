@@ -1,3 +1,19 @@
+/**
+ * This file is part of Pomodroid.
+ *
+ *   Pomodroid is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Pomodroid is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.unibz.pomodroid.test;
 
 import java.util.HashMap;
@@ -8,7 +24,7 @@ import it.unibz.pomodroid.factories.ActivityFactory;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
-import it.unibz.pomodroid.services.TrackTicketFetcher;
+import it.unibz.pomodroid.services.TracTicketFetcher;
 import android.content.Context;
 import android.test.AndroidTestCase;
 import android.util.Log;
@@ -17,7 +33,7 @@ public class TracTest extends AndroidTestCase{
 	protected static DBHelper dbHelper;
 	static final String LOG_TAG = "TrackTicketFetcherTest";
 	protected static Context context = null;
-	private TrackTicketFetcher ttf = new TrackTicketFetcher();
+	private TracTicketFetcher ttf = new TracTicketFetcher();
 	private ActivityFactory af = new ActivityFactory();
 	public void setUp() {
 		TracTest.context = super.getContext();

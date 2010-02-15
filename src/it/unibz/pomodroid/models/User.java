@@ -1,10 +1,26 @@
+/**
+ * This file is part of Pomodroid.
+ *
+ *   Pomodroid is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Pomodroid is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.unibz.pomodroid.models;
 
 import java.util.Date;
 
 /**
  * A class representing a tipical pomodroid user. Each user has its username (string), password (tring), 
- * trac url (absolute url), prom url (absolute url).
+ * trac url (absolute url)
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
  * 
@@ -15,7 +31,7 @@ public class User {
 	private String tracUsername;
 	private String tracPassword;
 	private String tracUrl;
-	private String promUrl;
+
 	private int pomodoroMinutesDuration;
 	
 	private Date dateFacedPomodoro;
@@ -25,13 +41,11 @@ public class User {
 	 * @param tracUsername pomodroid username
 	 * @param tracPassword pomodroid password
 	 * @param tracUrl absolute trac url
-	 * @param promUrl absolute prom url
 	 */
-	public User(String tracUsername, String tracPassword, String tracUrl, String promUrl) {
+	public User(String tracUsername, String tracPassword, String tracUrl) {
 		this.tracUsername = tracUsername;
 		this.tracPassword = tracPassword;
 		this.tracUrl = tracUrl;
-		this.promUrl = promUrl;
 		this.pomodoroMinutesDuration = 25;
 		this.dateFacedPomodoro = new Date();
 		this.facedPomodoro = 0;
@@ -46,22 +60,9 @@ public class User {
 		this.tracUsername = user.getTracUsername();
 		this.tracPassword = user.getTracPassword();
 		this.tracUrl = user.getTracUrl();
-		this.promUrl = user.getPromUrl();
 		this.pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
 	}
-	/**
-	 * @return the absolute prom Url
-	 */
-	public String getPromUrl() {
-		return promUrl;
-	}
-
-	/**
-	 * @param promUrl the promUrl to set
-	 */
-	public void setPromUrl(String promUrl) {
-		this.promUrl = promUrl;
-	}
+	
 
 	/**
 	 * @return the trac username

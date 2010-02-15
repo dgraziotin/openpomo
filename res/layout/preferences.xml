@@ -11,21 +11,21 @@
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="Username" />
+				android:layout_height="wrap_content" android:text="TRAC XML-RPC/HTTP(S) BASIC AUTH username" />
 		</TableRow>
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/EditTextUsername"
-				android:hint="TRAC babbage username" />
+				android:hint="TRAC username" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="Password" />
+				android:layout_height="wrap_content" android:text="TRAC XML-RPC/HTTP(S) BASIC AUTH password" />
 		</TableRow>
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/EditTextPassword"
-				android:password="true" android:hint="TRAC babbage password" />
+				android:password="true" android:hint="TRAC password" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/EditTextTracUrl"
-				android:hint="https://domain.ext/tracurl/xmlrpc" />
+				android:hint="http(s)://domain.ext/tracurl/xmlrpc" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"

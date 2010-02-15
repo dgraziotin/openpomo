@@ -10,5 +10,4 @@
 		android:id="@+id/hello"
 		android:layout_height="wrap_content" android:text="@string/tracprominfo"/>
 <Button android:text="Take tickets from TRAC" android:id="@+id/ButtonTrac" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Send Events to PROM" android:id="@+id/ButtonProm" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 </LinearLayout>

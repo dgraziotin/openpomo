@@ -1,14 +1,27 @@
+/**
+ * This file is part of Pomodroid.
+ *
+ *   Pomodroid is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Pomodroid is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.factories.ActivityFactory;
-import it.unibz.pomodroid.factories.PromFactory;
-import it.unibz.pomodroid.persistency.Event;
-import it.unibz.pomodroid.services.TrackTicketFetcher;
+import it.unibz.pomodroid.services.TracTicketFetcher;
 import it.unibz.pomodroid.services.XmlRpcClient;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Vector;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -19,8 +32,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
- * This class is in charge of retrieving tickets from trac and seding events to
- * prom.
+ * This class is in charge of retrieving tickets from trac
  * 
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
@@ -31,17 +43,12 @@ public class Services extends SharedActivity implements OnClickListener {
 
 	private ProgressDialog progressDialog = null;
 	private Thread serviceThread = null;
-
-	private byte[] promZipIniFile = null;
 	private Vector<HashMap<String, Object>> tracTasks = null;
 
 	private int tracTasksAdded = 0;
-	private int promEventsPresent = 0;
-	private List<Event> promEvents = null;
 
 	private static int serviceChosen = -1;
 
-	private static final int SERVICE_PROM = 1;
 	private static final int SERVICE_TRAC = 2;
 	private static final int MESSAGE_OK = 1;
 	private static final int MESSAGE_EXCEPTION = 2;
@@ -56,21 +63,9 @@ public class Services extends SharedActivity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.services);
-		PromFactory promFactory = new PromFactory();
-		try {
-			this.promEvents = Event.getAll(super.dbHelper);
-			if (!(promEvents == null || promEvents.size() == 0)) {
-				this.promEventsPresent = promEvents.size();
-				this.promZipIniFile = promFactory.createZip(this.promEvents, super.user);
-			}
-		} catch (PomodroidException e) {
-			e.alertUser(super.context);
-		}
 
 		Button buttonTRAC = (Button) findViewById(R.id.ButtonTrac);
 		buttonTRAC.setOnClickListener((OnClickListener) this);
-		Button buttonProm = (Button) findViewById(R.id.ButtonProm);
-		buttonProm.setOnClickListener((OnClickListener) this);
 	}
 
 	@Override
@@ -91,7 +86,7 @@ public class Services extends SharedActivity implements OnClickListener {
 			if (v.getId() == R.id.ButtonTrac)
 				Services.serviceChosen = SERVICE_TRAC;
 			else
-				Services.serviceChosen = SERVICE_PROM;
+				Services.serviceChosen = -1;
 			useServices();
 		}else{
 			PomodroidException.createAlert(context, "ERROR", context.getString(R.string.no_internet_available));
@@ -103,10 +98,10 @@ public class Services extends SharedActivity implements OnClickListener {
 	 */
 	public void useServices() {
 		String message = null;
-		if (Services.serviceChosen == Services.SERVICE_PROM){
-			message = "Sending Data to PROM";
-		}else{
+		if (Services.serviceChosen == Services.SERVICE_TRAC){
 			message = "Downloading tickets from TRAC";
+		}else{
+			message = "Error";
 		}
 		progressDialog = ProgressDialog.show(this, "Please wait", message,
 				true, false);
@@ -116,8 +111,8 @@ public class Services extends SharedActivity implements OnClickListener {
 	}
 	
 	/**
-	 * As soon as a thread starts, this method is called. If serviceChosen == SERVICE_PROM,
-	 * it sends the events to PROM. If serviceChosen == SERVICE_TRAC, it retrieves tickets
+	 * As soon as a thread starts, this method is called. 
+	 * If serviceChosen == SERVICE_TRAC, it retrieves tickets
 	 * from TRAC. When the operation is finished,it sends an empty message
 	 * to the handler in order to inform the system that the operation is
 	 * finished.
@@ -125,10 +120,10 @@ public class Services extends SharedActivity implements OnClickListener {
 	protected Runnable useServices = new Runnable() {
 		@Override
 		public void run() {
-			if (serviceChosen == SERVICE_PROM)
-				sendPromEvents();
-			else
+			if (serviceChosen == SERVICE_TRAC)
 				retrieveTicketsFromTrac();
+			else
+				return;
 		}
 	};
 
@@ -142,10 +137,10 @@ public class Services extends SharedActivity implements OnClickListener {
 			switch (message.what) {
 			case Services.MESSAGE_OK:
 				progressDialog.dismiss();
-				if (serviceChosen == SERVICE_PROM)
-					createDialogProm();
-				else
+				if (serviceChosen == SERVICE_TRAC)
 					createDialogTrac();
+				else
+					return;
 				break;
 			case Services.MESSAGE_EXCEPTION:
 				serviceThread.interrupt();
@@ -179,21 +174,6 @@ public class Services extends SharedActivity implements OnClickListener {
 	}
 
 	/**
-	 * Method that shows a dialog and give the possibility both to retrieve
-	 * (infinite times) tickets from trac and exit the activity
-	 */
-	private void createDialogProm() {
-		String message = null;
-		if (promEventsPresent == 0) {
-			message = "No Events for PROM available";
-		} else {
-			message = promEventsPresent + " Events sent.";
-			promEventsPresent = 0;
-		}
-		PomodroidException.createAlert(context, "INFO", message);
-	}
-
-	/**
 	 * @throws PomodroidException
 	 * 
 	 *             This method takes all not-closed tickets from track, then
@@ -202,7 +182,7 @@ public class Services extends SharedActivity implements OnClickListener {
 	 */
 	private void retrieveTicketsFromTrac() {
 		try {
-			TrackTicketFetcher tracTicketFetcher = new TrackTicketFetcher();
+			TracTicketFetcher tracTicketFetcher = new TracTicketFetcher();
 			ActivityFactory activityFactory = new ActivityFactory();
 			this.tracTasks = tracTicketFetcher.fetch(super.user, super.dbHelper);
 			this.tracTasksAdded = activityFactory
@@ -215,17 +195,7 @@ public class Services extends SharedActivity implements OnClickListener {
 		sendMessageHandler(Services.MESSAGE_OK, "");
 	}
 
-	/**
-	 * @throws PomodroidException
-	 * 
-	 *             This method takes all not-closed tickets from trac, then
-	 *             inserts them into the local DB.
-	 * 
-	 */
-	private void sendPromEvents() {
-		sendMessageHandler(Services.MESSAGE_OK, "");
-	}
-	
+
 	/**
 	 * Sends a customized message to the Handler.
 	 * @param messageType the type of message

@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="lib/db4o-7.4.121.14026-java5.jar"/>
+	<classpathentry kind="lib" path="lib/db4o-7.12.132.14217-all-java5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
