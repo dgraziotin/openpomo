@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Welcome to Pomodroid, the Android tool that lets
+	<string name="hello">Welcome to Pomodroid, the opensource Android tool that lets
 		you download tickets from a Trac environment, organize them
 		in activities and face them according to the Pomodoro Technique. Pomodroid
 		will automatically collect metrics while you are working.
 		Press the Menu button to access all Pomodroid functionalities.
-		THIS IS ALPHA SOFTWARE: please visit http://bd-things.net/projects/pomodroid/
+		THIS IS ALPHA SOFTWARE: please visit the official site: http://bit.ly/9Oi0Ir
 		for more info and links to documentation.
+		IMPROVE POMODROID! You can help Pomodroid in many ways. See the Project Wiki for info: http://bit.ly/aYyUuO
 	</string>
 	<string name="cleanDB">Tap one of the buttons in order to modify directly
 		db4o database</string>

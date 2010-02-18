@@ -16,6 +16,8 @@
  */
 package it.unibz.pomodroid;
 import android.os.Bundle;
+import android.text.util.Linkify;
+import android.widget.TextView;
 
 /**
  * Main activity. It just loads the layout.
@@ -30,5 +32,7 @@ public class Pomodroid extends SharedActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pomodroid);
+		TextView textView = (TextView) findViewById(R.id.hello);
+		Linkify.addLinks( textView, Linkify.WEB_URLS );
 	}
 }

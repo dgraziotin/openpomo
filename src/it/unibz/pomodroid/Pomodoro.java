@@ -20,9 +20,12 @@ import java.util.Date;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -51,7 +54,8 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	private CountDown counter = null;
 	private String activityOrigin = null;
 	private int activityOriginId = -1;
-
+	private PowerManager.WakeLock wakeLock;  
+	private float originalBrightness = -1;
 	/** Called when the activity is first created. */
 
 	/*
@@ -105,7 +109,23 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				MILLISECONDS_PER_SECONDS);
 		this.textViewPomodoroTimer.setText(this
 				.getFormattedTimerValue(this.pomodoroDurationMilliseconds));
+		PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);  
+        wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");  
+    	this.originalBrightness = getWindow().getAttributes().screenBrightness;
 	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		wakeLock.acquire();
+	}
+	
+	@Override
+	public void onPause(){
+		super.onPause();
+		wakeLock.release();
+	}
+	
 
 	/*
 	 * (non-Javadoc)
@@ -115,6 +135,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		it.unibz.pomodroid.persistency.Activity activity = null;
+		
 		try {
 			activity = it.unibz.pomodroid.persistency.Activity.getActivity(
 					this.activityOrigin, this.activityOriginId, super.dbHelper);
@@ -124,6 +145,13 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 						activity, pomodoroDurationMilliseconds / 1000);
 
 				event.save(super.dbHelper);
+
+				
+				WindowManager.LayoutParams layoutParameters = getWindow().getAttributes();
+				float brightness = 0.05f;
+				layoutParameters.screenBrightness = brightness;
+				getWindow().setAttributes(layoutParameters);
+				
 				
 				ScrollView scrollView = (ScrollView) findViewById(R.id.ScrollView01);
 				scrollView.fullScroll(ScrollView.FOCUS_UP);
@@ -132,7 +160,10 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				this.buttonPomodoroStop.setClickable(true);
 				break;
 			case R.id.ButtonPomodoroStop:
-
+				WindowManager.LayoutParams layoutParameters2 = getWindow().getAttributes();
+				layoutParameters2.screenBrightness = originalBrightness;
+				getWindow().setAttributes(layoutParameters2);
+				
 				Event event1 = new Event("pomodoro", "stop", new Date(),
 						activity,
 						counter.getCurrentCoundDownMilliseconds() / 1000);
@@ -219,13 +250,16 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				Integer numberPomodoro = activity.getNumberPomodoro();
 				textViewActivityNumberPomodoro.setText("Number of pomodoro: "
 						+ numberPomodoro.toString());
+				WindowManager.LayoutParams layoutParameters = getWindow().getAttributes();
+				layoutParameters.screenBrightness = originalBrightness;
+				getWindow().setAttributes(layoutParameters);
+				
 				if (user.isLongerBreak(dbHelper))
 					throw new PomodroidException(context
 							.getString(R.string.pomodoro_long_break));
 				else
 					throw new PomodroidException(context
 							.getString(R.string.pomodoro_short_break));
-
 			} catch (PomodroidException e) {
 				e.alertUser(context);
 			} finally {
