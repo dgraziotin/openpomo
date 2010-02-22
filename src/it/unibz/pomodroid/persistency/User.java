@@ -42,8 +42,8 @@ public class User extends it.unibz.pomodroid.models.User {
 	 * @param tracPassword
 	 * @param tracUrl
 	 */
-	public User(String tracUsername, String tracPassword, String tracUrl) {
-		super(tracUsername, tracPassword, tracUrl);
+	public User(String tracUsername, String tracPassword, String tracUrl, boolean tracAnonymousAccess) {
+		super(tracUsername, tracPassword, tracUrl, tracAnonymousAccess);
 	}
 
 	

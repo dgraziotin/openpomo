@@ -31,6 +31,16 @@ public class User {
 	private String tracUsername;
 	private String tracPassword;
 	private String tracUrl;
+	
+	private boolean tracAnonymousAccess;
+	
+	public boolean isTracAnonymousAccess() {
+		return tracAnonymousAccess;
+	}
+
+	public void setTracAnonymousAccess(boolean tracAnonymousAccess) {
+		this.tracAnonymousAccess = tracAnonymousAccess;
+	}
 
 	private int pomodoroMinutesDuration;
 	
@@ -42,13 +52,14 @@ public class User {
 	 * @param tracPassword pomodroid password
 	 * @param tracUrl absolute trac url
 	 */
-	public User(String tracUsername, String tracPassword, String tracUrl) {
+	public User(String tracUsername, String tracPassword, String tracUrl, boolean tracAnonymousAccess) {
 		this.tracUsername = tracUsername;
 		this.tracPassword = tracPassword;
 		this.tracUrl = tracUrl;
 		this.pomodoroMinutesDuration = 25;
 		this.dateFacedPomodoro = new Date();
 		this.facedPomodoro = 0;
+		this.tracAnonymousAccess = tracAnonymousAccess;
 	}
 
 	/**

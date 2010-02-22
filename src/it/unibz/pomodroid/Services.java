@@ -71,8 +71,6 @@ public class Services extends SharedActivity implements OnClickListener {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		this.serviceThread.interrupt();
-		this.serviceThread.stop();
 	}
 
 	/*

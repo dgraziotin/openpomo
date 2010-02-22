@@ -14,7 +14,7 @@
     android:layout_height="wrap_content"
     android:text="25:00"
     android:layout_gravity="center"
-    android:gravity="center" android:textSize="40px"/>
+    android:gravity="center" android:textSize="70px"/>
 <TextView
     android:id="@+id/TextViewActivitySummary"
     android:layout_width="fill_parent"
@@ -36,18 +36,26 @@
     android:layout_marginTop="15sp"
     android:text="Number Pomodoro" 
     android:gravity="left"/>   
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="wrap_content"
+   android:orientation="horizontal"
+   >
 <Button 
 	android:text="START"
 	android:id="@+id/ButtonPomodoroStart"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content">
+	android:layout_width="wrap_content"
+	android:layout_height="fill_parent"
+	android:layout_weight="1" >
 </Button>
 <Button 
 	android:text="STOP"
 	android:id="@+id/ButtonPomodoroStop"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content">
+	android:layout_width="wrap_content"
+	android:layout_height="fill_parent"
+	android:layout_weight="1" 
+	android:layout_alignRight="@id/ButtonPomodoroStart">
 </Button>
+</LinearLayout>
 </LinearLayout>
 </ScrollView>

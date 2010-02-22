@@ -66,7 +66,7 @@ public class XmlRpcClient {
 	 * @return one or more objects
 	 * @throws PomodroidException 
 	 */
-	public static Object fetchMultiResults(String url, String method,
+	public static Object[] fetchMultiResults(String url, String method,
 			Object[] params) throws PomodroidException {
 
 		URI uri = URI.create(url);

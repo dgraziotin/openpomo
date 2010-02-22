@@ -87,7 +87,13 @@ public class TracTicketFetcher {
 	 */
 	private Vector<Integer> getTicketIds (User user) throws PomodroidException{
 		String[] params = {"status!=closed&owner="+user.getTracUsername()};
-		Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
+		Object[] result = null;
+		
+		if(user.isTracAnonymousAccess())
+			result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),"ticket.query",params);
+		else
+			result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
+		
 		if (result != null){
 			Vector<Integer> ticketsIds = new Vector<Integer>();
 			for (Object i : result)
@@ -112,7 +118,12 @@ public class TracTicketFetcher {
 	private static HashMap<String,String> getTickets(User user, Integer[] id) throws PomodroidException{
 		Object[] ticket;
 		HashMap<String,String> attributes;
-		ticket = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.get",id);
+		if(user.isTracAnonymousAccess())
+			ticket = XmlRpcClient.fetchMultiResults(user.getTracUrl(),"ticket.get",id);
+		else
+			ticket = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.get",id);
+		
+		
 		attributes = (HashMap<String,String>) ticket[3];
 		return attributes;
 	}
@@ -128,7 +139,12 @@ public class TracTicketFetcher {
 		Date result;
 		Object dataObject;
 		String params[] = {milestoneId};
-		Object milestone = XmlRpcClient.fetchSingleResult(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.milestone.get",params);
+		Object milestone = null;
+		if(user.isTracAnonymousAccess())
+			milestone = XmlRpcClient.fetchSingleResult(user.getTracUrl(), "ticket.milestone.get",params);
+		else
+			milestone = XmlRpcClient.fetchSingleResult(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.milestone.get",params);
+		
 		dataObject = ((HashMap<String, Object>) milestone).get("due");
 		 if (dataObject.equals(0))
 		   result = new Date();

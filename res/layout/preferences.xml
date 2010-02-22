@@ -20,6 +20,15 @@
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="TRAC anonymous XML_RPC access?" />
+		</TableRow>
+		<TableRow>
+			<CheckBox android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/CheckBoxAnonymous"
+				android:hint="Anonymous Access" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:text="TRAC XML-RPC/HTTP(S) BASIC AUTH password" />
 		</TableRow>
 		<TableRow>
@@ -29,12 +38,12 @@
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="Trac XML-RPC URL" />
+				android:layout_height="wrap_content" android:text="Trac XML-RPC login URL" />
 		</TableRow>
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/EditTextTracUrl"
-				android:hint="http(s)://domain.ext/tracurl/xmlrpc" />
+				android:hint="http(s)://domain.ext/tracurl/login/xmlrpc" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
