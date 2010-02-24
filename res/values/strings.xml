@@ -38,8 +38,8 @@
 	<string name="tests">Tests</string>
 	<string name="settings">Pomodroid - Settings</string>
 	<string name="tracprom">Pomodroid - Trac Actions</string>
-	<string name="pomodoro_short_break">Pomodoro finished. Please take a short break.</string>
-	<string name="pomodoro_long_break">Pomodoro finished. Please take a longer break.</string>
+	<string name="pomodoro_short_break">Pomodoro finished. Take a short break.</string>
+	<string name="pomodoro_long_break">Pomodoro finished. Take a longer break.</string>
 	<string name="pomodoro_broken">Pomodoro broken!</string>
 	<string name="no_internet_available">No Internet connection active. Please try again when a connection is available.</string>
 </resources>
