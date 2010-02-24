@@ -50,15 +50,18 @@ import android.widget.Toast;
 public class Pomodoro extends SharedActivity implements OnClickListener {
 
 	private final static float DESIRED_BRIGHTNESS = 0.05f;
+	
 	private final static int SECONDS_PER_MINUTE = 60;
 	private final static int MILLISECONDS_PER_SECOND = 1000;
+	
 	private final static int NOTIFICATION_ID = 1;
+	
 	private final static int MSG_POMODORO_TICK = 1;
 	private final static int MSG_POMODORO_FINISHED = 2;
 	private final static int MSG_POMODORO_START = 3;
 	private final static int MSG_POMODORO_STOP = 4;
 	/** Seconds to be passed totally */
-	private int pomodoroSecondsValue = -1;
+	private int pomodoroSecondsValue = 1;
 
 	private String activityOrigin = null;
 	private int activityOriginId = -1;
@@ -167,10 +170,16 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		seconds = seconds % SECONDS_PER_MINUTE;
 
 		if (seconds >= 10 && seconds < 60) {
-			textViewPomodoroTimer.setText("0" + minutes + ":" + seconds);
+			if(minutes < 10)
+				textViewPomodoroTimer.setText("0" + minutes + ":" + seconds);
+			else
+				textViewPomodoroTimer.setText(minutes + ":" + seconds);
 		} else if (seconds < 10) {
-			textViewPomodoroTimer.setText("0" + minutes + ":0" + seconds);
-		} else {
+			if(minutes < 10)
+				textViewPomodoroTimer.setText("0" + minutes + ":0" + seconds);
+			else
+				textViewPomodoroTimer.setText(minutes + ":0" + seconds);
+		} else{
 			textViewPomodoroTimer.setText("" + minutes + ":" + seconds);
 		}
 	}
