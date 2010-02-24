@@ -16,8 +16,8 @@
  */
 package it.unibz.pomodroid.exceptions;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.widget.Toast;
 
 /**
  * All exception that can occur will be propagated and shown thanks to this class.
@@ -81,14 +81,7 @@ public class PomodroidException extends Exception{
 	 * 
 	 */
 	public void alertUser(Context context){
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context); 
-		if(this.title!=null)
-			dialog.setTitle(title);
-		else
-			dialog.setTitle("WARNING");
-		dialog.setMessage(this.getMessage());
-		dialog.setNeutralButton("Ok", null);
-		dialog.create().show();
+		Toast.makeText(context, this.getMessage(), Toast.LENGTH_LONG).show();
 	}
 	
 	/**
@@ -98,11 +91,7 @@ public class PomodroidException extends Exception{
 	 *
 	 */
 	public void alertUser(Context context, String title){
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context); 
-		dialog.setTitle(title);
-		dialog.setMessage(this.getMessage());
-		dialog.setNeutralButton("Ok", null);
-		dialog.create().show();
+		Toast.makeText(context, title+": "+this.getMessage(), Toast.LENGTH_LONG).show();
 	}
 	
 	/**
@@ -112,11 +101,7 @@ public class PomodroidException extends Exception{
 	 *
 	 */
 	public static void createAlert(Context context, String title, String message){
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context); 
-		dialog.setTitle(title);
-		dialog.setMessage(message);
-		dialog.setNeutralButton("Ok", null);
-		dialog.create().show();
+		Toast.makeText(context, title+": "+ message, Toast.LENGTH_LONG).show();
 	}
 
 }
