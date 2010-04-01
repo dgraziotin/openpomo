@@ -10,11 +10,15 @@
 	<ImageView android:id="@+id/imagebutton"
   			android:src="@drawable/pomodoro"
   			android:layout_width="wrap_content"
-  			android:layout_height="wrap_content" />
+  			android:layout_height="wrap_content"
+  			android:gravity="center"
+  			android:layout_gravity="center"
+  	/>
 	
 	<TextView android:layout_width="fill_parent"
 		android:id="@+id/hello"
 		android:layout_height="wrap_content" android:text="@string/hello"/>
+		
 		
 </LinearLayout>
 </ScrollView>
