@@ -23,6 +23,7 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.models.Service;
 
 import android.util.Log;
 
@@ -158,5 +159,5 @@ public class User extends it.unibz.pomodroid.models.User {
 			return false;
 		}
 	}
-
+	
 }

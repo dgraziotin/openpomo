@@ -15,8 +15,18 @@
  *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.persistency.Service;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.util.Linkify;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -26,13 +36,45 @@ import android.widget.TextView;
  * @see it.unibz.pomodroid.SharedActivity
  */
 
-public class Pomodroid extends SharedActivity {
+public class Pomodroid extends SharedActivity implements OnClickListener {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pomodroid);
-		TextView textView = (TextView) findViewById(R.id.hello);
-		Linkify.addLinks( textView, Linkify.WEB_URLS );
+		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
+		buttonAIS.setOnClickListener(this);
+		Button buttonTTS = (Button) findViewById(R.id.ButtonTTS);
+		buttonTTS.setOnClickListener(this);
+		Button buttonTS = (Button) findViewById(R.id.ButtonTS);
+		buttonTS.setOnClickListener(this);
+		Button buttonServices = (Button) findViewById(R.id.ButtonServices);
+		buttonServices.setOnClickListener(this);
+		Button buttonPreferences = (Button) findViewById(R.id.ButtonPreferences);
+		buttonPreferences.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent = new Intent();
+		switch(v.getId()){
+			case R.id.ButtonAIS:
+				intent.setClass(this, ActivityInventorySheet.class);
+				break;
+			case R.id.ButtonTTS:
+				intent.setClass(this, TodoTodaySheet.class);
+				break;
+			case R.id.ButtonTS:
+				intent.setClass(this, TrashSheet.class);
+				break;
+			case R.id.ButtonServices:
+				intent.setClass(this, Services.class);
+				break;
+			case R.id.ButtonPreferences:
+				intent.setClass(this, TabPreferences.class);
+				break;
+		}
+		startActivity(intent);
+		
 	}
 }

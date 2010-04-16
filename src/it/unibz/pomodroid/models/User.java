@@ -17,6 +17,7 @@
 package it.unibz.pomodroid.models;
 
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * A class representing a tipical pomodroid user. Each user has its username (string), password (tring), 

@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:id="@+id/ScrollView01" 
-                android:layout_width="fill_parent" 
-                android:layout_height="fill_parent" 
-                xmlns:android="http://schemas.android.com/apk/res/android">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	
-	<ImageView android:id="@+id/imagebutton"
-  			android:src="@drawable/pomodoro"
-  			android:layout_width="wrap_content"
-  			android:layout_height="wrap_content"
-  			android:gravity="center"
-  			android:layout_gravity="center"
-  	/>
-	
-	<TextView android:layout_width="fill_parent"
-		android:id="@+id/hello"
-		android:layout_height="wrap_content" android:text="@string/hello"/>
-		
-		
-</LinearLayout>
+<ScrollView android:id="@+id/ScrollView01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical" android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		<ImageView android:id="@+id/imagebutton" android:src="@drawable/pomodoro"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:gravity="center" android:layout_gravity="center" />
+
+		<Button android:text="Activity Inventory" android:id="@+id/ButtonAIS"
+			style="@style/ButtonMain" />
+
+		<Button android:text="Todo Today" android:id="@+id/ButtonTTS"
+			style="@style/ButtonMain" />
+
+		<Button android:text="Trash" android:id="@+id/ButtonTS" style="@style/ButtonMain" />
+
+		<Button android:text="Services" android:id="@+id/ButtonServices"
+			style="@style/ButtonMain" />
+
+		<Button android:text="Preferences" android:id="@+id/ButtonPreferences"
+			style="@style/ButtonMain" />
+
+	</LinearLayout>
 </ScrollView>

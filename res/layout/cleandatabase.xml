@@ -5,7 +5,7 @@
 <TextView android:layout_width="fill_parent"
 		android:id="@+id/hello"
 		android:layout_height="wrap_content" android:text="@string/cleanDB"/>
-<Button android:text="Defragment the Database" android:id="@+id/ButtonDefragmentDatabase" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Delete Activities and Events" android:id="@+id/ButtonDeleteActivitiesEvents" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Destroy the Database" android:id="@+id/ButtonDeleteDatabase" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+<Button android:text="Defragment the Database" android:id="@+id/ButtonDefragmentDatabase" style="@style/ButtonMain" ></Button>
+<Button android:text="Delete Activities and Events" android:id="@+id/ButtonDeleteActivitiesEvents" style="@style/ButtonMain" ></Button>
+<Button android:text="Destroy the Database" android:id="@+id/ButtonDeleteDatabase" style="@style/ButtonMain" ></Button>
 </LinearLayout>
