@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import com.db4o.query.Query;
 
 public class Service extends it.unibz.pomodroid.models.Service{
 	public Service(){
@@ -60,6 +61,37 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	 * @return a specific Service
 	 * @throws PomodroidException
 	 */
+	public static boolean isPresentUrl(final String url,
+			DBHelper dbHelper) throws PomodroidException {
+		List<Service> services;
+		try {
+			services = dbHelper.getDatabase().query(
+					new Predicate<Service>() {
+						private static final long serialVersionUID = 1L;
+
+						public boolean match(Service service) {
+							return service.getUrl().equals(url);
+						}
+					});
+			if (services.isEmpty())
+				return false;
+			else
+				return true;
+		} catch (Exception e) {
+			Log.e("Service.isPresentUrl()", "Problem: " + e.toString());
+			throw new PomodroidException("ERROR in Service.isPresent():"
+					+ e.toString());
+		}
+	}
+	
+	/**
+	 * 
+	 * @param origin
+	 * @param originId
+	 * @param dbHelper
+	 * @return a specific Service
+	 * @throws PomodroidException
+	 */
 	public static Service get(final String name,
 			DBHelper dbHelper) throws PomodroidException {
 		List<Service> services;
@@ -96,8 +128,9 @@ public class Service extends it.unibz.pomodroid.models.Service{
 			} else {
 				return this.update(dbHelper);
 			}
-		} catch (Exception e) {
+		} catch (PomodroidException e) {
 			Log.e("Service.save()", "Problem: " + e.toString());
+			Log.e("Service.save()", "Problem: " + e.getMessage());
 			throw new PomodroidException("ERROR in Service.save():"
 					+ e.toString());
 		} finally {
@@ -111,12 +144,10 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	 * @throws PomodroidException
 	 */
 	private boolean update(DBHelper dbHelper) throws PomodroidException {
-		ObjectSet<Service> result = dbHelper.getDatabase().queryByExample(
-				new Service(this.getName(), this.getUrl(), this.getType(), this.getUsername()));
-		Service found = (Service) result.next();
-		found.delete(dbHelper);
+		Service oldService = Service.get(this.getName(), dbHelper);
 		try {
-			dbHelper.getDatabase().store(this);
+			oldService.update(this);
+			dbHelper.getDatabase().store(oldService);
 			return true;
 		} catch (Exception e) {
 			Log.e("Service.save(update)", "Update Problem: " + e.toString());
@@ -178,6 +209,32 @@ public class Service extends it.unibz.pomodroid.models.Service{
 			throw new PomodroidException("ERROR in Service.getAll()"
 					+ e.toString());
 		}
+	}
+	
+	/**
+	 * Returns all Services
+	 * 
+	 * @param dbHelper
+	 * @return a list of Services
+	 * @throws PomodroidException
+	 */
+	public static List<Service> getAllActive(DBHelper dbHelper)
+			throws PomodroidException {
+		List<Service> services = null;
+		Query query= null;
+		try {
+				query = dbHelper.getDatabase().query();
+				query.constrain(Service.class);
+				query.descend("isActive").constrain(true);
+				services = query.execute();
+		} catch (Exception e) {
+			Log.e("Service.getAllActive()", "Problem: " + e.toString());
+			throw new PomodroidException("ERROR in Service.getAllActive():"
+					+ e.toString());
+		}
+		if(services!=null)
+			Log.i("Active Services",""+services.size());
+		return services;
 	}
 	
 	/**

@@ -68,7 +68,12 @@ public class ListServices extends ListActivity {
         services = new ArrayList<Service>();
         this.adapter = new ServiceAdapter(this, R.layout.serviceentry, services);
         setListAdapter(this.adapter);
-        retrieveServices();
+    }
+    
+    @Override
+    public void onResume(){
+    	super.onResume();
+    	retrieveServices();
     }
     
     private void retrieveServices(){
@@ -82,8 +87,7 @@ public class ListServices extends ListActivity {
 				try {
 					getServices();
 				} catch (PomodroidException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e.alertUser(context);
 				}
 			}
 		};

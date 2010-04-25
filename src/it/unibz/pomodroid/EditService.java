@@ -96,14 +96,22 @@ public class EditService extends SharedActivity {
 	
 	private void updateService() throws PomodroidException{
 		Service service = Service.get(serviceName, dbHelper);
-		if(service==null)
-			service = new Service();
 		EditText editTextName = (EditText) findViewById(R.id.EditTextName);
 		EditText editTextUrl = (EditText) findViewById(R.id.EditTextTracUrl);
+		if(service==null){
+			service = new Service();
+			if(Service.isPresent(editTextName.getText().toString(), dbHelper))
+				throw new PomodroidException("Error: you can not use the same name for two different Services.");
+			if(Service.isPresentUrl(editTextUrl.getText().toString(), dbHelper))
+				throw new PomodroidException("Error: you can not use the same URL for two different Services.");
+		}
+		
+		
 		EditText editTextUsername = (EditText) findViewById(R.id.EditTextUsername);
 		EditText editTextPassword = (EditText) findViewById(R.id.EditTextPassword);
 		CheckBox checkBoxIsAnonymous = (CheckBox) findViewById(R.id.CheckBoxAnonymous);
 		CheckBox checkBoxIsActive = (CheckBox) findViewById(R.id.CheckBoxIsActive);
+		
 		service.setName(editTextName.getText().toString());
 		service.setType("Trac");
 		service.setUrl(editTextUrl.getText().toString());

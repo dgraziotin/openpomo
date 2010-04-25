@@ -26,12 +26,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * This class is in charge of retrieving tickets from trac
@@ -55,6 +57,8 @@ public class Services extends SharedActivity implements OnClickListener {
 	private static final int MESSAGE_OK = 1;
 	private static final int MESSAGE_EXCEPTION = 2;
 	private static final int MESSAGE_INFORMATION = 3;
+	
+	private List<Service> services = null;
 
 	/*
 	 * (non-Javadoc)
@@ -68,6 +72,25 @@ public class Services extends SharedActivity implements OnClickListener {
 
 		Button buttonTRAC = (Button) findViewById(R.id.ButtonTrac);
 		buttonTRAC.setOnClickListener((OnClickListener) this);
+		Button buttonEditServices = (Button) findViewById(R.id.ButtonEditServices);
+		buttonEditServices.setOnClickListener((OnClickListener) this);
+	}
+	
+	@Override
+	public void onStart(){
+		super.onStart();
+		try {
+			this.services = Service.getAllActive(dbHelper);
+			String message = "Active Services: ";
+			if(this.services!=null)
+				message += "" + services.size();
+			else
+				message += "0";
+			TextView textViewActiveServices = (TextView) findViewById(R.id.service_active_no);
+			textViewActiveServices.setText(message);
+		} catch (PomodroidException e) {
+			e.alertUser(this);
+		}
 	}
 
 	@Override
@@ -83,11 +106,21 @@ public class Services extends SharedActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (XmlRpcClient.isInternetAvailable(context)){
-			if (v.getId() == R.id.ButtonTrac)
+			if (v.getId() == R.id.ButtonTrac){
 				Services.serviceChosen = SERVICE_TRAC;
-			else
+			}else if(v.getId() == R.id.ButtonEditServices){
+				Intent intent = new Intent();
+				intent.setClass(this, ListServices.class);
+				startActivity(intent);
+			}else{
 				Services.serviceChosen = -1;
-			useServices();
+			}
+			try {
+				useServices();
+			} catch (PomodroidException e) {
+				e.alertUser(context);
+			}
+			
 		}else{
 			PomodroidException.createAlert(context, "ERROR", context.getString(R.string.no_internet_available));
 		}
@@ -95,11 +128,18 @@ public class Services extends SharedActivity implements OnClickListener {
 
 	/**
 	 * Method that starts a thread and shows a nice download bar.
+	 * @throws PomodroidException 
 	 */
-	public void useServices() {
+	public void useServices() throws PomodroidException {
 		String message = null;
 		if (Services.serviceChosen == Services.SERVICE_TRAC){
-			message = "Downloading tickets from TRAC";
+			List<Service> services = Service.getAllActive(dbHelper);
+			if(services!=null && services.size()!=0)
+				message = "Downloading Activities from " +services.size()+ " active Services";
+			else{
+				message = "No active Services.";
+				return;
+			}
 		}else{
 			message = "Error";
 		}
@@ -167,9 +207,9 @@ public class Services extends SharedActivity implements OnClickListener {
 	private void createDialogTrac() {
 		String message = null;
 		if (this.tracTasksAdded == 0)
-			message = "No new tickets From TRAC";
+			message = "No new Activities";
 		else
-			message = this.tracTasksAdded + " new tickets downloaded";
+			message = this.tracTasksAdded + " new activities downloaded";
 		PomodroidException.createAlert(context, "INFO", message);
 	}
 
@@ -184,7 +224,7 @@ public class Services extends SharedActivity implements OnClickListener {
 		try {
 			TracTicketFetcher tracTicketFetcher = new TracTicketFetcher();
 			ActivityFactory activityFactory = new ActivityFactory();
-			List<Service> services = Service.getAll(dbHelper);
+			List<Service> services = Service.getAllActive(dbHelper);
 			for(Service service: services){
 				this.tracTasks = tracTicketFetcher.fetch(service, super.dbHelper);
 				this.tracTasksAdded = activityFactory
