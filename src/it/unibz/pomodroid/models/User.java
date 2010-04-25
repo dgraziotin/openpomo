@@ -17,7 +17,6 @@
 package it.unibz.pomodroid.models;
 
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * A class representing a tipical pomodroid user. Each user has its username (string), password (tring), 
@@ -28,23 +27,7 @@ import java.util.HashMap;
  */
 
 public class User {
-	
-	private String tracUsername;
-	private String tracPassword;
-	private String tracUrl;
-	
-	private boolean tracAnonymousAccess;
-	
-	public boolean isTracAnonymousAccess() {
-		return tracAnonymousAccess;
-	}
-
-	public void setTracAnonymousAccess(boolean tracAnonymousAccess) {
-		this.tracAnonymousAccess = tracAnonymousAccess;
-	}
-
 	private int pomodoroMinutesDuration;
-	
 	private Date dateFacedPomodoro;
 	private int facedPomodoro;
 	
@@ -53,14 +36,21 @@ public class User {
 	 * @param tracPassword pomodroid password
 	 * @param tracUrl absolute trac url
 	 */
-	public User(String tracUsername, String tracPassword, String tracUrl, boolean tracAnonymousAccess) {
-		this.tracUsername = tracUsername;
-		this.tracPassword = tracPassword;
-		this.tracUrl = tracUrl;
+	public User() {
 		this.pomodoroMinutesDuration = 25;
 		this.dateFacedPomodoro = new Date();
 		this.facedPomodoro = 0;
-		this.tracAnonymousAccess = tracAnonymousAccess;
+	}
+	
+	/**
+	 * @param tracUsername pomodroid username
+	 * @param tracPassword pomodroid password
+	 * @param tracUrl absolute trac url
+	 */
+	public User(int pomodoroMinutesDuration) {
+		this.pomodoroMinutesDuration = pomodoroMinutesDuration;
+		this.dateFacedPomodoro = new Date();
+		this.facedPomodoro = 0;
 	}
 
 	/**
@@ -69,54 +59,11 @@ public class User {
 	 * 
 	 */
 	public void update (User user){
-		this.tracUsername = user.getTracUsername();
-		this.tracPassword = user.getTracPassword();
-		this.tracUrl = user.getTracUrl();
 		this.pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
 	}
 	
 
-	/**
-	 * @return the trac username
-	 */
-	public String getTracUsername() {
-		return tracUsername;
-	}
-
-	/**
-	 * @param tracUsername the tracUsername to set
-	 */
-	public void setTracUsername(String tracUsername) {
-		this.tracUsername = tracUsername;
-	}
-
-	/**
-	 * @return the trac password
-	 */
-	public String getTracPassword() {
-		return tracPassword;
-	}
-
-	/**
-	 * @param tracPassword the trac password to set
-	 */
-	public void setTracPassword(String tracPassword) {
-		this.tracPassword = tracPassword;
-	}
-
-	/**
-	 * @return the tracUrl
-	 */
-	public String getTracUrl() {
-		return tracUrl;
-	}
-
-	/**
-	 * @param tracUrl the trac Url to set
-	 */
-	public void setTracUrl(String tracUrl) {
-		this.tracUrl = tracUrl;
-	}
+	
 	
 	/**
 	 * @return pomodoroMinutesDuration length of a Pomodoro in minutes

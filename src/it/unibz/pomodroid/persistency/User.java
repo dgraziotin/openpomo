@@ -17,14 +17,8 @@
 package it.unibz.pomodroid.persistency;
 
 import java.util.Date;
-import java.util.List;
-
 import com.db4o.ObjectSet;
-import com.db4o.query.Predicate;
-
 import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.models.Service;
-
 import android.util.Log;
 
 /**
@@ -43,8 +37,17 @@ public class User extends it.unibz.pomodroid.models.User {
 	 * @param tracPassword
 	 * @param tracUrl
 	 */
-	public User(String tracUsername, String tracPassword, String tracUrl, boolean tracAnonymousAccess) {
-		super(tracUsername, tracPassword, tracUrl, tracAnonymousAccess);
+	public User() {
+		super();
+	}
+	
+	/**
+	 * @param tracUsername pomodroid username
+	 * @param tracPassword pomodroid password
+	 * @param tracUrl absolute trac url
+	 */
+	public User(int pomodoroMinutesDuration) {
+		super(pomodoroMinutesDuration);
 	}
 
 	
@@ -54,18 +57,11 @@ public class User extends it.unibz.pomodroid.models.User {
 	 * @return
 	 * @throws PomodroidException
 	 */
-	public static boolean isPresent(final String username, DBHelper dbHelper) throws PomodroidException {
-		List<User> users;
+	public static boolean isPresent(DBHelper dbHelper) throws PomodroidException {
+		User user;
 		try{
-			users = dbHelper.getDatabase().query(
-				new Predicate<User>() {
-					private static final long serialVersionUID = 1L;
-
-					public boolean match(User user) {
-						return user.getTracUsername().equals(username);
-					}
-				});
-			if (users.isEmpty())
+			user = User.retrieve(dbHelper);
+			if (user==null)
 				return false;
 			else
 				return true;
@@ -82,7 +78,7 @@ public class User extends it.unibz.pomodroid.models.User {
 	 * @throws PomodroidException 
 	 */
 	public void save(DBHelper dbHelper) throws PomodroidException{
-		if (!isPresent(this.getTracUsername(),dbHelper)){
+		if (!isPresent(dbHelper)){
 			try{
 				dbHelper.getDatabase().store(this);
 				Log.i("User.save()", "User Saved.");

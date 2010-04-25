@@ -63,18 +63,18 @@ public class PersistencyTest extends AndroidTestCase {
 		Log.d(LOG_TAG, "testUserEdit");
 		
 		User user = User.retrieve(dbHelper);
-		String oldUsername = user.getTracUsername();
-		user.setTracUsername("testtest");
+		int oldPomodoroDuration = user.getPomodoroMinutesDuration();
+		user.setPomodoroMinutesDuration(99);
 		user.save(dbHelper);
 		
 		user = User.retrieve(dbHelper);
-		assertTrue(user.getTracUsername().equals("testtest"));
+		assertTrue(user.getPomodoroMinutesDuration() == 99);
 		
-		user.setTracUsername(oldUsername);
+		user.setPomodoroMinutesDuration(oldPomodoroDuration);
 		user.save(dbHelper);
 		
 		user = User.retrieve(dbHelper);
-		assertTrue(user.getTracUsername().equals(oldUsername));
+		assertTrue(user.getPomodoroMinutesDuration() == oldPomodoroDuration);
 	}
 	
 	public void testActivityCreation() throws PomodroidException{

@@ -15,19 +15,11 @@
  *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.Service;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.util.Linkify;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 
 /**
  * Main activity. It just loads the layout.
@@ -51,7 +43,7 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 		Button buttonServices = (Button) findViewById(R.id.ButtonServices);
 		buttonServices.setOnClickListener(this);
 		Button buttonPreferences = (Button) findViewById(R.id.ButtonPreferences);
-		buttonPreferences.setOnClickListener(this);
+		buttonPreferences.setOnClickListener(this);	
 	}
 
 	@Override
@@ -71,7 +63,7 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 				intent.setClass(this, Services.class);
 				break;
 			case R.id.ButtonPreferences:
-				intent.setClass(this, TabPreferences.class);
+				intent.setClass(this, Preferences.class);
 				break;
 		}
 		startActivity(intent);

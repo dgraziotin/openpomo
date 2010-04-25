@@ -17,4 +17,14 @@
   <item>@string/todotoday</item> 
 </array> 
 
+<array name="service_dialog"> 
+  <item>@string/service_edit</item> 
+  <item>@string/service_activate</item> 
+  <item>@string/service_delete</item>
+</array> 
+
+<array name="services">
+	<item>Trac</item>
+</array>
+
 </resources>

@@ -18,7 +18,7 @@
 
 		<Button android:text="Trash" android:id="@+id/ButtonTS" style="@style/ButtonMain" />
 
-		<Button android:text="Services" android:id="@+id/ButtonServices"
+		<Button android:text="Fetch Activities" android:id="@+id/ButtonServices"
 			style="@style/ButtonMain" />
 
 		<Button android:text="Preferences" android:id="@+id/ButtonPreferences"

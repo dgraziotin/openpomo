@@ -6,47 +6,6 @@
 		android:stretchColumns="0">
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Please set every field of this window. Pomodroid checks the validity of the services and credentials on the fly. Therefore, in order to save your settings you must have an active connection" />
-		</TableRow>
-		<TableRow>
-			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="TRAC XML-RPC/HTTP(S) BASIC AUTH username" />
-		</TableRow>
-		<TableRow>
-			<EditText android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/EditTextUsername"
-				android:hint="TRAC username" />
-		</TableRow>
-		<TableRow>
-			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="TRAC anonymous XML_RPC access?" />
-		</TableRow>
-		<TableRow>
-			<CheckBox android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/CheckBoxAnonymous"
-				android:hint="Anonymous Access" />
-		</TableRow>
-		<TableRow>
-			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="TRAC XML-RPC/HTTP(S) BASIC AUTH password" />
-		</TableRow>
-		<TableRow>
-			<EditText android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/EditTextPassword"
-				android:password="true" android:hint="TRAC password" />
-		</TableRow>
-		<TableRow>
-			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="Trac XML-RPC login URL" />
-		</TableRow>
-		<TableRow>
-			<EditText android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/EditTextTracUrl"
-				android:hint="http(s)://domain.ext/tracurl/login/xmlrpc" />
-		</TableRow>
-		<TableRow>
-			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:text="Pomodoro length (Minutes)" />
 		</TableRow>
 		<TableRow>
@@ -55,6 +14,8 @@
 				android:numeric="integer" android:maxLength="2" android:hint="Enter length (max 99)" />
 		</TableRow>
 		<Button android:text="Save" android:id="@+id/ButtonSavePreferences"
+			style="@style/ButtonMain" ></Button>
+		<Button android:text="Edit Services" android:id="@+id/ButtonEditServices"
 			style="@style/ButtonMain" ></Button>
 	</TableLayout>
 </ScrollView>

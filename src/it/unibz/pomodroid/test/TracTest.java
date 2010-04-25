@@ -23,6 +23,7 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.factories.ActivityFactory;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
+import it.unibz.pomodroid.persistency.Service;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.TracTicketFetcher;
 import android.content.Context;
@@ -44,18 +45,19 @@ public class TracTest extends AndroidTestCase{
 	
 	public void testNumberTickets() throws PomodroidException{
 		Log.d(LOG_TAG, "testNumberTickets");
-		User user = User.retrieve(dbHelper);
-		int numberTickets = ttf.getNumberTickets(user);
+		Service service = Service.getAll(dbHelper).get(0);
+		int numberTickets = ttf.getNumberTickets(service);
 		assertTrue(numberTickets >= 0);
 	}
 	
 	public void testTicketRetrieval() throws PomodroidException{
 		Log.d(LOG_TAG, "testTicketRetrieval");
 		User user = User.retrieve(dbHelper);
-		int numberTickets = ttf.getNumberTickets(user);
+		Service service = Service.getAll(dbHelper).get(0);
+		int numberTickets = ttf.getNumberTickets(service);
 		int numberActivities = Activity.getNumberActivities(dbHelper);
 		if(numberTickets > numberActivities){
-			Vector<HashMap<String, Object>>  tickets = ttf.fetch(user, dbHelper);
+			Vector<HashMap<String, Object>>  tickets = ttf.fetch(service, dbHelper);
 			assertNotNull(tickets);
 			assert(tickets.size() > 0);
 		}else{
@@ -66,9 +68,10 @@ public class TracTest extends AndroidTestCase{
 	public void testActivityFactory() throws PomodroidException{
 		Log.d(LOG_TAG, "testActivityFactory");
 		User user = User.retrieve(dbHelper);
-		int numberTickets = ttf.getNumberTickets(user);
+		Service service = Service.getAll(dbHelper).get(0);
+		int numberTickets = ttf.getNumberTickets(service);
 		int numberActivities = Activity.getNumberActivities(dbHelper);
-		Vector<HashMap<String, Object>> tickets = ttf.fetch(user, dbHelper);
+		Vector<HashMap<String, Object>> tickets = ttf.fetch(service, dbHelper);
 		if(numberTickets > numberActivities){
 			int activitiesStored = af.produceTest(tickets, dbHelper);
 			assert(activitiesStored > 0);

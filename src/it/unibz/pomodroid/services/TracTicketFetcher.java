@@ -22,7 +22,7 @@ import java.util.Vector;
 import android.util.Log;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.persistency.User;
+import it.unibz.pomodroid.persistency.Service;
 
 /**
  * 
@@ -39,17 +39,17 @@ public class TracTicketFetcher {
 	/**
 	 * It retrieves all opened tickets from TRAC and returns them
 	 * 
-	 * @param user user object
+	 * @param service user object
 	 * @param dbHelper connection to the db
 	 * @return tickets from TRAC
 	 *
 	 * @throws PomodroidException 
 	 */
-	public Vector<HashMap<String, Object>> fetch (User user, DBHelper dbHelper) throws PomodroidException{
+	public Vector<HashMap<String, Object>> fetch (Service service, DBHelper dbHelper) throws PomodroidException{
 		Vector<HashMap<String, Object>> tickets = new Vector<HashMap<String, Object>>(); 
 		
 		Vector<Integer> ticketIds;
-		ticketIds = getTicketIds(user);
+		ticketIds = getTicketIds(service);
 		
 		HashMap<String,String> attributes;
 		Date deadLine = new Date();
@@ -57,14 +57,14 @@ public class TracTicketFetcher {
 		for (Integer ticketId : ticketIds) {
 		   HashMap<String, Object> ticket = new HashMap<String, Object>();
 		   Integer[] id = {ticketId};
-		   attributes = getTickets(user, id);
+		   attributes = getTickets(service, id);
 		   
 		   if (!(attributes.get("milestone").toString().equals(""))){
-		     deadLine = getDeadLine(user, attributes.get("milestone").toString());
+		     deadLine = getDeadLine(service, attributes.get("milestone").toString());
 		   }
 		   
 		   ticket.put("originId", (int)ticketId);
-		   ticket.put("origin", user.getTracUrl());
+		   ticket.put("origin", service.getUrl());
 		   ticket.put("deadLine", deadLine);
 		   ticket.put("summary",attributes.get("summary"));
 		   ticket.put("description",attributes.get("description"));
@@ -81,18 +81,18 @@ public class TracTicketFetcher {
 	
 	
 	/**
-	 * @param user user object
+	 * @param service user object
 	 * @return vector 
 	 * @throws PomodroidException 
 	 */
-	private Vector<Integer> getTicketIds (User user) throws PomodroidException{
-		String[] params = {"status!=closed&owner="+user.getTracUsername()};
+	private Vector<Integer> getTicketIds (Service service) throws PomodroidException{
+		String[] params = {"status!=closed&owner="+service.getUsername()};
 		Object[] result = null;
 		
-		if(user.isTracAnonymousAccess())
-			result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),"ticket.query",params);
+		if(service.isAnonymousAccess())
+			result = XmlRpcClient.fetchMultiResults(service.getUrl(),"ticket.query",params);
 		else
-			result = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.query",params);
+			result = XmlRpcClient.fetchMultiResults(service.getUrl(),service.getUsername(),service.getPassword(), "ticket.query",params);
 		
 		if (result != null){
 			Vector<Integer> ticketsIds = new Vector<Integer>();
@@ -108,20 +108,20 @@ public class TracTicketFetcher {
 	 * @return
 	 * @throws PomodroidException
 	 */
-	public int getNumberTickets(User user) throws PomodroidException{
-		Vector<Integer> ticketIds = this.getTicketIds(user);
+	public int getNumberTickets(Service service) throws PomodroidException{
+		Vector<Integer> ticketIds = this.getTicketIds(service);
 		return ((ticketIds == null) ?  0 :  ticketIds.size());
 	}
 	
 	@SuppressWarnings("unchecked")
 	// FIXME: the method should not be static
-	private static HashMap<String,String> getTickets(User user, Integer[] id) throws PomodroidException{
+	private static HashMap<String,String> getTickets(Service service, Integer[] id) throws PomodroidException{
 		Object[] ticket;
 		HashMap<String,String> attributes;
-		if(user.isTracAnonymousAccess())
-			ticket = XmlRpcClient.fetchMultiResults(user.getTracUrl(),"ticket.get",id);
+		if(service.isAnonymousAccess())
+			ticket = XmlRpcClient.fetchMultiResults(service.getUrl(),"ticket.get",id);
 		else
-			ticket = XmlRpcClient.fetchMultiResults(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.get",id);
+			ticket = XmlRpcClient.fetchMultiResults(service.getUrl(),service.getUsername(),service.getPassword(), "ticket.get",id);
 		
 		
 		attributes = (HashMap<String,String>) ticket[3];
@@ -129,21 +129,21 @@ public class TracTicketFetcher {
 	}
 	
 	/**
-	 * @param user
+	 * @param service
 	 * @param milestoneId
 	 * @return
 	 * @throws PomodroidException 
 	 */
 	@SuppressWarnings("unchecked")
-	private  Date getDeadLine (User user, String milestoneId) throws PomodroidException{
+	private  Date getDeadLine (Service service, String milestoneId) throws PomodroidException{
 		Date result;
 		Object dataObject;
 		String params[] = {milestoneId};
 		Object milestone = null;
-		if(user.isTracAnonymousAccess())
-			milestone = XmlRpcClient.fetchSingleResult(user.getTracUrl(), "ticket.milestone.get",params);
+		if(service.isAnonymousAccess())
+			milestone = XmlRpcClient.fetchSingleResult(service.getUrl(), "ticket.milestone.get",params);
 		else
-			milestone = XmlRpcClient.fetchSingleResult(user.getTracUrl(),user.getTracUsername(),user.getTracPassword(), "ticket.milestone.get",params);
+			milestone = XmlRpcClient.fetchSingleResult(service.getUrl(),service.getUsername(),service.getPassword(), "ticket.milestone.get",params);
 		
 		dataObject = ((HashMap<String, Object>) milestone).get("due");
 		 if (dataObject.equals(0))

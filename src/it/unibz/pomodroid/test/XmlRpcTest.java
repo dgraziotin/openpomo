@@ -16,8 +16,11 @@
  */
 package it.unibz.pomodroid.test;
 
+import java.util.List;
+
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
+import it.unibz.pomodroid.persistency.Service;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.XmlRpcClient;
 
@@ -41,10 +44,16 @@ public class XmlRpcTest extends AndroidTestCase{
 		}
 
 		public void testTracConnection() throws PomodroidException{
+			List<Service> services = Service.getAll(dbHelper);
+			if(services==null || services.isEmpty()){
+				assertTrue(true);
+				return;
+			}
+			Service service = services.get(0);
 			Log.d(LOG_TAG, "testTracConnection");
 			Object[] params = {};
 			// it should return an integer > 0
-			Object[] result = XmlRpcClient.fetchMultiResults(user.getTracUrl(), user.getTracUsername(), user.getTracPassword(), "system.listMethods", params);
+			Object[] result = XmlRpcClient.fetchMultiResults(service.getUrl(), service.getUsername(), service.getPassword(), "system.listMethods", params);
 			assertTrue(result.length > 0);
 		}
 		

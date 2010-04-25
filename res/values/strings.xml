@@ -42,4 +42,9 @@
 	<string name="pomodoro_long_break">Pomodoro finished. Take a longer break.</string>
 	<string name="pomodoro_broken">Pomodoro broken!</string>
 	<string name="no_internet_available">No Internet connection active. Please try again when a connection is available.</string>
+	<string name="service_type">No Internet connection active. Please try again when a connection is available.</string>
+	<string name="service_edit">Edit</string>
+	<string name="service_activate">(De)Activate</string>
+	<string name="service_delete">Delete</string>
+	<string name="service_retrieve">Retrieving services ...</string>
 </resources>

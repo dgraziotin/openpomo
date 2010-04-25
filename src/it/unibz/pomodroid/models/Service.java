@@ -15,7 +15,6 @@
  *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid.models;
-import java.net.URL;
 
 /**
  * A class representing a Service.
@@ -29,7 +28,9 @@ public class Service {
 	private String url; 
 	private String username;
 	private String password;
+	private String type;
 	private boolean isAnonymousAccess;
+	private boolean isActive;
 	
 	public Service(){
 		this.name = null;
@@ -37,22 +38,28 @@ public class Service {
 		this.username = null;
 		this.password = null;
 		this.isAnonymousAccess = false;
+		this.setType(null);
+		this.isActive = true;
 	}
 	
-	public Service(String name, String url, String username, String password, boolean isAnonymousAccess){
+	public Service(String name, String url, String type, String username, String password, boolean isAnonymousAccess){
 		this.name = name;
 		this.url = url;
+		this.setType(type);
 		this.username = username;
 		this.password = password;
 		this.isAnonymousAccess = isAnonymousAccess;
+		this.isActive = true;
 	}
 	
-    public Service(String name, String url, String username){
+    public Service(String name, String url, String type, String username){
     	this.name = name;
 		this.url = url;
+		this.setType(type);
 		this.username = username;
 		this.password = "";
 		this.isAnonymousAccess = true;
+		this.isActive = true;
 	}
     
 	/**
@@ -123,6 +130,32 @@ public class Service {
 	 */
 	public void setAnonymousAccess(boolean isAnonymousAccess) {
 		this.isAnonymousAccess = isAnonymousAccess;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getType() {
+		return type;
+	}
+	
+	public void update(Service service){
+		this.name = service.getName();
+		this.url = service.getUrl();
+		this.type = service.getType();
+		this.username = service.getUsername();
+		this.password = service.getPassword();
+		this.isAnonymousAccess = service.isAnonymousAccess();
+		this.isActive = service.isActive();
 	}
 
 }

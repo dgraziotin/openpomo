@@ -13,12 +13,12 @@ public class Service extends it.unibz.pomodroid.models.Service{
 		super();
 	}
 	
-	public Service(String name, String url, String username, String password, boolean isAnonymousAccess){
-		super(name,url,username,password,isAnonymousAccess);
+	public Service(String name, String url, String type, String username, String password, boolean isAnonymousAccess){
+		super(name,url,username,type,password,isAnonymousAccess);
 	}
 	
-    public Service(String name, String url, String username){
-    	super(name, url, username);
+    public Service(String name, String url, String type, String username){
+    	super(name, url, type, username);
 	}
     
     /**
@@ -51,6 +51,37 @@ public class Service extends it.unibz.pomodroid.models.Service{
 					+ e.toString());
 		}
 	}
+	
+	/**
+	 * 
+	 * @param origin
+	 * @param originId
+	 * @param dbHelper
+	 * @return a specific Service
+	 * @throws PomodroidException
+	 */
+	public static Service get(final String name,
+			DBHelper dbHelper) throws PomodroidException {
+		List<Service> services;
+		try {
+			services = dbHelper.getDatabase().query(
+					new Predicate<Service>() {
+						private static final long serialVersionUID = 1L;
+
+						public boolean match(Service service) {
+							return service.getName().equals(name);
+						}
+					});
+			if (services.isEmpty())
+				return null;
+			else
+				return services.get(0);
+		} catch (Exception e) {
+			Log.e("Service.isPresent()", "Problem: " + e.toString());
+			throw new PomodroidException("ERROR in Service.isPresent():"
+					+ e.toString());
+		}
+	}
     
     /**
 	 * @param dbHelper
@@ -59,16 +90,37 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	 */
 	public boolean save(DBHelper dbHelper) throws PomodroidException {
 		try {
-			if (!isPresent(this.getName(),dbHelper)) {
-
+			if (!isPresent(this.getName(), dbHelper)) {
 				dbHelper.getDatabase().store(this);
 				return true;
 			} else {
-				return false;
+				return this.update(dbHelper);
 			}
 		} catch (Exception e) {
-			Log.e("Service.save(single)", "Problem: " + e.toString());
+			Log.e("Service.save()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Service.save():"
+					+ e.toString());
+		} finally {
+			dbHelper.commit();
+		}
+	}
+	
+	/**
+	 * @param dbHelper
+	 * @return true if an activity is saved into the DB
+	 * @throws PomodroidException
+	 */
+	private boolean update(DBHelper dbHelper) throws PomodroidException {
+		ObjectSet<Service> result = dbHelper.getDatabase().queryByExample(
+				new Service(this.getName(), this.getUrl(), this.getType(), this.getUsername()));
+		Service found = (Service) result.next();
+		found.delete(dbHelper);
+		try {
+			dbHelper.getDatabase().store(this);
+			return true;
+		} catch (Exception e) {
+			Log.e("Service.save(update)", "Update Problem: " + e.toString());
+			throw new PomodroidException("ERROR in Service.save(update):"
 					+ e.toString());
 		} finally {
 			dbHelper.commit();
@@ -129,6 +181,29 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	}
 	
 	/**
+	 * Deletes an activity
+	 * 
+	 * @param dbHelper
+	 * @throws PomodroidException
+	 */
+	public void delete(DBHelper dbHelper) throws PomodroidException {
+		ObjectSet<Service> result;
+		Service toBeDeleted = null;
+		try {
+			toBeDeleted = Service.getService(this.getName(),dbHelper);
+			result = dbHelper.getDatabase().queryByExample(toBeDeleted);
+			Service found = (Service) result.next();
+			dbHelper.getDatabase().delete(found);
+		} catch (Exception e) {
+			Log.e("Service.delete()", "Problem: " + e.toString());
+			throw new PomodroidException("ERROR in Service.delete():"
+					+ e.toString());
+		} finally {
+			dbHelper.commit();
+		}
+	}
+	
+	/**
 	 * @param origin
 	 * @param originId
 	 * @param dbHelper
@@ -155,31 +230,5 @@ public class Service extends it.unibz.pomodroid.models.Service{
 					+ e.toString());
 		}
 		return result;
-	}
-
-	
-
-	/**
-	 * Deletes all services
-	 * 
-	 * @param Service
-	 * @param dbHelper
-	 * @throws PomodroidException
-	 * 
-	 */
-	public static void delete(DBHelper dbHelper)
-			throws PomodroidException {
-		try {
-			List<Service> services = Service.getAll(dbHelper);
-			
-			for (Service service : services) {
-				dbHelper.getDatabase().delete(service);
-			}
-		} catch (Exception e) {
-			throw new PomodroidException("ERROR in Service.delete()"
-					+ e.toString());
-		}finally{
-			dbHelper.commit();
-		}
 	}
 }

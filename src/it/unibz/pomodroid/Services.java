@@ -18,10 +18,12 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.factories.ActivityFactory;
+import it.unibz.pomodroid.persistency.Service;
 import it.unibz.pomodroid.services.TracTicketFetcher;
 import it.unibz.pomodroid.services.XmlRpcClient;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -182,10 +184,12 @@ public class Services extends SharedActivity implements OnClickListener {
 		try {
 			TracTicketFetcher tracTicketFetcher = new TracTicketFetcher();
 			ActivityFactory activityFactory = new ActivityFactory();
-			this.tracTasks = tracTicketFetcher.fetch(super.user, super.dbHelper);
-			this.tracTasksAdded = activityFactory
-					.produce(this.tracTasks, super.dbHelper);
-
+			List<Service> services = Service.getAll(dbHelper);
+			for(Service service: services){
+				this.tracTasks = tracTicketFetcher.fetch(service, super.dbHelper);
+				this.tracTasksAdded = activityFactory
+						.produce(this.tracTasks, super.dbHelper);
+			}
 		} catch (Exception e) {
 			sendMessageHandler(Services.MESSAGE_EXCEPTION, e.toString());
 			return;
