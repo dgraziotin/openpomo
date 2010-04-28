@@ -21,10 +21,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import it.unibz.pomodroid.SharedMenu;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
@@ -101,7 +98,6 @@ public abstract class SharedListActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SharedMenu.setContext(this);
 		setContentView(R.layout.activitysheet);
 		this.dbHelper = new DBHelper(getApplicationContext());
 		this.context = this;
@@ -344,28 +340,5 @@ public abstract class SharedListActivity extends ListActivity {
 	 * @param activity
 	 */
 	protected abstract void openActivityDialog(Activity activity);
-
-	/**
-	 * Overrides Android Menu. This is the menu shared between all our
-	 * ListActivities.
-	 * 
-	 * @param menu
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		SharedMenu.onCreateOptionsMenu(menu);
-		return true;
-	}
-
-	/**
-	 * Defines the actions to be performed when the user clicks on a menu item.
-	 * 
-	 * @param menu
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return SharedMenu.onOptionsItemSelected(item);
-	}
 
 }

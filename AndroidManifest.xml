@@ -10,7 +10,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".PomodroidTest" android:label="@string/app_name" />
 		<activity android:name=".ActivityInventorySheet"
 			android:label="@string/ais">
 		</activity>
@@ -21,22 +20,24 @@
 			android:label="@string/app_name">
 		</activity>
 		<activity android:name=".Services"
-			android:label="@string/tracprom">
+			android:label="@string/services">
 		</activity>
 		<activity android:name=".TabPreferences"
 			android:label="@string/settings">
 		</activity>
 		<activity android:name=".ListServices"
-			android:label="@string/settings">
+			android:label="@string/services">
 		</activity>
 		<activity android:name=".EditService"
-			android:label="@string/settings">
+			android:label="@string/service_edit">
 		</activity>
 		<activity android:name=".TrashSheet" android:label="@string/ts">
 		</activity>
 		<activity android:name=".Pomodoro" android:label="@string/app_name" android:screenOrientation="portrait">
 		</activity>
 		<activity android:name=".Preferences" android:label="@string/settings">
+		</activity>
+		<activity android:name=".About" android:label="@string/about">
 		</activity>
 	</application>
 	<uses-sdk android:minSdkVersion="4" />

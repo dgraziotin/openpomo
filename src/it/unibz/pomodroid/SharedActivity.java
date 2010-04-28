@@ -20,9 +20,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import it.unibz.pomodroid.SharedMenu;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
@@ -79,7 +76,6 @@ public abstract class SharedActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SharedMenu.setContext(this);
 		this.dbHelper = new DBHelper(getApplicationContext());
 		this.context = this;
 		try {
@@ -119,21 +115,4 @@ public abstract class SharedActivity extends Activity {
 		super.onResume();
 	}
 	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        SharedMenu.onCreateOptionsMenu(menu);
-        return true;
-    }
-	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return SharedMenu.onOptionsItemSelected(item);
-	}
 }

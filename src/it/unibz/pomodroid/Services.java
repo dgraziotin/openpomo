@@ -30,6 +30,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -57,7 +59,9 @@ public class Services extends SharedActivity implements OnClickListener {
 	private static final int MESSAGE_OK = 1;
 	private static final int MESSAGE_EXCEPTION = 2;
 	private static final int MESSAGE_INFORMATION = 3;
-	
+	private static final int ADD = 4;
+	private static final int VIEW = 5;
+
 	private List<Service> services = null;
 
 	/*
@@ -75,14 +79,14 @@ public class Services extends SharedActivity implements OnClickListener {
 		Button buttonEditServices = (Button) findViewById(R.id.ButtonEditServices);
 		buttonEditServices.setOnClickListener((OnClickListener) this);
 	}
-	
+
 	@Override
-	public void onStart(){
-		super.onStart();
+	public void onResume() {
+		super.onResume();
 		try {
 			this.services = Service.getAllActive(dbHelper);
 			String message = "Active Services: ";
-			if(this.services!=null)
+			if (this.services != null)
 				message += "" + services.size();
 			else
 				message += "0";
@@ -97,6 +101,43 @@ public class Services extends SharedActivity implements OnClickListener {
 	public void onDestroy() {
 		super.onDestroy();
 	}
+	
+	 /**
+	 * We specify the menu labels and theirs icons
+	 * @param menu
+	 * @return
+	 *
+	 */
+	@Override
+	public  boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, ADD, 0, "Add a new Service").setIcon(
+				android.R.drawable.ic_menu_add);
+		menu.add(0, VIEW, 0, "Edit Services").setIcon(
+				android.R.drawable.ic_menu_edit);
+		return true;
+	}
+
+	/**
+	 * As soon as the user click on the menu a new intent is created
+	 * @param item
+	 * @return
+	 * 
+	 */
+	@Override
+	public  boolean onOptionsItemSelected(MenuItem item) {
+		Intent i; 
+		switch (item.getItemId()) {
+		case ADD:
+			i = new Intent(this, EditService.class);
+			this.startActivity(i);
+			return true;
+		case VIEW:
+			i = new Intent(this, ListServices.class);
+			this.startActivity(i);
+			return true;
+		}
+		return false;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -105,14 +146,15 @@ public class Services extends SharedActivity implements OnClickListener {
 	 */
 	@Override
 	public void onClick(View v) {
-		if (XmlRpcClient.isInternetAvailable(context)){
-			if (v.getId() == R.id.ButtonTrac){
+		if (XmlRpcClient.isInternetAvailable(context)) {
+			if (v.getId() == R.id.ButtonTrac) {
 				Services.serviceChosen = SERVICE_TRAC;
-			}else if(v.getId() == R.id.ButtonEditServices){
+			} else if (v.getId() == R.id.ButtonEditServices) {
 				Intent intent = new Intent();
 				intent.setClass(this, ListServices.class);
 				startActivity(intent);
-			}else{
+				return;
+			} else {
 				Services.serviceChosen = -1;
 			}
 			try {
@@ -120,27 +162,30 @@ public class Services extends SharedActivity implements OnClickListener {
 			} catch (PomodroidException e) {
 				e.alertUser(context);
 			}
-			
-		}else{
-			PomodroidException.createAlert(context, "ERROR", context.getString(R.string.no_internet_available));
+
+		} else {
+			PomodroidException.createAlert(context, "ERROR", context
+					.getString(R.string.no_internet_available));
 		}
 	}
 
 	/**
 	 * Method that starts a thread and shows a nice download bar.
-	 * @throws PomodroidException 
+	 * 
+	 * @throws PomodroidException
 	 */
 	public void useServices() throws PomodroidException {
 		String message = null;
-		if (Services.serviceChosen == Services.SERVICE_TRAC){
+		if (Services.serviceChosen == Services.SERVICE_TRAC) {
 			List<Service> services = Service.getAllActive(dbHelper);
-			if(services!=null && services.size()!=0)
-				message = "Downloading Activities from " +services.size()+ " active Services";
-			else{
+			if (services != null && services.size() != 0)
+				message = "Downloading Activities from " + services.size()
+						+ " active Services";
+			else {
 				message = "No active Services.";
 				return;
 			}
-		}else{
+		} else {
 			message = "Error";
 		}
 		progressDialog = ProgressDialog.show(this, "Please wait", message,
@@ -149,13 +194,12 @@ public class Services extends SharedActivity implements OnClickListener {
 		this.serviceThread = new Thread(null, useServices, "UserServiceThread");
 		this.serviceThread.start();
 	}
-	
+
 	/**
-	 * As soon as a thread starts, this method is called. 
-	 * If serviceChosen == SERVICE_TRAC, it retrieves tickets
-	 * from TRAC. When the operation is finished,it sends an empty message
-	 * to the handler in order to inform the system that the operation is
-	 * finished.
+	 * As soon as a thread starts, this method is called. If serviceChosen ==
+	 * SERVICE_TRAC, it retrieves tickets from TRAC. When the operation is
+	 * finished,it sends an empty message to the handler in order to inform the
+	 * system that the operation is finished.
 	 */
 	protected Runnable useServices = new Runnable() {
 		@Override
@@ -186,13 +230,15 @@ public class Services extends SharedActivity implements OnClickListener {
 				serviceThread.interrupt();
 				progressDialog.dismiss();
 				Bundle exceptionBundle = message.getData();
-				PomodroidException.createAlert(context, "ERROR", exceptionBundle.getString("message"));
+				PomodroidException.createAlert(context, "ERROR",
+						exceptionBundle.getString("message"));
 				break;
 			case Services.MESSAGE_INFORMATION:
 				serviceThread.interrupt();
 				progressDialog.dismiss();
 				Bundle informationBundle = message.getData();
-				PomodroidException.createAlert(context, "INFO", informationBundle.getString("message"));
+				PomodroidException.createAlert(context, "INFO",
+						informationBundle.getString("message"));
 				break;
 
 			}
@@ -225,10 +271,11 @@ public class Services extends SharedActivity implements OnClickListener {
 			TracTicketFetcher tracTicketFetcher = new TracTicketFetcher();
 			ActivityFactory activityFactory = new ActivityFactory();
 			List<Service> services = Service.getAllActive(dbHelper);
-			for(Service service: services){
-				this.tracTasks = tracTicketFetcher.fetch(service, super.dbHelper);
-				this.tracTasksAdded = activityFactory
-						.produce(this.tracTasks, super.dbHelper);
+			for (Service service : services) {
+				this.tracTasks = tracTicketFetcher.fetch(service,
+						super.dbHelper);
+				this.tracTasksAdded = activityFactory.produce(this.tracTasks,
+						super.dbHelper);
 			}
 		} catch (Exception e) {
 			sendMessageHandler(Services.MESSAGE_EXCEPTION, e.toString());
@@ -237,15 +284,17 @@ public class Services extends SharedActivity implements OnClickListener {
 		sendMessageHandler(Services.MESSAGE_OK, "");
 	}
 
-
 	/**
 	 * Sends a customized message to the Handler.
-	 * @param messageType the type of message
-	 * @param messageValue the text of the message
+	 * 
+	 * @param messageType
+	 *            the type of message
+	 * @param messageValue
+	 *            the text of the message
 	 */
-	private void sendMessageHandler(int messageType, String messageValue){
+	private void sendMessageHandler(int messageType, String messageValue) {
 		Message message = new Message();
-		if(!messageValue.equals("")){
+		if (!messageValue.equals("")) {
 			Bundle bundle = new Bundle();
 			bundle.putString("message", messageValue);
 			message.setData(bundle);
@@ -253,7 +302,5 @@ public class Services extends SharedActivity implements OnClickListener {
 		message.what = messageType;
 		handler.sendMessage(message);
 	}
-
-
 
 }

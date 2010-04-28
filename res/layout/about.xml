@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/ScrollView01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical" android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+		<ImageView android:id="@+id/imagebutton" android:src="@drawable/pomodoro"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:gravity="center" android:layout_gravity="center" android:layout_marginBottom="30px"  />
+
+		<TextView android:id="@+id/TextViewAbout1" android:text="@string/about_1" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+		<TextView android:id="@+id/TextViewAbout2" android:text="@string/about_2" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+		<TextView android:id="@+id/TextViewAbout3" android:text="@string/about_3" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+		<TextView android:id="@+id/TextViewAbout4" android:text="@string/about_4" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>	
+		
+		<Button android:text="Back" android:id="@+id/ButtonGoBack" style="@style/ButtonMain" />
+
+	</LinearLayout>
+</ScrollView>

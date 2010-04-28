@@ -97,7 +97,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				String pomodoroMessage = null;
 				try {
 					activity = it.unibz.pomodroid.persistency.Activity
-							.getActivity(activityOrigin, activityOriginId,
+							.get(activityOrigin, activityOriginId,
 									dbHelper);
 					activity.addOnePomodoro();
 					activity.save(dbHelper);
@@ -239,7 +239,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 		it.unibz.pomodroid.persistency.Activity activity = null;
 		try {
-			activity = it.unibz.pomodroid.persistency.Activity.getActivity(
+			activity = it.unibz.pomodroid.persistency.Activity.get(
 					this.activityOrigin, this.activityOriginId, super.dbHelper);
 			this.user = User.retrieve(super.dbHelper);
 		} catch (PomodroidException e) {
@@ -291,7 +291,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		it.unibz.pomodroid.persistency.Activity activity = null;
 		ScrollView scrollView = (ScrollView) findViewById(R.id.ScrollView01);
 		try {
-			activity = it.unibz.pomodroid.persistency.Activity.getActivity(
+			activity = it.unibz.pomodroid.persistency.Activity.get(
 					this.activityOrigin, this.activityOriginId, super.dbHelper);
 			switch (v.getId()) {
 			case R.id.ButtonPomodoroStart:

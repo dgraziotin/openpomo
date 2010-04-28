@@ -62,6 +62,7 @@ public class DBHelper {
 	 * @return an object container
 	 * @throws PomodroidException 
 	 */
+	@SuppressWarnings("deprecation")
 	public ObjectContainer getDatabase() throws PomodroidException {
 		try {
 			if (database == null || database.ext().isClosed())
@@ -95,6 +96,7 @@ public class DBHelper {
 	 * 
 	 * @return configuration
 	 */
+	@SuppressWarnings("deprecation")
 	private Configuration dbConfig() {
 		Configuration configuration = Db4o.newConfiguration();
 		configuration.lockDatabaseFile(false);

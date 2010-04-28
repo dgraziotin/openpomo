@@ -84,36 +84,6 @@ public class Service extends it.unibz.pomodroid.models.Service{
 		}
 	}
 	
-	/**
-	 * 
-	 * @param origin
-	 * @param originId
-	 * @param dbHelper
-	 * @return a specific Service
-	 * @throws PomodroidException
-	 */
-	public static Service get(final String name,
-			DBHelper dbHelper) throws PomodroidException {
-		List<Service> services;
-		try {
-			services = dbHelper.getDatabase().query(
-					new Predicate<Service>() {
-						private static final long serialVersionUID = 1L;
-
-						public boolean match(Service service) {
-							return service.getName().equals(name);
-						}
-					});
-			if (services.isEmpty())
-				return null;
-			else
-				return services.get(0);
-		} catch (Exception e) {
-			Log.e("Service.isPresent()", "Problem: " + e.toString());
-			throw new PomodroidException("ERROR in Service.isPresent():"
-					+ e.toString());
-		}
-	}
     
     /**
 	 * @param dbHelper
@@ -247,7 +217,7 @@ public class Service extends it.unibz.pomodroid.models.Service{
 		ObjectSet<Service> result;
 		Service toBeDeleted = null;
 		try {
-			toBeDeleted = Service.getService(this.getName(),dbHelper);
+			toBeDeleted = Service.get(this.getName(),dbHelper);
 			result = dbHelper.getDatabase().queryByExample(toBeDeleted);
 			Service found = (Service) result.next();
 			dbHelper.getDatabase().delete(found);
@@ -267,10 +237,10 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	 * @return a specific Service
 	 * @throws PomodroidException
 	 */
-	public static Service getService(final String name,
+	public static Service get(final String name,
 			DBHelper dbHelper) throws PomodroidException {
 		List<Service> services = null;
-		Service result;
+		Service result = null;
 		try {
 			services = dbHelper.getDatabase().query(
 					new Predicate<Service>() {
@@ -280,7 +250,8 @@ public class Service extends it.unibz.pomodroid.models.Service{
 							return service.getName().equals(name);
 						}
 					});
-			result = services.get(0);
+			if(services!=null && services.size()>0)
+				result = services.get(0);
 		} catch (Exception e) {
 			Log.e("Service.getService()", "Problem: " + e.toString());
 			throw new PomodroidException("ERROR in Service.getService():"

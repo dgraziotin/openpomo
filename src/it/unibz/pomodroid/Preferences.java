@@ -19,12 +19,12 @@ package it.unibz.pomodroid;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.XmlRpcClient;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * This class implements the user preferences. Here the user can set its user
@@ -48,8 +48,13 @@ public class Preferences extends SharedActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.preferences);
+		TextView textViewPreferences = (TextView) findViewById(R.id.TextViewPreferences);
+		textViewPreferences.setText(getString(R.string.preferences_intro));
 		if(user!=null)
 			fillEditTexts(user);
+		else{
+			textViewPreferences.setText(getString(R.string.preferences_firsttime));
+		}
 		Button saveButton = (Button) findViewById(R.id.ButtonSavePreferences);
 		saveButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -67,15 +72,6 @@ public class Preferences extends SharedActivity {
 					PomodroidException.createAlert(context, "ERROR", context
 							.getString(R.string.no_internet_available));
 				}
-			}
-		});
-		Button editServicesButton = (Button) findViewById(R.id.ButtonEditServices);
-		editServicesButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent();
-				intent.setClass(context, ListServices.class);
-				startActivity(intent);
 			}
 		});
 	}

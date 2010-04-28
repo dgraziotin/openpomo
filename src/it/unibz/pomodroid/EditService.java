@@ -57,7 +57,8 @@ public class EditService extends SharedActivity {
 						testServiceConnection();
 						updateService();
 						throw new PomodroidException("Service saved.",
-								"INFO");
+								"SUCCESS");
+						
 					} catch (PomodroidException e) {
 						e.alertUser(context);
 					}
@@ -95,8 +96,8 @@ public class EditService extends SharedActivity {
 	}
 	
 	private void updateService() throws PomodroidException{
-		Service service = Service.get(serviceName, dbHelper);
 		EditText editTextName = (EditText) findViewById(R.id.EditTextName);
+		Service service = Service.get(editTextName.getText().toString(), dbHelper);
 		EditText editTextUrl = (EditText) findViewById(R.id.EditTextTracUrl);
 		if(service==null){
 			service = new Service();

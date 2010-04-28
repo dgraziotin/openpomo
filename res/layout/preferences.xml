@@ -6,6 +6,11 @@
 		android:stretchColumns="0">
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/TextViewPreferences"
+			/>
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:text="Pomodoro length (Minutes)" />
 		</TableRow>
 		<TableRow>
@@ -14,8 +19,6 @@
 				android:numeric="integer" android:maxLength="2" android:hint="Enter length (max 99)" />
 		</TableRow>
 		<Button android:text="Save" android:id="@+id/ButtonSavePreferences"
-			style="@style/ButtonMain" ></Button>
-		<Button android:text="Edit Services" android:id="@+id/ButtonEditServices"
-			style="@style/ButtonMain" ></Button>
+			style="@style/ButtonMain"></Button>
 	</TableLayout>
 </ScrollView>

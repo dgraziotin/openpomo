@@ -168,7 +168,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 		ObjectSet<Activity> result;
 		Activity toBeDeleted = null;
 		try {
-			toBeDeleted = Activity.getActivity(this.getOrigin(), this.getOriginId(), dbHelper);
+			toBeDeleted = Activity.get(this.getOrigin(), this.getOriginId(), dbHelper);
 			result = dbHelper.getDatabase().queryByExample(toBeDeleted);
 			Activity found = (Activity) result.next();
 			dbHelper.getDatabase().delete(found);
@@ -249,7 +249,7 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 	 * @return a specific activity
 	 * @throws PomodroidException
 	 */
-	public static Activity getActivity(final String origin, final int originId,
+	public static Activity get(final String origin, final int originId,
 			DBHelper dbHelper) throws PomodroidException {
 		List<Activity> activities = null;
 		Activity result;
@@ -277,7 +277,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 	 * @return to do today activities
 	 * @throws PomodroidException
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<Activity> getTodoToday(DBHelper dbHelper)
 			throws PomodroidException {
 		List<Activity> activities = null;
@@ -302,7 +301,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 	 * @return all completed activities
 	 * @throws PomodroidException
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<Activity> getCompleted(DBHelper dbHelper)
 			throws PomodroidException {
 		List<Activity> activities = null;
@@ -326,7 +324,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 	 * @return all uncompleted activities
 	 * @throws PomodroidException
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<Activity> getUncompleted(DBHelper dbHelper)
 			throws PomodroidException {
 		List<Activity> activities = null;

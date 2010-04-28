@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Welcome to Pomodroid, the opensource Android tool that lets
+	<string name="hello">Welcome to Pomodroid, the opensource Android tool
+		that lets
 		you download tickets from a Trac environment, organize them
-		in activities and face them according to the Pomodoro Technique. Pomodroid
+		in activities and face them according to the Pomodoro Technique.
+		Pomodroid
 		will automatically collect metrics while you are working.
 		Press the Menu button to access all Pomodroid functionalities.
-		THIS IS ALPHA SOFTWARE: please visit the official site: http://bit.ly/9Oi0Ir
+		THIS IS
+		ALPHA SOFTWARE: please visit the official site: http://bit.ly/9Oi0Ir
 		for more info and links to documentation.
-		IMPROVE POMODROID! You can help Pomodroid in many ways. See the Project Wiki for info: http://bit.ly/aYyUuO
+		IMPROVE POMODROID! You can
+		help Pomodroid in many ways. See the Project Wiki for info:
+		http://bit.ly/aYyUuO
 	</string>
 	<string name="cleanDB">Tap one of the buttons in order to modify directly
 		db4o database</string>
@@ -34,6 +39,15 @@
 	<string name="priority">Priority</string>
 	<string name="description">Description</string>
 	<string name="preferences">Preferences</string>
+	<string name="preferences_intro">Pomodroid Settings</string>
+	<string name="preferences_firsttime">Welcome to Pomodroid.\n
+		This is the first time that
+		you run the program. Please do the following: \n \n
+		1) Set a Pomodoro
+		Default length \n
+		2) Press the Save button \n
+		3) Add some Services using the second tab.\n \n
+	</string>
 	<string name="db4o">Db4o Actions</string>
 	<string name="tests">Tests</string>
 	<string name="settings">Pomodroid - Settings</string>
@@ -41,10 +55,25 @@
 	<string name="pomodoro_short_break">Pomodoro finished. Take a short break.</string>
 	<string name="pomodoro_long_break">Pomodoro finished. Take a longer break.</string>
 	<string name="pomodoro_broken">Pomodoro broken!</string>
-	<string name="no_internet_available">No Internet connection active. Please try again when a connection is available.</string>
-	<string name="service_type">No Internet connection active. Please try again when a connection is available.</string>
+	<string name="no_internet_available">No Internet connection active. Please try again
+		when a connection is available.</string>
+	<string name="services">Services</string>
+	<string name="service_type">No Internet connection active. Please try again
+		when a connection is available.</string>
 	<string name="service_edit">Edit</string>
 	<string name="service_activate">(De)Activate</string>
 	<string name="service_delete">Delete</string>
 	<string name="service_retrieve">Retrieving services ...</string>
+	<string name="services_intro">In this window you can retrieve all issues/tickets
+		from your active Services.\nSimply press the "Fetch Activities"
+		button.\nYou can also access the list of services by pressing the
+		Menu button.\n\n</string>
+	<string name="about">About</string>
+	<string name="about_1">Pomodroid is the opensource Android tool that lets
+		you download tickets from Trac environments, organize them
+		in activities and face them according to the Pomodoro Technique.\nPomodroid will automatically collect metrics while you are working.\n\nTHIS IS ALPHA SOFTWARE: please visit the official site for more info and links to documentation:\n
+		</string>
+	<string name="about_2">http://task3.cc/projects/pomodroid</string>
+	<string name="about_3">\n\nNEXT FEATURES:\n- Manual insertion of Activities (like in every normal Pomodoro Manager)\n- Support of more Services\n- Statistics on your events\n\nIMPROVE POMODROID! You can help Pomodroid in many ways. See the Project Wiki for info:</string>
+	<string name="about_4">http://github.com/BodomLx/Pomodroid</string>
 </resources>

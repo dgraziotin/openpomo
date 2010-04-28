@@ -43,7 +43,9 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 		Button buttonServices = (Button) findViewById(R.id.ButtonServices);
 		buttonServices.setOnClickListener(this);
 		Button buttonPreferences = (Button) findViewById(R.id.ButtonPreferences);
-		buttonPreferences.setOnClickListener(this);	
+		buttonPreferences.setOnClickListener(this);
+		Button buttonAbout = (Button) findViewById(R.id.ButtonAbout);
+		buttonAbout.setOnClickListener(this);	
 	}
 
 	@Override
@@ -63,7 +65,10 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 				intent.setClass(this, Services.class);
 				break;
 			case R.id.ButtonPreferences:
-				intent.setClass(this, Preferences.class);
+				intent.setClass(this, TabPreferences.class);
+				break;
+			case R.id.ButtonAbout:
+				intent.setClass(this, About.class);
 				break;
 		}
 		startActivity(intent);
