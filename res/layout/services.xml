@@ -9,6 +9,5 @@
 		android:id="@+id/service_active_no"
 		android:layout_height="wrap_content"/>
 <Button android:text="Fetch Activities" android:id="@+id/ButtonTrac" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-<Button android:text="Edit Services" android:id="@+id/ButtonEditServices" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 
 </LinearLayout>

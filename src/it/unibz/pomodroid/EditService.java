@@ -19,34 +19,37 @@ public class EditService extends SharedActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.service);
-		
-		try{
-			this.serviceName = this.getIntent().getExtras().getString("serviceName");
-		}catch(NullPointerException e){
+
+		try {
+			this.serviceName = this.getIntent().getExtras().getString(
+					"serviceName");
+		} catch (NullPointerException e) {
 			this.serviceName = null;
 		}
-		
+
 		CheckBox checkBoxIsAnonymous = (CheckBox) findViewById(R.id.CheckBoxAnonymous);
-		checkBoxIsAnonymous.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				EditText editTextPassword = (EditText) findViewById(R.id.EditTextPassword);
-				editTextPassword.setEnabled(!isChecked);
-			}
-			
-		});
-		
+		checkBoxIsAnonymous
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						EditText editTextPassword = (EditText) findViewById(R.id.EditTextPassword);
+						editTextPassword.setEnabled(!isChecked);
+					}
+
+				});
+
 		fillEmptyFields(this.serviceName);
 		/*
-		Spinner spinnerServiceType = (Spinner) findViewById(R.id.spinnerServiceTypes);
-	    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-	            this, R.array.services, android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    spinnerServiceType.setAdapter(adapter);
-	    */
+		 * Spinner spinnerServiceType = (Spinner)
+		 * findViewById(R.id.spinnerServiceTypes); ArrayAdapter<CharSequence>
+		 * adapter = ArrayAdapter.createFromResource( this, R.array.services,
+		 * android.R.layout.simple_spinner_item);
+		 * adapter.setDropDownViewResource
+		 * (android.R.layout.simple_spinner_dropdown_item);
+		 * spinnerServiceType.setAdapter(adapter);
+		 */
 
-		
 		Button saveButton = (Button) findViewById(R.id.ButtonSavePreferences);
 		saveButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -55,10 +58,13 @@ public class EditService extends SharedActivity {
 					try {
 						checkUserInput();
 						testServiceConnection();
-						updateService();
+						if(serviceName!=null)
+							updateService();
+						else
+							saveService();
 						throw new PomodroidException("Service saved.",
 								"SUCCESS");
-						
+
 					} catch (PomodroidException e) {
 						e.alertUser(context);
 					}
@@ -67,12 +73,12 @@ public class EditService extends SharedActivity {
 							.getString(R.string.no_internet_available));
 				}
 			}
-		});		
-		
+		});
+
 	}
-	
-	private void fillEmptyFields(String serviceName){
-		if(serviceName==null)
+
+	private void fillEmptyFields(String serviceName) {
+		if (serviceName == null)
 			return;
 		Service service;
 		try {
@@ -94,25 +100,41 @@ public class EditService extends SharedActivity {
 			e.alertUser(this);
 		}
 	}
-	
-	private void updateService() throws PomodroidException{
+
+	private void updateService() throws PomodroidException {
+
 		EditText editTextName = (EditText) findViewById(R.id.EditTextName);
-		Service service = Service.get(editTextName.getText().toString(), dbHelper);
 		EditText editTextUrl = (EditText) findViewById(R.id.EditTextTracUrl);
-		if(service==null){
-			service = new Service();
-			if(Service.isPresent(editTextName.getText().toString(), dbHelper))
-				throw new PomodroidException("Error: you can not use the same name for two different Services.");
-			if(Service.isPresentUrl(editTextUrl.getText().toString(), dbHelper))
-				throw new PomodroidException("Error: you can not use the same URL for two different Services.");
-		}
 		
+		Service currentService = Service.get(serviceName, dbHelper);
 		
 		EditText editTextUsername = (EditText) findViewById(R.id.EditTextUsername);
 		EditText editTextPassword = (EditText) findViewById(R.id.EditTextPassword);
 		CheckBox checkBoxIsAnonymous = (CheckBox) findViewById(R.id.CheckBoxAnonymous);
 		CheckBox checkBoxIsActive = (CheckBox) findViewById(R.id.CheckBoxIsActive);
+
+		currentService.setName(editTextName.getText().toString());
+		currentService.setType("Trac");
+		currentService.setUrl(editTextUrl.getText().toString());
+		currentService.setUsername(editTextUsername.getText().toString());
+		currentService.setPassword(editTextPassword.getText().toString());
+		currentService.setAnonymousAccess(checkBoxIsAnonymous.isChecked());
+		currentService.setActive(checkBoxIsActive.isChecked());
+		currentService.save(dbHelper);
+
+	}
+	
+	private void saveService() throws PomodroidException {
+		EditText editTextName = (EditText) findViewById(R.id.EditTextName);
+		EditText editTextUrl = (EditText) findViewById(R.id.EditTextTracUrl);
 		
+		Service service = new Service();
+
+		EditText editTextUsername = (EditText) findViewById(R.id.EditTextUsername);
+		EditText editTextPassword = (EditText) findViewById(R.id.EditTextPassword);
+		CheckBox checkBoxIsAnonymous = (CheckBox) findViewById(R.id.CheckBoxAnonymous);
+		CheckBox checkBoxIsActive = (CheckBox) findViewById(R.id.CheckBoxIsActive);
+
 		service.setName(editTextName.getText().toString());
 		service.setType("Trac");
 		service.setUrl(editTextUrl.getText().toString());
@@ -121,9 +143,9 @@ public class EditService extends SharedActivity {
 		service.setAnonymousAccess(checkBoxIsAnonymous.isChecked());
 		service.setActive(checkBoxIsActive.isChecked());
 		service.save(dbHelper);
-		
 
 	}
+
 	/**
 	 * Tests if the given credentials and URL for Trac are correct
 	 * 
@@ -134,25 +156,25 @@ public class EditService extends SharedActivity {
 		EditText editTextUsername = (EditText) findViewById(R.id.EditTextUsername);
 		EditText editTextPassword = (EditText) findViewById(R.id.EditTextPassword);
 		CheckBox checkBoxIsAnonymous = (CheckBox) findViewById(R.id.CheckBoxAnonymous);
-		
+
 		Object[] params = {};
 		Object[] result = {};
-		
+
 		// it should return an integer > 0
-		if(checkBoxIsAnonymous.isChecked())
+		if (checkBoxIsAnonymous.isChecked())
 			result = XmlRpcClient.fetchMultiResults(editTextUrl.getText()
 					.toString(), "system.listMethods", params);
 		else
 			result = XmlRpcClient.fetchMultiResults(editTextUrl.getText()
-					.toString(), editTextUsername.getText().toString(), editTextPassword
-					.getText().toString(), "system.listMethods", params);
+					.toString(), editTextUsername.getText().toString(),
+					editTextPassword.getText().toString(),
+					"system.listMethods", params);
 
 		if (!(result.length > 0)) {
 			throw new PomodroidException(
 					"ERROR: something is wrong with the Service. Check username, password, URL and connectivity!");
 		}
 	}
-	
 
 	/**
 	 * Tests if all the data is correctly filled by user
@@ -165,16 +187,18 @@ public class EditService extends SharedActivity {
 		EditText editTextUsername = (EditText) findViewById(R.id.EditTextUsername);
 		EditText editTextPassword = (EditText) findViewById(R.id.EditTextPassword);
 		CheckBox checkBoxIsAnonymous = (CheckBox) findViewById(R.id.CheckBoxAnonymous);
-		
-		if (
-				nullOrEmpty(editTextName.getText().toString()) ||
-				nullOrEmpty(editTextUrl.getText().toString()) ||
-				nullOrEmpty(editTextUsername.getText().toString())
-		) throw new PomodroidException("Error. Please insert Name, URL and Username.");
-		
-		if(checkBoxIsAnonymous.isChecked() && nullOrEmpty(editTextPassword.getText().toString()))
-			throw new PomodroidException("Error. Please insert a Password or use Anonymous Access.");
-			
+
+		if (nullOrEmpty(editTextName.getText().toString())
+				|| nullOrEmpty(editTextUrl.getText().toString())
+				|| nullOrEmpty(editTextUsername.getText().toString()))
+			throw new PomodroidException(
+					"Error. Please insert Name, URL and Username.");
+
+		if (checkBoxIsAnonymous.isChecked()
+				&& nullOrEmpty(editTextPassword.getText().toString()))
+			throw new PomodroidException(
+					"Error. Please insert a Password or use Anonymous Access.");
+
 	}
 
 	/**
@@ -187,5 +211,5 @@ public class EditService extends SharedActivity {
 	private boolean nullOrEmpty(String string) {
 		return string.equals("") || string == null;
 	}
-	
+
 }

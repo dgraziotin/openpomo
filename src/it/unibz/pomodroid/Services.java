@@ -76,8 +76,6 @@ public class Services extends SharedActivity implements OnClickListener {
 
 		Button buttonTRAC = (Button) findViewById(R.id.ButtonTrac);
 		buttonTRAC.setOnClickListener((OnClickListener) this);
-		Button buttonEditServices = (Button) findViewById(R.id.ButtonEditServices);
-		buttonEditServices.setOnClickListener((OnClickListener) this);
 	}
 
 	@Override
@@ -149,11 +147,6 @@ public class Services extends SharedActivity implements OnClickListener {
 		if (XmlRpcClient.isInternetAvailable(context)) {
 			if (v.getId() == R.id.ButtonTrac) {
 				Services.serviceChosen = SERVICE_TRAC;
-			} else if (v.getId() == R.id.ButtonEditServices) {
-				Intent intent = new Intent();
-				intent.setClass(this, ListServices.class);
-				startActivity(intent);
-				return;
 			} else {
 				Services.serviceChosen = -1;
 			}
