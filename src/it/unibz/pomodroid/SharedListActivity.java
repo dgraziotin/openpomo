@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
 
@@ -41,20 +41,40 @@ import android.widget.TextView;
  * ListActivities It defines the shared Menu, an ArrayAdapter to
  * represent Activities, and the methods useful to work with the
  * Adapter.
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * 
  * @see adroid.app.ListActivity
  */
 public abstract class SharedListActivity extends ListActivity {
 
+	/**
+	 * Represents the Android ID of the sub-class preferred layout
+	 */
 	protected int resourceLayout = -1;
-
+	/**
+	 * Contains the Context of the Activity
+	 */
 	private Context context = null;
+	/**
+	 * A Progress Dialog to inform the User about the progress of operations
+	 */
 	private ProgressDialog progressDialog = null;
+	/**
+	 * Data Structure to hold the activities to be displayed
+	 */
 	protected ArrayList<Activity> activities = null;
+	/**
+	 * A Custom Adapter to provide graphical representation for Activities
+	 */
 	protected ActivityAdapter activityAdapter = null;
+	/**
+	 * A Runnable that is responsible for retrieving Activities from the DB
+	 */
 	protected Runnable activityRetriever = null;
+	/**
+	 * Database container
+	 */
 	protected DBHelper dbHelper = null;
 
 	/**

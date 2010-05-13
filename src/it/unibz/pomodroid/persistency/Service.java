@@ -1,3 +1,19 @@
+/**
+ * This file is part of Pomodroid.
+ *
+ *   Pomodroid is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Pomodroid is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.unibz.pomodroid.persistency;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
@@ -9,7 +25,15 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 
+/**
+ * A class representing an extension of the Service class. Whit the
+ * help of the open source object database db40 the Service is saved
+ * into a local database.
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * 
+ */
 public class Service extends it.unibz.pomodroid.models.Service{
+	
 	public Service(){
 		super();
 	}
@@ -23,11 +47,11 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	}
     
     /**
-	 * 
-	 * @param origin
-	 * @param originId
+	 * Returns true if a Service with the given name is already
+	 * present in the DB
+	 * @param name
 	 * @param dbHelper
-	 * @return a specific Service
+	 * @return true if the Service is Present
 	 * @throws PomodroidException
 	 */
 	public static boolean isPresent(final String name,
@@ -54,9 +78,9 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	}
 	
 	/**
-	 * 
-	 * @param origin
-	 * @param originId
+	 * Returns true if a Service with a given URL is present
+	 * in the DB
+	 * @param url
 	 * @param dbHelper
 	 * @return a specific Service
 	 * @throws PomodroidException
@@ -86,8 +110,10 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	
     
     /**
+     * Saves a Service. It is also responsible for updating a Service if it is
+     * already stored in the DB
 	 * @param dbHelper
-	 * @return true if an Service is saved into the DB
+	 * @return true if a Service is saved into the DB
 	 * @throws PomodroidException
 	 */
 	public boolean save(DBHelper dbHelper) throws PomodroidException {
@@ -109,8 +135,9 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	}
 	
 	/**
+	 * Updates an existing Service
 	 * @param dbHelper
-	 * @return true if an activity is saved into the DB
+	 * @return true if a service is updated into the DB
 	 * @throws PomodroidException
 	 */
 	private boolean update(DBHelper dbHelper) throws PomodroidException {
@@ -136,7 +163,6 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	 * @return
 	 * @throws PomodroidException
 	 */
-
 	public static boolean deleteAll(DBHelper dbHelper)
 			throws PomodroidException {
 		ObjectSet<Service> services = null;
@@ -182,7 +208,7 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	}
 	
 	/**
-	 * Returns all Services
+	 * Returns all active Services
 	 * 
 	 * @param dbHelper
 	 * @return a list of Services
@@ -208,7 +234,7 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	}
 	
 	/**
-	 * Deletes an activity
+	 * Deletes a Service
 	 * 
 	 * @param dbHelper
 	 * @throws PomodroidException
@@ -231,8 +257,8 @@ public class Service extends it.unibz.pomodroid.models.Service{
 	}
 	
 	/**
-	 * @param origin
-	 * @param originId
+	 * Retrieves a Service from the DB, given its name
+	 * @param name
 	 * @param dbHelper
 	 * @return a specific Service
 	 * @throws PomodroidException

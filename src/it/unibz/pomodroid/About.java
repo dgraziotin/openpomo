@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
 import android.content.Intent;
@@ -24,12 +24,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * Main activity. It just loads the layout.
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * A simple Activity to show an about Window
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
  * @see it.unibz.pomodroid.SharedActivity
  */
-
 public class About extends SharedActivity {
 
 	@Override

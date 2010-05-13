@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid.exceptions;
 
@@ -21,39 +21,50 @@ import android.widget.Toast;
 
 /**
  * All exception that can occur will be propagated and shown thanks to this class.
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * 
  */
 public class PomodroidException extends Exception{
 	
+	/**
+	 * Required by the compiler
+	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * A Custom title for an Exception when displayed to User
+	 */
 	private String title = null;
 	
 
-	// Default constructor 
-	// initializes custom exception variable to none
+	/**
+	 * Default constructor 
+	 */
 	public PomodroidException(Exception e) {
 		// call superclass constructor
 		super();            
 	}
 	
-	// Default constructor 
-	// initializes custom exception variable to none
+	/**
+	 * Default constructor 
+	 */
 	public PomodroidException() {
 		// call superclass constructor
 		super();            
 	}
 
-	// Custom Exception Constructor
+	/**
+	 * Constructor for displaying a custom message
+	 */
 	public PomodroidException(String message) {
 		// Call super class constructor
 		super(message);  
 	} 
 	
-	// Custom Exception Constructor
+	/**
+	 * Constructor for displaying a custom message and title
+	 */
 	public PomodroidException(String message, String title) {
-		// Call super class constructor
 		super(message);  
 		this.title = title;
 	} 
@@ -76,7 +87,7 @@ public class PomodroidException extends Exception{
 	
 
 	/**
-	 * This method shows an exeption
+	 * This method shows an exception to user, with a Toast
 	 * @param context
 	 * 
 	 */

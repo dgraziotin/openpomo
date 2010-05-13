@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
 
@@ -39,27 +39,53 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
- * Class to represent common behaviors and aspects of Pomodroid's
- * ListActivities It defines the shared Menu, an ArrayAdapter to
- * represent Activities, and the methods useful to work with the
- * Adapter.
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * Class to represent the list of stored Services in Pomodroid.
+ * @author Daniel Graziotin 4801 <daniel.graziotin@acm.org>
  * 
  * @see adroid.app.ListActivity
+ * 
  */
 public class ListServices extends ListActivity {
+	/**
+	 * The progress dialog to inform the user about the 
+	 * status of the operations done
+	 */
 	private ProgressDialog progressDialog = null;
+	/**
+	 * Holds the stored Services
+	 */
     private ArrayList<Service> services = null;
+    /**
+	 * Custom adapter to provide Services to the Layout
+	 */
     private ServiceAdapter adapter;
+    /**
+	 * Runnable responsible for retrieving Services and refreshing
+	 * the list
+	 */
     private Runnable viewServices;
+    /**
+     * Database container
+     */
     private DBHelper dbHelper;
+    /**
+     * Current context of the Activity
+     */
     private Context context;
-    private static final int ADD = 0;
-	private static final int REFRESH = 1;
+    /**
+     * Represents the intention of the user to add a new Service
+     */
+    private static final int ACTION_ADD = 0;
+    /**
+     * Represents the intention of the user to refresh the list of Services
+     */
+	private static final int ACTION_REFRESH = 1;
    
-    /** Called when the activity is first created. */
-    @Override
+	/**
+	 * Loads the layout and sets some attributes. It prepares
+	 * the Database container and the custom Adapter
+	 */
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listservices);
@@ -70,12 +96,19 @@ public class ListServices extends ListActivity {
         setListAdapter(this.adapter);
     }
     
+	/**
+	 * Refreshes the list of Services when the Activity gains focus
+	 */
     @Override
     public void onResume(){
     	super.onResume();
     	retrieveServices();
     }
     
+    /**
+	 * Sets the custom Adapter, prepares the Runnable for getting Services,
+	 * creates and runs the Thread with the Runnable
+	 */
     private void retrieveServices(){
     	this.services = new ArrayList<Service>();
 		this.adapter = new ServiceAdapter(this,
@@ -105,20 +138,21 @@ public class ListServices extends ListActivity {
     /**
 	 * We specify the menu labels and theirs icons
 	 * @param menu
-	 * @return
+	 * @return true 
 	 *
 	 */
 	@Override
 	public  boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ADD, 0, "Add a new Service").setIcon(
+		menu.add(0, ACTION_ADD, 0, "Add a new Service").setIcon(
 				android.R.drawable.ic_menu_add);
-		menu.add(0, REFRESH, 0, "Refresh").setIcon(
+		menu.add(0, ACTION_REFRESH, 0, "Refresh").setIcon(
 				R.drawable.ic_menu_refresh);
 		return true;
 	}
 
 	/**
-	 * As soon as the user click on the menu a new intent is created
+	 * As soon as the user clicks on the menu a new intent is created for adding new Service.
+	 * Otherwise we refresh the list of Services
 	 * @param item
 	 * @return
 	 * 
@@ -127,11 +161,11 @@ public class ListServices extends ListActivity {
 	public  boolean onOptionsItemSelected(MenuItem item) {
 		Intent i; 
 		switch (item.getItemId()) {
-		case ADD:
+		case ACTION_ADD:
 			i = new Intent(this, EditService.class);
 			this.startActivity(i);
 			return true;
-		case REFRESH:
+		case ACTION_REFRESH:
 			retrieveServices();
 			return true;
 		
@@ -139,6 +173,12 @@ public class ListServices extends ListActivity {
 		return false;
 	}
     
+	/**
+	 * Retrieves Services from Database and calls a Runnable responsible
+	 * for notifying the Adapter of a new set of data to be represented
+	 * graphically.
+	 * @throws PomodroidException
+	 */
     private void getServices() throws PomodroidException{
         	try {
     			services = new ArrayList<Service>();
@@ -152,7 +192,7 @@ public class ListServices extends ListActivity {
       }
     
     /**
-	 * This thread notifies the adapter of the presence of Activities to be
+	 * This Runnable notifies the adapter of the presence of Activities to be
 	 * displayed. It also adds the activities to the adapter, taking them from
 	 * the local List of activities
 	 */
@@ -169,9 +209,17 @@ public class ListServices extends ListActivity {
 		}
 	};
 
-    
+	/**
+	 * Private class implementing a custom ArrayAdapter to provide
+	 * graphical representation for our stored Services
+	 * 
+	 * @see android.widget.ArrayAdapter
+	 */
     private class ServiceAdapter extends ArrayAdapter<Service> {
 
+    	/**
+    	 * The list of Services
+    	 */
         private ArrayList<Service> items;
 
         public ServiceAdapter(Context context, int textViewResourceId, ArrayList<Service> items) {
@@ -179,6 +227,10 @@ public class ListServices extends ListActivity {
                 this.items = items;
         }
 
+        /**
+    	 * Gets the layout created for representing an entry in the Service list,
+    	 * attach listeners, provides custom text and inflates the layout
+    	 */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
                 View v = convertView;
@@ -202,11 +254,9 @@ public class ListServices extends ListActivity {
         }
         
     	/**
-    	 * This dialog gives the possibility to change the status of each activity
-    	 * 
+    	 * This dialog gives the possibility select an action for a selected service
     	 * @param activity
     	 */
-    	
     	protected void openServiceDialog(final Service service) {
     		new AlertDialog.Builder(context).setTitle("")
     				.setItems(R.array.service_dialog,

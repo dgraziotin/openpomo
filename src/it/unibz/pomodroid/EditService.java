@@ -1,3 +1,19 @@
+/**
+ * This file is part of Pomodroid.
+ *
+ *   Pomodroid is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   Pomodroid is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
@@ -12,7 +28,17 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+/**
+ * This class shows lets user to either create or edit an existing Service.
+ * 
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @see it.unibz.pomodroid.SharedActivity
+ */
 public class EditService extends SharedActivity {
+	/**
+	 * This attribute holds the name of the Service that is
+	 * passed through an Intent to this Activity
+	 */
 	private String serviceName;
 
 	@Override
@@ -77,6 +103,11 @@ public class EditService extends SharedActivity {
 
 	}
 
+	/**
+	 * This method is responsible for filling all the layout views if the user
+	 * is editing an existing service
+	 * @param serviceName the name of the Service, if any
+	 */
 	private void fillEmptyFields(String serviceName) {
 		if (serviceName == null)
 			return;
@@ -101,6 +132,10 @@ public class EditService extends SharedActivity {
 		}
 	}
 
+	/**
+	 * This method is responsible for updating an existing Service, after the user changes
+	 * the related fields.
+	 */
 	private void updateService() throws PomodroidException {
 
 		EditText editTextName = (EditText) findViewById(R.id.EditTextName);
@@ -124,6 +159,11 @@ public class EditService extends SharedActivity {
 
 	}
 	
+	/**
+	 * This method is responsible for saving a new Service, after the user changes
+	 * the related fields.
+	 * @throws PomodroidException
+	 */
 	private void saveService() throws PomodroidException {
 		EditText editTextName = (EditText) findViewById(R.id.EditTextName);
 		EditText editTextUrl = (EditText) findViewById(R.id.EditTextTracUrl);
@@ -147,7 +187,7 @@ public class EditService extends SharedActivity {
 	}
 
 	/**
-	 * Tests if the given credentials and URL for Trac are correct
+	 * Tests if the given credentials and URL for the Service are correct
 	 * 
 	 * @throws PomodroidException
 	 */

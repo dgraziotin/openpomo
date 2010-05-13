@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package it.unibz.pomodroid;
@@ -30,18 +30,13 @@ import android.os.Bundle;
  * This class shows to the user which activities are not faced yet, but have 
  * to be done.
  * The only way to erase an activity from this sheet is to put it into the trash.
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * 
  * @see it.unibz.pomodroid.SharedListActivity
  */
-
-
 public class ActivityInventorySheet extends SharedListActivity {
 
-	/* (non-Javadoc)
-	 * @see it.unibz.pomodroid.SharedListActivity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.setResourceLayout(R.layout.aisactivityentry);

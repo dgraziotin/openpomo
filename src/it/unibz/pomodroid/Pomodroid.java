@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
 import android.content.Intent;
@@ -23,11 +23,10 @@ import android.widget.Button;
 
 /**
  * Main activity. It just loads the layout.
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
  */
-
 public class Pomodroid extends SharedActivity implements OnClickListener {
 
 	@Override
@@ -47,7 +46,15 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 		Button buttonAbout = (Button) findViewById(R.id.ButtonAbout);
 		buttonAbout.setOnClickListener(this);	
 	}
-
+	
+	/**
+	 * Default listener for clicks.
+	 * Regarding to the button that has been clicked, the related action is
+	 * called.
+	 * 
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 * 
+	 */
 	@Override
 	public void onClick(View v) {
 		Intent intent = new Intent();

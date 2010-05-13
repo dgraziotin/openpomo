@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
 
@@ -28,14 +28,22 @@ import it.unibz.pomodroid.persistency.User;
 /**
  * Base-class of all activities. Defines common behavior for all Activities
  * of Pomodroid.
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see android.app.Activity
  */
 public abstract class SharedActivity extends Activity {
-	
+	/**
+	 * The Database container for db4o
+	 */
 	protected DBHelper dbHelper;
+	/**
+	 * The current user
+	 */
 	protected User user;
+	/**
+	 * The Context of the Activity
+	 */
 	protected Context context;
 	
 	/**
@@ -70,7 +78,11 @@ public abstract class SharedActivity extends Activity {
 		this.user = user;
 	}
 	
-	/* (non-Javadoc)
+	/**
+	 * Every sub-class of this one automatically receive an instance
+	 * of the User and of the Database Container. This method is also 
+	 * responsible of bringing the User to the Preferences the first 
+	 * time it starts Pomodroid
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
@@ -91,7 +103,9 @@ public abstract class SharedActivity extends Activity {
 		}
 	}
 	
-	/* (non-Javadoc)
+	/**
+	 * Every time an Activity looses focus, it is forced to commit changes to the 
+	 * Database
 	 * @see android.app.Activity#onPause()
 	 */
 	@Override
@@ -100,7 +114,7 @@ public abstract class SharedActivity extends Activity {
 		this.dbHelper.commit();
 	}
 	
-	/* (non-Javadoc)
+	/** 
 	 * @see android.app.Activity#onStop()
 	 */
 	@Override
@@ -108,7 +122,7 @@ public abstract class SharedActivity extends Activity {
 		super.onStop();
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see android.app.Activity#onResume()
 	 */
 	public void onResume(){

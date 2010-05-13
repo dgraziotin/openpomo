@@ -12,26 +12,68 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid.models;
 
 /**
  * A class representing a Service.
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * 
  */
 
+/**
+ * @author bodom_lx
+ *
+ */
+/**
+ * @author bodom_lx
+ *
+ */
+/**
+ * @author bodom_lx
+ *
+ */
+/**
+ * @author bodom_lx
+ *
+ */
+/**
+ * @author bodom_lx
+ *
+ */
 public class Service {
-	
+	/**
+	 * User given name for the Service
+	 */
 	private String name;
+	/**
+	 * URL for the Service
+	 */
 	private String url; 
+	/**
+	 * Service username
+	 */
 	private String username;
+	/**
+	 * Service password (if needed)
+	 */
 	private String password;
+	/**
+	 * Type of Service (Trac, BugZilla, ..)
+	 */
 	private String type;
+	/**
+	 * True if the Service does not require HTTP BASIC AUTH
+	 */
 	private boolean isAnonymousAccess;
+	/**
+	 * True if the User wants issues to be searched from it
+	 */
 	private boolean isActive;
 	
+	/**
+	 * Default Constructor. Sets all fields to null
+	 */
 	public Service(){
 		this.name = null;
 		this.url = null;
@@ -42,6 +84,14 @@ public class Service {
 		this.isActive = true;
 	}
 	
+	/**
+	 * @param name
+	 * @param url
+	 * @param type
+	 * @param username
+	 * @param password
+	 * @param isAnonymousAccess
+	 */
 	public Service(String name, String url, String type, String username, String password, boolean isAnonymousAccess){
 		this.name = name;
 		this.url = url;
@@ -52,6 +102,13 @@ public class Service {
 		this.isActive = true;
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @param url
+	 * @param type
+	 * @param username
+	 */
     public Service(String name, String url, String type, String username){
     	this.name = name;
 		this.url = url;
@@ -131,23 +188,39 @@ public class Service {
 	public void setAnonymousAccess(boolean isAnonymousAccess) {
 		this.isAnonymousAccess = isAnonymousAccess;
 	}
-
+	
+	/**
+	 * @param isActive
+	 */
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
+	
+	/**
+	 * @return
+	 */
 	public boolean isActive() {
 		return isActive;
 	}
 
+	/**
+	 * @param type
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getType() {
 		return type;
 	}
 	
+	/**
+	 * Helper method for updating an existing Service
+	 * @param service
+	 */
 	public void update(Service service){
 		this.name = service.getName();
 		this.url = service.getUrl();

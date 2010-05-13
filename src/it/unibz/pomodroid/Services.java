@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
 
@@ -38,34 +38,64 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * This class is in charge of retrieving tickets from trac
+ * This class is in charge of retrieving tickets from a Service
  * 
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
  */
 
-public class Services extends SharedActivity implements OnClickListener {
+public class Services extends SharedActivity{
 
+	/**
+	 * A Progress Dialog to inform user about the progress of the
+	 * operations performed
+	 */
 	private ProgressDialog progressDialog = null;
+	/**
+	 * Thread responsible for fetching the issues from Services
+	 */
 	private Thread serviceThread = null;
-	private Vector<HashMap<String, Object>> tracTasks = null;
-
-	private int tracTasksAdded = 0;
-
+	/**
+	 * Data structure to hold the issues fetched
+	 */
+	private Vector<HashMap<String, Object>> serviceTasks = null;
+	/**
+	 * Number of issues downloaded from Services
+	 */
+	private int serviceTasksAdded = 0;
+	/**
+	 * Represents the current service chosen for issue retrieval
+	 */
 	private static int serviceChosen = -1;
 
 	private static final int SERVICE_TRAC = 2;
+	/**
+	 * Represents a positive message given to the Handler
+	 */
 	private static final int MESSAGE_OK = 1;
+	/**
+	 * Represents a negative message given to the Handler
+	 */
 	private static final int MESSAGE_EXCEPTION = 2;
+	/**
+	 * Represents an information message given to the Handler
+	 */
 	private static final int MESSAGE_INFORMATION = 3;
-	private static final int ADD = 4;
-	private static final int VIEW = 5;
-
+	/**
+	 * Represents the intention of the User to add a new Service
+	 */
+	private static final int ACTION_ADD = 4;
+	/**
+	 * Represents the intention of the User to view the list of Services
+	 */
+	private static final int ACTION_VIEW = 5;
+	/**
+	 * Data structure to holds the Services to be queried
+	 */
 	private List<Service> services = null;
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
 	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
 	 */
@@ -74,10 +104,30 @@ public class Services extends SharedActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.services);
 
-		Button buttonTRAC = (Button) findViewById(R.id.ButtonTrac);
-		buttonTRAC.setOnClickListener((OnClickListener) this);
-	}
+		Button buttonUseServices = (Button) findViewById(R.id.ButtonTrac);
+		buttonUseServices.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (XmlRpcClient.isInternetAvailable(context)) {
+					try {
+						useServices();
+					} catch (PomodroidException e) {
+						e.alertUser(context);
+					}
 
+				} else {
+					PomodroidException.createAlert(context, "ERROR", context
+							.getString(R.string.no_internet_available));
+				}
+				
+			}
+		});
+	}
+	
+	/**
+	 * Refreshes the list of active Services when the Activity gains focus
+	 */
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -100,23 +150,24 @@ public class Services extends SharedActivity implements OnClickListener {
 		super.onDestroy();
 	}
 	
-	 /**
-	 * We specify the menu labels and theirs icons
+	/**
+	 * We specify the menu labels and their icons
 	 * @param menu
 	 * @return
 	 *
 	 */
 	@Override
 	public  boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ADD, 0, "Add a new Service").setIcon(
+		menu.add(0, ACTION_ADD, 0, "Add a new Service").setIcon(
 				android.R.drawable.ic_menu_add);
-		menu.add(0, VIEW, 0, "Edit Services").setIcon(
+		menu.add(0, ACTION_VIEW, 0, "Edit Services").setIcon(
 				android.R.drawable.ic_menu_edit);
 		return true;
 	}
 
 	/**
-	 * As soon as the user click on the menu a new intent is created
+	 * As soon as the user clicks on the menu a new intent is created, for either
+	 * scroll the list of Services or add a new Service.
 	 * @param item
 	 * @return
 	 * 
@@ -125,41 +176,16 @@ public class Services extends SharedActivity implements OnClickListener {
 	public  boolean onOptionsItemSelected(MenuItem item) {
 		Intent i; 
 		switch (item.getItemId()) {
-		case ADD:
+		case ACTION_ADD:
 			i = new Intent(this, EditService.class);
 			this.startActivity(i);
 			return true;
-		case VIEW:
+		case ACTION_VIEW:
 			i = new Intent(this, ListServices.class);
 			this.startActivity(i);
 			return true;
 		}
 		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.view.View.OnClickListener#onClick(android.view.View)
-	 */
-	@Override
-	public void onClick(View v) {
-		if (XmlRpcClient.isInternetAvailable(context)) {
-			if (v.getId() == R.id.ButtonTrac) {
-				Services.serviceChosen = SERVICE_TRAC;
-			} else {
-				Services.serviceChosen = -1;
-			}
-			try {
-				useServices();
-			} catch (PomodroidException e) {
-				e.alertUser(context);
-			}
-
-		} else {
-			PomodroidException.createAlert(context, "ERROR", context
-					.getString(R.string.no_internet_available));
-		}
 	}
 
 	/**
@@ -169,7 +195,6 @@ public class Services extends SharedActivity implements OnClickListener {
 	 */
 	public void useServices() throws PomodroidException {
 		String message = null;
-		if (Services.serviceChosen == Services.SERVICE_TRAC) {
 			List<Service> services = Service.getAllActive(dbHelper);
 			if (services != null && services.size() != 0)
 				message = "Downloading Activities from " + services.size()
@@ -178,9 +203,6 @@ public class Services extends SharedActivity implements OnClickListener {
 				message = "No active Services.";
 				return;
 			}
-		} else {
-			message = "Error";
-		}
 		progressDialog = ProgressDialog.show(this, "Please wait", message,
 				true, false);
 		// create a new Thread that executes activityRetriever and start it
@@ -189,18 +211,14 @@ public class Services extends SharedActivity implements OnClickListener {
 	}
 
 	/**
-	 * As soon as a thread starts, this method is called. If serviceChosen ==
-	 * SERVICE_TRAC, it retrieves tickets from TRAC. When the operation is
-	 * finished,it sends an empty message to the handler in order to inform the
+	 * As soon as a thread starts, this method is called. It retrieves Issues from a Service. 
+	 * When the operation is finished, it sends an empty message to the handler in order to inform the
 	 * system that the operation is finished.
 	 */
 	protected Runnable useServices = new Runnable() {
 		@Override
 		public void run() {
-			if (serviceChosen == SERVICE_TRAC)
-				retrieveTicketsFromTrac();
-			else
-				return;
+			retrieveIssuesFromService();
 		}
 	};
 
@@ -215,7 +233,7 @@ public class Services extends SharedActivity implements OnClickListener {
 			case Services.MESSAGE_OK:
 				progressDialog.dismiss();
 				if (serviceChosen == SERVICE_TRAC)
-					createDialogTrac();
+					createDialog();
 				else
 					return;
 				break;
@@ -243,31 +261,30 @@ public class Services extends SharedActivity implements OnClickListener {
 	 * Method that shows a this.dialog and give the possibility both to retrieve
 	 * (infinite times) tickets from trac and exit the activity
 	 */
-	private void createDialogTrac() {
+	private void createDialog() {
 		String message = null;
-		if (this.tracTasksAdded == 0)
+		if (this.serviceTasksAdded == 0)
 			message = "No new Activities";
 		else
-			message = this.tracTasksAdded + " new activities downloaded";
+			message = this.serviceTasksAdded + " new activities downloaded";
 		PomodroidException.createAlert(context, "INFO", message);
 	}
 
 	/**
+	 * This method takes all not-closed tickets from the Service, then
+	 * inserts them into the local DB.
 	 * @throws PomodroidException
 	 * 
-	 *             This method takes all not-closed tickets from track, then
-	 *             inserts them into the local DB.
-	 * 
 	 */
-	private void retrieveTicketsFromTrac() {
+	private void retrieveIssuesFromService() {
 		try {
 			TracTicketFetcher tracTicketFetcher = new TracTicketFetcher();
 			ActivityFactory activityFactory = new ActivityFactory();
 			List<Service> services = Service.getAllActive(dbHelper);
 			for (Service service : services) {
-				this.tracTasks = tracTicketFetcher.fetch(service,
+				this.serviceTasks = tracTicketFetcher.fetch(service,
 						super.dbHelper);
-				this.tracTasksAdded = activityFactory.produce(this.tracTasks,
+				this.serviceTasksAdded = activityFactory.produce(this.serviceTasks,
 						super.dbHelper);
 			}
 		} catch (Exception e) {

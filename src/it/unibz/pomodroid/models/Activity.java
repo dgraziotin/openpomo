@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid.models;
 import java.text.SimpleDateFormat;
@@ -23,26 +23,65 @@ import java.util.Date;
  * received date (date), deadline (date), summary (string), description (string), origin (string i.e. trac), 
  * origin id (integer that refers to its origin), priority (string), reporter (string), type (string), 
  * todoToday (boolean), done (boolean) and endDate (date).
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * 
  */
 
 public class Activity {
-
+	
+	/**
+	 * Number of Pomodoros dedicated to the Activity
+	 */
 	private int numberPomodoro;
+	/**
+	 * Date of Activity creation
+	 */
 	private Date received;
+	/**
+	 * Deadline of an Activity
+	 */
 	private Date deadline;
+	/**
+	 * Short summary or title of the Activity
+	 */
 	private String summary;
+	/**
+	 * Description of the Activity
+	 */
 	private String description;
+	/**
+	 * String that describes the origin of the Activity (name of Service, local)
+	 */
 	private String origin;
+	/**
+	 * Original id of the Activity as Issue in the Service
+	 */
 	private int originId;
+	/**
+	 * Priority of the issue
+	 */
 	private String priority;
+	/**
+	 * Name of the User reporting the Issue
+	 */
 	private String reporter;
+	/**
+	 * Type of Issue (bug, feature etc.)
+	 */
 	private String type;
+	/**
+	 * Represents if the Activity is in the TTS
+	 */
 	private boolean todoToday;
+	/**
+	 * True when the Activity is set as finished
+	 */
 	private boolean done;
-	private Date endDate;
+	/**
+	 * Stores the Date of Activity finished
+	 */
+	private Date doneDate;
 
 	/**
 	 * @param number_pomodoro number of pomodoro that has been runned
@@ -72,12 +111,20 @@ public class Activity {
 		this.todoToday = false;
 		this.done = false;
 	}
-	
+	/**
+	 * Creates a quite empty Activity
+	 * @param origin
+	 * @param originId
+	 */
 	public Activity (String origin, int originId) {
 		this.origin = origin;
 		this.originId = originId;
 	}
 	
+	/**
+	 * A helper method to update an existing Activity
+	 * @param ac
+	 */
 	public void update (Activity ac) {
 		this.numberPomodoro = ac.getNumberPomodoro();
 		this.summary = ac.getSummary();
@@ -288,7 +335,7 @@ public class Activity {
 	 * @return end date
 	 */
 	public Date getEndDate() {
-		return endDate;
+		return doneDate;
 	}
 
 	/**
@@ -297,7 +344,7 @@ public class Activity {
 	 * 
 	 */
 	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+		this.doneDate = endDate;
 	}
 	
 	/**

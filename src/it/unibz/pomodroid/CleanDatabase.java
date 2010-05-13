@@ -12,7 +12,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
 
@@ -25,19 +25,13 @@ import android.widget.Button;
 
 /**
  * This class allows us to manipulate the content of the object oriented database db4o.
- * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
- * @author Thomas Schievenin 5701 <thomas.schievenin@stud-inf.unibz.it>
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
  * @see android.view.View.OnClickListener
  */
-
 public class CleanDatabase extends SharedActivity implements OnClickListener {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,9 +44,8 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
 		buttonDefragmentDatabase.setOnClickListener((OnClickListener) this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * Default listener for clicks.
 	 * Regarding to the button that has been clicked, the related action is
 	 * called.
 	 * 
