@@ -5,9 +5,11 @@
 <TextView android:layout_width="fill_parent"
 		android:id="@+id/services_intro"
 		android:layout_height="wrap_content" android:text="@string/services_intro"/>
+<Button android:text="Fetch Activities" android:id="@+id/ButtonTrac" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
 <TextView android:layout_width="fill_parent"
 		android:id="@+id/service_active_no"
 		android:layout_height="wrap_content"/>
-<Button android:text="Fetch Activities" android:id="@+id/ButtonTrac" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-
+<TextView android:layout_width="fill_parent"
+		android:id="@+id/service_status"
+		android:layout_height="wrap_content"/>
 </LinearLayout>

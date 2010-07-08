@@ -21,26 +21,6 @@ package it.unibz.pomodroid.models;
  * @author Daniel Graziotin 4801 <daniel.graziotin@stud-inf.unibz.it>
  */
 
-/**
- * @author bodom_lx
- *
- */
-/**
- * @author bodom_lx
- *
- */
-/**
- * @author bodom_lx
- *
- */
-/**
- * @author bodom_lx
- *
- */
-/**
- * @author bodom_lx
- *
- */
 public class Service {
 	/**
 	 * User given name for the Service

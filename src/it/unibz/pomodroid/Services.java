@@ -25,7 +25,6 @@ import it.unibz.pomodroid.services.XmlRpcClient;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,11 +46,6 @@ import android.widget.TextView;
 
 public class Services extends SharedActivity{
 
-	/**
-	 * A Progress Dialog to inform user about the progress of the
-	 * operations performed
-	 */
-	private ProgressDialog progressDialog = null;
 	/**
 	 * Thread responsible for fetching the issues from Services
 	 */
@@ -83,6 +77,10 @@ public class Services extends SharedActivity{
 	 */
 	private static final int MESSAGE_INFORMATION = 3;
 	/**
+	 * Represents an information message given to the Handler
+	 */
+	private static final int MESSAGE_ACTIVITY_DOWNLOADED = 4;
+	/**
 	 * Represents the intention of the User to add a new Service
 	 */
 	private static final int ACTION_ADD = 4;
@@ -90,6 +88,7 @@ public class Services extends SharedActivity{
 	 * Represents the intention of the User to view the list of Services
 	 */
 	private static final int ACTION_VIEW = 5;
+	
 	/**
 	 * Data structure to holds the Services to be queried
 	 */
@@ -105,6 +104,8 @@ public class Services extends SharedActivity{
 		setContentView(R.layout.services);
 
 		Button buttonUseServices = (Button) findViewById(R.id.ButtonTrac);
+		TextView serviceStatus = (TextView) findViewById(R.id.service_status);
+		serviceStatus.setText("Status: Idle.");
 		buttonUseServices.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -194,20 +195,17 @@ public class Services extends SharedActivity{
 	 * @throws PomodroidException
 	 */
 	public void useServices() throws PomodroidException {
-		String message = null;
 			List<Service> services = Service.getAllActive(dbHelper);
-			if (services != null && services.size() != 0)
-				message = "Downloading Activities from " + services.size()
-						+ " active Services";
-			else {
-				message = "No active Services.";
+			if (services == null || services.size() == 0){
+				PomodroidException.createAlert(context, "INFO", "No active Services");
 				return;
 			}
-		progressDialog = ProgressDialog.show(this, "Please wait", message,
-				true, false);
 		// create a new Thread that executes activityRetriever and start it
 		this.serviceThread = new Thread(null, useServices, "UserServiceThread");
 		this.serviceThread.start();
+		Button buttonUseServices = (Button) findViewById(R.id.ButtonTrac);
+		buttonUseServices.setClickable(false);
+		
 	}
 
 	/**
@@ -229,27 +227,33 @@ public class Services extends SharedActivity{
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message message) {
+			Button buttonUseServices = (Button) findViewById(R.id.ButtonTrac);
+			TextView serviceStatus = (TextView) findViewById(R.id.service_status);
 			switch (message.what) {
 			case Services.MESSAGE_OK:
-				progressDialog.dismiss();
-				if (serviceChosen == SERVICE_TRAC)
-					createDialog();
-				else
-					return;
+				serviceThread.interrupt();
+				Bundle okBundle = message.getData();
+				PomodroidException.createAlert(context, "INFO",
+						okBundle.getString("message"));
+				buttonUseServices.setClickable(true);
+				serviceStatus.setText("Status: Idle.");
 				break;
 			case Services.MESSAGE_EXCEPTION:
 				serviceThread.interrupt();
-				progressDialog.dismiss();
 				Bundle exceptionBundle = message.getData();
 				PomodroidException.createAlert(context, "ERROR",
 						exceptionBundle.getString("message"));
+				buttonUseServices.setClickable(true);
+				serviceStatus.setText("Status: Idle.");
 				break;
 			case Services.MESSAGE_INFORMATION:
-				serviceThread.interrupt();
-				progressDialog.dismiss();
 				Bundle informationBundle = message.getData();
 				PomodroidException.createAlert(context, "INFO",
 						informationBundle.getString("message"));
+				break;
+			case Services.MESSAGE_ACTIVITY_DOWNLOADED:
+				Bundle activityDownloadedBundle = message.getData();
+				serviceStatus.setText("Status: Downloading from " + activityDownloadedBundle.getString("message"));
 				break;
 
 			}
@@ -257,18 +261,6 @@ public class Services extends SharedActivity{
 
 	};
 
-	/**
-	 * Method that shows a this.dialog and give the possibility both to retrieve
-	 * (infinite times) tickets from trac and exit the activity
-	 */
-	private void createDialog() {
-		String message = null;
-		if (this.serviceTasksAdded == 0)
-			message = "No new Activities";
-		else
-			message = this.serviceTasksAdded + " new activities downloaded";
-		PomodroidException.createAlert(context, "INFO", message);
-	}
 
 	/**
 	 * This method takes all not-closed tickets from the Service, then
@@ -281,17 +273,21 @@ public class Services extends SharedActivity{
 			TracTicketFetcher tracTicketFetcher = new TracTicketFetcher();
 			ActivityFactory activityFactory = new ActivityFactory();
 			List<Service> services = Service.getAllActive(dbHelper);
+			sendMessageHandler(Services.MESSAGE_INFORMATION, "Getting Issues, please wait..");
 			for (Service service : services) {
+				sendMessageHandler(Services.MESSAGE_ACTIVITY_DOWNLOADED, service.getName());
 				this.serviceTasks = tracTicketFetcher.fetch(service,
 						super.dbHelper);
 				this.serviceTasksAdded = activityFactory.produce(this.serviceTasks,
 						super.dbHelper);
+				sendMessageHandler(Services.MESSAGE_INFORMATION, "Downloaded "+serviceTasks.size()+ " issues from "+service.getName());
 			}
 		} catch (Exception e) {
 			sendMessageHandler(Services.MESSAGE_EXCEPTION, e.toString());
 			return;
 		}
-		sendMessageHandler(Services.MESSAGE_OK, "");
+		sendMessageHandler(Services.MESSAGE_OK, "Finished to download new Issues");
+		
 	}
 
 	/**

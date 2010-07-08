@@ -18,9 +18,12 @@ package it.unibz.pomodroid.services;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Vector;
 import android.util.Log;
 import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.Service;
 
@@ -51,10 +54,12 @@ public class TracTicketFetcher {
 		Vector<Integer> ticketIds;
 		ticketIds = getTicketIds(service);
 		
+		Vector<Integer> notFetchedTicketIds = this.getNotAlreadyFetchedTicketIds(service, ticketIds, dbHelper);
+		
 		HashMap<String,String> attributes;
 		Date deadLine = new Date();
 	
-		for (Integer ticketId : ticketIds) {
+		for (Integer ticketId : notFetchedTicketIds) {
 		   HashMap<String, Object> ticket = new HashMap<String, Object>();
 		   Integer[] id = {ticketId};
 		   attributes = getTickets(service, id);
@@ -101,6 +106,19 @@ public class TracTicketFetcher {
 			return ticketsIds;
 		}
 		return null;
+	}
+	
+	/**
+	 * @param service user object
+	 * @return vector 
+	 * @throws PomodroidException 
+	 */
+	private Vector<Integer> getNotAlreadyFetchedTicketIds (Service service, Vector<Integer> retrievedTicketIds, DBHelper dbHelper) throws PomodroidException{
+		List<Activity> storedActivitiesForService = Activity.getForService(service, dbHelper);
+		HashSet<Integer> storedActivitiesIdsForService = new HashSet<Integer>(Activity.getOriginIDs(storedActivitiesForService));
+		HashSet<Integer> retrievedActivitiesIdsForService = new HashSet<Integer>(retrievedTicketIds);
+		retrievedActivitiesIdsForService.removeAll(storedActivitiesIdsForService);
+		return new Vector<Integer>(retrievedActivitiesIdsForService);
 	}
 	
 	/**
