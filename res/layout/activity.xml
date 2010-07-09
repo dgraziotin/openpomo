@@ -1,0 +1,41 @@
+<ScrollView android:id="@+id/ScrollView01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:stretchColumns="0">
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="New/Edit Activity" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Summary" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextSummary"
+				android:hint="Title / Summary" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Description" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/EditTextDescription"
+				android:hint="Full Description" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Deadline" />
+		</TableRow>
+		<TableRow>
+			<DatePicker android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/DatePickerDeadline"/>
+		</TableRow>
+		<Button android:text="Save" android:id="@+id/ButtonSaveActivity"
+			style="@style/ButtonMain"></Button>
+	</TableLayout>
+</ScrollView>

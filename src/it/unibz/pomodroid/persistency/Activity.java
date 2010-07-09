@@ -104,7 +104,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 	public boolean save(DBHelper dbHelper) throws PomodroidException {
 		try {
 			if (!isPresent(this.getOrigin(), this.getOriginId(), dbHelper)) {
-
 				dbHelper.getDatabase().store(this);
 				return true;
 			} else {
@@ -378,7 +377,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 			activities = dbHelper.getDatabase().query(
 					new Predicate<Activity>() {
 						private static final long serialVersionUID = 1L;
-
 						public boolean match(Activity activity) {
 							return activity.getOrigin().equals(service.getUrl());
 						}
@@ -401,6 +399,38 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 		for (Activity activity: activities)
 			originIDs.add(activity.getOriginId());
 		return originIDs;
+	}
+	
+
+	/**
+	 * @param dbHelper
+	 * @return The last stored originId for local Activities
+	 * @throws PomodroidException
+	 */
+	public static int getLastLocalId(DBHelper dbHelper)
+			throws PomodroidException {
+		
+		List<Activity> activities = dbHelper.getDatabase().query(new Predicate<Activity>() {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public boolean match(Activity activity) {
+                return activity.getOrigin().equals("local");
+            }
+        });
+		
+		if (activities == null || activities.size() == 0)
+			return 0;
+		
+		int maxId = 0;
+		for(Activity activity : activities){
+			if (activity.getOriginId() > maxId)
+				maxId = activity.getOriginId();
+		}
+		
+		return maxId;
 	}
 
 

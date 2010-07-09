@@ -24,6 +24,7 @@
 	<string name="activity_title">Activity menu</string>
 	<string name="startp">Face it</string>
 	<string name="todotoday">Schedule for Today</string>
+	<string name="edit">Edit</string>
 	<string name="done">Trash it</string>
 	<string name="moveais">Move to AIS</string>
 	<string name="pomodoro_nr">Pomodoro#</string>

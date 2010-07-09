@@ -23,7 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 /**
  * Activity Inventory Sheet class is an extension of Shared List activity.
@@ -36,6 +39,8 @@ import android.os.Bundle;
  * @see it.unibz.pomodroid.SharedListActivity
  */
 public class ActivityInventorySheet extends SharedListActivity {
+
+	private static final int ACTION_ADD = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,37 @@ public class ActivityInventorySheet extends SharedListActivity {
 		}
 		this.runOnUiThread(populateAdapter);
 	}
+	
+	/**
+	 * We specify the menu labels and theirs icons
+	 * @param menu
+	 * @return true 
+	 *
+	 */
+	@Override
+	public  boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, ACTION_ADD, 0, "Add a new Activity").setIcon(
+				android.R.drawable.ic_menu_add);
+		return true;
+	}
+
+	/**
+	 * As soon as the user clicks on the menu a new intent is created for adding new Activity.
+	 * @param item
+	 * @return
+	 * 
+	 */
+	@Override
+	public  boolean onOptionsItemSelected(MenuItem item) {
+		Intent i; 
+		switch (item.getItemId()) {
+		case ACTION_ADD:
+			i = new Intent(this, EditActivity.class);
+			this.startActivity(i);
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * This dialog gives the possibility to change the status of each activity
@@ -72,8 +108,14 @@ public class ActivityInventorySheet extends SharedListActivity {
 	@Override
 	protected void openActivityDialog(Activity activity) {
 		final Activity selectedActivity = activity;
+		int aisDialog = -1;
+		if (selectedActivity.getOrigin().equals("local"))
+			aisDialog = R.array.ais_dialog_local;
+		else
+			aisDialog = R.array.ais_dialog;
+		
 		new AlertDialog.Builder(this).setTitle(R.string.activity_title)
-				.setItems(R.array.ais_dialog,
+				.setItems(aisDialog,
 						new DialogInterface.OnClickListener() {
 							public void onClick(
 									DialogInterface dialoginterface, int i) {
@@ -88,6 +130,14 @@ public class ActivityInventorySheet extends SharedListActivity {
 									case 1:
 										selectedActivity.close(dbHelper);
 										activityAdapter.remove(selectedActivity);
+										break;
+									case 2:
+										Intent intent = new Intent();
+										intent.setClass(getContext(), EditActivity.class);
+										Bundle bundle = new Bundle();
+										bundle.putInt("originId", selectedActivity.getOriginId());
+										intent.putExtras(bundle);
+										startActivity(intent);
 										break;
 									}
 								} catch (PomodroidException e) {

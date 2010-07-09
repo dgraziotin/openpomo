@@ -6,6 +6,12 @@
   <item>@string/done</item>
 </array> 
 
+<array name="ais_dialog_local">
+  <item>@string/todotoday</item> 
+  <item>@string/done</item>
+   <item>@string/edit</item>
+</array> 
+
 <array name="tts_dialog"> 
   <item>@string/startp</item> 
   <item>@string/moveais</item> 
