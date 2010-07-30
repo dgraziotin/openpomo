@@ -20,20 +20,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import it.unibz.pomodroid.R.id;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
-import it.unibz.pomodroid.persistency.Service;
-import it.unibz.pomodroid.services.XmlRpcClient;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /**
  * This class shows lets user to either create or edit an existing Service.
@@ -165,7 +159,6 @@ public class EditActivity extends SharedActivity {
 	private void checkUserInput() throws PomodroidException {
 		EditText editTextSummary = (EditText) findViewById(R.id.EditTextSummary);
 		EditText editTextDescription = (EditText) findViewById(R.id.EditTextDescription);
-		DatePicker datePickerDeadline = (DatePicker) findViewById(R.id.DatePickerDeadline);
 		if (nullOrEmpty(editTextSummary.getText().toString())
 				|| nullOrEmpty(editTextDescription.getText().toString()))
 			throw new PomodroidException(

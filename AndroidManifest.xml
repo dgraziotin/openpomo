@@ -32,7 +32,7 @@
 			android:label="@string/service_edit">
 		</activity>
 		<activity android:name=".EditActivity"
-			android:label="@string/service_edit">
+			android:label="@string/activity_edit">
 		</activity>
 		<activity android:name=".TrashSheet" android:label="@string/ts">
 		</activity>

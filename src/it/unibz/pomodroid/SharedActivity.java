@@ -95,8 +95,9 @@ public abstract class SharedActivity extends Activity {
 			// protect the other activities: they can't be called until user
 			// sets preferences
 			if (user == null && !this.getClass().equals(Preferences.class)) {
-				Intent intent = new Intent(this, Preferences.class);
-				startActivity(intent);
+				user = new User();
+				user.setPomodoroMinutesDuration(25);
+				user.save(this.dbHelper);
 			}
 		} catch (PomodroidException e) {
 			e.alertUser(this);

@@ -47,7 +47,8 @@
 		1) Set a Pomodoro
 		Default length \n
 		2) Press the Save button \n
-		3) Add some Services using the second tab.\n \n
+		3) Add some Services using the second tab.\n
+		4) Press the back button on your phone to start using the program.\n \n
 	</string>
 	<string name="db4o">Db4o Actions</string>
 	<string name="tests">Tests</string>
@@ -61,7 +62,8 @@
 	<string name="services">Services</string>
 	<string name="service_type">No Internet connection active. Please try again
 		when a connection is available.</string>
-	<string name="service_edit">Edit</string>
+	<string name="service_edit">Service Editor</string>
+	<string name="activity_edit">Activity Editor</string>
 	<string name="service_activate">(De)Activate</string>
 	<string name="service_delete">Delete</string>
 	<string name="service_retrieve">Retrieving services ...</string>
