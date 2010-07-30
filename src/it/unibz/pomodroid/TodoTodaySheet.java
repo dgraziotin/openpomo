@@ -45,6 +45,7 @@ public class TodoTodaySheet extends SharedListActivity {
 	private static final int ACTION_PREFERENCES = 1;
 	private static final int ACTION_ADVANCED_USER = 2;
 	private static final int ACTION_ABOUT = 3;
+	private static final int ACTION_TRASH = 4;
 
 	/**
 	 * @see it.unibz.pomodroid.SharedListActivity#onCreate(android.os.Bundle)
@@ -143,6 +144,8 @@ public class TodoTodaySheet extends SharedListActivity {
 		}
 		menu.add(0, ACTION_ADD, 0, "Add a new Activity").setIcon(
 				android.R.drawable.ic_menu_add);
+		menu.add(0, ACTION_TRASH, 0, "Trash Can").setIcon(
+				android.R.drawable.ic_menu_delete);
 		menu.add(0, ACTION_PREFERENCES, 0, "Preferences").setIcon(
 				android.R.drawable.ic_menu_preferences);
 		menu.add(0, ACTION_ABOUT, 0, "About").setIcon(
@@ -162,6 +165,9 @@ public class TodoTodaySheet extends SharedListActivity {
 		switch (item.getItemId()) {
 		case ACTION_ADD:
 			intent.setClass(this, EditActivity.class);
+			break;
+		case ACTION_TRASH:
+			intent.setClass(this, TrashSheet.class);
 			break;
 		case ACTION_PREFERENCES:
 			if(user.isAdvancedUser())

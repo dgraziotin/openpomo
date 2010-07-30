@@ -25,7 +25,7 @@
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/EditTextDescription"
-				android:hint="Full Description" />
+				android:hint="Full Description (optional)" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"

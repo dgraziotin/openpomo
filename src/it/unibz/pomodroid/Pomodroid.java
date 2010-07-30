@@ -32,6 +32,10 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if(!super.user.isAdvancedUser()){
+			Intent intent = new Intent(this, TodoTodaySheet.class);
+			startActivity(intent);
+		}
 		setContentView(R.layout.pomodroidadvanced);
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
 		buttonAIS.setOnClickListener(this);

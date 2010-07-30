@@ -16,7 +16,7 @@
 		<Button android:text="Todo Today" android:id="@+id/ButtonTTS"
 			style="@style/ButtonMain" />
 
-		<Button android:text="Trash" android:id="@+id/ButtonTS" style="@style/ButtonMain" />
+		<Button android:text="Trash Can" android:id="@+id/ButtonTS" style="@style/ButtonMain" />
 
 		<Button android:text="Fetch Activities" android:id="@+id/ButtonServices"
 			style="@style/ButtonMain" />

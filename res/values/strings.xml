@@ -25,13 +25,13 @@
 	<string name="startp">Face it</string>
 	<string name="todotoday">Schedule for Today</string>
 	<string name="edit">Edit</string>
-	<string name="done">Trash it</string>
+	<string name="done">Delete</string>
 	<string name="moveais">Move to AIS</string>
 	<string name="pomodoro_nr">Pomodoro#</string>
 	<string name="deadline">Deadline</string>
 	<string name="ais">Pomodroid - Activity Inventory Sheet</string>
 	<string name="tts">Pomodroid - Todo Today Sheet</string>
-	<string name="ts">Pomodroid - Trash Sheet</string>
+	<string name="ts">Pomodroid - Trash Can</string>
 	<string name="no_events">No Events are available</string>
 	<string name="plswait">Please wait...</string>
 	<string name="retactivities">Retrieving activities ...</string>
@@ -73,10 +73,13 @@
 		Menu button.\n\n</string>
 	<string name="about">About</string>
 	<string name="about_1">Pomodroid is the opensource Android tool that lets
-		you download tickets from Trac environments, organize them
-		in activities and face them according to the Pomodoro Technique.\nPomodroid will automatically collect metrics while you are working.\n\nTHIS IS ALPHA SOFTWARE: please visit the official site for more info and links to documentation:\n
+		you either define activities or download tickets from Trac environments and 
+		face them according to the Pomodoro Technique.\n\n
+		NEW: Simple Mode and Advanced Mode!
+		Pomodroid will automatically collect metrics while you are working.\n\n
+		THIS IS ALPHA SOFTWARE: please visit the official site for more info and links to documentation:\n
 		</string>
 	<string name="about_2">http://task3.cc/projects/pomodroid</string>
-	<string name="about_3">\n\nNEXT FEATURES:\n- Manual insertion of Activities (like in every normal Pomodoro Manager)\n- Support of more Services\n- Statistics on your events\n\nIMPROVE POMODROID! You can help Pomodroid in many ways. See the Project Wiki for info:</string>
+	<string name="about_3">\n\nNEXT FEATURES:\n- Support of more Services\n- Statistics on your events\n\nIMPROVE POMODROID! You can help Pomodroid in many ways. See the Project Wiki for info:</string>
 	<string name="about_4">http://github.com/BodomLx/Pomodroid</string>
 </resources>

@@ -44,7 +44,10 @@ public class About extends SharedActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setClass(context, Pomodroid.class);
+				if(!user.isAdvancedUser())
+					intent.setClass(context, TodoTodaySheet.class);
+				else
+					intent.setClass(context, Pomodroid.class);
 				startActivity(intent);
 			}
 		});	

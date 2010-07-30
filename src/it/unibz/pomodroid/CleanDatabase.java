@@ -17,6 +17,7 @@
 package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.Event;
 import android.os.Bundle;
 import android.view.View;
@@ -57,7 +58,7 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
 		try {
 			switch (v.getId()) {
 			case R.id.ButtonDeleteActivitiesEvents:
-				it.unibz.pomodroid.persistency.Activity.deleteAll(dbHelper);
+				Activity.deleteAll(dbHelper);
 				Event.deleteAll(dbHelper);
 				throw new PomodroidException(
 						"All activities and events deleted!", "INFO");
