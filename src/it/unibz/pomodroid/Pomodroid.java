@@ -32,7 +32,7 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.pomodroid);
+		setContentView(R.layout.pomodroidadvanced);
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
 		buttonAIS.setOnClickListener(this);
 		Button buttonTTS = (Button) findViewById(R.id.ButtonTTS);

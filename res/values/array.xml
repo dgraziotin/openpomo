@@ -12,9 +12,15 @@
    <item>@string/edit</item>
 </array> 
 
+
 <array name="tts_dialog"> 
   <item>@string/startp</item> 
-  <item>@string/moveais</item> 
+  <item>@string/done</item>
+   <item>@string/moveais</item> 
+</array> 
+
+<array name="tts_dialog_simple"> 
+  <item>@string/startp</item> 
   <item>@string/done</item>
 </array> 
 

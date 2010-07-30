@@ -18,12 +18,16 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
+import it.unibz.pomodroid.persistency.User;
+
 import java.util.ArrayList;
 import java.util.List;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 /**
  * Todo Today Sheet class is an extension of Shared List activity.
@@ -36,6 +40,11 @@ import android.os.Bundle;
  * @see it.unibz.pomodroid.SharedListActivity
  */
 public class TodoTodaySheet extends SharedListActivity {
+
+	private static final int ACTION_ADD = 0;
+	private static final int ACTION_PREFERENCES = 1;
+	private static final int ACTION_ADVANCED_USER = 2;
+	private static final int ACTION_ABOUT = 3;
 
 	/**
 	 * @see it.unibz.pomodroid.SharedListActivity#onCreate(android.os.Bundle)
@@ -76,8 +85,11 @@ public class TodoTodaySheet extends SharedListActivity {
 	@Override
 	protected void openActivityDialog(Activity activity) {
 		final Activity selectedActivity = activity;
+		int ttsDialog = -1;
+		ttsDialog = super.user.isAdvancedUser() ? R.array.tts_dialog : R.array.tts_dialog_simple;
+		
 		new AlertDialog.Builder(this).setTitle(R.string.activity_title)
-				.setItems(R.array.tts_dialog,
+				.setItems(ttsDialog,
 						new DialogInterface.OnClickListener() {
 							public void onClick(
 									DialogInterface dialoginterface, int i) {
@@ -97,14 +109,14 @@ public class TodoTodaySheet extends SharedListActivity {
 										startActivity(intent);
 										break;
 									case 1:
-										selectedActivity.setTodoToday(false);
-										selectedActivity.setUndone();
-										selectedActivity.save(dbHelper);
+										selectedActivity.close(dbHelper);
 										activityAdapter
 												.remove(selectedActivity);
 										break;
 									case 2:
-										selectedActivity.close(dbHelper);
+										selectedActivity.setTodoToday(false);
+										selectedActivity.setUndone();
+										selectedActivity.save(dbHelper);
 										activityAdapter
 												.remove(selectedActivity);
 										break;
@@ -116,6 +128,55 @@ public class TodoTodaySheet extends SharedListActivity {
 								}
 							}
 						}).show();
+	}
+	
+	/**
+	 * We specify the menu labels and theirs icons
+	 * @param menu
+	 * @return true 
+	 *
+	 */
+	@Override
+	public  boolean onCreateOptionsMenu(Menu menu) {
+		if (super.user.isAdvancedUser()){
+			return true;
+		}
+		menu.add(0, ACTION_ADD, 0, "Add a new Activity").setIcon(
+				android.R.drawable.ic_menu_add);
+		menu.add(0, ACTION_PREFERENCES, 0, "Preferences").setIcon(
+				android.R.drawable.ic_menu_preferences);
+		menu.add(0, ACTION_ABOUT, 0, "About").setIcon(
+				android.R.drawable.ic_menu_help);
+		return true;
+	}
+	
+	/**
+	 * As soon as the user clicks on the menu a new intent is created for adding new Activity.
+	 * @param item
+	 * @return
+	 * 
+	 */
+	@Override
+	public  boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
+		switch (item.getItemId()) {
+		case ACTION_ADD:
+			intent.setClass(this, EditActivity.class);
+			break;
+		case ACTION_PREFERENCES:
+			if(user.isAdvancedUser())
+				intent.setClass(this, TabPreferences.class);
+			else
+				intent.setClass(this, Preferences.class);
+			break;
+		case ACTION_ABOUT:
+			intent.setClass(this, About.class);
+			break;
+		 default:
+			return false;
+		}
+		startActivity(intent);
+		return true;
 	}
 
 }

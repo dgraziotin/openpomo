@@ -22,6 +22,7 @@ import java.util.GregorianCalendar;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -64,13 +65,16 @@ public class EditActivity extends SharedActivity {
 					checkUserInput();
 					if(originId!=null){
 						updateActivity();
+						bringUserTo();
 						throw new PomodroidException("Activity updated.",
 						"INFO");
 					}else{
 						saveActivity();
+						bringUserTo();
 						throw new PomodroidException("Activity saved.",
 						"INFO");
 					}
+					
 					
 				}catch(PomodroidException e){
 					e.alertUser(context);
@@ -123,6 +127,8 @@ public class EditActivity extends SharedActivity {
 			Calendar calendar = new GregorianCalendar();
 			calendar.set(datePickerDeadline.getYear(), datePickerDeadline.getMonth(), datePickerDeadline.getDayOfMonth());
 			activity.setDeadline(calendar.getTime());
+			if (!super.user.isAdvancedUser())
+				activity.setTodoToday(true);
 			activity.save(dbHelper);
 		} catch (PomodroidException e) {
 			e.alertUser(this);
@@ -142,6 +148,9 @@ public class EditActivity extends SharedActivity {
 		calendar.set(datePickerDeadline.getYear(), datePickerDeadline.getMonth(), datePickerDeadline.getDayOfMonth());
 		Activity activity = new Activity(0, new Date(), calendar.getTime(), editTextSummary.getText().toString(), editTextDescription.getText().toString(), 
 				"local", Activity.getLastLocalId(dbHelper)+1, "medium", "you", "task");
+		if (!super.user.isAdvancedUser())
+			activity.setTodoToday(true);
+		
 		try{
 			activity.save(dbHelper);
 		}catch (PomodroidException e){
@@ -158,12 +167,19 @@ public class EditActivity extends SharedActivity {
 	 */
 	private void checkUserInput() throws PomodroidException {
 		EditText editTextSummary = (EditText) findViewById(R.id.EditTextSummary);
-		EditText editTextDescription = (EditText) findViewById(R.id.EditTextDescription);
-		if (nullOrEmpty(editTextSummary.getText().toString())
-				|| nullOrEmpty(editTextDescription.getText().toString()))
+		if (nullOrEmpty(editTextSummary.getText().toString()))
 			throw new PomodroidException(
-					"Error. Please insert a Summary and a Description.");
+					"Error. Please insert at least a Summary.");
 
+	}
+	
+	private void bringUserTo(){
+		Intent intent = new Intent();
+		if (super.user.isAdvancedUser())
+			intent.setClass(super.context, ActivityInventorySheet.class);
+		else
+			intent.setClass(super.context, TodoTodaySheet.class);
+		startActivity(intent);
 	}
 
 	/**

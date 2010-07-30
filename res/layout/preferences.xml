@@ -18,6 +18,15 @@
 				android:layout_height="wrap_content" android:id="@+id/EditTextPomodoroLength"
 				android:numeric="integer" android:maxLength="2" android:hint="Enter length (max 99)" />
 		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Activate advanced features and user interface?" />
+		</TableRow>
+		<TableRow>
+			<CheckBox android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/CheckBoxAdvancedUser"
+				android:hint="Advanced Features" />
+		</TableRow>
 		<Button android:text="Save" android:id="@+id/ButtonSavePreferences"
 			style="@style/ButtonMain"></Button>
 	</TableLayout>

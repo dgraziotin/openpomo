@@ -76,6 +76,11 @@ public abstract class SharedListActivity extends ListActivity {
 	 * Database container
 	 */
 	protected DBHelper dbHelper = null;
+	
+	/**
+	 * Current User
+	 */
+	protected User user = null;
 
 	/**
 	 * @return the context
@@ -126,6 +131,8 @@ public abstract class SharedListActivity extends ListActivity {
 			if (user == null) {
 				Intent intent = new Intent(this, Preferences.class);
 				startActivity(intent);
+			}else{
+				this.user = user;
 			}
 		} catch (PomodroidException e) {
 			e.alertUser(this);

@@ -30,7 +30,8 @@ public class User {
 	private int pomodoroMinutesDuration;
 	private Date dateFacedPomodoro;
 	private int facedPomodoro;
-	
+	private boolean advancedUser;
+
 	/**
 	 * @param tracUsername pomodroid username
 	 * @param tracPassword pomodroid password
@@ -40,6 +41,7 @@ public class User {
 		this.pomodoroMinutesDuration = 25;
 		this.dateFacedPomodoro = new Date();
 		this.facedPomodoro = 0;
+		this.advancedUser = false;
 	}
 	
 	/**
@@ -51,6 +53,7 @@ public class User {
 		this.pomodoroMinutesDuration = pomodoroMinutesDuration;
 		this.dateFacedPomodoro = new Date();
 		this.facedPomodoro = 0;
+		this.advancedUser = false;
 	}
 
 	/**
@@ -112,6 +115,22 @@ public class User {
 	 */
 	public void setFacedPomodoro(int facedPomodoro) {
 		this.facedPomodoro = facedPomodoro;
+	}
+	
+	/**
+	 * Getter for advancedUser boolean
+	 * @return advancedUser - true if the user wants the power functionalities activated
+	 */
+	public boolean isAdvancedUser() {
+		return advancedUser;
+	}
+
+	/**
+	 * Getter for advancedUser boolean
+	 * @param advancedUser - true if the user wants the power functionalities activated
+	 */
+	public void setAdvancedUser(boolean advancedUser) {
+		this.advancedUser = advancedUser;
 	}
 
 	/**

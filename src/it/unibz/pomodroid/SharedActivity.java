@@ -18,7 +18,6 @@ package it.unibz.pomodroid;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
@@ -92,12 +91,14 @@ public abstract class SharedActivity extends Activity {
 		this.context = this;
 		try {
 			user = User.retrieve(dbHelper);
+
 			// protect the other activities: they can't be called until user
 			// sets preferences
 			if (user == null && !this.getClass().equals(Preferences.class)) {
 				user = new User();
 				user.setPomodoroMinutesDuration(25);
 				user.save(this.dbHelper);
+				
 			}
 		} catch (PomodroidException e) {
 			e.alertUser(this);

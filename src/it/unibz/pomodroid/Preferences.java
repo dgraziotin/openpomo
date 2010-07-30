@@ -19,10 +19,12 @@ package it.unibz.pomodroid;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.User;
 import it.unibz.pomodroid.services.XmlRpcClient;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,27 +41,18 @@ import android.widget.TextView;
 
 public class Preferences extends SharedActivity {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.preferences);
 		TextView textViewPreferences = (TextView) findViewById(R.id.TextViewPreferences);
 		textViewPreferences.setText(getString(R.string.preferences_intro));
-		if(user!=null)
-			fillEditTexts(user);
-		else{
-			textViewPreferences.setText(getString(R.string.preferences_firsttime));
-		}
+		fillEditTexts(user);
+		
 		Button saveButton = (Button) findViewById(R.id.ButtonSavePreferences);
 		saveButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (XmlRpcClient.isInternetAvailable(context)) {
 					try {
 						checkUserInput();
 						updateUser();
@@ -68,10 +61,6 @@ public class Preferences extends SharedActivity {
 					} catch (PomodroidException e) {
 						e.alertUser(context);
 					}
-				} else {
-					PomodroidException.createAlert(context, "ERROR", context
-							.getString(R.string.no_internet_available));
-				}
 			}
 		});
 	}
@@ -100,6 +89,8 @@ public class Preferences extends SharedActivity {
 		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 		Integer pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
 		pomodoroLengthEditText.setText(pomodoroMinutesDuration.toString());
+		CheckBox advancedUserCheckBox = (CheckBox) findViewById(R.id.CheckBoxAdvancedUser);
+		advancedUserCheckBox.setChecked(super.user.isAdvancedUser());
 	}
 
 	/**
@@ -107,16 +98,18 @@ public class Preferences extends SharedActivity {
 	 */
 	private void updateUser() throws PomodroidException {
 		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
-		if (super.user == null) {
-			super.user = new User();
+		CheckBox advancedUserCheckBox = (CheckBox) findViewById(R.id.CheckBoxAdvancedUser);
 			super.user.setPomodoroMinutesDuration(Integer
 					.parseInt(pomodoroLengthEditText.getText().toString()));
+			super.user.setAdvancedUser(advancedUserCheckBox.isChecked());
 			super.user.save(super.dbHelper);
-		} else {
-			super.user.setPomodoroMinutesDuration(Integer
-					.parseInt(pomodoroLengthEditText.getText().toString()));
-			super.user.save(super.dbHelper);
-		}
+		Intent intent = new Intent();
+		if(super.user.isAdvancedUser())
+			intent.setClass(this, Pomodroid.class);
+		else
+			intent.setClass(this, TodoTodaySheet.class);
+		startActivity(intent);
+
 	}
 
 	

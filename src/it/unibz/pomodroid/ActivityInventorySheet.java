@@ -40,7 +40,7 @@ import android.view.MenuItem;
  */
 public class ActivityInventorySheet extends SharedListActivity {
 
-	private static final int ACTION_ADD = 0;
+	static final int ACTION_ADD = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
