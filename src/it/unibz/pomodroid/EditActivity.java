@@ -179,6 +179,7 @@ public class EditActivity extends SharedActivity {
 			intent.setClass(super.context, ActivityInventorySheet.class);
 		else
 			intent.setClass(super.context, TodoTodaySheet.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
 	}
 

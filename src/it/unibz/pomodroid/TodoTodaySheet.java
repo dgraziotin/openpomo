@@ -23,18 +23,29 @@ import it.unibz.pomodroid.persistency.User;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 
 /**
- * Todo Today Sheet class is an extension of Shared List activity.
- * This class shows to the user which activities have to be done today.
+ * Todo Today Sheet class is an extension of Shared List activity. This class
+ * shows to the user which activities have to be done today.
  * 
  * Here we can face the activity, move it into the activity inventory sheet or
  * into the trash sheet.
+ * 
  * @author Daniel Graziotin <daniel.graziotin@acm.org>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedListActivity
@@ -43,7 +54,6 @@ public class TodoTodaySheet extends SharedListActivity {
 
 	private static final int ACTION_ADD = 0;
 	private static final int ACTION_PREFERENCES = 1;
-	private static final int ACTION_ADVANCED_USER = 2;
 	private static final int ACTION_ABOUT = 3;
 	private static final int ACTION_TRASH = 4;
 
@@ -55,12 +65,46 @@ public class TodoTodaySheet extends SharedListActivity {
 		super.setResourceLayout(R.layout.ttsactivityentry);
 		super.setContext(this);
 		super.onCreate(savedInstanceState);
+		
+		 
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		super.refreshUser();
+		if (super.user.isQuickInsertActivity()) {
+			RelativeLayout activityList = (RelativeLayout) findViewById(R.id.activitylist);
+
+			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+					RelativeLayout.LayoutParams.WRAP_CONTENT,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
+			layoutParams.setMargins(0, 0, 0, 50);
+
+			activityList.setLayoutParams(layoutParams);
+
+			RelativeLayout quickActivityInsert = (RelativeLayout) findViewById(R.id.quickinsertactivity);
+			quickActivityInsert.setVisibility(View.VISIBLE);
+
+		} else {
+			RelativeLayout activityList = (RelativeLayout) findViewById(R.id.activitylist);
+
+			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+					RelativeLayout.LayoutParams.WRAP_CONTENT,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
+			layoutParams.setMargins(0, 0, 0, 0);
+
+			activityList.setLayoutParams(layoutParams);
+
+			RelativeLayout quickActivityInsert = (RelativeLayout) findViewById(R.id.quickinsertactivity);
+			quickActivityInsert.setVisibility(View.GONE);
+		}
 	}
 
 	/**
-	 * Gets the Activities from Activity.getTodoToday() and adds them to the local
-	 * list of activities. It calls populateAdapter to populate the adapter with
-	 * the new list of activities
+	 * Gets the Activities from Activity.getTodoToday() and adds them to the
+	 * local list of activities. It calls populateAdapter to populate the
+	 * adapter with the new list of activities
 	 * 
 	 * @see it.unibz.pomodroid.persistency.Activity
 	 * @throws PomodroidException
@@ -69,7 +113,8 @@ public class TodoTodaySheet extends SharedListActivity {
 	protected void retrieveActivities() throws PomodroidException {
 		try {
 			activities = new ArrayList<Activity>();
-			List<Activity> retrievedActivities = Activity.getTodoToday(this.dbHelper);
+			List<Activity> retrievedActivities = Activity
+					.getTodoToday(this.dbHelper);
 			activities.addAll(retrievedActivities);
 		} catch (Exception e) {
 			throw new PomodroidException(
@@ -87,59 +132,57 @@ public class TodoTodaySheet extends SharedListActivity {
 	protected void openActivityDialog(Activity activity) {
 		final Activity selectedActivity = activity;
 		int ttsDialog = -1;
-		ttsDialog = super.user.isAdvancedUser() ? R.array.tts_dialog : R.array.tts_dialog_simple;
-		
+		ttsDialog = super.user.isAdvancedUser() ? R.array.tts_dialog
+				: R.array.tts_dialog_simple;
+
 		new AlertDialog.Builder(this).setTitle(R.string.activity_title)
-				.setItems(ttsDialog,
-						new DialogInterface.OnClickListener() {
-							public void onClick(
-									DialogInterface dialoginterface, int i) {
-								try {
-									switch (i) {
-									case 0:
-										Intent intent = new Intent();
-										intent.setClass(
-												getApplicationContext(),
-												Pomodoro.class);
-										Bundle bundle = new Bundle();
-										bundle.putString("origin", selectedActivity
-												.getOrigin());
-										bundle.putInt("originId", selectedActivity
-												.getOriginId());
-										intent.putExtras(bundle);
-										startActivity(intent);
-										break;
-									case 1:
-										selectedActivity.close(dbHelper);
-										activityAdapter
-												.remove(selectedActivity);
-										break;
-									case 2:
-										selectedActivity.setTodoToday(false);
-										selectedActivity.setUndone();
-										selectedActivity.save(dbHelper);
-										activityAdapter
-												.remove(selectedActivity);
-										break;
-									}
-								} catch (PomodroidException e) {
-									e.alertUser(getContext());
-								} finally {
-									dbHelper.commit();
-								}
+				.setItems(ttsDialog, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialoginterface, int i) {
+						try {
+							switch (i) {
+							case 0:
+								Intent intent = new Intent();
+								intent.setClass(getApplicationContext(),
+										Pomodoro.class);
+								Bundle bundle = new Bundle();
+								bundle.putString("origin",
+										selectedActivity.getOrigin());
+								bundle.putInt("originId",
+										selectedActivity.getOriginId());
+								intent.putExtras(bundle);
+								intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+								startActivity(intent);
+								break;
+							case 1:
+								selectedActivity.close(dbHelper);
+								activityAdapter.remove(selectedActivity);
+								break;
+							case 2:
+								selectedActivity.setTodoToday(false);
+								selectedActivity.setUndone();
+								selectedActivity.save(dbHelper);
+								activityAdapter.remove(selectedActivity);
+								break;
 							}
-						}).show();
+						} catch (PomodroidException e) {
+							e.alertUser(getContext());
+						} finally {
+							dbHelper.commit();
+						}
+					}
+				}).show();
 	}
-	
+
 	/**
 	 * We specify the menu labels and theirs icons
+	 * 
 	 * @param menu
-	 * @return true 
-	 *
+	 * @return true
+	 * 
 	 */
 	@Override
-	public  boolean onCreateOptionsMenu(Menu menu) {
-		if (super.user.isAdvancedUser()){
+	public boolean onCreateOptionsMenu(Menu menu) {
+		if (super.user.isAdvancedUser()) {
 			return true;
 		}
 		menu.add(0, ACTION_ADD, 0, "Add a new Activity").setIcon(
@@ -152,15 +195,17 @@ public class TodoTodaySheet extends SharedListActivity {
 				android.R.drawable.ic_menu_help);
 		return true;
 	}
-	
+
 	/**
-	 * As soon as the user clicks on the menu a new intent is created for adding new Activity.
+	 * As soon as the user clicks on the menu a new intent is created for adding
+	 * new Activity.
+	 * 
 	 * @param item
 	 * @return
 	 * 
 	 */
 	@Override
-	public  boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent intent = new Intent();
 		switch (item.getItemId()) {
 		case ACTION_ADD:
@@ -170,7 +215,7 @@ public class TodoTodaySheet extends SharedListActivity {
 			intent.setClass(this, TrashSheet.class);
 			break;
 		case ACTION_PREFERENCES:
-			if(user.isAdvancedUser())
+			if (user.isAdvancedUser())
 				intent.setClass(this, TabPreferences.class);
 			else
 				intent.setClass(this, Preferences.class);
@@ -178,9 +223,10 @@ public class TodoTodaySheet extends SharedListActivity {
 		case ACTION_ABOUT:
 			intent.setClass(this, About.class);
 			break;
-		 default:
+		default:
 			return false;
 		}
+		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
 		return true;
 	}

@@ -48,6 +48,7 @@ public class About extends SharedActivity {
 					intent.setClass(context, TodoTodaySheet.class);
 				else
 					intent.setClass(context, Pomodroid.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
 			}
 		});	

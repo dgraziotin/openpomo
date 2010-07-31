@@ -31,6 +31,7 @@ public class User {
 	private Date dateFacedPomodoro;
 	private int facedPomodoro;
 	private boolean advancedUser;
+	private boolean quickInsertActivity;
 
 	/**
 	 * @param tracUsername pomodroid username
@@ -42,6 +43,7 @@ public class User {
 		this.dateFacedPomodoro = new Date();
 		this.facedPomodoro = 0;
 		this.advancedUser = false;
+		this.quickInsertActivity = false;
 	}
 	
 	/**
@@ -54,6 +56,7 @@ public class User {
 		this.dateFacedPomodoro = new Date();
 		this.facedPomodoro = 0;
 		this.advancedUser = false;
+		this.quickInsertActivity = false;
 	}
 
 	/**
@@ -131,6 +134,22 @@ public class User {
 	 */
 	public void setAdvancedUser(boolean advancedUser) {
 		this.advancedUser = advancedUser;
+	}
+	
+	/**
+	 * Getter for quickActivityInsert
+	 * @return quickActivityInsert - false for hiding the Quick Activity Insert bar 
+	 */
+	public boolean isQuickInsertActivity() {
+		return quickInsertActivity;
+	}
+
+	/**
+	 * Setter for quickActivityInsert
+	 * @param quickActivityInsert - false for hiding the Quick Activity Insert bar 
+	 */
+	public void setQuickInsertActivity(boolean quickActivityInsert) {
+		this.quickInsertActivity = quickActivityInsert;
 	}
 
 	/**

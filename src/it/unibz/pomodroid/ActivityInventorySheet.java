@@ -90,11 +90,12 @@ public class ActivityInventorySheet extends SharedListActivity {
 	 */
 	@Override
 	public  boolean onOptionsItemSelected(MenuItem item) {
-		Intent i; 
+		Intent intent; 
 		switch (item.getItemId()) {
 		case ACTION_ADD:
-			i = new Intent(this, EditActivity.class);
-			this.startActivity(i);
+			intent = new Intent(this, EditActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			this.startActivity(intent);
 			return true;
 		}
 		return false;
@@ -137,6 +138,7 @@ public class ActivityInventorySheet extends SharedListActivity {
 										Bundle bundle = new Bundle();
 										bundle.putInt("originId", selectedActivity.getOriginId());
 										intent.putExtras(bundle);
+										intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 										startActivity(intent);
 										break;
 									}

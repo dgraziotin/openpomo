@@ -175,15 +175,17 @@ public class Services extends SharedActivity{
 	 */
 	@Override
 	public  boolean onOptionsItemSelected(MenuItem item) {
-		Intent i; 
+		Intent intent; 
 		switch (item.getItemId()) {
 		case ACTION_ADD:
-			i = new Intent(this, EditService.class);
-			this.startActivity(i);
+			intent = new Intent(this, EditService.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			this.startActivity(intent);
 			return true;
 		case ACTION_VIEW:
-			i = new Intent(this, ListServices.class);
-			this.startActivity(i);
+			intent = new Intent(this, ListServices.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			this.startActivity(intent);
 			return true;
 		}
 		return false;

@@ -128,12 +128,7 @@ public abstract class SharedListActivity extends ListActivity {
 		this.context = this;
 		try {
 			User user = User.retrieve(dbHelper);
-			if (user == null) {
-				Intent intent = new Intent(this, Preferences.class);
-				startActivity(intent);
-			}else{
-				this.user = user;
-			}
+			this.user = user;
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
@@ -143,6 +138,14 @@ public abstract class SharedListActivity extends ListActivity {
 				R.layout.ttsactivityentry, activities);
 		this.setListAdapter(this.activityAdapter);
 
+	}
+	
+	public void refreshUser(){
+		try {
+			user = User.retrieve(dbHelper);
+		} catch (PomodroidException e) {
+			e.alertUser(context);
+		}
 	}
 
 	/**

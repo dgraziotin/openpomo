@@ -34,7 +34,9 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		if(!super.user.isAdvancedUser()){
 			Intent intent = new Intent(this, TodoTodaySheet.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 			startActivity(intent);
+			finish();
 		}
 		setContentView(R.layout.pomodroidadvanced);
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
@@ -82,6 +84,7 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 				intent.setClass(this, About.class);
 				break;
 		}
+		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
 		
 	}

@@ -91,6 +91,8 @@ public class Preferences extends SharedActivity {
 		pomodoroLengthEditText.setText(pomodoroMinutesDuration.toString());
 		CheckBox advancedUserCheckBox = (CheckBox) findViewById(R.id.CheckBoxAdvancedUser);
 		advancedUserCheckBox.setChecked(super.user.isAdvancedUser());
+		CheckBox quickActivityInsertCheckBox = (CheckBox) findViewById(R.id.CheckBoxQuickActivityInsert);
+		quickActivityInsertCheckBox.setChecked(super.user.isQuickInsertActivity());
 	}
 
 	/**
@@ -99,16 +101,21 @@ public class Preferences extends SharedActivity {
 	private void updateUser() throws PomodroidException {
 		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 		CheckBox advancedUserCheckBox = (CheckBox) findViewById(R.id.CheckBoxAdvancedUser);
+		CheckBox quickInsertActivityCheckBox = (CheckBox) findViewById(R.id.CheckBoxQuickActivityInsert);
 			super.user.setPomodoroMinutesDuration(Integer
 					.parseInt(pomodoroLengthEditText.getText().toString()));
 			super.user.setAdvancedUser(advancedUserCheckBox.isChecked());
+			super.user.setQuickInsertActivity(quickInsertActivityCheckBox.isChecked());
+			
 			super.user.save(super.dbHelper);
 		Intent intent = new Intent();
+		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		if(super.user.isAdvancedUser())
 			intent.setClass(this, Pomodroid.class);
 		else
 			intent.setClass(this, TodoTodaySheet.class);
 		startActivity(intent);
+		finish();
 
 	}
 

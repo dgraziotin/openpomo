@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   android:orientation="vertical"
-   android:layout_width="fill_parent"
-   android:layout_height="fill_parent"
-   >
-<!--TextView android:layout_width="fill_parent"
-		android:id="@+id/activityname"
-		android:gravity="center"
-		android:layout_height="wrap_content" /-->
-<ListView
-    android:id="@+id/android:list"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    />
-<TextView
-    android:id="@+id/android:empty"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:text="@string/no_activities"/>
-</LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<RelativeLayout android:id="@+id/activitylist"
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
+		<ListView android:id="@+id/android:list"
+			android:layout_width="fill_parent" android:layout_height="fill_parent" />
+		<TextView android:id="@+id/android:empty"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:text="@string/no_activities" />
+	</RelativeLayout>
+	<RelativeLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_alignParentBottom="true"
+		android:visibility="gone" android:id="@+id/quickinsertactivity">
+
+		<Button android:text="+" android:id="@+id/buttonquickinsertactivity"
+			android:layout_alignParentRight="true" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+
+
+		<EditText android:id="@+id/EditTextQuickInsertActivity"
+			android:layout_width="fill_parent" android:layout_toLeftOf="@id/buttonquickinsertactivity"
+			android:layout_height="wrap_content" android:singleLine="true"
+			android:hint="Quick Activity Insert" />
+
+	</RelativeLayout>
+</RelativeLayout>

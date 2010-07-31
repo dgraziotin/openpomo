@@ -159,11 +159,12 @@ public class ListServices extends ListActivity {
 	 */
 	@Override
 	public  boolean onOptionsItemSelected(MenuItem item) {
-		Intent i; 
+		Intent intent; 
 		switch (item.getItemId()) {
 		case ACTION_ADD:
-			i = new Intent(this, EditService.class);
-			this.startActivity(i);
+			intent = new Intent(this, EditService.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			this.startActivity(intent);
 			return true;
 		case ACTION_REFRESH:
 			retrieveServices();
@@ -273,6 +274,7 @@ public class ListServices extends ListActivity {
     										Bundle bundle = new Bundle();
     										bundle.putString("serviceName", service.getName());
     										intent.putExtras(bundle);
+    										intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
     										startActivity(intent);
     										break;
     									case 1:

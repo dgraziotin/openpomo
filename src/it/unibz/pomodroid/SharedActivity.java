@@ -105,6 +105,14 @@ public abstract class SharedActivity extends Activity {
 		}
 	}
 	
+	public void refreshUser(){
+		try {
+			user = User.retrieve(dbHelper);
+		} catch (PomodroidException e) {
+			e.alertUser(context);
+		}
+	}
+	
 	/**
 	 * Every time an Activity looses focus, it is forced to commit changes to the 
 	 * Database

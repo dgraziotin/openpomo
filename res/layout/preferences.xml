@@ -20,12 +20,21 @@
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="Advanced Mode implements the whole Pomodoro Technique, unlocks advanced options and remote Activity retrieval. " />
+				android:layout_height="wrap_content" android:text="Advanced Mode implements the whole Pomodoro Technique, unlocks many features and remote Activity retrieval. " />
 		</TableRow>
 		<TableRow>
 			<CheckBox android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/CheckBoxAdvancedUser"
 				android:hint="Advanced Mode" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Quick Insert Mode enables an easy shortcut to insert new Activities" />
+		</TableRow>
+		<TableRow>
+			<CheckBox android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/CheckBoxQuickActivityInsert"
+				android:hint="Quick Insert Mode?" />
 		</TableRow>
 		<Button android:text="Save" android:id="@+id/ButtonSavePreferences"
 			style="@style/ButtonMain"></Button>
