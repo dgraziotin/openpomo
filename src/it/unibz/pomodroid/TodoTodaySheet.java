@@ -21,6 +21,9 @@ import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -32,10 +35,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 
@@ -52,10 +58,7 @@ import android.widget.RelativeLayout;
  */
 public class TodoTodaySheet extends SharedListActivity {
 
-	private static final int ACTION_ADD = 0;
-	private static final int ACTION_PREFERENCES = 1;
-	private static final int ACTION_ABOUT = 3;
-	private static final int ACTION_TRASH = 4;
+	
 
 	/**
 	 * @see it.unibz.pomodroid.SharedListActivity#onCreate(android.os.Bundle)
@@ -66,14 +69,39 @@ public class TodoTodaySheet extends SharedListActivity {
 		super.setContext(this);
 		super.onCreate(savedInstanceState);
 		
-		 
+		TextView textViewEmptySheet = (TextView) findViewById(R.id.empty_sheet);
+		textViewEmptySheet.setText(getString(R.string.no_activities_tts));
+		textViewEmptySheet.setVisibility(View.INVISIBLE);
+		Button buttonQuickInsertActivity = (Button) findViewById(R.id.buttonquickinsertactivity);
+		final EditText editTextQuickInsertActivity = (EditText) findViewById(R.id.EditTextQuickInsertActivity);
+		buttonQuickInsertActivity.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(editTextQuickInsertActivity.getText().toString().equals(""))
+					return;
+				Calendar calendar = new GregorianCalendar();
+				try {
+					Activity activity = new Activity(0, new Date(), calendar.getTime(), editTextQuickInsertActivity.getText().toString(), "", 
+							"local", Activity.getLastLocalId(dbHelper)+1, "medium", "you", "task");
+					activity.setTodoToday(true);
+					activity.save(dbHelper);
+					
+					refreshSheet();
+					
+					throw new PomodroidException("INFO: Activity saved.");
+				} catch (PomodroidException e) {
+					e.alertUser(getContext());
+				}
+				
+			}
+		});
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		super.refreshUser();
-		if (super.user.isQuickInsertActivity()) {
+		if (super.getUser().isQuickInsertActivity()) {
 			RelativeLayout activityList = (RelativeLayout) findViewById(R.id.activitylist);
 
 			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -99,6 +127,7 @@ public class TodoTodaySheet extends SharedListActivity {
 			RelativeLayout quickActivityInsert = (RelativeLayout) findViewById(R.id.quickinsertactivity);
 			quickActivityInsert.setVisibility(View.GONE);
 		}
+		
 	}
 
 	/**
@@ -116,6 +145,7 @@ public class TodoTodaySheet extends SharedListActivity {
 			List<Activity> retrievedActivities = Activity
 					.getTodoToday(this.dbHelper);
 			activities.addAll(retrievedActivities);
+
 		} catch (Exception e) {
 			throw new PomodroidException(
 					"Error in retrieving Activities from the DB! Please try again");
@@ -132,7 +162,7 @@ public class TodoTodaySheet extends SharedListActivity {
 	protected void openActivityDialog(Activity activity) {
 		final Activity selectedActivity = activity;
 		int ttsDialog = -1;
-		ttsDialog = super.user.isAdvancedUser() ? R.array.tts_dialog
+		ttsDialog = super.getUser().isAdvanced() ? R.array.tts_dialog
 				: R.array.tts_dialog_simple;
 
 		new AlertDialog.Builder(this).setTitle(R.string.activity_title)
@@ -182,53 +212,28 @@ public class TodoTodaySheet extends SharedListActivity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (super.user.isAdvancedUser()) {
+		if (super.getUser().isAdvanced()) {
+			menu.add(0, ACTION_ADD_ACTIVITY, 0, "New Activity").setIcon(
+					android.R.drawable.ic_menu_add);
+			menu.add(0, ACTION_GO_AIS, 0, "Activity Inventory").setIcon(
+					android.R.drawable.ic_menu_agenda);
+			menu.add(0, ACTION_GO_TS, 0, "Trash Can").setIcon(
+					android.R.drawable.ic_menu_delete);
+			menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
+					android.R.drawable.ic_menu_preferences);
 			return true;
 		}
-		menu.add(0, ACTION_ADD, 0, "Add a new Activity").setIcon(
+		menu.add(0, ACTION_ADD_ACTIVITY, 0, "New Activity").setIcon(
 				android.R.drawable.ic_menu_add);
-		menu.add(0, ACTION_TRASH, 0, "Trash Can").setIcon(
+		menu.add(0, ACTION_GO_TS, 0, "Trash Can").setIcon(
 				android.R.drawable.ic_menu_delete);
-		menu.add(0, ACTION_PREFERENCES, 0, "Preferences").setIcon(
+		menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
 				android.R.drawable.ic_menu_preferences);
-		menu.add(0, ACTION_ABOUT, 0, "About").setIcon(
+		menu.add(0, ACTION_GO_ABOUT, 0, "About").setIcon(
 				android.R.drawable.ic_menu_help);
 		return true;
 	}
 
-	/**
-	 * As soon as the user clicks on the menu a new intent is created for adding
-	 * new Activity.
-	 * 
-	 * @param item
-	 * @return
-	 * 
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent();
-		switch (item.getItemId()) {
-		case ACTION_ADD:
-			intent.setClass(this, EditActivity.class);
-			break;
-		case ACTION_TRASH:
-			intent.setClass(this, TrashSheet.class);
-			break;
-		case ACTION_PREFERENCES:
-			if (user.isAdvancedUser())
-				intent.setClass(this, TabPreferences.class);
-			else
-				intent.setClass(this, Preferences.class);
-			break;
-		case ACTION_ABOUT:
-			intent.setClass(this, About.class);
-			break;
-		default:
-			return false;
-		}
-		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		startActivity(intent);
-		return true;
-	}
+	
 
 }

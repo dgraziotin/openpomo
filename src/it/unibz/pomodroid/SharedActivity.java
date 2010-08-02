@@ -18,7 +18,9 @@ package it.unibz.pomodroid;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
@@ -32,6 +34,17 @@ import it.unibz.pomodroid.persistency.User;
  * @see android.app.Activity
  */
 public abstract class SharedActivity extends Activity {
+	
+	public static final int ACTION_ADD_ACTIVITY = 0;
+	public static final int ACTION_ADD_SERVICE = 8;
+	public static final int ACTION_GO_ABOUT = 2;
+	public static final int ACTION_GO_AIS = 3;
+	public static final int ACTION_GO_PREFERENCES = 1;
+	public static final int ACTION_GO_SERVICES = 6;
+	public static final int ACTION_GO_TS = 4;
+	public static final int ACTION_GO_TTS = 5;
+	public static final int ACTION_LIST_SERVICES = 7;
+	
 	/**
 	 * The Database container for db4o
 	 */
@@ -39,7 +52,7 @@ public abstract class SharedActivity extends Activity {
 	/**
 	 * The current user
 	 */
-	protected User user;
+	private User user;
 	/**
 	 * The Context of the Activity
 	 */
@@ -65,7 +78,20 @@ public abstract class SharedActivity extends Activity {
 	 * @return user object
 	 */
 	public User getUser() {
-		return user;
+			if(user==null){
+				try {
+					if(User.isPresent(dbHelper)){
+						this.setUser(User.retrieve(dbHelper));
+					}else{
+						this.user = new User();
+						this.user.setPomodoroMinutesDuration(25);
+						this.user.save(this.dbHelper);
+					}
+				} catch (PomodroidException e) {
+					e.alertUser(this);
+				}
+			}
+			return user;
 	}
 
 	/**
@@ -89,20 +115,7 @@ public abstract class SharedActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.dbHelper = new DBHelper(getApplicationContext());
 		this.context = this;
-		try {
-			user = User.retrieve(dbHelper);
-
-			// protect the other activities: they can't be called until user
-			// sets preferences
-			if (user == null && !this.getClass().equals(Preferences.class)) {
-				user = new User();
-				user.setPomodoroMinutesDuration(25);
-				user.save(this.dbHelper);
-				
-			}
-		} catch (PomodroidException e) {
-			e.alertUser(this);
-		}
+		this.user = this.getUser();
 	}
 	
 	public void refreshUser(){
@@ -137,6 +150,40 @@ public abstract class SharedActivity extends Activity {
 	 */
 	public void onResume(){
 		super.onResume();
+	}
+	
+	/**
+	 * As soon as the user clicks on the menu a new intent is created, for either
+	 * scroll the list of Services or add a new Service.
+	 * @param item
+	 * @return
+	 * 
+	 */
+	@Override
+	public  boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent; 
+		switch (item.getItemId()) {
+		case ACTION_ADD_SERVICE:
+			intent = new Intent(this, EditService.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			this.startActivity(intent);
+			return true;
+		case ACTION_LIST_SERVICES:
+			intent = new Intent(this, ListServices.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			this.startActivity(intent);
+			return true;
+		}
+		return false;
+	}
+	
+	public void startActivity(Class<?> klass, boolean finishCurrentActivity, boolean recycleActivity){
+		Intent intent = new Intent(this.context, klass);
+		if(recycleActivity)
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(intent);
+		if(finishCurrentActivity)
+			finish();
 	}
 	
 }

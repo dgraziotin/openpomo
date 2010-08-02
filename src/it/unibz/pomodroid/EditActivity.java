@@ -127,7 +127,7 @@ public class EditActivity extends SharedActivity {
 			Calendar calendar = new GregorianCalendar();
 			calendar.set(datePickerDeadline.getYear(), datePickerDeadline.getMonth(), datePickerDeadline.getDayOfMonth());
 			activity.setDeadline(calendar.getTime());
-			if (!super.user.isAdvancedUser())
+			if (!super.getUser().isAdvanced())
 				activity.setTodoToday(true);
 			activity.save(dbHelper);
 		} catch (PomodroidException e) {
@@ -148,7 +148,7 @@ public class EditActivity extends SharedActivity {
 		calendar.set(datePickerDeadline.getYear(), datePickerDeadline.getMonth(), datePickerDeadline.getDayOfMonth());
 		Activity activity = new Activity(0, new Date(), calendar.getTime(), editTextSummary.getText().toString(), editTextDescription.getText().toString(), 
 				"local", Activity.getLastLocalId(dbHelper)+1, "medium", "you", "task");
-		if (!super.user.isAdvancedUser())
+		if (!super.getUser().isAdvanced())
 			activity.setTodoToday(true);
 		
 		try{
@@ -175,12 +175,13 @@ public class EditActivity extends SharedActivity {
 	
 	private void bringUserTo(){
 		Intent intent = new Intent();
-		if (super.user.isAdvancedUser())
+		if (super.getUser().isAdvanced())
 			intent.setClass(super.context, ActivityInventorySheet.class);
 		else
 			intent.setClass(super.context, TodoTodaySheet.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
+		finish();
 	}
 
 	/**

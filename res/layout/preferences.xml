@@ -36,6 +36,33 @@
 				android:layout_height="wrap_content" android:id="@+id/CheckBoxQuickActivityInsert"
 				android:hint="Quick Insert Mode?" />
 		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Display notifications in Status Bar" />
+		</TableRow>
+		<TableRow>
+			<CheckBox android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/CheckBoxNotifications"
+				android:hint="Notifications?" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Vibrate when Pomodoro finishes/is broken." />
+		</TableRow>
+		<TableRow>
+			<CheckBox android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/CheckBoxVibrate"
+				android:hint="Vibrate on Events?" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Dim Light when Pomodoro starts. Please disable automatic brightness on your device before enabling this option." />
+		</TableRow>
+		<TableRow>
+			<CheckBox android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/CheckBoxDimLight"
+				android:hint="Dim Light?" />
+		</TableRow>
 		<Button android:text="Save" android:id="@+id/ButtonSavePreferences"
 			style="@style/ButtonMain"></Button>
 	</TableLayout>

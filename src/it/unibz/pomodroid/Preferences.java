@@ -47,7 +47,7 @@ public class Preferences extends SharedActivity {
 		setContentView(R.layout.preferences);
 		TextView textViewPreferences = (TextView) findViewById(R.id.TextViewPreferences);
 		textViewPreferences.setText(getString(R.string.preferences_intro));
-		fillEditTexts(user);
+		fillEditTexts(super.getUser());
 		
 		Button saveButton = (Button) findViewById(R.id.ButtonSavePreferences);
 		saveButton.setOnClickListener(new OnClickListener() {
@@ -90,9 +90,15 @@ public class Preferences extends SharedActivity {
 		Integer pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
 		pomodoroLengthEditText.setText(pomodoroMinutesDuration.toString());
 		CheckBox advancedUserCheckBox = (CheckBox) findViewById(R.id.CheckBoxAdvancedUser);
-		advancedUserCheckBox.setChecked(super.user.isAdvancedUser());
+		advancedUserCheckBox.setChecked(super.getUser().isAdvanced());
 		CheckBox quickActivityInsertCheckBox = (CheckBox) findViewById(R.id.CheckBoxQuickActivityInsert);
-		quickActivityInsertCheckBox.setChecked(super.user.isQuickInsertActivity());
+		quickActivityInsertCheckBox.setChecked(super.getUser().isQuickInsertActivity());
+		CheckBox checkBoxVibrate = (CheckBox) findViewById(R.id.CheckBoxVibrate);
+		checkBoxVibrate.setChecked(user.isVibration());
+		CheckBox checkBoxDimLight = (CheckBox) findViewById(R.id.CheckBoxDimLight);
+		checkBoxDimLight.setChecked(user.isDimLight());
+		CheckBox checkBoxNotifications = (CheckBox) findViewById(R.id.CheckBoxNotifications);
+		checkBoxNotifications.setChecked(user.isNotifications());
 	}
 
 	/**
@@ -102,15 +108,20 @@ public class Preferences extends SharedActivity {
 		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
 		CheckBox advancedUserCheckBox = (CheckBox) findViewById(R.id.CheckBoxAdvancedUser);
 		CheckBox quickInsertActivityCheckBox = (CheckBox) findViewById(R.id.CheckBoxQuickActivityInsert);
-			super.user.setPomodoroMinutesDuration(Integer
+		CheckBox checkBoxVibrate = (CheckBox) findViewById(R.id.CheckBoxVibrate);
+		CheckBox checkBoxDimLight = (CheckBox) findViewById(R.id.CheckBoxDimLight);
+		CheckBox checkBoxNotifications = (CheckBox) findViewById(R.id.CheckBoxNotifications);
+			super.getUser().setPomodoroMinutesDuration(Integer
 					.parseInt(pomodoroLengthEditText.getText().toString()));
-			super.user.setAdvancedUser(advancedUserCheckBox.isChecked());
-			super.user.setQuickInsertActivity(quickInsertActivityCheckBox.isChecked());
-			
-			super.user.save(super.dbHelper);
+			super.getUser().setAdvanced(advancedUserCheckBox.isChecked());
+			super.getUser().setQuickInsertActivity(quickInsertActivityCheckBox.isChecked());
+			super.getUser().setVibration(checkBoxVibrate.isChecked());
+			super.getUser().setDimLight(checkBoxDimLight.isChecked());
+			super.getUser().setNotifications(checkBoxNotifications.isChecked());
+			super.getUser().save(super.dbHelper);
 		Intent intent = new Intent();
 		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		if(super.user.isAdvancedUser())
+		if(super.getUser().isAdvanced())
 			intent.setClass(this, Pomodroid.class);
 		else
 			intent.setClass(this, TodoTodaySheet.class);

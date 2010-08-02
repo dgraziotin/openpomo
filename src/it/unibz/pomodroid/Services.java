@@ -159,37 +159,14 @@ public class Services extends SharedActivity{
 	 */
 	@Override
 	public  boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ACTION_ADD, 0, "Add a new Service").setIcon(
+		menu.add(0, ACTION_ADD_SERVICE, 0, "Add a new Service").setIcon(
 				android.R.drawable.ic_menu_add);
-		menu.add(0, ACTION_VIEW, 0, "Edit Services").setIcon(
+		menu.add(0, ACTION_LIST_SERVICES, 0, "Edit Services").setIcon(
 				android.R.drawable.ic_menu_edit);
 		return true;
 	}
 
-	/**
-	 * As soon as the user clicks on the menu a new intent is created, for either
-	 * scroll the list of Services or add a new Service.
-	 * @param item
-	 * @return
-	 * 
-	 */
-	@Override
-	public  boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent; 
-		switch (item.getItemId()) {
-		case ACTION_ADD:
-			intent = new Intent(this, EditService.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			this.startActivity(intent);
-			return true;
-		case ACTION_VIEW:
-			intent = new Intent(this, ListServices.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			this.startActivity(intent);
-			return true;
-		}
-		return false;
-	}
+	
 
 	/**
 	 * Method that starts a thread and shows a nice download bar.

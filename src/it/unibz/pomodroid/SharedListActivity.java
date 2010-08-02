@@ -16,23 +16,27 @@
  */
 package it.unibz.pomodroid;
 
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import it.unibz.pomodroid.persistency.DBHelper;
+import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
+
 import java.util.ArrayList;
+
+import android.app.AlertDialog;
+import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -47,7 +51,19 @@ import android.widget.TextView;
  * @see adroid.app.ListActivity
  */
 public abstract class SharedListActivity extends ListActivity {
-
+	
+	public static final int ACTION_ADD_ACTIVITY = 0;
+	public static final int ACTION_ADD_SERVICE = 11;
+	public static final int ACTION_GO_ABOUT = 2;
+	public static final int ACTION_GO_AIS = 3;
+	public static final int ACTION_GO_PREFERENCES = 1;
+	public static final int ACTION_GO_SERVICES = 6;
+	public static final int ACTION_GO_TS = 4;
+	public static final int ACTION_GO_TTS = 5;
+	public static final int ACTION_LIST_SERVICES = 7;
+	public static final int ACTION_REFRESH_SERVICES = 8;
+	public static final int ACTION_EMPTY_LIST = 10;
+	
 	/**
 	 * Represents the Android ID of the sub-class preferred layout
 	 */
@@ -80,14 +96,17 @@ public abstract class SharedListActivity extends ListActivity {
 	/**
 	 * Current User
 	 */
-	protected User user = null;
-
+	private User user = null;
+	
+ 
 	/**
 	 * @return the context
 	 */
 	public Context getContext() {
 		return context;
 	}
+	
+	
 
 	/**
 	 * Sets the context. It must be called from a subclass inside onCreate()
@@ -126,12 +145,7 @@ public abstract class SharedListActivity extends ListActivity {
 		setContentView(R.layout.activitysheet);
 		this.dbHelper = new DBHelper(getApplicationContext());
 		this.context = this;
-		try {
-			User user = User.retrieve(dbHelper);
-			this.user = user;
-		} catch (PomodroidException e) {
-			e.alertUser(this);
-		}
+		this.user = this.getUser();
 		this.activities = new ArrayList<Activity>();
 		// first call the adapter to show zero Activities
 		this.activityAdapter = new ActivityAdapter(this,
@@ -142,7 +156,7 @@ public abstract class SharedListActivity extends ListActivity {
 	
 	public void refreshUser(){
 		try {
-			user = User.retrieve(dbHelper);
+			setUser(User.retrieve(dbHelper));
 		} catch (PomodroidException e) {
 			e.alertUser(context);
 		}
@@ -180,6 +194,7 @@ public abstract class SharedListActivity extends ListActivity {
 	 * 
 	 * @see android.app.Activity#onStop(android.os.Bundle)
 	 */
+	@Override
 	public void onStop() {
 		super.onStop();
 	}
@@ -276,6 +291,7 @@ public abstract class SharedListActivity extends ListActivity {
 		AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
 		dialog.setTitle("Activity Details");
 		dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int whichButton) {
 				dialog.dismiss();
 			}
@@ -359,6 +375,11 @@ public abstract class SharedListActivity extends ListActivity {
 			}
 			progressDialog.dismiss();
 			activityAdapter.notifyDataSetChanged();
+			
+			if(activityAdapter.isEmpty())
+				findViewById(R.id.empty_sheet).setVisibility(View.VISIBLE);
+			else
+				findViewById(R.id.empty_sheet).setVisibility(View.INVISIBLE);
 		}
 	};
 
@@ -370,5 +391,85 @@ public abstract class SharedListActivity extends ListActivity {
 	 * @param activity
 	 */
 	protected abstract void openActivityDialog(Activity activity);
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public User getUser() {
+		if(user==null){
+			try {
+				if(User.isPresent(dbHelper)){
+					this.setUser(User.retrieve(dbHelper));
+				}else{
+					this.user = new User();
+					this.user.setPomodoroMinutesDuration(25);
+					this.user.save(this.dbHelper);
+				}
+			} catch (PomodroidException e) {
+				e.alertUser(this);
+			}
+		}
+		return user;
+	}
+	
+	/**
+	 * As soon as the user clicks on the menu a new intent is created for adding new Activity.
+	 * @param item
+	 * @return
+	 * 
+	 */
+	@Override
+	public  boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case ACTION_ADD_ACTIVITY:
+			startActivity(EditActivity.class, false, true);
+			return true;
+		case ACTION_ADD_SERVICE:
+			startActivity(EditService.class, false, true);
+			return true;
+		case ACTION_GO_AIS:
+			startActivity(ActivityInventorySheet.class, false, true);
+			break;
+		case ACTION_GO_TTS:
+			startActivity(TodoTodaySheet.class, false, true);
+			break;
+		case ACTION_GO_TS:
+			startActivity(TrashSheet.class, false, true);
+			break;
+		case ACTION_GO_PREFERENCES:
+			if (getUser().isAdvanced())
+				startActivity(TabPreferences.class, true, true);
+			else
+				startActivity(Preferences.class, true, true);
+			break;
+		case ACTION_GO_ABOUT:
+			startActivity(About.class, false, true);
+			break;
+		case ACTION_EMPTY_LIST:
+			for(int i=0;i<activityAdapter.getCount();i++){
+				Activity activity = activityAdapter.getItem(i);
+				try {
+					Event.delete(activity, dbHelper);
+					activity.delete(dbHelper);
+				} catch (PomodroidException e) {
+					e.alertUser(this);
+				}
+			}
+			activityAdapter.clear();
+			activityAdapter.notifyDataSetChanged();
+			return true;
+		}
+		return false;
+	}
+	
+	public void startActivity(Class<?> klass, boolean finishCurrentActivity, boolean recycleActivity){
+		Intent intent = new Intent(this.context, klass);
+		if(recycleActivity)
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(intent);
+		if(finishCurrentActivity)
+			finish();
+	}
 
 }

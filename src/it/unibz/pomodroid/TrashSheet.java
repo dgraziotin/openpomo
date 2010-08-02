@@ -119,35 +119,15 @@ public class TrashSheet extends SharedListActivity {
 	 */
 	@Override
 	public  boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ACTION_EMPTY, 0, "Empty Trash Can").setIcon(
+		menu.add(0, ACTION_EMPTY_LIST, 0, "Empty Trash Can").setIcon(
 				android.R.drawable.ic_menu_delete);
+		menu.add(0, ACTION_GO_AIS, 0, "Activity Inventory").setIcon(
+				android.R.drawable.ic_menu_agenda);
+		menu.add(0, ACTION_GO_TTS, 0, "Todo Today").setIcon(
+				android.R.drawable.ic_menu_day);
+		menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
+				android.R.drawable.ic_menu_preferences);
 		return true;
 	}
 	
-	/**
-	 * As soon as the user clicks on the menu a new intent is created for adding new Activity.
-	 * @param item
-	 * @return
-	 * 
-	 */
-	@Override
-	public  boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
-			case ACTION_EMPTY:
-				for(int i=0;i<activityAdapter.getCount();i++){
-					Activity activity = activityAdapter.getItem(i);
-					try {
-						Event.delete(activity, dbHelper);
-						activity.delete(dbHelper);
-					} catch (PomodroidException e) {
-						e.alertUser(this);
-					}
-				}
-				activityAdapter.clear();
-				activityAdapter.notifyDataSetChanged();
-				return true;
-			 
-		}
-		return false;
-	}
 }

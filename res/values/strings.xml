@@ -20,7 +20,9 @@
 		TRAC</string>
 	<string name="app_name">Pomodroid</string>
 	<string name="launch_test">Launch tests</string>
-	<string name="no_activities">Sheet is empty</string>
+	<string name="no_activities">No activities stored.</string>
+	<string name="no_activities_tts">No activities stored.\nPress the MENU button to either insert new activities or activate the
+	Quick Insert mode from the preferences.</string>
 	<string name="activity_title">Activity menu</string>
 	<string name="startp">Face it</string>
 	<string name="todotoday">Schedule for Today</string>

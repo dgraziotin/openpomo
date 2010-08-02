@@ -30,8 +30,12 @@ public class User {
 	private int pomodoroMinutesDuration;
 	private Date dateFacedPomodoro;
 	private int facedPomodoro;
-	private boolean advancedUser;
+	private boolean advanced;
 	private boolean quickInsertActivity;
+	private boolean vibration;
+	private boolean dimLight;
+	private boolean notifications;
+	
 
 	/**
 	 * @param tracUsername pomodroid username
@@ -42,8 +46,11 @@ public class User {
 		this.pomodoroMinutesDuration = 25;
 		this.dateFacedPomodoro = new Date();
 		this.facedPomodoro = 0;
-		this.advancedUser = false;
+		this.advanced = false;
 		this.quickInsertActivity = false;
+		this.vibration = false;
+		this.dimLight = false;
+		this.notifications = false;
 	}
 	
 	/**
@@ -55,8 +62,11 @@ public class User {
 		this.pomodoroMinutesDuration = pomodoroMinutesDuration;
 		this.dateFacedPomodoro = new Date();
 		this.facedPomodoro = 0;
-		this.advancedUser = false;
+		this.advanced = false;
 		this.quickInsertActivity = false;
+		this.vibration = false;
+		this.dimLight = false;
+		this.notifications = false;
 	}
 
 	/**
@@ -121,35 +131,73 @@ public class User {
 	}
 	
 	/**
-	 * Getter for advancedUser boolean
-	 * @return advancedUser - true if the user wants the power functionalities activated
+	 * @return the advanced
 	 */
-	public boolean isAdvancedUser() {
-		return advancedUser;
+	public boolean isAdvanced() {
+		return advanced;
 	}
 
 	/**
-	 * Getter for advancedUser boolean
-	 * @param advancedUser - true if the user wants the power functionalities activated
+	 * @param advanced the advanced to set
 	 */
-	public void setAdvancedUser(boolean advancedUser) {
-		this.advancedUser = advancedUser;
+	public void setAdvanced(boolean advanced) {
+		this.advanced = advanced;
 	}
-	
+
 	/**
-	 * Getter for quickActivityInsert
-	 * @return quickActivityInsert - false for hiding the Quick Activity Insert bar 
+	 * @return the quickInsertActivity
 	 */
 	public boolean isQuickInsertActivity() {
 		return quickInsertActivity;
 	}
 
 	/**
-	 * Setter for quickActivityInsert
-	 * @param quickActivityInsert - false for hiding the Quick Activity Insert bar 
+	 * @param quickInsertActivity the quickInsertActivity to set
 	 */
-	public void setQuickInsertActivity(boolean quickActivityInsert) {
-		this.quickInsertActivity = quickActivityInsert;
+	public void setQuickInsertActivity(boolean quickInsertActivity) {
+		this.quickInsertActivity = quickInsertActivity;
+	}
+
+	/**
+	 * @return the vibration
+	 */
+	public boolean isVibration() {
+		return vibration;
+	}
+
+	/**
+	 * @param vibration the vibration to set
+	 */
+	public void setVibration(boolean vibration) {
+		this.vibration = vibration;
+	}
+
+	/**
+	 * @return the dimLight
+	 */
+	public boolean isDimLight() {
+		return dimLight;
+	}
+
+	/**
+	 * @param dimLight the dimLight to set
+	 */
+	public void setDimLight(boolean dimLight) {
+		this.dimLight = dimLight;
+	}
+	
+	/**
+	 * @return the dimLight
+	 */
+	public boolean isNotifications() {
+		return notifications;
+	}
+
+	/**
+	 * @param dimLight the dimLight to set
+	 */
+	public void setNotifications(boolean notifications) {
+		this.notifications = notifications;
 	}
 
 	/**

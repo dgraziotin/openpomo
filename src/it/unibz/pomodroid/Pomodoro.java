@@ -81,7 +81,8 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 			switch (message.what) {
 			case Pomodoro.MSG_POMODORO_START:
-				setBrightness(DESIRED_BRIGHTNESS);
+				if(getUser().isDimLight())
+					setBrightness(DESIRED_BRIGHTNESS);
 				updateTimeTask.run();
 				setButtonsClickable(false, true);
 				break;
@@ -89,8 +90,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				pomodoroSecondsValue--;
 				break;
 			case Pomodoro.MSG_POMODORO_FINISHED:
-				setBrightness(originalBrightness);
-				pomodoroSecondsValue = user.getPomodoroMinutesDuration()
+				if(getUser().isDimLight())
+					setBrightness(originalBrightness);
+				pomodoroSecondsValue = getUser().getPomodoroMinutesDuration()
 						* SECONDS_PER_MINUTE;
 				it.unibz.pomodroid.persistency.Activity activity = null;
 				updateTextViewPomodoroTimer(pomodoroSecondsValue);
@@ -101,7 +103,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 									dbHelper);
 					activity.addOnePomodoro();
 					activity.save(dbHelper);
-					pomodoroMessage = user.isLongerBreak(dbHelper) ? getString(R.string.pomodoro_long_break)
+					pomodoroMessage = getUser().isLongerBreak(dbHelper) ? getString(R.string.pomodoro_long_break)
 							: getString(R.string.pomodoro_short_break);
 					Integer numberPomodoro = activity.getNumberPomodoro();
 					TextView textViewActivityNumberPomodoro = (TextView) findViewById(R.id.TextViewActivityNumberPomodoro);
@@ -115,8 +117,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				setButtonsClickable(true, false);
 				break;
 			case Pomodoro.MSG_POMODORO_STOP:
-				setBrightness(originalBrightness);
-				pomodoroSecondsValue = user.getPomodoroMinutesDuration()
+				if(getUser().isDimLight())
+					setBrightness(originalBrightness);
+				pomodoroSecondsValue = getUser().getPomodoroMinutesDuration()
 						* SECONDS_PER_MINUTE;
 				updateTextViewPomodoroTimer(pomodoroSecondsValue);
 				notifyUser(getString(R.string.pomodoro_broken));
@@ -206,8 +209,10 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		notification.ledARGB = 0xff00ff00;
 		notification.defaults |= Notification.DEFAULT_LIGHTS;
-		notification.defaults |= Notification.DEFAULT_VIBRATE;
-		nm.notify(NOTIFICATION_ID, notification);
+		if(getUser().isVibration())
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		if(getUser().isNotifications())
+			nm.notify(NOTIFICATION_ID, notification);
 
 		Toast.makeText(context, message, Toast.LENGTH_LONG).show();
 	}
@@ -232,7 +237,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pomodoro);
-		this.pomodoroSecondsValue = user.getPomodoroMinutesDuration()
+		this.pomodoroSecondsValue = getUser().getPomodoroMinutesDuration()
 				* SECONDS_PER_MINUTE;
 		this.activityOrigin = this.getIntent().getExtras().getString("origin");
 		this.activityOriginId = this.getIntent().getExtras().getInt("originId");
@@ -241,7 +246,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		try {
 			activity = it.unibz.pomodroid.persistency.Activity.get(
 					this.activityOrigin, this.activityOriginId, super.dbHelper);
-			this.user = User.retrieve(super.dbHelper);
+			this.setUser(User.retrieve(super.dbHelper));
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
