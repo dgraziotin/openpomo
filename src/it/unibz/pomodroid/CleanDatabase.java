@@ -30,6 +30,7 @@ import android.widget.Button;
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
  * @see android.view.View.OnClickListener
+ * @see http://www.db4o.com
  */
 public class CleanDatabase extends SharedActivity implements OnClickListener {
 
@@ -58,22 +59,22 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
 		try {
 			switch (v.getId()) {
 			case R.id.ButtonDeleteActivitiesEvents:
-				Activity.deleteAll(dbHelper);
-				Event.deleteAll(dbHelper);
+				Activity.deleteAll(super.getDbHelper());
+				Event.deleteAll(super.getDbHelper());
 				throw new PomodroidException(
 						"All activities and events deleted!", "INFO");
 			case R.id.ButtonDefragmentDatabase:
-				dbHelper.defragment();
+				super.getDbHelper().defragment();
 				throw new PomodroidException("Database defragmented.", "INFO");
 			case R.id.ButtonDeleteDatabase:
-				dbHelper.deleteDatabase();
+				super.getDbHelper().deleteDatabase();
 				throw new PomodroidException(
 						"Database destroyed. Please restart Pomodroid.", "INFO");
 			}
 		} catch (PomodroidException e) {
 			e.alertUser(context);
 		} finally {
-			dbHelper.commit();
+			super.getDbHelper().commit();
 		}
 
 	}

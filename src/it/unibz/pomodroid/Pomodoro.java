@@ -39,41 +39,75 @@ import android.widget.Toast;
 
 /**
  * This class implements graphically the pomodoro technique. Here we have the
- * counter and the description of the activity to face.
+ * counter and the description of the activity to be faced.
  * 
  * @author Daniel Graziotin <daniel.graziotin@acm.org>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
  * @see android.view.View.OnClickListener;
+ * @see http://www.pomodorotechnique.com
  */
 
 public class Pomodoro extends SharedActivity implements OnClickListener {
 
+	/**
+	 * Default value when dimming light
+	 */
 	private final static float DESIRED_BRIGHTNESS = 0.05f;
-	
+	/**
+	 * How many seconds are in a minute
+	 */
 	private final static int SECONDS_PER_MINUTE = 60;
+	/**
+	 * How many milliseconds are in a second
+	 */
 	private final static int MILLISECONDS_PER_SECOND = 1000;
-	
-	private final static int NOTIFICATION_ID = 1;
-	
-	private final static int MSG_POMODORO_TICK = 1;
-	private final static int MSG_POMODORO_FINISHED = 2;
-	private final static int MSG_POMODORO_START = 3;
-	private final static int MSG_POMODORO_STOP = 4;
-	/** Seconds to be passed totally */
-	private int pomodoroSecondsValue = 1;
-
-	private String activityOrigin = null;
-	private int activityOriginId = -1;
-
-	private PowerManager.WakeLock wakeLock;
-	private float originalBrightness = -1;
-
-	private Context context = this;
 
 	/**
-	 * Handler to handle events such as the start of a Pomodoro, the tick of the timer,
-	 * a Pomodoro broken, a finished Pomodoro.
+	 * Dummy ID for our notifications
+	 */
+	private final static int NOTIFICATION_ID = 1;
+
+	/**
+	 * Sent when Pomodoro ticks a second
+	 */
+	private final static int MSG_POMODORO_TICK = 1;
+	/**
+	 * Sent when Pomodoro finishes
+	 */
+	private final static int MSG_POMODORO_FINISHED = 2;
+	/**
+	 * Sent when Pomodoro starts
+	 */
+	private final static int MSG_POMODORO_START = 3;
+	/**
+	 * Sent when Pomodoro is stopped
+	 */
+	private final static int MSG_POMODORO_STOP = 4;
+	/**
+	 * Holds remaining time in seconds
+	 */
+	private int pomodoroSecondsValue = 1;
+	/**
+	 * Stores the origin of the Activity
+	 */
+	private String activityOrigin = null;
+	/**
+	 * Stores the id of the Activity
+	 */
+	private int activityOriginId = -1;
+	/**
+	 * Wake variable for Power Manager
+	 */
+	private PowerManager.WakeLock wakeLock;
+	/**
+	 * Will store the brightness value set by user
+	 */
+	private float originalBrightness = -1;
+
+	/**
+	 * Handler to handle events such as the start of a Pomodoro, the tick of the
+	 * timer, a Pomodoro broken, a finished Pomodoro.
 	 */
 	private Handler handler = new Handler() {
 		@Override
@@ -81,7 +115,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 			switch (message.what) {
 			case Pomodoro.MSG_POMODORO_START:
-				if(getUser().isDimLight())
+				if (getUser().isDimLight())
 					setBrightness(DESIRED_BRIGHTNESS);
 				updateTimeTask.run();
 				setButtonsClickable(false, true);
@@ -90,7 +124,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				pomodoroSecondsValue--;
 				break;
 			case Pomodoro.MSG_POMODORO_FINISHED:
-				if(getUser().isDimLight())
+				if (getUser().isDimLight())
 					setBrightness(originalBrightness);
 				pomodoroSecondsValue = getUser().getPomodoroMinutesDuration()
 						* SECONDS_PER_MINUTE;
@@ -98,12 +132,11 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				updateTextViewPomodoroTimer(pomodoroSecondsValue);
 				String pomodoroMessage = null;
 				try {
-					activity = it.unibz.pomodroid.persistency.Activity
-							.get(activityOrigin, activityOriginId,
-									dbHelper);
+					activity = it.unibz.pomodroid.persistency.Activity.get(
+							activityOrigin, activityOriginId, getDbHelper());
 					activity.addOnePomodoro();
-					activity.save(dbHelper);
-					pomodoroMessage = getUser().isLongerBreak(dbHelper) ? getString(R.string.pomodoro_long_break)
+					activity.save(getDbHelper());
+					pomodoroMessage = getUser().isLongerBreak(getDbHelper()) ? getString(R.string.pomodoro_long_break)
 							: getString(R.string.pomodoro_short_break);
 					Integer numberPomodoro = activity.getNumberPomodoro();
 					TextView textViewActivityNumberPomodoro = (TextView) findViewById(R.id.TextViewActivityNumberPomodoro);
@@ -117,7 +150,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				setButtonsClickable(true, false);
 				break;
 			case Pomodoro.MSG_POMODORO_STOP:
-				if(getUser().isDimLight())
+				if (getUser().isDimLight())
 					setBrightness(originalBrightness);
 				pomodoroSecondsValue = getUser().getPomodoroMinutesDuration()
 						* SECONDS_PER_MINUTE;
@@ -132,8 +165,8 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	};
 
 	/**
-	 * a Runnable called every seconds, that is responsible to call the method to update
-	 * the Pomodoro Timer View. It also sends messages to the handler.
+	 * a Runnable called every seconds, that is responsible to call the method
+	 * to update the Pomodoro Timer View. It also sends messages to the handler.
 	 */
 	private Runnable updateTimeTask = new Runnable() {
 		public void run() {
@@ -150,8 +183,11 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 	/**
 	 * Sets the buttons clickable or not
-	 * @param buttonPomodoroStartClickable The Start Button
-	 * @param buttonPomodoroStopClickable The Stop Button
+	 * 
+	 * @param buttonPomodoroStartClickable
+	 *            The Start Button
+	 * @param buttonPomodoroStopClickable
+	 *            The Stop Button
 	 */
 	private void setButtonsClickable(boolean buttonPomodoroStartClickable,
 			boolean buttonPomodoroStopClickable) {
@@ -163,6 +199,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 	/**
 	 * Updates the Timer TextView, given the new timer value in seconds
+	 * 
 	 * @param pomodoroSecondsValue
 	 */
 	private void updateTextViewPomodoroTimer(int pomodoroSecondsValue) {
@@ -173,23 +210,25 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		seconds = seconds % SECONDS_PER_MINUTE;
 
 		if (seconds >= 10 && seconds < 60) {
-			if(minutes < 10)
+			if (minutes < 10)
 				textViewPomodoroTimer.setText("0" + minutes + ":" + seconds);
 			else
 				textViewPomodoroTimer.setText(minutes + ":" + seconds);
 		} else if (seconds < 10) {
-			if(minutes < 10)
+			if (minutes < 10)
 				textViewPomodoroTimer.setText("0" + minutes + ":0" + seconds);
 			else
 				textViewPomodoroTimer.setText(minutes + ":0" + seconds);
-		} else{
+		} else {
 			textViewPomodoroTimer.setText("" + minutes + ":" + seconds);
 		}
 	}
-	
+
 	/**
 	 * Notifies the user in various ways
-	 * @param message The message we want to display to the user
+	 * 
+	 * @param message
+	 *            The message we want to display to the user
 	 */
 	private void notifyUser(String message) {
 		NotificationManager nm = (NotificationManager) context
@@ -209,9 +248,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		notification.ledARGB = 0xff00ff00;
 		notification.defaults |= Notification.DEFAULT_LIGHTS;
-		if(getUser().isVibration())
+		if (getUser().isVibration())
 			notification.defaults |= Notification.DEFAULT_VIBRATE;
-		if(getUser().isNotifications())
+		if (getUser().isNotifications())
 			nm.notify(NOTIFICATION_ID, notification);
 
 		Toast.makeText(context, message, Toast.LENGTH_LONG).show();
@@ -219,6 +258,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 
 	/**
 	 * Sets the device brightness
+	 * 
 	 * @param brightness
 	 */
 	private void setBrightness(float brightness) {
@@ -245,8 +285,8 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		it.unibz.pomodroid.persistency.Activity activity = null;
 		try {
 			activity = it.unibz.pomodroid.persistency.Activity.get(
-					this.activityOrigin, this.activityOriginId, super.dbHelper);
-			this.setUser(User.retrieve(super.dbHelper));
+					this.activityOrigin, this.activityOriginId, super.getDbHelper());
+			this.setUser(User.retrieve(super.getDbHelper()));
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
@@ -297,12 +337,12 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		ScrollView scrollView = (ScrollView) findViewById(R.id.ScrollView01);
 		try {
 			activity = it.unibz.pomodroid.persistency.Activity.get(
-					this.activityOrigin, this.activityOriginId, super.dbHelper);
+					this.activityOrigin, this.activityOriginId, super.getDbHelper());
 			switch (v.getId()) {
 			case R.id.ButtonPomodoroStart:
 				Event eventStart = new Event("pomodoro", "start", new Date(),
 						activity, pomodoroSecondsValue);
-				eventStart.save(super.dbHelper);
+				eventStart.save(super.getDbHelper());
 				handler.sendEmptyMessage(MSG_POMODORO_START);
 				scrollView.fullScroll(ScrollView.FOCUS_UP);
 				setButtonsClickable(false, true);
@@ -310,7 +350,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 			case R.id.ButtonPomodoroStop:
 				Event eventStop = new Event("pomodoro", "stop", new Date(),
 						activity, pomodoroSecondsValue);
-				eventStop.save(super.dbHelper);
+				eventStop.save(super.getDbHelper());
 				handler.sendEmptyMessage(MSG_POMODORO_STOP);
 				setButtonsClickable(true, false);
 				break;

@@ -36,8 +36,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  */
 public class EditService extends SharedActivity {
 	/**
-	 * This attribute holds the name of the Service that is
-	 * passed through an Intent to this Activity
+	 * This attribute holds the name of the Service that is passed through an
+	 * Intent to this Activity
 	 */
 	private String serviceName;
 
@@ -47,8 +47,8 @@ public class EditService extends SharedActivity {
 		setContentView(R.layout.service);
 
 		try {
-			this.serviceName = this.getIntent().getExtras().getString(
-					"serviceName");
+			this.serviceName = this.getIntent().getExtras()
+					.getString("serviceName");
 		} catch (NullPointerException e) {
 			this.serviceName = null;
 		}
@@ -84,7 +84,7 @@ public class EditService extends SharedActivity {
 					try {
 						checkUserInput();
 						testServiceConnection();
-						if(serviceName!=null)
+						if (serviceName != null)
 							updateService();
 						else
 							saveService();
@@ -95,8 +95,8 @@ public class EditService extends SharedActivity {
 						e.alertUser(context);
 					}
 				} else {
-					PomodroidException.createAlert(context, "ERROR", context
-							.getString(R.string.no_internet_available));
+					PomodroidException.createAlert(context, "ERROR",
+							context.getString(R.string.no_internet_available));
 				}
 			}
 		});
@@ -106,14 +106,16 @@ public class EditService extends SharedActivity {
 	/**
 	 * This method is responsible for filling all the layout views if the user
 	 * is editing an existing service
-	 * @param serviceName the name of the Service, if any
+	 * 
+	 * @param serviceName
+	 *            the name of the Service, if any
 	 */
 	private void fillEmptyFields(String serviceName) {
 		if (serviceName == null)
 			return;
 		Service service;
 		try {
-			service = Service.get(serviceName, dbHelper);
+			service = Service.get(serviceName, super.getDbHelper());
 			EditText editTextName = (EditText) findViewById(R.id.EditTextName);
 			editTextName.setText(service.getName());
 			EditText editTextUrl = (EditText) findViewById(R.id.EditTextTracUrl);
@@ -133,16 +135,16 @@ public class EditService extends SharedActivity {
 	}
 
 	/**
-	 * This method is responsible for updating an existing Service, after the user changes
-	 * the related fields.
+	 * This method is responsible for updating an existing Service, after the
+	 * user changes the related fields.
 	 */
 	private void updateService() throws PomodroidException {
 
 		EditText editTextName = (EditText) findViewById(R.id.EditTextName);
 		EditText editTextUrl = (EditText) findViewById(R.id.EditTextTracUrl);
-		
-		Service currentService = Service.get(serviceName, dbHelper);
-		
+
+		Service currentService = Service.get(serviceName, super.getDbHelper());
+
 		EditText editTextUsername = (EditText) findViewById(R.id.EditTextUsername);
 		EditText editTextPassword = (EditText) findViewById(R.id.EditTextPassword);
 		CheckBox checkBoxIsAnonymous = (CheckBox) findViewById(R.id.CheckBoxAnonymous);
@@ -155,19 +157,20 @@ public class EditService extends SharedActivity {
 		currentService.setPassword(editTextPassword.getText().toString());
 		currentService.setAnonymousAccess(checkBoxIsAnonymous.isChecked());
 		currentService.setActive(checkBoxIsActive.isChecked());
-		currentService.save(dbHelper);
+		currentService.save(super.getDbHelper());
 
 	}
-	
+
 	/**
-	 * This method is responsible for saving a new Service, after the user changes
-	 * the related fields.
+	 * This method is responsible for saving a new Service, after the user
+	 * changes the related fields.
+	 * 
 	 * @throws PomodroidException
 	 */
 	private void saveService() throws PomodroidException {
 		EditText editTextName = (EditText) findViewById(R.id.EditTextName);
 		EditText editTextUrl = (EditText) findViewById(R.id.EditTextTracUrl);
-		
+
 		Service service = new Service();
 
 		EditText editTextUsername = (EditText) findViewById(R.id.EditTextUsername);
@@ -182,7 +185,7 @@ public class EditService extends SharedActivity {
 		service.setPassword(editTextPassword.getText().toString());
 		service.setAnonymousAccess(checkBoxIsAnonymous.isChecked());
 		service.setActive(checkBoxIsActive.isChecked());
-		service.save(dbHelper);
+		service.save(super.getDbHelper());
 
 	}
 
@@ -239,17 +242,6 @@ public class EditService extends SharedActivity {
 			throw new PomodroidException(
 					"Error. Please insert a Password or use Anonymous Access.");
 
-	}
-
-	/**
-	 * Checks if a string is null or empty
-	 * 
-	 * @param string
-	 *            the string to be checked
-	 * @return true if the string is not null or not empty
-	 */
-	private boolean nullOrEmpty(String string) {
-		return string.equals("") || string == null;
 	}
 
 }

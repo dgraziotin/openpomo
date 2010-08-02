@@ -26,14 +26,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 /**
- * Activity Inventory Sheet class is an extension of Shared List activity. This
+ * Activity Inventory Sheet class is an extension of SharedList activity. This
  * class shows to the user which activities are not faced yet, but have to be
- * done. The only way to erase an activity from this sheet is to put it into the
- * trash.
+ * done some day. The only way to erase an activity from this sheet is to put it
+ * into the trash.
  * 
  * @author Daniel Graziotin <daniel.graziotin@acm.org>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
@@ -76,7 +75,7 @@ public class ActivityInventorySheet extends SharedListActivity {
 	}
 
 	/**
-	 * We specify the menu labels and theirs icons
+	 * We specify the menu labels and their icons
 	 * 
 	 * @param menu
 	 * @return true

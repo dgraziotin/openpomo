@@ -25,30 +25,56 @@ import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
 
-
 /**
- * Base-class of all activities. Defines common behavior for all Activities
- * of Pomodroid.
+ * Base-class of all activities. Defines common behavior for all Activities of
+ * Pomodroid.
+ * 
  * @author Daniel Graziotin <daniel.graziotin@acm.org>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see android.app.Activity
  */
 public abstract class SharedActivity extends Activity {
-	
-	public static final int ACTION_ADD_ACTIVITY = 0;
-	public static final int ACTION_ADD_SERVICE = 8;
-	public static final int ACTION_GO_ABOUT = 2;
-	public static final int ACTION_GO_AIS = 3;
-	public static final int ACTION_GO_PREFERENCES = 1;
+	/**
+	 * Represents the intention of adding a new Activity
+	 */
+	public static final int ACTION_ADD_ACTIVITY = 1;
+	/**
+	 * Represents the intention of adding a new Service
+	 */
+	public static final int ACTION_ADD_SERVICE = 2;
+	/**
+	 * Represents the intention of going to the About window
+	 */
+	public static final int ACTION_GO_ABOUT = 3;
+	/**
+	 * Represents the intention of going to the AIS window
+	 */
+	public static final int ACTION_GO_AIS = 4;
+	/**
+	 * Represents the intention of going to the Preferences window
+	 */
+	public static final int ACTION_GO_PREFERENCES = 5;
+	/**
+	 * Represents the intention of going to the Services window
+	 */
 	public static final int ACTION_GO_SERVICES = 6;
-	public static final int ACTION_GO_TS = 4;
-	public static final int ACTION_GO_TTS = 5;
-	public static final int ACTION_LIST_SERVICES = 7;
-	
+	/**
+	 * Represents the intention of going to the TS window
+	 */
+	public static final int ACTION_GO_TS = 7;
+	/**
+	 * Represents the intention of going to the TTS window
+	 */
+	public static final int ACTION_GO_TTS = 8;
+	/**
+	 * Represents the intention of going to the List Services window
+	 */
+	public static final int ACTION_LIST_SERVICES = 9;
+
 	/**
 	 * The Database container for db4o
 	 */
-	protected DBHelper dbHelper;
+	private DBHelper dbHelper;
 	/**
 	 * The current user
 	 */
@@ -57,7 +83,7 @@ public abstract class SharedActivity extends Activity {
 	 * The Context of the Activity
 	 */
 	protected Context context;
-	
+
 	/**
 	 * @return dbHelper object
 	 */
@@ -67,8 +93,9 @@ public abstract class SharedActivity extends Activity {
 
 	/**
 	 * Set dbHelper
+	 * 
 	 * @param dbHelper
-	 *
+	 * 
 	 */
 	public void setDbHelper(DBHelper dbHelper) {
 		this.dbHelper = dbHelper;
@@ -78,36 +105,37 @@ public abstract class SharedActivity extends Activity {
 	 * @return user object
 	 */
 	public User getUser() {
-			if(user==null){
-				try {
-					if(User.isPresent(dbHelper)){
-						this.setUser(User.retrieve(dbHelper));
-					}else{
-						this.user = new User();
-						this.user.setPomodoroMinutesDuration(25);
-						this.user.save(this.dbHelper);
-					}
-				} catch (PomodroidException e) {
-					e.alertUser(this);
+		if (user == null) {
+			try {
+				if (User.isPresent(dbHelper)) {
+					this.setUser(User.retrieve(dbHelper));
+				} else {
+					this.user = new User();
+					this.user.setPomodoroMinutesDuration(25);
+					this.user.save(this.dbHelper);
 				}
+			} catch (PomodroidException e) {
+				e.alertUser(this);
 			}
-			return user;
+		}
+		return user;
 	}
 
 	/**
 	 * User to set
+	 * 
 	 * @param user
 	 * 
 	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	/**
-	 * Every sub-class of this one automatically receive an instance
-	 * of the User and of the Database Container. This method is also 
-	 * responsible of bringing the User to the Preferences the first 
-	 * time it starts Pomodroid
+	 * Every sub-class of this one automatically receive an instance of the User
+	 * and of the Database Container. This method is also responsible of
+	 * bringing the User to the Preferences the first time it starts Pomodroid
+	 * 
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
@@ -117,18 +145,12 @@ public abstract class SharedActivity extends Activity {
 		this.context = this;
 		this.user = this.getUser();
 	}
-	
-	public void refreshUser(){
-		try {
-			user = User.retrieve(dbHelper);
-		} catch (PomodroidException e) {
-			e.alertUser(context);
-		}
-	}
-	
+
+
 	/**
-	 * Every time an Activity looses focus, it is forced to commit changes to the 
-	 * Database
+	 * Every time an Activity looses focus, it is forced to commit changes to
+	 * the Database
+	 * 
 	 * @see android.app.Activity#onPause()
 	 */
 	@Override
@@ -136,54 +158,67 @@ public abstract class SharedActivity extends Activity {
 		super.onPause();
 		this.dbHelper.commit();
 	}
-	
-	/** 
+
+	/**
 	 * @see android.app.Activity#onStop()
 	 */
 	@Override
 	public void onStop() {
 		super.onStop();
 	}
-	
+
 	/**
 	 * @see android.app.Activity#onResume()
 	 */
-	public void onResume(){
+	public void onResume() {
 		super.onResume();
 	}
-	
+
 	/**
-	 * As soon as the user clicks on the menu a new intent is created, for either
-	 * scroll the list of Services or add a new Service.
+	 * As soon as the user clicks on the menu a new intent is created, for
+	 * either scroll the list of Services or add a new Service.
+	 * 
 	 * @param item
 	 * @return
 	 * 
 	 */
 	@Override
-	public  boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent; 
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case ACTION_ADD_SERVICE:
-			intent = new Intent(this, EditService.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			this.startActivity(intent);
+			startActivity(EditService.class, false, true);
 			return true;
 		case ACTION_LIST_SERVICES:
-			intent = new Intent(this, ListServices.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			this.startActivity(intent);
+			startActivity(ListServices.class, false, true);
 			return true;
 		}
 		return false;
 	}
-	
-	public void startActivity(Class<?> klass, boolean finishCurrentActivity, boolean recycleActivity){
+	/**
+	 * Wrapper for starting Android Activities and adding
+	 * Intents and Flags
+	 * @param klass - the class to be started
+	 * @param finishCurrentActivity - true if calling activity must terminate
+	 * @param recycleActivity - true if the called activity can be retrieved from stack if present
+	 */
+	public void startActivity(Class<?> klass, boolean finishCurrentActivity,
+			boolean recycleActivity) {
 		Intent intent = new Intent(this.context, klass);
-		if(recycleActivity)
+		if (recycleActivity)
 			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
-		if(finishCurrentActivity)
+		if (finishCurrentActivity)
 			finish();
 	}
-	
+
+	/**
+	 * Checks if a string is null or empty
+	 * 
+	 * @param string
+	 *            the string to be checked
+	 * @return true if the string is not null or not empty
+	 */
+	public boolean nullOrEmpty(String string) {
+		return string.equals("") || string == null;
+	}
 }

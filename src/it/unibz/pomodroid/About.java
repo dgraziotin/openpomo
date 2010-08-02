@@ -15,7 +15,6 @@
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.View;
@@ -24,7 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * A simple Activity to show an about Window
+ * A simple Activity to show an About Window
  * @author Daniel Graziotin <daniel.graziotin@acm.org>
  * @see it.unibz.pomodroid.SharedActivity
  */
@@ -43,14 +42,11 @@ public class About extends SharedActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent();
 				if(!getUser().isAdvanced())
-					intent.setClass(context, TodoTodaySheet.class);
+					startActivity(TodoTodaySheet.class,true,true);
 				else
-					intent.setClass(context, Pomodroid.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-				startActivity(intent);
-				finish();
+					startActivity(TodoTodaySheet.class,true,true);
+				
 			}
 		});	
 	}

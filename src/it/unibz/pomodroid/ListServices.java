@@ -39,80 +39,79 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
- * Class to represent the list of stored Services in Pomodroid.
- * @author Daniel Graziotin 4801 <daniel.graziotin@acm.org>
+ * Class for representing the list of stored Services in Pomodroid.
+ * 
+ * @author Daniel Graziotin <daniel.graziotin@acm.org>
  * 
  * @see adroid.app.ListActivity
  * 
  */
 public class ListServices extends ListActivity {
 	/**
-	 * The progress dialog to inform the user about the 
-	 * status of the operations done
+	 * The progress dialog to inform the user about the status of the operations
+	 * done
 	 */
 	private ProgressDialog progressDialog = null;
 	/**
 	 * Holds the stored Services
 	 */
-    private ArrayList<Service> services = null;
-    /**
+	private ArrayList<Service> services = null;
+	/**
 	 * Custom adapter to provide Services to the Layout
 	 */
-    private ServiceAdapter adapter;
-    /**
-	 * Runnable responsible for retrieving Services and refreshing
-	 * the list
-	 */
-    private Runnable viewServices;
-    /**
-     * Database container
-     */
-    private DBHelper dbHelper;
-    /**
-     * Current context of the Activity
-     */
-    private Context context;
-    /**
-     * Represents the intention of the user to add a new Service
-     */
-    private static final int ACTION_ADD = 0;
-    /**
-     * Represents the intention of the user to refresh the list of Services
-     */
-	private static final int ACTION_REFRESH = 1;
-   
+	private ServiceAdapter adapter;
 	/**
-	 * Loads the layout and sets some attributes. It prepares
-	 * the Database container and the custom Adapter
+	 * Runnable responsible for retrieving Services and refreshing the list
+	 */
+	private Runnable viewServices;
+	/**
+	 * Database container
+	 */
+	private DBHelper dbHelper;
+	/**
+	 * Current context of the Activity
+	 */
+	private Context context;
+	/**
+	 * Represents the intention of the user to add a new Service
+	 */
+	private static final int ACTION_ADD = 0;
+	/**
+	 * Represents the intention of the user to refresh the list of Services
+	 */
+	private static final int ACTION_REFRESH = 1;
+
+	/**
+	 * Loads the layout and sets some attributes. It prepares the Database
+	 * container and the custom Adapter
 	 */
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.listservices);
-        dbHelper = new DBHelper(this);
-        this.context = this;
-        services = new ArrayList<Service>();
-        this.adapter = new ServiceAdapter(this, R.layout.serviceentry, services);
-        setListAdapter(this.adapter);
-    }
-    
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.listservices);
+		dbHelper = new DBHelper(this);
+		this.context = this;
+		services = new ArrayList<Service>();
+		this.adapter = new ServiceAdapter(this, R.layout.serviceentry, services);
+		setListAdapter(this.adapter);
+	}
+
 	/**
 	 * Refreshes the list of Services when the Activity gains focus
 	 */
-    @Override
-    public void onResume(){
-    	super.onResume();
-    	retrieveServices();
-    }
-    
-    /**
+	@Override
+	public void onResume() {
+		super.onResume();
+		retrieveServices();
+	}
+
+	/**
 	 * Sets the custom Adapter, prepares the Runnable for getting Services,
 	 * creates and runs the Thread with the Runnable
 	 */
-    private void retrieveServices(){
-    	this.services = new ArrayList<Service>();
-		this.adapter = new ServiceAdapter(this,
-				R.layout.serviceentry, services);
+	private void retrieveServices() {
+		this.services = new ArrayList<Service>();
+		this.adapter = new ServiceAdapter(this, R.layout.serviceentry, services);
 		this.setListAdapter(this.adapter);
 		this.viewServices = new Runnable() {
 			@Override
@@ -125,24 +124,23 @@ public class ListServices extends ListActivity {
 			}
 		};
 		// create a new Thread that executes activityRetriever and start it
-		Thread thread = new Thread(null, viewServices,
-				"ServiceRetrieverThread");
+		Thread thread = new Thread(null, viewServices, "ServiceRetrieverThread");
 		thread.start();
 		// show a nice progress bar
-		progressDialog = ProgressDialog.show(this,
-				getString(R.string.plswait), getString(R.string.service_retrieve),
-				true);
+		progressDialog = ProgressDialog.show(this, getString(R.string.plswait),
+				getString(R.string.service_retrieve), true);
 
-    }
-    
-    /**
-	 * We specify the menu labels and theirs icons
+	}
+
+	/**
+	 * We specify the menu labels and their icons
+	 * 
 	 * @param menu
-	 * @return true 
-	 *
+	 * @return true
+	 * 
 	 */
 	@Override
-	public  boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, ACTION_ADD, 0, "Add a new Service").setIcon(
 				android.R.drawable.ic_menu_add);
 		menu.add(0, ACTION_REFRESH, 0, "Refresh").setIcon(
@@ -151,48 +149,49 @@ public class ListServices extends ListActivity {
 	}
 
 	/**
-	 * As soon as the user clicks on the menu a new intent is created for adding new Service.
-	 * Otherwise we refresh the list of Services
+	 * As soon as the user clicks on the menu a new intent is created for adding
+	 * new Service. Otherwise we refresh the list of Services
+	 * 
 	 * @param item
 	 * @return
 	 * 
 	 */
 	@Override
-	public  boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent; 
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
 		switch (item.getItemId()) {
 		case ACTION_ADD:
-			intent = new Intent(this, EditService.class);
+			intent.setClass(context, EditService.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			this.startActivity(intent);
 			return true;
 		case ACTION_REFRESH:
 			retrieveServices();
 			return true;
-		
+
 		}
 		return false;
 	}
-    
+
 	/**
-	 * Retrieves Services from Database and calls a Runnable responsible
-	 * for notifying the Adapter of a new set of data to be represented
-	 * graphically.
+	 * Retrieves Services from Database and calls a Runnable responsible for
+	 * notifying the Adapter of a new set of data to be represented graphically.
+	 * 
 	 * @throws PomodroidException
 	 */
-    private void getServices() throws PomodroidException{
-        	try {
-    			services = new ArrayList<Service>();
-    			List<Service> retrievedServices = Service.getAll(dbHelper);
-    			services.addAll(retrievedServices);
-    		} catch (Exception e) {
-    			throw new PomodroidException("Error in retrieving Activities from the DB!");
-    		}
-    		this.runOnUiThread(returnRes);
-          
-      }
-    
-    /**
+	private void getServices() throws PomodroidException {
+		try {
+			services = new ArrayList<Service>();
+			List<Service> retrievedServices = Service.getAll(dbHelper);
+			services.addAll(retrievedServices);
+		} catch (Exception e) {
+			throw new PomodroidException(
+					"Error in retrieving Activities from the DB!");
+		}
+		this.runOnUiThread(returnRes);
+
+	}
+
+	/**
 	 * This Runnable notifies the adapter of the presence of Activities to be
 	 * displayed. It also adds the activities to the adapter, taking them from
 	 * the local List of activities
@@ -211,111 +210,119 @@ public class ListServices extends ListActivity {
 	};
 
 	/**
-	 * Private class implementing a custom ArrayAdapter to provide
-	 * graphical representation for our stored Services
+	 * Private class implementing a custom ArrayAdapter to provide graphical
+	 * representation for our stored Services
 	 * 
 	 * @see android.widget.ArrayAdapter
 	 */
-    private class ServiceAdapter extends ArrayAdapter<Service> {
+	private class ServiceAdapter extends ArrayAdapter<Service> {
 
-    	/**
-    	 * The list of Services
-    	 */
-        private ArrayList<Service> items;
+		/**
+		 * The list of Services
+		 */
+		private ArrayList<Service> items;
 
-        public ServiceAdapter(Context context, int textViewResourceId, ArrayList<Service> items) {
-                super(context, textViewResourceId, items);
-                this.items = items;
-        }
+		public ServiceAdapter(Context context, int textViewResourceId,
+				ArrayList<Service> items) {
+			super(context, textViewResourceId, items);
+			this.items = items;
+		}
 
-        /**
-    	 * Gets the layout created for representing an entry in the Service list,
-    	 * attach listeners, provides custom text and inflates the layout
-    	 */
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-                View v = convertView;
-                if (v == null) {
-                    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.serviceentry, null);
-                }
-                Service service = items.get(position);
-                if (service != null) {
-                        TextView tt = (TextView) v.findViewById(R.id.toptext);
-                        TextView bt = (TextView) v.findViewById(R.id.bottomtext);
-                        if (tt != null) {
-                              tt.setText("Name: "+service.getName());                            }
-                        if(bt != null){
-                        	  Boolean isActive = service.isActive();
-                              bt.setText("Type: "+ service.getType() +" Active: "+ isActive.toString());
-                        }
-                }
-                v = addListeners(v, service);
-                return v;
-        }
-        
-    	/**
-    	 * This dialog gives the possibility select an action for a selected service
-    	 * @param activity
-    	 */
-    	protected void openServiceDialog(final Service service) {
-    		new AlertDialog.Builder(context).setTitle("")
-    				.setItems(R.array.service_dialog,
-    						new DialogInterface.OnClickListener() {
-    							public void onClick(
-    									DialogInterface dialoginterface, int i) {
-    								try {
-    									switch (i) {
-    									case 0:
-    										Intent intent = new Intent();
-    										intent.setClass(
-    												getApplicationContext(),
-    												EditService.class);
-    										Bundle bundle = new Bundle();
-    										bundle.putString("serviceName", service.getName());
-    										intent.putExtras(bundle);
-    										intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-    										startActivity(intent);
-    										break;
-    									case 1:
-    										service.setActive(!service.isActive());
-    										service.save(dbHelper);
-    										adapter.notifyDataSetChanged();
-    										break;
-    									case 2:
-    										service.delete(dbHelper);
-    										adapter.remove(service);
-    										adapter.notifyDataSetChanged();
-    										break;
-    									}
-    								} catch (PomodroidException e) {
-    									e.alertUser(getContext());
-    								} finally {
-    								    dbHelper.commit();
-    								}
-    							}
-    						}).show();
-    		
-    	}
-        
-        /**
-    	 * This method attaches listeners to a View, given the Service associated
-    	 * to that view.
-    	 * 
-    	 * @param view
-    	 * @param activity
-    	 * @return view
-    	 */
-    	private View addListeners(View view, final Service service) {
-    		// bind a listener to the current Activity row
-    		view.setOnClickListener(new OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				openServiceDialog(service);
-    			}
-    		});
-    		return view;
-    	}
-    	
-}
+		/**
+		 * Gets the layout created for representing an entry in the Service
+		 * list, attach listeners, provides custom text and inflates the layout
+		 */
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View v = convertView;
+			if (v == null) {
+				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				v = vi.inflate(R.layout.serviceentry, null);
+			}
+			Service service = items.get(position);
+			if (service != null) {
+				TextView tt = (TextView) v.findViewById(R.id.toptext);
+				TextView bt = (TextView) v.findViewById(R.id.bottomtext);
+				if (tt != null) {
+					tt.setText("Name: " + service.getName());
+				}
+				if (bt != null) {
+					Boolean isActive = service.isActive();
+					bt.setText("Type: " + service.getType() + " Active: "
+							+ isActive.toString());
+				}
+			}
+			v = addListeners(v, service);
+			return v;
+		}
+
+		/**
+		 * This dialog gives the possibility select an action for a selected
+		 * service
+		 * 
+		 * @param activity
+		 */
+		protected void openServiceDialog(final Service service) {
+			new AlertDialog.Builder(context)
+					.setTitle("")
+					.setItems(R.array.service_dialog,
+							new DialogInterface.OnClickListener() {
+								public void onClick(
+										DialogInterface dialoginterface, int i) {
+									try {
+										switch (i) {
+										case 0:
+											Intent intent = new Intent();
+											intent.setClass(
+													getApplicationContext(),
+													EditService.class);
+											Bundle bundle = new Bundle();
+											bundle.putString("serviceName",
+													service.getName());
+											intent.putExtras(bundle);
+											intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+											startActivity(intent);
+											break;
+										case 1:
+											service.setActive(!service
+													.isActive());
+											service.save(dbHelper);
+											adapter.notifyDataSetChanged();
+											break;
+										case 2:
+											service.delete(dbHelper);
+											adapter.remove(service);
+											adapter.notifyDataSetChanged();
+											break;
+										}
+									} catch (PomodroidException e) {
+										e.alertUser(getContext());
+									} finally {
+										dbHelper.commit();
+									}
+								}
+							}).show();
+
+		}
+
+		/**
+		 * This method attaches listeners to a View, given the Service
+		 * associated to that view.
+		 * 
+		 * @param view
+		 * @param activity
+		 * @return view
+		 */
+		private View addListeners(View view, final Service service) {
+			// bind a listener to the current Activity row
+			view.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					openServiceDialog(service);
+				}
+			});
+			return view;
+		}
+
+	}
 }

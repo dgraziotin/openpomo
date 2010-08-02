@@ -25,12 +25,10 @@ import it.unibz.pomodroid.services.XmlRpcClient;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -44,7 +42,7 @@ import android.widget.TextView;
  * @see it.unibz.pomodroid.SharedActivity
  */
 
-public class Services extends SharedActivity{
+public class Services extends SharedActivity {
 
 	/**
 	 * Thread responsible for fetching the issues from Services
@@ -80,15 +78,7 @@ public class Services extends SharedActivity{
 	 * Represents an information message given to the Handler
 	 */
 	private static final int MESSAGE_ACTIVITY_DOWNLOADED = 4;
-	/**
-	 * Represents the intention of the User to add a new Service
-	 */
-	private static final int ACTION_ADD = 4;
-	/**
-	 * Represents the intention of the User to view the list of Services
-	 */
-	private static final int ACTION_VIEW = 5;
-	
+
 	/**
 	 * Data structure to holds the Services to be queried
 	 */
@@ -107,7 +97,7 @@ public class Services extends SharedActivity{
 		TextView serviceStatus = (TextView) findViewById(R.id.service_status);
 		serviceStatus.setText("Status: Idle.");
 		buttonUseServices.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				if (XmlRpcClient.isInternetAvailable(context)) {
@@ -118,14 +108,14 @@ public class Services extends SharedActivity{
 					}
 
 				} else {
-					PomodroidException.createAlert(context, "ERROR", context
-							.getString(R.string.no_internet_available));
+					PomodroidException.createAlert(context, "ERROR",
+							context.getString(R.string.no_internet_available));
 				}
-				
+
 			}
 		});
 	}
-	
+
 	/**
 	 * Refreshes the list of active Services when the Activity gains focus
 	 */
@@ -133,7 +123,7 @@ public class Services extends SharedActivity{
 	public void onResume() {
 		super.onResume();
 		try {
-			this.services = Service.getAllActive(dbHelper);
+			this.services = Service.getAllActive(super.getDbHelper());
 			String message = "Active Services: ";
 			if (this.services != null)
 				message += "" + services.size();
@@ -150,15 +140,16 @@ public class Services extends SharedActivity{
 	public void onDestroy() {
 		super.onDestroy();
 	}
-	
+
 	/**
 	 * We specify the menu labels and their icons
+	 * 
 	 * @param menu
 	 * @return
-	 *
+	 * 
 	 */
 	@Override
-	public  boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, ACTION_ADD_SERVICE, 0, "Add a new Service").setIcon(
 				android.R.drawable.ic_menu_add);
 		menu.add(0, ACTION_LIST_SERVICES, 0, "Edit Services").setIcon(
@@ -166,31 +157,31 @@ public class Services extends SharedActivity{
 		return true;
 	}
 
-	
-
 	/**
 	 * Method that starts a thread and shows a nice download bar.
 	 * 
 	 * @throws PomodroidException
 	 */
 	public void useServices() throws PomodroidException {
-			List<Service> services = Service.getAllActive(dbHelper);
-			if (services == null || services.size() == 0){
-				PomodroidException.createAlert(context, "INFO", "No active Services");
-				return;
-			}
+		List<Service> services = Service.getAllActive(super.getDbHelper());
+		if (services == null || services.size() == 0) {
+			PomodroidException.createAlert(context, "INFO",
+					"No active Services");
+			return;
+		}
 		// create a new Thread that executes activityRetriever and start it
 		this.serviceThread = new Thread(null, useServices, "UserServiceThread");
 		this.serviceThread.start();
 		Button buttonUseServices = (Button) findViewById(R.id.ButtonTrac);
 		buttonUseServices.setClickable(false);
-		
+
 	}
 
 	/**
-	 * As soon as a thread starts, this method is called. It retrieves Issues from a Service. 
-	 * When the operation is finished, it sends an empty message to the handler in order to inform the
-	 * system that the operation is finished.
+	 * As soon as a thread starts, this method is called. It retrieves Issues
+	 * from a Service. When the operation is finished, it sends an empty message
+	 * to the handler in order to inform the system that the operation is
+	 * finished.
 	 */
 	protected Runnable useServices = new Runnable() {
 		@Override
@@ -232,7 +223,8 @@ public class Services extends SharedActivity{
 				break;
 			case Services.MESSAGE_ACTIVITY_DOWNLOADED:
 				Bundle activityDownloadedBundle = message.getData();
-				serviceStatus.setText("Status: Downloading from " + activityDownloadedBundle.getString("message"));
+				serviceStatus.setText("Status: Downloading from "
+						+ activityDownloadedBundle.getString("message"));
 				break;
 
 			}
@@ -240,10 +232,10 @@ public class Services extends SharedActivity{
 
 	};
 
-
 	/**
-	 * This method takes all not-closed tickets from the Service, then
-	 * inserts them into the local DB.
+	 * This method takes all not-closed tickets from the Service, then inserts
+	 * them into the local DB.
+	 * 
 	 * @throws PomodroidException
 	 * 
 	 */
@@ -251,22 +243,27 @@ public class Services extends SharedActivity{
 		try {
 			TracTicketFetcher tracTicketFetcher = new TracTicketFetcher();
 			ActivityFactory activityFactory = new ActivityFactory();
-			List<Service> services = Service.getAllActive(dbHelper);
-			sendMessageHandler(Services.MESSAGE_INFORMATION, "Getting Issues, please wait..");
+			List<Service> services = Service.getAllActive(super.getDbHelper());
+			sendMessageHandler(Services.MESSAGE_INFORMATION,
+					"Getting Issues, please wait..");
 			for (Service service : services) {
-				sendMessageHandler(Services.MESSAGE_ACTIVITY_DOWNLOADED, service.getName());
+				sendMessageHandler(Services.MESSAGE_ACTIVITY_DOWNLOADED,
+						service.getName());
 				this.serviceTasks = tracTicketFetcher.fetch(service,
-						super.dbHelper);
-				this.serviceTasksAdded = activityFactory.produce(this.serviceTasks,
-						super.dbHelper);
-				sendMessageHandler(Services.MESSAGE_INFORMATION, "Downloaded "+serviceTasks.size()+ " issues from "+service.getName());
+						super.getDbHelper());
+				this.serviceTasksAdded = activityFactory.produce(
+						this.serviceTasks, super.getDbHelper());
+				sendMessageHandler(Services.MESSAGE_INFORMATION,
+						"Downloaded " + serviceTasks.size() + " issues from "
+								+ service.getName());
 			}
 		} catch (Exception e) {
 			sendMessageHandler(Services.MESSAGE_EXCEPTION, e.toString());
 			return;
 		}
-		sendMessageHandler(Services.MESSAGE_OK, "Finished to download new Issues");
-		
+		sendMessageHandler(Services.MESSAGE_OK,
+				"Finished to download new Issues");
+
 	}
 
 	/**

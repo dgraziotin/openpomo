@@ -18,16 +18,12 @@ package it.unibz.pomodroid;
 
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
-import it.unibz.pomodroid.persistency.Event;
-
 import java.util.ArrayList;
 import java.util.List;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 
 /**
  * Trash Sheet class is an extension of Shared List activity.
@@ -40,8 +36,6 @@ import android.view.MenuItem;
  * @see it.unibz.pomodroid.SharedListActivity
  */
 public class TrashSheet extends SharedListActivity {
-
-	private static final int ACTION_EMPTY = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

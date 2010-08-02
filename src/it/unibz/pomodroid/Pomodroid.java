@@ -15,7 +15,6 @@
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,12 +32,8 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		if(!super.getUser().isAdvanced()){
-			Intent intent = new Intent(this, TodoTodaySheet.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			startActivity(intent);
-			finish();
-		}
+		if(!super.getUser().isAdvanced())
+			startActivity(TodoTodaySheet.class,true,true);
 		
 		setContentView(R.layout.pomodroidadvanced);
 		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
@@ -65,29 +60,27 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 	 */
 	@Override
 	public void onClick(View v) {
-		Intent intent = new Intent();
 		switch(v.getId()){
 			case R.id.ButtonAIS:
-				intent.setClass(this, ActivityInventorySheet.class);
+				startActivity(ActivityInventorySheet.class,false,true);
 				break;
 			case R.id.ButtonTTS:
-				intent.setClass(this, TodoTodaySheet.class);
+				startActivity(TodoTodaySheet.class,false,true);
 				break;
 			case R.id.ButtonTS:
-				intent.setClass(this, TrashSheet.class);
+				startActivity(TrashSheet.class,false,true);
+
 				break;
 			case R.id.ButtonServices:
-				intent.setClass(this, Services.class);
+				startActivity(Services.class,false,true);
 				break;
 			case R.id.ButtonPreferences:
-				intent.setClass(this, TabPreferences.class);
+				startActivity(TabPreferences.class,false,true);
 				break;
 			case R.id.ButtonAbout:
-				intent.setClass(this, About.class);
+				startActivity(About.class,false,true);
 				break;
 		}
-		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		startActivity(intent);
 		
 	}
 }
