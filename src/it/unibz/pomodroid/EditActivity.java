@@ -179,7 +179,7 @@ public class EditActivity extends SharedActivity {
 
 	private void bringUserTo() {
 		if (super.getUser().isAdvanced())
-			startActivity(ActivityInventorySheet.class, true, true);
+			startActivity(TabPomodroid.class, true, true);
 		else
 			startActivity(TodoTodaySheet.class, true, true);
 

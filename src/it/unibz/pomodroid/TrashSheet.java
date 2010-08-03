@@ -113,6 +113,11 @@ public class TrashSheet extends SharedListActivity {
 	 */
 	@Override
 	public  boolean onCreateOptionsMenu(Menu menu) {
+		if (super.getUser().isAdvanced()) {
+			menu.add(0, ACTION_EMPTY_LIST, 0, "Empty Trash Can").setIcon(
+					android.R.drawable.ic_menu_delete);
+			return true;
+		}
 		menu.add(0, ACTION_EMPTY_LIST, 0, "Empty Trash Can").setIcon(
 				android.R.drawable.ic_menu_delete);
 		menu.add(0, ACTION_GO_AIS, 0, "Activity Inventory").setIcon(

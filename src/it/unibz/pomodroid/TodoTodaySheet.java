@@ -90,7 +90,6 @@ public class TodoTodaySheet extends SharedListActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		super.refreshUser();
 		if (super.getUser().isQuickInsertActivity()) {
 			RelativeLayout activityList = (RelativeLayout) findViewById(R.id.activitylist);
 
@@ -117,6 +116,11 @@ public class TodoTodaySheet extends SharedListActivity {
 			RelativeLayout quickActivityInsert = (RelativeLayout) findViewById(R.id.quickinsertactivity);
 			quickActivityInsert.setVisibility(View.GONE);
 		}
+		
+		if (activities==null || activities.isEmpty())
+			findViewById(R.id.empty_sheet).setVisibility(View.VISIBLE);
+		else
+			findViewById(R.id.empty_sheet).setVisibility(View.INVISIBLE);
 		
 	}
 
@@ -205,12 +209,12 @@ public class TodoTodaySheet extends SharedListActivity {
 		if (super.getUser().isAdvanced()) {
 			menu.add(0, ACTION_ADD_ACTIVITY, 0, "New Activity").setIcon(
 					android.R.drawable.ic_menu_add);
-			menu.add(0, ACTION_GO_AIS, 0, "Activity Inventory").setIcon(
-					android.R.drawable.ic_menu_agenda);
 			menu.add(0, ACTION_GO_TS, 0, "Trash Can").setIcon(
 					android.R.drawable.ic_menu_delete);
 			menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
 					android.R.drawable.ic_menu_preferences);
+			menu.add(0, ACTION_GO_ABOUT, 0, "About").setIcon(
+					android.R.drawable.ic_menu_help);
 			return true;
 		}
 		menu.add(0, ACTION_ADD_ACTIVITY, 0, "New Activity").setIcon(

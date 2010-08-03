@@ -26,7 +26,7 @@ import android.widget.Button;
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see it.unibz.pomodroid.SharedActivity
  */
-public class Pomodroid extends SharedActivity implements OnClickListener {
+public class Pomodroid extends SharedActivity{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,53 +34,7 @@ public class Pomodroid extends SharedActivity implements OnClickListener {
 		
 		if(!super.getUser().isAdvanced())
 			startActivity(TodoTodaySheet.class,true,true);
-		
-		setContentView(R.layout.pomodroidadvanced);
-		Button buttonAIS = (Button) findViewById(R.id.ButtonAIS);
-		buttonAIS.setOnClickListener(this);
-		Button buttonTTS = (Button) findViewById(R.id.ButtonTTS);
-		buttonTTS.setOnClickListener(this);
-		Button buttonTS = (Button) findViewById(R.id.ButtonTS);
-		buttonTS.setOnClickListener(this);
-		Button buttonServices = (Button) findViewById(R.id.ButtonServices);
-		buttonServices.setOnClickListener(this);
-		Button buttonPreferences = (Button) findViewById(R.id.ButtonPreferences);
-		buttonPreferences.setOnClickListener(this);
-		Button buttonAbout = (Button) findViewById(R.id.ButtonAbout);
-		buttonAbout.setOnClickListener(this);	
-	}
-	
-	/**
-	 * Default listener for clicks.
-	 * Regarding to the button that has been clicked, the related action is
-	 * called.
-	 * 
-	 * @see android.view.View.OnClickListener#onClick(android.view.View)
-	 * 
-	 */
-	@Override
-	public void onClick(View v) {
-		switch(v.getId()){
-			case R.id.ButtonAIS:
-				startActivity(ActivityInventorySheet.class,false,true);
-				break;
-			case R.id.ButtonTTS:
-				startActivity(TodoTodaySheet.class,false,true);
-				break;
-			case R.id.ButtonTS:
-				startActivity(TrashSheet.class,false,true);
-
-				break;
-			case R.id.ButtonServices:
-				startActivity(Services.class,false,true);
-				break;
-			case R.id.ButtonPreferences:
-				startActivity(TabPreferences.class,false,true);
-				break;
-			case R.id.ButtonAbout:
-				startActivity(About.class,false,true);
-				break;
-		}
-		
+		else
+			startActivity(TabPomodroid.class, true, true);
 	}
 }

@@ -85,12 +85,12 @@ public class ActivityInventorySheet extends SharedListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, ACTION_ADD_ACTIVITY, 0, "Add a new Activity").setIcon(
 				android.R.drawable.ic_menu_add);
-		menu.add(0, ACTION_GO_TTS, 0, "Todo Today").setIcon(
-				android.R.drawable.ic_menu_day);
 		menu.add(0, ACTION_GO_TS, 0, "Trash Can").setIcon(
 				android.R.drawable.ic_menu_delete);
 		menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
 				android.R.drawable.ic_menu_preferences);
+		menu.add(0, ACTION_GO_ABOUT, 0, "About").setIcon(
+				android.R.drawable.ic_menu_help);
 		return true;
 
 	}

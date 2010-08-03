@@ -17,7 +17,7 @@
 	<string name="cleanDB">Tap one of the buttons in order to modify directly
 		db4o database</string>
 	<string name="tracprominfo">Click the buttons in order to retrieve tickets from
-		TRAC</string>
+		Services. </string>
 	<string name="app_name">Pomodroid</string>
 	<string name="launch_test">Launch tests</string>
 	<string name="no_activities">No activities stored.</string>
@@ -72,7 +72,7 @@
 	<string name="services_intro">In this window you can retrieve all issues/tickets
 		from your active Services.\nSimply press the "Fetch Activities"
 		button.\nYou can also access the list of services by pressing the
-		Menu button.\n\n</string>
+		Menu button.\nPlease don\'t leave this window until all the operations finished.\n\n</string>
 	<string name="about">About</string>
 	<string name="about_1">Pomodroid is the opensource Android tool that lets
 		you either define activities or download tickets from Trac environments and 

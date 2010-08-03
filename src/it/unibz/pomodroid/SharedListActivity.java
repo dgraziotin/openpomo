@@ -374,12 +374,16 @@ public abstract class SharedListActivity extends ListActivity {
 					activityAdapter.add(activities.get(i));
 			}
 			progressDialog.dismiss();
-			activityAdapter.notifyDataSetChanged();
 			
+			activityAdapter.notifyDataSetChanged();
+			/*
 			if(activityAdapter.isEmpty())
 				findViewById(R.id.empty_sheet).setVisibility(View.VISIBLE);
 			else
 				findViewById(R.id.empty_sheet).setVisibility(View.INVISIBLE);
+			*/
+			
+			progressDialog.dismiss();
 		}
 	};
 

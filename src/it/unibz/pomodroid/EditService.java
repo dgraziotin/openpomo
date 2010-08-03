@@ -88,6 +88,7 @@ public class EditService extends SharedActivity {
 							updateService();
 						else
 							saveService();
+						finish();
 						throw new PomodroidException("Service saved.",
 								"SUCCESS");
 

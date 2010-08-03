@@ -163,6 +163,7 @@ public class ListServices extends ListActivity {
 		case ACTION_ADD:
 			intent.setClass(context, EditService.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			startActivity(intent);
 			return true;
 		case ACTION_REFRESH:
 			retrieveServices();
