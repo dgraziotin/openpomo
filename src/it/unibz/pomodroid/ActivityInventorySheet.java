@@ -63,10 +63,7 @@ public class ActivityInventorySheet extends SharedListActivity {
 			List<Activity> retrievedActivities = Activity
 					.getUncompleted(this.dbHelper);
 			activities.addAll(retrievedActivities);
-			if (activities.isEmpty())
-				findViewById(R.id.empty_sheet).setVisibility(View.VISIBLE);
-			else
-				findViewById(R.id.empty_sheet).setVisibility(View.GONE);
+			
 		} catch (Exception e) {
 			throw new PomodroidException(
 					"Error in retrieving Activities from the DB!");

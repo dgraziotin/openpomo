@@ -42,11 +42,7 @@ public class About extends SharedActivity {
 			
 			@Override
 			public void onClick(View v) {
-				if(!getUser().isAdvanced())
-					startActivity(TodoTodaySheet.class,true,true);
-				else
-					startActivity(TodoTodaySheet.class,true,true);
-				
+				finish();
 			}
 		});	
 	}

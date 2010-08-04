@@ -120,8 +120,6 @@ public class TrashSheet extends SharedListActivity {
 		}
 		menu.add(0, ACTION_EMPTY_LIST, 0, "Empty Trash Can").setIcon(
 				android.R.drawable.ic_menu_delete);
-		menu.add(0, ACTION_GO_AIS, 0, "Activity Inventory").setIcon(
-				android.R.drawable.ic_menu_agenda);
 		menu.add(0, ACTION_GO_TTS, 0, "Todo Today").setIcon(
 				android.R.drawable.ic_menu_day);
 		menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(

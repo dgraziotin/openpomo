@@ -31,6 +31,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +65,8 @@ public abstract class SharedListActivity extends ListActivity {
 	public static final int ACTION_LIST_SERVICES = 7;
 	public static final int ACTION_REFRESH_SERVICES = 8;
 	public static final int ACTION_EMPTY_LIST = 10;
+	public static final int MSG_ACTIVITIES_PRESENT = 12;
+	public static final int MSG_ACTIVITIES_NOT_PRESENT = 13;
 	
 	/**
 	 * Represents the Android ID of the sub-class preferred layout
@@ -360,6 +364,22 @@ public abstract class SharedListActivity extends ListActivity {
 	 */
 	protected abstract void retrieveActivities() throws PomodroidException;
 
+	protected Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message message) {
+
+			switch (message.what) {
+			case MSG_ACTIVITIES_PRESENT:
+				findViewById(R.id.empty_sheet).setVisibility(View.INVISIBLE);
+				break;
+			case MSG_ACTIVITIES_NOT_PRESENT:
+				findViewById(R.id.empty_sheet).setVisibility(View.VISIBLE);
+				break;
+			}
+			return;
+		}
+	};
+	
 	/**
 	 * This thread notifies the adapter of the presence of Activities to be
 	 * displayed. It also adds the activities to the adapter, taking them from
@@ -376,12 +396,12 @@ public abstract class SharedListActivity extends ListActivity {
 			progressDialog.dismiss();
 			
 			activityAdapter.notifyDataSetChanged();
-			/*
+			
 			if(activityAdapter.isEmpty())
-				findViewById(R.id.empty_sheet).setVisibility(View.VISIBLE);
+				handler.sendEmptyMessage(MSG_ACTIVITIES_NOT_PRESENT);
 			else
-				findViewById(R.id.empty_sheet).setVisibility(View.INVISIBLE);
-			*/
+				handler.sendEmptyMessage(MSG_ACTIVITIES_PRESENT);
+			
 			
 			progressDialog.dismiss();
 		}

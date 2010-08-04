@@ -48,8 +48,6 @@ import android.widget.RelativeLayout;
  */
 public class TodoTodaySheet extends SharedListActivity {
 
-	
-
 	/**
 	 * @see it.unibz.pomodroid.SharedListActivity#onCreate(android.os.Bundle)
 	 */
@@ -58,7 +56,7 @@ public class TodoTodaySheet extends SharedListActivity {
 		super.setResourceLayout(R.layout.ttsactivityentry);
 		super.setContext(this);
 		super.onCreate(savedInstanceState);
-		
+
 		TextView textViewEmptySheet = (TextView) findViewById(R.id.empty_sheet);
 		textViewEmptySheet.setText(getString(R.string.no_activities_tts));
 		textViewEmptySheet.setVisibility(View.INVISIBLE);
@@ -67,22 +65,26 @@ public class TodoTodaySheet extends SharedListActivity {
 		buttonQuickInsertActivity.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(editTextQuickInsertActivity.getText().toString().equals(""))
+				if (editTextQuickInsertActivity.getText().toString().equals(""))
 					return;
 				Calendar calendar = new GregorianCalendar();
 				try {
-					Activity activity = new Activity(0, new Date(), calendar.getTime(), editTextQuickInsertActivity.getText().toString(), "", 
-							"local", Activity.getLastLocalId(dbHelper)+1, "medium", "you", "task");
+					Activity activity = new Activity(0, new Date(), calendar
+							.getTime(), editTextQuickInsertActivity.getText()
+							.toString(), "", "local", Activity
+							.getLastLocalId(dbHelper) + 1, "medium", "you",
+							"task");
 					activity.setTodoToday(true);
 					activity.save(dbHelper);
-					
+					findViewById(R.id.empty_sheet)
+							.setVisibility(View.INVISIBLE);
 					refreshSheet();
-					
+
 					throw new PomodroidException("INFO: Activity saved.");
 				} catch (PomodroidException e) {
 					e.alertUser(getContext());
 				}
-				
+
 			}
 		});
 	}
@@ -116,12 +118,6 @@ public class TodoTodaySheet extends SharedListActivity {
 			RelativeLayout quickActivityInsert = (RelativeLayout) findViewById(R.id.quickinsertactivity);
 			quickActivityInsert.setVisibility(View.GONE);
 		}
-		
-		if (activities==null || activities.isEmpty())
-			findViewById(R.id.empty_sheet).setVisibility(View.VISIBLE);
-		else
-			findViewById(R.id.empty_sheet).setVisibility(View.INVISIBLE);
-		
 	}
 
 	/**
@@ -139,11 +135,12 @@ public class TodoTodaySheet extends SharedListActivity {
 			List<Activity> retrievedActivities = Activity
 					.getTodoToday(this.dbHelper);
 			activities.addAll(retrievedActivities);
-
+			
 		} catch (Exception e) {
 			throw new PomodroidException(
 					"Error in retrieving Activities from the DB! Please try again");
 		}
+		
 		this.runOnUiThread(populateAdapter);
 	}
 
@@ -156,45 +153,94 @@ public class TodoTodaySheet extends SharedListActivity {
 	protected void openActivityDialog(Activity activity) {
 		final Activity selectedActivity = activity;
 		int ttsDialog = -1;
-		ttsDialog = super.getUser().isAdvanced() ? R.array.tts_dialog
-				: R.array.tts_dialog_simple;
-
-		new AlertDialog.Builder(this).setTitle(R.string.activity_title)
-				.setItems(ttsDialog, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialoginterface, int i) {
-						try {
-							switch (i) {
-							case 0:
-								Intent intent = new Intent();
-								intent.setClass(getApplicationContext(),
-										Pomodoro.class);
-								Bundle bundle = new Bundle();
-								bundle.putString("origin",
-										selectedActivity.getOrigin());
-								bundle.putInt("originId",
-										selectedActivity.getOriginId());
-								intent.putExtras(bundle);
-								intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-								startActivity(intent);
-								break;
-							case 1:
-								selectedActivity.close(dbHelper);
-								activityAdapter.remove(selectedActivity);
-								break;
-							case 2:
-								selectedActivity.setTodoToday(false);
-								selectedActivity.setUndone();
-								selectedActivity.save(dbHelper);
-								activityAdapter.remove(selectedActivity);
-								break;
+		if (super.getUser().isAdvanced()) {
+			ttsDialog = R.array.tts_dialog;
+			new AlertDialog.Builder(this).setTitle(R.string.activity_title)
+					.setItems(ttsDialog, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialoginterface,
+								int i) {
+							try {
+								switch (i) {
+								case 0:
+									Intent intent = new Intent();
+									intent.setClass(getApplicationContext(),
+											Pomodoro.class);
+									Bundle bundle = new Bundle();
+									bundle.putString("origin",
+											selectedActivity.getOrigin());
+									bundle.putInt("originId",
+											selectedActivity.getOriginId());
+									intent.putExtras(bundle);
+									intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+									startActivity(intent);
+									break;
+								case 1:
+									selectedActivity.close(dbHelper);
+									activityAdapter.remove(selectedActivity);
+									break;
+								case 2:
+									selectedActivity.setTodoToday(false);
+									selectedActivity.setUndone();
+									selectedActivity.save(dbHelper);
+									activityAdapter.remove(selectedActivity);
+									break;
+								}
+							} catch (PomodroidException e) {
+								e.alertUser(getContext());
+							} finally {
+								dbHelper.commit();
 							}
-						} catch (PomodroidException e) {
-							e.alertUser(getContext());
-						} finally {
-							dbHelper.commit();
 						}
-					}
-				}).show();
+					}).show();
+		} else {
+			ttsDialog = R.array.tts_dialog_simple;
+			new AlertDialog.Builder(this).setTitle(R.string.activity_title)
+					.setItems(ttsDialog, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialoginterface,
+								int i) {
+							try {
+								switch (i) {
+								case 0:
+									Intent intent = new Intent();
+									intent.setClass(getApplicationContext(),
+											Pomodoro.class);
+									Bundle bundle = new Bundle();
+									bundle.putString("origin",
+											selectedActivity.getOrigin());
+									bundle.putInt("originId",
+											selectedActivity.getOriginId());
+									intent.putExtras(bundle);
+									intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+									startActivity(intent);
+									break;
+								case 1:
+									selectedActivity.close(dbHelper);
+									activityAdapter.remove(selectedActivity);
+									break;
+								case 2:
+									if (selectedActivity.getOrigin().equals("local")){
+										PomodroidException.createAlert(getContext(), "INFO", "You cannot edit Activities remotely retrieven.");
+									}
+									Intent intent2 = new Intent();
+									intent2.setClass(getContext(),
+											EditActivity.class);
+									Bundle bundle2 = new Bundle();
+									bundle2.putInt("originId",
+											selectedActivity.getOriginId());
+									intent2.putExtras(bundle2);
+									intent2.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+									startActivity(intent2);
+									break;
+								}
+							} catch (PomodroidException e) {
+								e.alertUser(getContext());
+							} finally {
+								dbHelper.commit();
+							}
+						}
+
+					}).show();
+		}
 	}
 
 	/**
@@ -227,7 +273,5 @@ public class TodoTodaySheet extends SharedListActivity {
 				android.R.drawable.ic_menu_help);
 		return true;
 	}
-
-	
 
 }
