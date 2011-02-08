@@ -36,7 +36,7 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.KeyEvent;
 /**
  * This class implements graphically the pomodoro technique. Here we have the
  * counter and the description of the activity to be faced.
@@ -104,6 +104,11 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	 * Will store the brightness value set by user
 	 */
 	private float originalBrightness = -1;
+	
+	/**
+	 * True is running
+	 */
+	private boolean isRunning = false;
 
 	/**
 	 * Handler to handle events such as the start of a Pomodoro, the tick of the
@@ -119,6 +124,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 					setBrightness(DESIRED_BRIGHTNESS);
 				updateTimeTask.run();
 				setButtonsClickable(false, true);
+				isRunning = true;
 				break;
 			case Pomodoro.MSG_POMODORO_TICK:
 				pomodoroSecondsValue--;
@@ -147,6 +153,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 					pomodoroMessage = "Something wrong: " + e.getMessage();
 				}
 				notifyUser(pomodoroMessage);
+				isRunning = false;
 				setButtonsClickable(true, false);
 				break;
 			case Pomodoro.MSG_POMODORO_STOP:
@@ -156,6 +163,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 						* SECONDS_PER_MINUTE;
 				updateTextViewPomodoroTimer(pomodoroSecondsValue);
 				notifyUser(getString(R.string.pomodoro_broken));
+				isRunning = false;
 				setButtonsClickable(true, false);
 				removeCallbacks(updateTimeTask);
 				break;
@@ -358,6 +366,21 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	if (isRunning){
+	    		String message = "Either Finish or Break the Pomodoro.";
+	    		it.unibz.pomodroid.exceptions.PomodroidException.createAlert(this, "Info", message);
+	    	}else{
+	    		return super.onKeyDown(keyCode, event);
+	    	}
+	        return false;
+	    } else {
+	        return super.onKeyDown(keyCode, event);
+	    }
 	}
 
 }

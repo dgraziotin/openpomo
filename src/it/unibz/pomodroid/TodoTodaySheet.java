@@ -218,7 +218,7 @@ public class TodoTodaySheet extends SharedListActivity {
 									activityAdapter.remove(selectedActivity);
 									break;
 								case 2:
-									if (selectedActivity.getOrigin().equals("local")){
+									if (!selectedActivity.getOrigin().equals("local")){
 										PomodroidException.createAlert(getContext(), "INFO", "You cannot edit Activities remotely retrieven.");
 									}
 									Intent intent2 = new Intent();
