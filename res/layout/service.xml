@@ -37,7 +37,7 @@
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/EditTextUsername"
-				android:hint="TRAC username" />
+				android:hint="TRAC username" android:inputType="textNoSuggestions" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/EditTextPassword"
-				android:password="true" android:hint="TRAC password" />
+				android:hint="TRAC password"  android:inputType="textPassword" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/EditTextTracUrl"
-				android:hint="http(s)://domain.ext/tracurl/login/xmlrpc" />
+				android:hint="http(s)://domain.ext/tracurl/login/xmlrpc"  android:inputType="textUri" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"

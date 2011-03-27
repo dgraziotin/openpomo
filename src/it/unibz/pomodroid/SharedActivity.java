@@ -121,6 +121,7 @@ public abstract class SharedActivity extends Activity {
 		return user;
 	}
 
+
 	/**
 	 * User to set
 	 * 
