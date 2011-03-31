@@ -82,6 +82,6 @@
 		THIS IS ALPHA SOFTWARE: please visit the official site for more info and links to documentation:\n
 		</string>
 	<string name="about_2">http://task3.cc/projects/pomodroid</string>
-	<string name="about_3">\n\nNEXT FEATURES:\n- Support of more Services\n- Statistics on your events\n\nIMPROVE POMODROID! You can help Pomodroid in many ways. See the Project Wiki for info:</string>
+	<string name="about_3">\n\nIMPROVE POMODROID! You can help Pomodroid in many ways. See the Project Wiki for info:</string>
 	<string name="about_4">http://github.com/BodomLx/Pomodroid</string>
 </resources>

@@ -364,32 +364,6 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 	}
 	
 	/**
-	 * Returns all the activities belonging to a Service
-	 * @param service
-	 * @param dbHelper
-	 * @return a list of Activities
-	 * @throws PomodroidException
-	 */
-	public static List<Activity> getForService(final Service service,
-			DBHelper dbHelper) throws PomodroidException {
-		List<Activity> activities = null;
-		try {
-			activities = dbHelper.getDatabase().query(
-					new Predicate<Activity>() {
-						private static final long serialVersionUID = 1L;
-						public boolean match(Activity activity) {
-							return activity.getOrigin().equals(service.getUrl());
-						}
-					});
-		} catch (Exception e) {
-			Log.e("Activity.getActivity()", "Problem: " + e.toString());
-			throw new PomodroidException("ERROR in Activity.getActivity():"
-					+ e.toString());
-		}
-		return activities;
-	}
-	
-	/**
 	 * @param activities 
 	 * @return a list of their IDs 
 	 * @throws PomodroidException

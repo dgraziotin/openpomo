@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.DBHelper;
 import it.unibz.pomodroid.persistency.User;
@@ -70,6 +69,20 @@ public abstract class SharedActivity extends Activity {
 	 * Represents the intention of going to the List Services window
 	 */
 	public static final int ACTION_LIST_SERVICES = 9;
+	/**
+	 * Represents the intention of save
+	 */
+	public static final int ACTION_SAVE = 10;
+	/**
+	 * Represents the intention of starting a pomodoro
+	 */
+	public static final int ACTION_POMODORO_START = 11;
+	/**
+	 * Represents the intention of stopping a pomodoro
+	 */
+	public static final int ACTION_POMODORO_STOP = 12;
+	
+
 
 	/**
 	 * The Database container for db4o
@@ -175,26 +188,7 @@ public abstract class SharedActivity extends Activity {
 		super.onResume();
 	}
 
-	/**
-	 * As soon as the user clicks on the menu a new intent is created, for
-	 * either scroll the list of Services or add a new Service.
-	 * 
-	 * @param item
-	 * @return
-	 * 
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case ACTION_ADD_SERVICE:
-			startActivity(EditService.class, false, true);
-			return true;
-		case ACTION_LIST_SERVICES:
-			startActivity(ListServices.class, false, true);
-			return true;
-		}
-		return false;
-	}
+	
 	/**
 	 * Wrapper for starting Android Activities and adding
 	 * Intents and Flags

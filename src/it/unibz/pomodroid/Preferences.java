@@ -19,9 +19,8 @@ package it.unibz.pomodroid;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.User;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,7 +35,7 @@ import android.widget.TextView;
  * @see it.unibz.pomodroid.SharedActivity
  */
 public class Preferences extends SharedActivity {
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,20 +44,9 @@ public class Preferences extends SharedActivity {
 		textViewPreferences.setText(getString(R.string.preferences_intro));
 		fillEditTexts(super.getUser());
 
-		Button saveButton = (Button) findViewById(R.id.ButtonSavePreferences);
-		saveButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				try {
-					checkUserInput();
-					updateUser();
-					throw new PomodroidException("Preferences saved.", "INFO");
-				} catch (PomodroidException e) {
-					e.alertUser(context);
-				}
-			}
-		});
+		
 	}
+	
 
 	/**
 	 * Tests if all the data is correctly filled by user
@@ -120,5 +108,40 @@ public class Preferences extends SharedActivity {
 			startActivity(TodoTodaySheet.class, true, true);
 
 	}
+	
+	/**
+	 * We specify the menu labels and theirs icons
+	 * @param menu
+	 * @return true 
+	 *
+	 */
+	@Override
+	public  boolean onCreateOptionsMenu(Menu menu) {
+			menu.add(0, ACTION_SAVE, 0, "Save Preferences").setIcon(
+					android.R.drawable.ic_menu_save);
+		return true;
+	}
+	
+	/**
+	 * As soon as the user clicks on the menu a new intent is created for adding new Activity.
+	 * @param item
+	 * @return
+	 * 
+	 */
+	@Override
+	public  boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case ACTION_SAVE:
+			try {
+				checkUserInput();
+				updateUser();
+				throw new PomodroidException("Preferences saved.", "INFO");
+			} catch (PomodroidException e) {
+				e.alertUser(context);
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 
+	}
 }

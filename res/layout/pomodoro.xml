@@ -1,59 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:id="@+id/ScrollView01" 
-                android:layout_width="fill_parent" 
-                android:layout_height="fill_parent" 
-                xmlns:android="http://schemas.android.com/apk/res/android">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   android:orientation="vertical"
-   android:scrollbars="vertical"
-   android:layout_width="fill_parent"
-   android:layout_height="fill_parent">
-<TextView
-    android:id="@+id/TextViewPomodoroTimer"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="25:00"
-    android:layout_gravity="center"
-    android:gravity="center" android:textSize="80px"/>
-<TextView
-    android:id="@+id/TextViewActivitySummary"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:textSize="20sp"
-    android:text="Activity Title"
-    android:gravity="left"/>
- <TextView
-    android:id="@+id/TextViewActivityDescription"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Activity description..."
-    android:layout_marginTop="15sp" 
-    android:gravity="left"/>  
-  <TextView
-    android:id="@+id/TextViewActivityNumberPomodoro"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="15sp"
-    android:text="Number Pomodoro" 
-    android:gravity="left"/>   
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   android:layout_width="fill_parent"
-   android:layout_height="wrap_content"
-   android:orientation="horizontal"
-   >
-<Button 
-	android:text="START"
-	android:id="@+id/ButtonPomodoroStart"
-	style="@style/ButtonMain" 
-	android:layout_weight="1" >
-</Button>
-<Button 
-	android:text="STOP"
-	android:id="@+id/ButtonPomodoroStop"
-	style="@style/ButtonMain" 
-	android:layout_weight="1" 
-	android:layout_alignRight="@id/ButtonPomodoroStart">
-</Button>
-</LinearLayout>
-</LinearLayout>
+<ScrollView android:id="@+id/ScrollView01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical" android:scrollbars="vertical"
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:id="@+id/linearLayout1"
+			android:orientation="vertical" android:layout_marginBottom="15sp">
+			<TextView android:layout_height="wrap_content" android:id="@+id/TextViewPomodoroTimer"
+				android:text="25:00" android:textSize="80sp" android:gravity="center"
+				android:layout_gravity="center" android:layout_width="fill_parent"></TextView>
+			<ProgressBar android:layout_height="wrap_content"
+				android:id="@+id/progressbar" style="?android:attr/progressBarStyleHorizontal"
+				android:layout_width="fill_parent"
+				android:max="100"></ProgressBar>
+		</LinearLayout>
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="fill_parent" android:id="@+id/linearLayout2"
+			android:orientation="vertical" android:layout_marginTop="30sp">
+			<TextView android:id="@+id/TextViewActivitySummary"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:textSize="20sp" android:text="Activity Title"
+				android:gravity="left" />
+			<TextView android:id="@+id/TextViewActivityNumberPomodoro"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_marginTop="15sp" android:text="Number Pomodoro"
+				android:gravity="left" />
+			<TextView android:id="@+id/TextViewActivityDescription"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:text="Activity description..." android:layout_marginTop="15sp"
+				android:gravity="left" />
+		</LinearLayout>
+	</LinearLayout>
 </ScrollView>

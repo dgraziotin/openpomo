@@ -449,9 +449,6 @@ public abstract class SharedListActivity extends ListActivity {
 		case ACTION_ADD_ACTIVITY:
 			startActivity(EditActivity.class, false, true);
 			return true;
-		case ACTION_ADD_SERVICE:
-			startActivity(EditService.class, false, true);
-			return true;
 		case ACTION_GO_AIS:
 			startActivity(ActivityInventorySheet.class, false, true);
 			break;

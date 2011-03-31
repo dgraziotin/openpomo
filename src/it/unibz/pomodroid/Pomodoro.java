@@ -15,20 +15,14 @@
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.unibz.pomodroid;
-
-import java.util.Date;
-
 import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.Event;
 import it.unibz.pomodroid.persistency.User;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,15 +31,13 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.PowerManager;
 import android.os.RemoteException;
-import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.KeyEvent;
 
 /**
  * This class implements graphically the pomodoro technique. Here we have the
@@ -58,7 +50,7 @@ import android.view.KeyEvent;
  * @see http://www.pomodorotechnique.com
  */
 
-public class Pomodoro extends SharedActivity implements OnClickListener {
+public class Pomodoro extends SharedActivity {
 
 	/**
 	 * Default value when dimming light
@@ -68,36 +60,18 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	 * How many seconds are in a minute
 	 */
 	private final static int SECONDS_PER_MINUTE = 60;
-	/**
-	 * How many milliseconds are in a second
-	 */
-	private final static int MILLISECONDS_PER_SECOND = 1000;
 
 	/**
 	 * Dummy ID for our notifications
 	 */
 	private final static int NOTIFICATION_ID = 1;
+	
+	private int pomodoroSecondsLength = -1;
 
-	/**
-	 * Sent when Pomodoro ticks a second
-	 */
-	private final static int MSG_POMODORO_TICK = 1;
-	/**
-	 * Sent when Pomodoro finishes
-	 */
-	private final static int MSG_POMODORO_FINISHED = 2;
-	/**
-	 * Sent when Pomodoro starts
-	 */
-	private final static int MSG_POMODORO_START = 3;
-	/**
-	 * Sent when Pomodoro is stopped
-	 */
-	private final static int MSG_POMODORO_STOP = 4;
 	/**
 	 * Holds remaining time in seconds
 	 */
-	private int pomodoroSecondsValue = 1;
+	private int pomodoroSecondsValue = -1;
 	/**
 	 * Stores the origin of the Activity
 	 */
@@ -105,7 +79,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	/**
 	 * Stores the id of the Activity
 	 */
-	private int activityOriginId = -1;
+	private int activityOriginId = -1; 
 	/**
 	 * Wake variable for Power Manager
 	 */
@@ -114,12 +88,17 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	 * Will store the brightness value set by user
 	 */
 	private float originalBrightness = -1;
-
-	/** Messenger for communicating with service. */
+	/**
+	 * Messenger for communicating with service.
+	 */
 	Messenger mService = null;
-	/** Flag indicating whether we have called bind on the service. */
+	/**
+	 *Flag indicating whether we have called bind on the service. 
+	 */
 	boolean mIsBound;
-	
+	/**
+	 * Boolean that indicates whether the Pomodoro is running or not
+	 */
 	boolean isRunning = false;
 		
 	/**
@@ -132,7 +111,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 			case PomodoroService.MSG_POMODORO_TICK:
 				pomodoroSecondsValue = msg.getData().getInt(
 						"pomodoroSecondsValue");
-				updateTextViewPomodoroTimer(pomodoroSecondsValue);
+				updateProgressbarAndTimer(pomodoroSecondsValue);
 				break;
 			case PomodoroService.MSG_POMODORO_FINISHED:
 				if (getUser().isDimLight())
@@ -140,8 +119,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 				pomodoroSecondsValue = msg.getData().getInt(
 				"pomodoroSecondsValue");
 				isRunning = false;
-				updateTextViewPomodoroTimer(pomodoroSecondsValue);
-				setButtonsClickable(true, false);
+				updateProgressbarAndTimer(pomodoroSecondsValue);
 				
 				Integer numberPomodoro = msg.getData().getInt("numberPomodoro");
 				String pomodoroMessage = msg.getData().getString("pomodoroMessage");
@@ -170,53 +148,30 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 	 */
 	private ServiceConnection mConnection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
-			// This is called when the connection with the service has been
-			// established, giving us the service object we can use to
-			// interact with the service. We are communicating with our
-			// service through an IDL interface, so get a client-side
-			// representation of that from the raw service object.
 			mService = new Messenger(service);
-
-			// We want to monitor the service for as long as we are
-			// connected to it.
 			try {
 				Message msg = Message.obtain(null,
 						PomodoroService.MSG_REGISTER_CLIENT);
 				msg.replyTo = mMessenger;
 				mService.send(msg);
 			} catch (RemoteException e) {
-				// In this case the service has crashed before we could even
-				// do anything with it; we can count on soon being
-				// disconnected (and then reconnected if it can be restarted)
-				// so there is no need to do anything here.
+				//no need to do anything here
 			}
-
-			Log.i("Pomodoro", "connected to service");
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
-			// This is called when the connection with the service has been
-			// unexpectedly disconnected -- that is, its process crashed.
 			mService = null;
-
-			Log.i("Pomodoro", "disconnected from service");
 		}
 	};
 
 	void doBindService() {
-		// Establish a connection with the service. We use an explicit
-		// class name because there is no reason to be able to let other
-		// applications replace our component.
 		bindService(new Intent(Pomodoro.this, PomodoroService.class),
 				mConnection, Context.BIND_AUTO_CREATE);
 		mIsBound = true;
-		Log.i("Pomodoro", "binded to service");
 	}
 
 	void doUnbindService() {
 		if (mIsBound) {
-			// If we have received the service, and hence registered with
-			// it, then now is the time to unregister.
 			if (mService != null) {
 				try {
 					Message msg = Message.obtain(null,
@@ -224,12 +179,9 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 					msg.replyTo = mMessenger;
 					mService.send(msg);
 				} catch (RemoteException e) {
-					// There is nothing special we need to do if the service
-					// has crashed.
+					// ne need to do anything here
 				}
 			}
-
-			// Detach our existing connection.
 			unbindService(mConnection);
 			mIsBound = false;
 		}
@@ -244,33 +196,22 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		}
 	}
 
-	/**
-	 * Sets the buttons clickable or not
-	 * 
-	 * @param buttonPomodoroStartClickable
-	 *            The Start Button
-	 * @param buttonPomodoroStopClickable
-	 *            The Stop Button
-	 */
-	private void setButtonsClickable(boolean buttonPomodoroStartClickable,
-			boolean buttonPomodoroStopClickable) {
-		Button buttonPomodoroStart = (Button) findViewById(R.id.ButtonPomodoroStart);
-		Button buttonPomodoroStop = (Button) findViewById(R.id.ButtonPomodoroStop);
-		buttonPomodoroStart.setClickable(buttonPomodoroStartClickable);
-		buttonPomodoroStop.setClickable(buttonPomodoroStopClickable);
-	}
 
 	/**
-	 * Updates the Timer TextView, given the new timer value in seconds
+	 * Updates the Timer TextView, given the new timer value in seconds.
+	 * It also updates the progress bar
 	 * 
 	 * @param pomodoroSecondsValue
 	 */
-	private void updateTextViewPomodoroTimer(int pomodoroSecondsValue) {
+	private void updateProgressbarAndTimer(int pomodoroSecondsValue) {
 		TextView textViewPomodoroTimer = (TextView) findViewById(R.id.TextViewPomodoroTimer);
 
 		int seconds = pomodoroSecondsValue;
 		int minutes = seconds / SECONDS_PER_MINUTE;
 		seconds = seconds % SECONDS_PER_MINUTE;
+		
+		ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressbar);
+		progressBar.setProgress(100 - ((pomodoroSecondsValue * 100) / pomodoroSecondsLength));
 
 		if (seconds >= 10 && seconds < 60) {
 			if (minutes < 10)
@@ -331,7 +272,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		getWindow().setAttributes(layoutParameters);
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * 
 	 * @see it.unibz.pomodroid.SharedActivity#onCreate(android.os.Bundle)
@@ -341,9 +282,8 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pomodoro);
 
-		this.pomodoroSecondsValue = 10; // FIXME
-										// getUser().getPomodoroMinutesDuration()
-										// * SECONDS_PER_MINUTE;
+		this.pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
+		this.pomodoroSecondsLength = this.pomodoroSecondsValue;
 		this.activityOrigin = this.getIntent().getExtras().getString("origin");
 		this.activityOriginId = this.getIntent().getExtras().getInt("originId");
 
@@ -356,13 +296,7 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 		} catch (PomodroidException e) {
 			e.alertUser(this);
 		}
-		updateTextViewPomodoroTimer(pomodoroSecondsValue);
-
-		Button buttonPomodoroStart = (Button) findViewById(R.id.ButtonPomodoroStart);
-		Button buttonPomodoroStop = (Button) findViewById(R.id.ButtonPomodoroStop);
-		buttonPomodoroStart.setOnClickListener((OnClickListener) this);
-		buttonPomodoroStop.setOnClickListener((OnClickListener) this);
-		buttonPomodoroStop.setClickable(false);
+		updateProgressbarAndTimer(pomodoroSecondsValue);
 
 		TextView textViewActivitySummary = (TextView) findViewById(R.id.TextViewActivitySummary);
 		textViewActivitySummary.setText(activity.getSummary() + " ("
@@ -411,33 +345,57 @@ public class Pomodoro extends SharedActivity implements OnClickListener {
 						this, "Info", message);
 		}
 	}
-
+	
+	/**
+	 * We specify the menu labels and theirs icons
+	 * @param menu
+	 * @return true 
+	 *
+	 */
 	@Override
-	public void onClick(View v) {
+	public  boolean onCreateOptionsMenu(Menu menu) {
+			menu.add(0, ACTION_POMODORO_START, 0, "Start").setIcon(
+					R.drawable.ic_menu_play_clip);
+			menu.add(0, ACTION_POMODORO_STOP, 0, "Stop").setIcon(
+					R.drawable.ic_menu_stop);
+		return true;
+	}
+	
+	/**
+	 * As soon as the user clicks on the menu a new intent is created for adding new Activity.
+	 * @param item
+	 * @return
+	 * 
+	 */
+	@Override
+	public  boolean onOptionsItemSelected(MenuItem item) {
 		ScrollView scrollView = (ScrollView) findViewById(R.id.ScrollView01);
-			switch (v.getId()) {
-			case R.id.ButtonPomodoroStart:
-				if (getUser().isDimLight())
-					setBrightness(originalBrightness);
-				sendMessenger(PomodoroService.MSG_POMODORO_START);
-				scrollView.fullScroll(ScrollView.FOCUS_UP);
-				isRunning = true;
-				setButtonsClickable(false, true);
-				break;
-			case R.id.ButtonPomodoroStop:
-				sendMessenger(PomodoroService.MSG_POMODORO_STOP);
-				if (getUser().isDimLight())
-					setBrightness(originalBrightness);
-				sendMessenger(PomodoroService.MSG_POMODORO_STOP);
-				pomodoroSecondsValue = 10; // FIXME:
-											// getUser().getPomodoroMinutesDuration()
-											// * SECONDS_PER_MINUTE;
-				updateTextViewPomodoroTimer(pomodoroSecondsValue);
-				notifyUser(getString(R.string.pomodoro_broken));
-				isRunning = false;
-				setButtonsClickable(true, false);
-				break;
-			}
+		switch (item.getItemId()) {
+		case ACTION_POMODORO_START:
+			if (isRunning)
+				return true;
+			if (getUser().isDimLight())
+				setBrightness(Pomodoro.DESIRED_BRIGHTNESS);
+			sendMessenger(PomodoroService.MSG_POMODORO_START);
+			scrollView.fullScroll(ScrollView.FOCUS_UP);
+			isRunning = true;
+		break;
+		case ACTION_POMODORO_STOP:
+			if (!isRunning)
+				return true;
+			sendMessenger(PomodoroService.MSG_POMODORO_STOP);
+			if (getUser().isDimLight())
+				setBrightness(originalBrightness);
+			sendMessenger(PomodoroService.MSG_POMODORO_STOP);
+			pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
+			updateProgressbarAndTimer(pomodoroSecondsValue);
+			notifyUser(getString(R.string.pomodoro_broken));
+			isRunning = false;
+		break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
 	}
 
 }

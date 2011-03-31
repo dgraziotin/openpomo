@@ -6,8 +6,7 @@
 		android:stretchColumns="0">
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/TextViewPreferences"
-			/>
+				android:layout_height="wrap_content" android:id="@+id/TextViewPreferences" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
@@ -20,7 +19,8 @@
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="Advanced Mode implements the whole Pomodoro Technique, unlocks many features and remote Activity retrieval. " />
+				android:layout_height="wrap_content"
+				android:text="Advanced Mode implements the whole Pomodoro Technique and unlocks many features. " />
 		</TableRow>
 		<TableRow>
 			<CheckBox android:layout_width="wrap_content"
@@ -29,7 +29,8 @@
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="Quick Insert Mode enables an easy shortcut to insert new Activities directly in Todo Today Sheet" />
+				android:layout_height="wrap_content"
+				android:text="Quick Insert Mode enables an easy shortcut to insert new Activities directly in Todo Today Sheet" />
 		</TableRow>
 		<TableRow>
 			<CheckBox android:layout_width="wrap_content"
@@ -56,14 +57,13 @@
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="Dim Light when Pomodoro starts. Please disable automatic brightness on your device before enabling this option." />
+				android:layout_height="wrap_content"
+				android:text="Dim Light when Pomodoro starts. Please disable automatic brightness on your device before enabling this option." />
 		</TableRow>
 		<TableRow>
 			<CheckBox android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/CheckBoxDimLight"
 				android:hint="Dim Light?" />
 		</TableRow>
-		<Button android:text="Save" android:id="@+id/ButtonSavePreferences"
-			style="@style/ButtonMain"></Button>
 	</TableLayout>
 </ScrollView>

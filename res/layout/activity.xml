@@ -35,7 +35,5 @@
 			<DatePicker android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/DatePickerDeadline"/>
 		</TableRow>
-		<Button android:text="Save" android:id="@+id/ButtonSaveActivity"
-			style="@style/ButtonMain"></Button>
 	</TableLayout>
 </ScrollView>

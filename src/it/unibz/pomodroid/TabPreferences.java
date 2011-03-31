@@ -37,8 +37,6 @@ public class TabPreferences extends TabActivity{
 	    
 	    mTabHost.addTab(mTabHost.newTabSpec("pref").setContent(new Intent(TabPreferences.this, Preferences.class)).
 	    		 setIndicator(this.getString(R.string.preferences), getResources().getDrawable(android.R.drawable.ic_menu_preferences)));
-	    mTabHost.addTab(mTabHost.newTabSpec("services").setContent(new Intent(TabPreferences.this,ListServices.class)).
-	    		 setIndicator(this.getString(R.string.services), getResources().getDrawable(android.R.drawable.ic_menu_upload)));
 	    mTabHost.addTab(mTabHost.newTabSpec("db4o").setContent(new Intent(TabPreferences.this, CleanDatabase.class)).
 	    		 setIndicator(this.getString(R.string.db4o), getResources().getDrawable(android.R.drawable.ic_menu_edit)));
 	    

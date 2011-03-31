@@ -23,9 +23,6 @@ public class TabPomodroid extends TabActivity{
 	    		 setIndicator("Inventory", getResources().getDrawable(android.R.drawable.ic_menu_agenda)));
 	    mTabHost.addTab(mTabHost.newTabSpec("Todo Today").setContent(new Intent(this,TodoTodaySheet.class)).
 	    		 setIndicator("Todo Today", getResources().getDrawable(android.R.drawable.ic_menu_day)));
-	    mTabHost.addTab(mTabHost.newTabSpec("Services").setContent(new Intent(this, Services.class)).
-	    		 setIndicator("Services", getResources().getDrawable(android.R.drawable.ic_menu_send)));
-	    
 
 	}
 }

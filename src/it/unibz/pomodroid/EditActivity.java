@@ -23,9 +23,8 @@ import java.util.GregorianCalendar;
 import it.unibz.pomodroid.exceptions.PomodroidException;
 import it.unibz.pomodroid.persistency.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -54,30 +53,6 @@ public class EditActivity extends SharedActivity {
 		} catch (NullPointerException e) {
 			this.originId = null;
 		}
-
-		Button saveButton = (Button) findViewById(R.id.ButtonSaveActivity);
-		saveButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				try {
-					checkUserInput();
-					if (originId != null) {
-						updateActivity();
-						bringUserTo();
-						throw new PomodroidException("Activity updated.",
-								"INFO");
-					} else {
-						saveActivity();
-						bringUserTo();
-						throw new PomodroidException("Activity saved.", "INFO");
-					}
-
-				} catch (PomodroidException e) {
-					e.alertUser(context);
-				}
-			}
-		});
-
 	}
 
 	/**
@@ -182,6 +157,51 @@ public class EditActivity extends SharedActivity {
 			startActivity(TabPomodroid.class, true, true);
 		else
 			startActivity(TodoTodaySheet.class, true, true);
+
+	}
+	
+	/**
+	 * We specify the menu labels and theirs icons
+	 * @param menu
+	 * @return true 
+	 *
+	 */
+	@Override
+	public  boolean onCreateOptionsMenu(Menu menu) {
+			menu.add(0, SharedActivity.ACTION_SAVE, 0, "Save").setIcon(
+					android.R.drawable.ic_menu_save);
+			return true;
+	}
+	
+	/**
+	 * As soon as the user clicks on the menu a new intent is created for adding new Activity.
+	 * @param item
+	 * @return
+	 * 
+	 */
+	@Override
+	public  boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case SharedActivity.ACTION_SAVE:
+			try {
+				checkUserInput();
+				if (originId != null) {
+					updateActivity();
+					bringUserTo();
+					throw new PomodroidException("Activity updated.",
+							"INFO");
+				} else {
+					saveActivity();
+					bringUserTo();
+					throw new PomodroidException("Activity saved.", "INFO");
+				}
+
+			} catch (PomodroidException e) {
+				e.alertUser(context);
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 
 	}
 
