@@ -20,7 +20,7 @@
 		Services. </string>
 	<string name="app_name">Pomodroid</string>
 	<string name="launch_test">Launch tests</string>
-	<string name="no_activities">No activities stored.</string>
+	<string name="no_activities">Welcome. There are no activities stored. \n You may want to add a new activity by pressing the Menu button on your phone. \n You may enable useful features and notifications in Preferences.</string>
 	<string name="no_activities_tts">No activities stored.\nPress the MENU button to either insert new activities or activate the
 	Quick Insert mode from the preferences.</string>
 	<string name="activity_title">Activity menu</string>
@@ -52,7 +52,7 @@
 		3) Add some Services using the second tab.\n
 		4) Press the back button on your phone to start using the program.\n \n
 	</string>
-	<string name="db4o">Db4o Actions</string>
+	<string name="db4o">Database Actions</string>
 	<string name="tests">Tests</string>
 	<string name="settings">Pomodroid - Settings</string>
 	<string name="tracprom">Pomodroid - Trac Actions</string>
@@ -83,5 +83,5 @@
 		</string>
 	<string name="about_2">http://task3.cc/projects/pomodroid</string>
 	<string name="about_3">\n\nIMPROVE POMODROID! You can help Pomodroid in many ways. See the Project Wiki for info:</string>
-	<string name="about_4">http://github.com/BodomLx/Pomodroid</string>
+	<string name="about_4">http://github.com/dgraziotin/Pomodroid</string>
 </resources>

@@ -13,12 +13,13 @@
 		<RelativeLayout android:layout_alignParentRight="true"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:layout_toRightOf="@id/layout_icon">
-			<TextView android:id="@+id/toptext" android:layout_width="fill_parent"
+			<TextView android:id="@+id/atvTopText" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:layout_marginBottom="10px"
 				android:text="ciao" />
-			<TextView android:id="@+id/bottomtext" android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:layout_below="@id/toptext"
-				android:singleLine="true" android:ellipsize="marquee" android:text="blah" />
+			<TextView android:id="@+id/atvBottomText"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_below="@id/atvTopText" android:singleLine="true"
+				android:ellipsize="marquee" android:text="blah" />
 		</RelativeLayout>
 	</RelativeLayout>
 </RelativeLayout>

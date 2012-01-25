@@ -14,27 +14,27 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid.persistency;
+package cc.task3.pomodroid.persistency;
 
 import java.util.Date;
 import java.util.List;
+
+import cc.task3.pomodroid.exceptions.PomodroidException;
+
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
-import it.unibz.pomodroid.persistency.Activity;
-import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.exceptions.PomodroidException;
 
 /**
  * A class representing an extension of the event class. Whit the help
  * of the open source object database db40 the event is saved into a
  * local database.
-* @author Daniel Graziotin <daniel.graziotin@acm.org>
+* @author Daniel Graziotin <d AT danielgraziotin DOT it>
 * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it> * 
  * 
  * 
  */
 
-public class Event extends it.unibz.pomodroid.models.Event {
+public class Event extends cc.task3.pomodroid.models.Event {
 
 	Activity activity = null;
 
@@ -163,6 +163,116 @@ public class Event extends it.unibz.pomodroid.models.Event {
 					return (event.getActivity().getOrigin().equals(
 							activity.getOrigin()) && event.getActivity()
 							.getOriginId() == activity.getOriginId());
+				}
+			});
+		} catch (Exception e) {
+			throw new PomodroidException("ERROR in Event.getAll()"
+					+ e.toString());
+		}
+		return result;
+	}
+	
+	/**
+	 * Gets all events
+	 * 
+	 * @param activity
+	 * @param dbHelper
+	 * @return
+	 * @throws PomodroidException
+	 * 
+	 */
+	public static List<Event> getAllInterruptions(final Activity activity, DBHelper dbHelper)
+			throws PomodroidException {
+		ObjectSet<Event> result;
+		try {
+			result = dbHelper.getDatabase().query(new Predicate<Event>() {
+				private static final long serialVersionUID = 1L;
+
+				public boolean match(Event event) {
+					return (event.getActivity().getOrigin().equals(
+							activity.getOrigin()) && event.getActivity()
+							.getOriginId() == activity.getOriginId() && event.getType().equals("stop"));
+				}
+			});
+		} catch (Exception e) {
+			throw new PomodroidException("ERROR in Event.getAll()"
+					+ e.toString());
+		}
+		return result;
+	}
+	
+	/**
+	 * Gets all events
+	 * 
+	 * @param activity
+	 * @param dbHelper
+	 * @return
+	 * @throws PomodroidException
+	 * 
+	 */
+	public static List<Event> getAllInterruptions(DBHelper dbHelper)
+			throws PomodroidException {
+		ObjectSet<Event> result;
+		try {
+			result = dbHelper.getDatabase().query(new Predicate<Event>() {
+				private static final long serialVersionUID = 1L;
+
+				public boolean match(Event event) {
+					return (event.getType().equals("pomodoro") && event.getValue().equals("stop"));
+				}
+			});
+		} catch (Exception e) {
+			throw new PomodroidException("ERROR in Event.getAll()"
+					+ e.toString());
+		}
+		return result;
+	}
+	
+	/**
+	 * Gets all events
+	 * 
+	 * @param activity
+	 * @param dbHelper
+	 * @return
+	 * @throws PomodroidException
+	 * 
+	 */
+	public static List<Event> getAllStartedPomodoros(DBHelper dbHelper)
+			throws PomodroidException {
+		ObjectSet<Event> result;
+		try {
+			result = dbHelper.getDatabase().query(new Predicate<Event>() {
+				private static final long serialVersionUID = 1L;
+
+				public boolean match(Event event) {
+					return (event.getType().equals("pomodoro") && event.getValue().equals("start"));
+				}
+			});
+		} catch (Exception e) {
+			throw new PomodroidException("ERROR in Event.getAll()"
+					+ e.toString());
+		}
+		return result;
+	}
+	
+	/**
+	 * Gets all events
+	 * 
+	 * @param activity
+	 * @param dbHelper
+	 * @return
+	 * @throws PomodroidException
+	 * 
+	 */
+	public static List<Event> getAllFinishedPomodoros(DBHelper dbHelper)
+			throws PomodroidException {
+		ObjectSet<Event> result;
+		try {
+			result = dbHelper.getDatabase().query(new Predicate<Event>() {
+				private static final long serialVersionUID = 1L;
+
+				public boolean match(Event event) {
+					return (event.getType().equals("pomodoro") && event.getValue().equals("finish"));
 				}
 			});
 		} catch (Exception e) {

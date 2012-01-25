@@ -14,7 +14,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid.models;
+package cc.task3.pomodroid.models;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,7 +23,7 @@ import java.util.Date;
  * received date (date), deadline (date), summary (string), description (string), origin (string i.e. trac), 
  * origin id (integer that refers to its origin), priority (string), reporter (string), type (string), 
  * todoToday (boolean), done (boolean) and endDate (date).
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * 
  */
@@ -34,6 +34,10 @@ public class Activity {
 	 * Number of Pomodoros dedicated to the Activity
 	 */
 	private int numberPomodoro;
+	/**
+	 * Number of Interruptions during the Activity
+	 */
+	private int numberInterruptions;
 	/**
 	 * Date of Activity creation
 	 */
@@ -95,10 +99,11 @@ public class Activity {
 	 * @param reporter name of the reporter
 	 * @param type activity type
 	 */
-	public Activity(int numberPomodoro, Date received,
+	public Activity(int numberPomodoro, int numberInterruptions, Date received,
 			Date deadline, String summary, String description, String origin,
 			int originId, String priority, String reporter, String type) {
 		this.numberPomodoro = numberPomodoro;
+		this.numberInterruptions = numberInterruptions;
 		this.received = received;
 		this.deadline = deadline;
 		this.summary = summary;
@@ -126,6 +131,7 @@ public class Activity {
 	 * @param ac
 	 */
 	public void update (Activity ac) {
+		this.numberInterruptions = ac.getNumberInterruptions();
 		this.numberPomodoro = ac.getNumberPomodoro();
 		this.summary = ac.getSummary();
 		this.todoToday = ac.isTodoToday();
@@ -145,6 +151,22 @@ public class Activity {
 	 */
 	public void setNumberPomodoro(int numberPomodoro) {
 		this.numberPomodoro = numberPomodoro;
+	}
+	
+	/**
+	 * @return the number of pomodoro
+	 */
+	public int getNumberInterruptions() {
+		return numberInterruptions;
+	}
+
+	/**
+	 * sets the number of pomodoro
+	 * @param numberPomodoro
+	 * 
+	 */
+	public void setNumberInterruptions(int numberInterruptions) {
+		this.numberInterruptions = numberInterruptions;
 	}
 
 	/**
@@ -369,5 +391,12 @@ public class Activity {
 	 */
 	public void addOnePomodoro (){
 		this.numberPomodoro++;
+	}
+	
+	/**
+	 * Add one interruption
+	 */
+	public void addOneInterruption (){
+		this.numberInterruptions++;
 	}
 }

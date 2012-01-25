@@ -14,10 +14,10 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid;
+package cc.task3.pomodroid;
 
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.User;
+import cc.task3.pomodroid.exceptions.PomodroidException;
+import cc.task3.pomodroid.persistency.User;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,23 +30,20 @@ import android.widget.TextView;
  * button "save" some tests will check the correctness of the data. The user can
  * also manipulate the DB and launch the tests.
  * 
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see it.unibz.pomodroid.SharedActivity
+ * @see cc.task3.pomodroid.SharedActivity
  */
 public class Preferences extends SharedActivity {
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.preferences);
-		TextView textViewPreferences = (TextView) findViewById(R.id.TextViewPreferences);
-		textViewPreferences.setText(getString(R.string.preferences_intro));
+		TextView atvPreferences = (TextView) findViewById(R.id.atvPreferences);
+		atvPreferences.setText(getString(R.string.preferences_intro));
 		fillEditTexts(super.getUser());
-
-		
 	}
-	
 
 	/**
 	 * Tests if all the data is correctly filled by user
@@ -54,11 +51,11 @@ public class Preferences extends SharedActivity {
 	 * @throws PomodroidException
 	 */
 	private void checkUserInput() throws PomodroidException {
-		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
-		if (pomodoroLengthEditText.getText().toString().equals(""))
+		EditText aetPomodoroLength = (EditText) findViewById(R.id.aetPomodoroLength);
+		if (aetPomodoroLength.getText().toString().equals(""))
 			throw new PomodroidException(
 					"ERROR: Please set a correct Pomodoro length value (1-99)");
-		if (Integer.parseInt(pomodoroLengthEditText.getText().toString()) == 0)
+		if (Integer.parseInt(aetPomodoroLength.getText().toString()) == 0)
 			throw new PomodroidException(
 					"ERROR: Please set a correct Pomodoro length value (1-99)");
 	}
@@ -67,45 +64,41 @@ public class Preferences extends SharedActivity {
 	 * Updates all the EditText fields with already stored data
 	 */
 	private void fillEditTexts(User user) {
-		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
+		EditText aetPomodoroLength = (EditText) findViewById(R.id.aetPomodoroLength);
 		Integer pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
-		pomodoroLengthEditText.setText(pomodoroMinutesDuration.toString());
-		CheckBox advancedUserCheckBox = (CheckBox) findViewById(R.id.CheckBoxAdvancedUser);
-		advancedUserCheckBox.setChecked(super.getUser().isAdvanced());
-		CheckBox quickActivityInsertCheckBox = (CheckBox) findViewById(R.id.CheckBoxQuickActivityInsert);
-		quickActivityInsertCheckBox.setChecked(super.getUser()
+		aetPomodoroLength.setText(pomodoroMinutesDuration.toString());
+		CheckBox acbAdvancedUser = (CheckBox) findViewById(R.id.acbAdvancedUser);
+		acbAdvancedUser.setChecked(super.getUser().isAdvanced());
+		CheckBox acbQuickActivityInsert = (CheckBox) findViewById(R.id.acbQuickActivityInsert);
+		acbQuickActivityInsert.setChecked(super.getUser()
 				.isQuickInsertActivity());
-		CheckBox checkBoxVibrate = (CheckBox) findViewById(R.id.CheckBoxVibrate);
-		checkBoxVibrate.setChecked(user.isVibration());
-		CheckBox checkBoxDimLight = (CheckBox) findViewById(R.id.CheckBoxDimLight);
-		checkBoxDimLight.setChecked(user.isDimLight());
-		CheckBox checkBoxNotifications = (CheckBox) findViewById(R.id.CheckBoxNotifications);
-		checkBoxNotifications.setChecked(user.isNotifications());
+		CheckBox acbVibrate = (CheckBox) findViewById(R.id.acbVibrate);
+		acbVibrate.setChecked(user.isVibration());
+		CheckBox acbDimLight = (CheckBox) findViewById(R.id.acbDimLight);
+		acbDimLight.setChecked(user.isDimLight());
 	}
 
 	/**
 	 * Updates or creates a User
 	 */
 	private void updateUser() throws PomodroidException {
-		EditText pomodoroLengthEditText = (EditText) findViewById(R.id.EditTextPomodoroLength);
-		CheckBox advancedUserCheckBox = (CheckBox) findViewById(R.id.CheckBoxAdvancedUser);
-		CheckBox quickInsertActivityCheckBox = (CheckBox) findViewById(R.id.CheckBoxQuickActivityInsert);
-		CheckBox checkBoxVibrate = (CheckBox) findViewById(R.id.CheckBoxVibrate);
-		CheckBox checkBoxDimLight = (CheckBox) findViewById(R.id.CheckBoxDimLight);
-		CheckBox checkBoxNotifications = (CheckBox) findViewById(R.id.CheckBoxNotifications);
+		EditText aetPomodoroLength = (EditText) findViewById(R.id.aetPomodoroLength);
+		CheckBox acbAdvancedUser = (CheckBox) findViewById(R.id.acbAdvancedUser);
+		CheckBox acbQuickActivityInsert = (CheckBox) findViewById(R.id.acbQuickActivityInsert);
+		CheckBox acbVibrate = (CheckBox) findViewById(R.id.acbVibrate);
+		CheckBox acbDimLight = (CheckBox) findViewById(R.id.acbDimLight);
 		super.getUser().setPomodoroMinutesDuration(
-				Integer.parseInt(pomodoroLengthEditText.getText().toString()));
-		super.getUser().setAdvanced(advancedUserCheckBox.isChecked());
+				Integer.parseInt(aetPomodoroLength.getText().toString()));
+		super.getUser().setAdvanced(acbAdvancedUser.isChecked());
 		super.getUser().setQuickInsertActivity(
-				quickInsertActivityCheckBox.isChecked());
-		super.getUser().setVibration(checkBoxVibrate.isChecked());
-		super.getUser().setDimLight(checkBoxDimLight.isChecked());
-		super.getUser().setNotifications(checkBoxNotifications.isChecked());
+				acbQuickActivityInsert.isChecked());
+		super.getUser().setVibration(acbVibrate.isChecked());
+		super.getUser().setDimLight(acbDimLight.isChecked());
 		super.getUser().save(super.getDbHelper());
 		if (super.getUser().isAdvanced())
-			startActivity(Pomodroid.class, true, true);
+			startActivity(Pomodroid.class);
 		else
-			startActivity(TodoTodaySheet.class, true, true);
+			startActivity(TodoTodaySheet.class);
 
 	}
 	
@@ -117,8 +110,7 @@ public class Preferences extends SharedActivity {
 	 */
 	@Override
 	public  boolean onCreateOptionsMenu(Menu menu) {
-			menu.add(0, ACTION_SAVE, 0, "Save Preferences").setIcon(
-					android.R.drawable.ic_menu_save);
+		menu.add(0, R.id.ACTION_SAVE, 0, "Save").setIcon( android.R.drawable.ic_menu_save);
 		return true;
 	}
 	
@@ -131,17 +123,18 @@ public class Preferences extends SharedActivity {
 	@Override
 	public  boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case ACTION_SAVE:
-			try {
-				checkUserInput();
-				updateUser();
-				throw new PomodroidException("Preferences saved.", "INFO");
-			} catch (PomodroidException e) {
-				e.alertUser(context);
-			}
-			return true;
+			case R.id.ACTION_SAVE:
+				try {
+					checkUserInput();
+					updateUser();
+					throw new PomodroidException("Preferences saved.", "INFO");
+				} catch (PomodroidException e) {
+					e.alertUser(context);
+				}
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
-
+		
 	}
+
 }

@@ -14,15 +14,15 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid;
-
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.Activity;
-import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.persistency.Event;
-import it.unibz.pomodroid.persistency.User;
+package cc.task3.pomodroid;
 
 import java.util.ArrayList;
+
+import cc.task3.pomodroid.exceptions.PomodroidException;
+import cc.task3.pomodroid.persistency.Activity;
+import cc.task3.pomodroid.persistency.DBHelper;
+import cc.task3.pomodroid.persistency.Event;
+import cc.task3.pomodroid.persistency.User;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -47,26 +47,13 @@ import android.widget.TextView;
  * ListActivities It defines the shared Menu, an ArrayAdapter to
  * represent Activities, and the methods useful to work with the
  * Adapter.
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * 
  * @see adroid.app.ListActivity
  */
 public abstract class SharedListActivity extends ListActivity {
 	
-	public static final int ACTION_ADD_ACTIVITY = 0;
-	public static final int ACTION_ADD_SERVICE = 11;
-	public static final int ACTION_GO_ABOUT = 2;
-	public static final int ACTION_GO_AIS = 3;
-	public static final int ACTION_GO_PREFERENCES = 1;
-	public static final int ACTION_GO_SERVICES = 6;
-	public static final int ACTION_GO_TS = 4;
-	public static final int ACTION_GO_TTS = 5;
-	public static final int ACTION_LIST_SERVICES = 7;
-	public static final int ACTION_REFRESH_SERVICES = 8;
-	public static final int ACTION_EMPTY_LIST = 10;
-	public static final int MSG_ACTIVITIES_PRESENT = 12;
-	public static final int MSG_ACTIVITIES_NOT_PRESENT = 13;
 	
 	/**
 	 * Represents the Android ID of the sub-class preferred layout
@@ -243,13 +230,13 @@ public abstract class SharedListActivity extends ListActivity {
 			final Activity activity = items.get(position);
 			// builds the components of the activity entry view
 			if (activity != null) {
-				TextView textViewTopText = (TextView) view.findViewById(R.id.toptext);
-				TextView textViewBottomText = (TextView) view.findViewById(R.id.bottomtext);
+				TextView atvTopText = (TextView) view.findViewById(R.id.atvTopText);
+				TextView atvBottomText = (TextView) view.findViewById(R.id.atvBottomText);
 				if (getResourceLayout()==R.layout.aisactivityentry && activity.isTodoToday())
-				    textViewTopText.setText("TTS: " + activity.getShortSummary());
+				    atvTopText.setText("TTS: " + activity.getShortSummary());
 				else
-					textViewTopText.setText(activity.getShortSummary());
-				textViewBottomText.setText(context.getString(R.string.pomodoro_nr) 
+					atvTopText.setText(activity.getShortSummary());
+				atvBottomText.setText(context.getString(R.string.pomodoro_nr) 
 						+ "(" + activity.getNumberPomodoro() + ") - "
 						+ context.getString(R.string.deadline)
 						+ " (" + activity.getStringDeadline() + ")");
@@ -359,7 +346,7 @@ public abstract class SharedListActivity extends ListActivity {
 	 * the new list of activities MUST be implemented in a subclass, to
 	 * successfully select which Activities must be displayed to the user
 	 * 
-	 * @see it.unibz.pomodroid.persistency.Activity
+	 * @see cc.task3.pomodroid.persistency.Activity
 	 * @throws PomodroidException
 	 */
 	protected abstract void retrieveActivities() throws PomodroidException;
@@ -369,11 +356,11 @@ public abstract class SharedListActivity extends ListActivity {
 		public void handleMessage(Message message) {
 
 			switch (message.what) {
-			case MSG_ACTIVITIES_PRESENT:
-				findViewById(R.id.empty_sheet).setVisibility(View.INVISIBLE);
+			case R.id.MSG_ACTIVITIES_PRESENT:
+				//findViewById(R.id.atvEmptySheet).setVisibility(View.INVISIBLE);
 				break;
-			case MSG_ACTIVITIES_NOT_PRESENT:
-				findViewById(R.id.empty_sheet).setVisibility(View.VISIBLE);
+			case R.id.MSG_ACTIVITIES_NOT_PRESENT:
+				//findViewById(R.id.atvEmptySheet).setVisibility(View.VISIBLE);
 				break;
 			}
 			return;
@@ -398,9 +385,9 @@ public abstract class SharedListActivity extends ListActivity {
 			activityAdapter.notifyDataSetChanged();
 			
 			if(activityAdapter.isEmpty())
-				handler.sendEmptyMessage(MSG_ACTIVITIES_NOT_PRESENT);
+				handler.sendEmptyMessage(R.id.MSG_ACTIVITIES_NOT_PRESENT);
 			else
-				handler.sendEmptyMessage(MSG_ACTIVITIES_PRESENT);
+				handler.sendEmptyMessage(R.id.MSG_ACTIVITIES_PRESENT);
 			
 			
 			progressDialog.dismiss();
@@ -446,28 +433,34 @@ public abstract class SharedListActivity extends ListActivity {
 	@Override
 	public  boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case ACTION_ADD_ACTIVITY:
+		case R.id.ACTION_ADD_ACTIVITY:
 			startActivity(EditActivity.class, false, true);
 			return true;
-		case ACTION_GO_AIS:
+		case R.id.ACTION_ADD_SERVICE:
+			startActivity(EditService.class, false, true);
+			return true;
+		case R.id.ACTION_GO_AIS:
 			startActivity(ActivityInventorySheet.class, false, true);
 			break;
-		case ACTION_GO_TTS:
+		case R.id.ACTION_GO_TTS:
 			startActivity(TodoTodaySheet.class, false, true);
 			break;
-		case ACTION_GO_TS:
+		case R.id.ACTION_GO_TS:
 			startActivity(TrashSheet.class, false, true);
 			break;
-		case ACTION_GO_PREFERENCES:
+		case R.id.ACTION_GO_PREFERENCES:
 			if (getUser().isAdvanced())
 				startActivity(TabPreferences.class, true, true);
 			else
 				startActivity(Preferences.class, true, true);
 			break;
-		case ACTION_GO_ABOUT:
+		case R.id.ACTION_GO_STATISTICS:
+			startActivity(Statistics.class, false, true);
+			break;
+		case R.id.ACTION_GO_ABOUT:
 			startActivity(About.class, false, true);
 			break;
-		case ACTION_EMPTY_LIST:
+		case R.id.ACTION_EMPTY_LIST:
 			for(int i=0;i<activityAdapter.getCount();i++){
 				Activity activity = activityAdapter.getItem(i);
 				try {

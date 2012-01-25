@@ -1,9 +1,9 @@
-package it.unibz.pomodroid;
+package cc.task3.pomodroid;
 
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.persistency.Event;
-import it.unibz.pomodroid.persistency.User;
+import cc.task3.pomodroid.exceptions.PomodroidException;
+import cc.task3.pomodroid.persistency.DBHelper;
+import cc.task3.pomodroid.persistency.Event;
+import cc.task3.pomodroid.persistency.User;
 import java.util.Date;
 import android.app.Service;
 import android.content.Context;
@@ -122,9 +122,9 @@ public class PomodoroService extends Service {
 
 		@Override
 		public void handleMessage(Message message) {
-			it.unibz.pomodroid.persistency.Activity activity = null;
+			cc.task3.pomodroid.persistency.Activity activity = null;
 			try {
-				activity = it.unibz.pomodroid.persistency.Activity.get(
+				activity = cc.task3.pomodroid.persistency.Activity.get(
 						PomodoroService.this.activityOrigin,
 						PomodoroService.this.activityOriginId,
 						PomodoroService.this.getDbHelper());
@@ -142,6 +142,12 @@ public class PomodoroService extends Service {
 							new Date(), activity, pomodoroSecondsValue);
 					eventStart.save(PomodoroService.this.getDbHelper());
 					updateTimeTask.run();
+                    String pomodoroStartMessage = "Pomodoro Started";
+                    data.putInt("numberPomodoro", activity.getNumberPomodoro());
+                    data.putString("pomodoroMessage", pomodoroStartMessage);
+                    data.putString("origin", PomodoroService.this.activityOrigin);
+                    data.putInt("originId", PomodoroService.this.activityOriginId);
+                    communicateService(PomodoroService.MSG_POMODORO_START, data);
 					break;
 				case PomodoroService.MSG_POMODORO_TICK:
 					pomodoroSecondsValue--;
@@ -169,7 +175,12 @@ public class PomodoroService extends Service {
 					Event eventStop = new Event("pomodoro", "stop", new Date(),
 							activity, pomodoroSecondsValue);
 					eventStop.save(PomodoroService.this.getDbHelper());
+					activity.addOneInterruption();
+					activity.save(getDbHelper());
+					int numberInterruptions = activity.getNumberInterruptions();
+					data.putInt("numberInterruptions", numberInterruptions);
 					pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
+					communicateService(PomodoroService.MSG_POMODORO_STOP, data);
 					removeCallbacks(updateTimeTask);
 					break;
 				}

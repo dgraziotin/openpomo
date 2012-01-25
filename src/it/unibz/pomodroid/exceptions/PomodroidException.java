@@ -14,14 +14,14 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid.exceptions;
+package cc.task3.pomodroid.exceptions;
 
 import android.content.Context;
 import android.widget.Toast;
 
 /**
  * All exception that can occur will be propagated and shown thanks to this class.
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * 
  */

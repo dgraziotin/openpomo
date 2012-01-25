@@ -2,25 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-	<RelativeLayout android:id="@+id/activitylist"
+	<RelativeLayout android:id="@+id/arlActivityList"
 		android:layout_width="wrap_content" android:layout_height="wrap_content">
-		<ListView android:id="@+id/android:list"
-			android:layout_width="fill_parent" android:layout_height="fill_parent" />
-		<TextView android:id="@+id/empty_sheet"
+		<ListView android:id="@android:id/list" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" />
+		<LinearLayout android:id="@android:id/empty"
 			android:layout_width="fill_parent" android:layout_height="fill_parent"
-			android:text="@string/no_activities" android:visibility="gone" />
+			android:orientation="vertical">
+			<ImageView android:scaleType="fitCenter"
+				android:layout_width="fill_parent" android:src="@drawable/pomo_logo"
+				android:layout_height="wrap_content"></ImageView>
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:text="@string/no_activities" />
+		</LinearLayout>
+
 	</RelativeLayout>
 	<RelativeLayout android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_alignParentBottom="true"
-		android:visibility="gone" android:id="@+id/quickinsertactivity">
+		android:visibility="gone" android:id="@+id/arlQuickInsertActivity">
 
-		<Button android:text="+" android:id="@+id/buttonquickinsertactivity"
+		<Button android:text="+" android:id="@+id/abQuickInsertActivity"
 			android:layout_alignParentRight="true" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" />
 
 
-		<EditText android:id="@+id/EditTextQuickInsertActivity"
-			android:layout_width="fill_parent" android:layout_toLeftOf="@id/buttonquickinsertactivity"
+		<EditText android:id="@+id/aetQuickInsertActivity"
+			android:layout_width="fill_parent" android:layout_toLeftOf="@id/abQuickInsertActivity"
 			android:layout_height="wrap_content" android:singleLine="true"
 			android:hint="Quick Activity Insert" />
 

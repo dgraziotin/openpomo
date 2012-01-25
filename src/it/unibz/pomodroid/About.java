@@ -14,7 +14,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid;
+package cc.task3.pomodroid;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.View;
@@ -24,8 +24,8 @@ import android.widget.TextView;
 
 /**
  * A simple Activity to show an About Window
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
- * @see it.unibz.pomodroid.SharedActivity
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
+ * @see cc.task3.pomodroid.SharedActivity
  */
 public class About extends SharedActivity {
 
@@ -33,17 +33,9 @@ public class About extends SharedActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.about);
-		TextView textViewAbout2 = (TextView) findViewById(R.id.TextViewAbout2);
-		TextView textViewAbout4 = (TextView) findViewById(R.id.TextViewAbout4);
-		Linkify.addLinks(textViewAbout2,Linkify.ALL);
-		Linkify.addLinks(textViewAbout4,Linkify.ALL);
-		Button goBack = (Button) findViewById(R.id.ButtonGoBack);
-		goBack.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});	
+		TextView atvAbout2 = (TextView) findViewById(R.id.atvAbout2);
+		TextView atvAbout4 = (TextView) findViewById(R.id.atvAbout4);
+		Linkify.addLinks(atvAbout2,Linkify.ALL);
+		Linkify.addLinks(atvAbout4,Linkify.ALL);
 	}
 }

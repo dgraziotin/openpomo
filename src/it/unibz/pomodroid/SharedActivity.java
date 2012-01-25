@@ -14,76 +14,24 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid;
+package cc.task3.pomodroid;
 
+import cc.task3.pomodroid.exceptions.PomodroidException;
+import cc.task3.pomodroid.persistency.DBHelper;
+import cc.task3.pomodroid.persistency.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.DBHelper;
-import it.unibz.pomodroid.persistency.User;
 
 /**
  * Base-class of all activities. Defines common behavior for all Activities of
  * Pomodroid.
  * 
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
- * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @see android.app.Activity
  */
 public abstract class SharedActivity extends Activity {
-	/**
-	 * Represents the intention of adding a new Activity
-	 */
-	public static final int ACTION_ADD_ACTIVITY = 1;
-	/**
-	 * Represents the intention of adding a new Service
-	 */
-	public static final int ACTION_ADD_SERVICE = 2;
-	/**
-	 * Represents the intention of going to the About window
-	 */
-	public static final int ACTION_GO_ABOUT = 3;
-	/**
-	 * Represents the intention of going to the AIS window
-	 */
-	public static final int ACTION_GO_AIS = 4;
-	/**
-	 * Represents the intention of going to the Preferences window
-	 */
-	public static final int ACTION_GO_PREFERENCES = 5;
-	/**
-	 * Represents the intention of going to the Services window
-	 */
-	public static final int ACTION_GO_SERVICES = 6;
-	/**
-	 * Represents the intention of going to the TS window
-	 */
-	public static final int ACTION_GO_TS = 7;
-	/**
-	 * Represents the intention of going to the TTS window
-	 */
-	public static final int ACTION_GO_TTS = 8;
-	/**
-	 * Represents the intention of going to the List Services window
-	 */
-	public static final int ACTION_LIST_SERVICES = 9;
-	/**
-	 * Represents the intention of save
-	 */
-	public static final int ACTION_SAVE = 10;
-	/**
-	 * Represents the intention of starting a pomodoro
-	 */
-	public static final int ACTION_POMODORO_START = 11;
-	/**
-	 * Represents the intention of stopping a pomodoro
-	 */
-	public static final int ACTION_POMODORO_STOP = 12;
-	
-
-
 	/**
 	 * The Database container for db4o
 	 */
@@ -144,6 +92,21 @@ public abstract class SharedActivity extends Activity {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	protected Context getContext(){
+		return this.context;
+	}
+	
+	/**
+	 * Coding standards order:
+	 * 1 - onCreate()
+	 * 2 - onStart()
+	 * 4 - onRestart()
+	 * 5 - onResume()
+	 * 6 - onPause()
+	 * 7 - onStop()
+	 * 8 - onDestroy()
+	 */
 
 	/**
 	 * Every sub-class of this one automatically receive an instance of the User
@@ -158,6 +121,30 @@ public abstract class SharedActivity extends Activity {
 		this.dbHelper = new DBHelper(getApplicationContext());
 		this.context = this;
 		this.user = this.getUser();
+	}
+	
+	/**
+	 * @see android.app.Activity#onPause()
+	 */
+	@Override
+	public void onStart() {
+		super.onStart();
+	}
+	
+	/**
+	 * @see android.app.Activity#onRestart()
+	 */
+	@Override
+	public void onRestart() {
+		super.onRestart();
+	}
+	
+	/**
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	public void onResume() {
+		super.onResume();
 	}
 
 
@@ -180,15 +167,15 @@ public abstract class SharedActivity extends Activity {
 	public void onStop() {
 		super.onStop();
 	}
-
+	
 	/**
-	 * @see android.app.Activity#onResume()
+	 * @see android.app.Activity#onDestroy()
 	 */
-	public void onResume() {
-		super.onResume();
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
 	}
 
-	
 	/**
 	 * Wrapper for starting Android Activities and adding
 	 * Intents and Flags
@@ -196,15 +183,12 @@ public abstract class SharedActivity extends Activity {
 	 * @param finishCurrentActivity - true if calling activity must terminate
 	 * @param recycleActivity - true if the called activity can be retrieved from stack if present
 	 */
-	public void startActivity(Class<?> klass, boolean finishCurrentActivity,
-			boolean recycleActivity) {
+
+	protected void startActivity(Class<?> klass) {
 		Intent intent = new Intent(this.context, klass);
-		if (recycleActivity)
-			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 		startActivity(intent);
-		if (finishCurrentActivity)
-			finish();
 	}
+
 
 	/**
 	 * Checks if a string is null or empty
@@ -213,7 +197,7 @@ public abstract class SharedActivity extends Activity {
 	 *            the string to be checked
 	 * @return true if the string is not null or not empty
 	 */
-	public boolean nullOrEmpty(String string) {
+	public static boolean nullOrEmpty(String string) {
 		return string.equals("") || string == null;
 	}
 }

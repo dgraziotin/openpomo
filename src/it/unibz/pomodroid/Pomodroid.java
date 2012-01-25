@@ -14,24 +14,29 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid;
+package cc.task3.pomodroid;
 import android.os.Bundle;
 
 /**
  * Main activity. It just loads the layout.
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see it.unibz.pomodroid.SharedActivity
+ * @see cc.task3.pomodroid.SharedActivity
  */
 public class Pomodroid extends SharedActivity{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		if(!super.getUser().isAdvanced())
-			startActivity(TodoTodaySheet.class,true,true);
-		else
-			startActivity(TabPomodroid.class, true, true);
 	}
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //TODO: notification for pomodroid donation
+        if(!super.getUser().isAdvanced())
+            startActivity(TodoTodaySheet.class);
+        else
+            startActivity(TabPomodroid.class);
+    }
 }

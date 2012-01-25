@@ -14,14 +14,15 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid;
+package cc.task3.pomodroid;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.Activity;
+import cc.task3.pomodroid.exceptions.PomodroidException;
+import cc.task3.pomodroid.persistency.Activity;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,8 +33,8 @@ import android.widget.EditText;
  * This class shows lets user to either create or edit an existing Activity.
  * It only lets users to edit local activities, not those remotely retrieved
  * 
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
- * @see it.unibz.pomodroid.SharedActivity
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
+ * @see cc.task3.pomodroid.SharedActivity
  */
 public class EditActivity extends SharedActivity {
 	/**
@@ -53,6 +54,7 @@ public class EditActivity extends SharedActivity {
 		} catch (NullPointerException e) {
 			this.originId = null;
 		}
+
 	}
 
 	/**
@@ -67,15 +69,15 @@ public class EditActivity extends SharedActivity {
 		Activity activity;
 		try {
 			activity = Activity.get("local", originId, super.getDbHelper());
-			EditText editTextSummary = (EditText) findViewById(R.id.EditTextSummary);
-			editTextSummary.setText(activity.getSummary());
-			EditText editTextDescription = (EditText) findViewById(R.id.EditTextDescription);
-			editTextDescription.setText(activity.getDescription());
-			DatePicker datePickerDeadline = (DatePicker) findViewById(R.id.DatePickerDeadline);
+			EditText aetSummary = (EditText) findViewById(R.id.aetSummary);
+			aetSummary.setText(activity.getSummary());
+			EditText aetDescription = (EditText) findViewById(R.id.aetDescription);
+			aetDescription.setText(activity.getDescription());
+			DatePicker adpDeadline = (DatePicker) findViewById(R.id.adpDeadline);
 			Calendar calendar = new GregorianCalendar();
 			calendar.setTime(activity.getDeadline());
 
-			datePickerDeadline.updateDate(calendar.get(Calendar.YEAR),
+			adpDeadline.updateDate(calendar.get(Calendar.YEAR),
 					calendar.get(Calendar.MONTH),
 					calendar.get(Calendar.DAY_OF_MONTH));
 		} catch (PomodroidException e) {
@@ -93,15 +95,15 @@ public class EditActivity extends SharedActivity {
 		Activity activity;
 		try {
 			activity = Activity.get("local", originId, super.getDbHelper());
-			EditText editTextSummary = (EditText) findViewById(R.id.EditTextSummary);
-			activity.setSummary(editTextSummary.getText().toString());
-			EditText editTextDescription = (EditText) findViewById(R.id.EditTextDescription);
-			activity.setDescription(editTextDescription.getText().toString());
-			DatePicker datePickerDeadline = (DatePicker) findViewById(R.id.DatePickerDeadline);
+			EditText aetSummary = (EditText) findViewById(R.id.aetSummary);
+			activity.setSummary(aetSummary.getText().toString());
+			EditText aetDescription = (EditText) findViewById(R.id.aetDescription);
+			activity.setDescription(aetDescription.getText().toString());
+			DatePicker adpDeadline = (DatePicker) findViewById(R.id.adpDeadline);
 			Calendar calendar = new GregorianCalendar();
-			calendar.set(datePickerDeadline.getYear(),
-					datePickerDeadline.getMonth(),
-					datePickerDeadline.getDayOfMonth());
+			calendar.set(adpDeadline.getYear(),
+					adpDeadline.getMonth(),
+					adpDeadline.getDayOfMonth());
 			activity.setDeadline(calendar.getTime());
 			if (!super.getUser().isAdvanced())
 				activity.setTodoToday(true);
@@ -118,15 +120,15 @@ public class EditActivity extends SharedActivity {
 	 * @throws PomodroidException
 	 */
 	private void saveActivity() throws PomodroidException {
-		EditText editTextSummary = (EditText) findViewById(R.id.EditTextSummary);
-		EditText editTextDescription = (EditText) findViewById(R.id.EditTextDescription);
-		DatePicker datePickerDeadline = (DatePicker) findViewById(R.id.DatePickerDeadline);
+		EditText aetSummary = (EditText) findViewById(R.id.aetSummary);
+		EditText aetDescription = (EditText) findViewById(R.id.aetDescription);
+		DatePicker adpDeadline = (DatePicker) findViewById(R.id.adpDeadline);
 		Calendar calendar = new GregorianCalendar();
-		calendar.set(datePickerDeadline.getYear(),
-				datePickerDeadline.getMonth(),
-				datePickerDeadline.getDayOfMonth());
-		Activity activity = new Activity(0, new Date(), calendar.getTime(),
-				editTextSummary.getText().toString(), editTextDescription
+		calendar.set(adpDeadline.getYear(),
+				adpDeadline.getMonth(),
+				adpDeadline.getDayOfMonth());
+		Activity activity = new Activity(0, 0, new Date(), calendar.getTime(),
+				aetSummary.getText().toString(), aetDescription
 						.getText().toString(), "local",
 				Activity.getLastLocalId(super.getDbHelper()) + 1, "medium", "you", "task");
 		if (!super.getUser().isAdvanced())
@@ -146,17 +148,17 @@ public class EditActivity extends SharedActivity {
 	 * @throws PomodroidException
 	 */
 	private void checkUserInput() throws PomodroidException {
-		EditText editTextSummary = (EditText) findViewById(R.id.EditTextSummary);
-		if (nullOrEmpty(editTextSummary.getText().toString()))
+		EditText aetSummary = (EditText) findViewById(R.id.aetSummary);
+		if (nullOrEmpty(aetSummary.getText().toString()))
 			throw new PomodroidException(
 					"Error. Please insert at least a Summary.");
 	}
 
 	private void bringUserTo() {
 		if (super.getUser().isAdvanced())
-			startActivity(TabPomodroid.class, true, true);
+			startActivity(TabPomodroid.class);
 		else
-			startActivity(TodoTodaySheet.class, true, true);
+			startActivity(TodoTodaySheet.class);
 
 	}
 	
@@ -168,9 +170,11 @@ public class EditActivity extends SharedActivity {
 	 */
 	@Override
 	public  boolean onCreateOptionsMenu(Menu menu) {
-			menu.add(0, SharedActivity.ACTION_SAVE, 0, "Save").setIcon(
-					android.R.drawable.ic_menu_save);
-			return true;
+		menu.add(0, R.id.ACTION_SAVE, 0, "Save").setIcon(
+																   android.R.drawable.ic_menu_save);
+		menu.add(0, R.id.ACTION_CLEAR, 0, "Cancel").setIcon(
+				   android.R.drawable.ic_menu_close_clear_cancel);
+		return true;
 	}
 	
 	/**
@@ -182,28 +186,33 @@ public class EditActivity extends SharedActivity {
 	@Override
 	public  boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case SharedActivity.ACTION_SAVE:
-			try {
-				checkUserInput();
-				if (originId != null) {
-					updateActivity();
-					bringUserTo();
-					throw new PomodroidException("Activity updated.",
-							"INFO");
-				} else {
-					saveActivity();
-					bringUserTo();
-					throw new PomodroidException("Activity saved.", "INFO");
+			case R.id.ACTION_SAVE:
+				try {
+					checkUserInput();
+					if (originId != null) {
+						updateActivity();
+						bringUserTo();
+						throw new PomodroidException("Activity updated.",
+													 "INFO");
+					} else {
+						saveActivity();
+						bringUserTo();
+						throw new PomodroidException("Activity saved.", "INFO");
+					}
+					
+				} catch (PomodroidException e) {
+					e.alertUser(context);
 				}
-
-			} catch (PomodroidException e) {
-				e.alertUser(context);
-			}
-			return true;
+				return true;
+			case R.id.ACTION_CLEAR:
+				finish();
+			break;
 		}
 		return super.onOptionsItemSelected(item);
-
+		
 	}
+	
+	
 
 	
 

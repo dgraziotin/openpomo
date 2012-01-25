@@ -14,11 +14,13 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid.persistency;
+package cc.task3.pomodroid.persistency;
 
 import java.util.Date;
+
+import cc.task3.pomodroid.exceptions.PomodroidException;
+
 import com.db4o.ObjectSet;
-import it.unibz.pomodroid.exceptions.PomodroidException;
 import android.util.Log;
 
 /**
@@ -26,11 +28,11 @@ import android.util.Log;
  * database db40 an user is saved into a local database.
  * 
  * NB: only one user will be stored into the db.
-* @author Daniel Graziotin <daniel.graziotin@acm.org>
+* @author Daniel Graziotin <d AT danielgraziotin DOT it>
 * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it> 
  *
  */
-public class User extends it.unibz.pomodroid.models.User {
+public class User extends cc.task3.pomodroid.models.User {
 
 	/**
 	 * @param tracUsername

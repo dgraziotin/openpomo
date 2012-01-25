@@ -15,7 +15,7 @@
 		</TableRow>
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/EditTextSummary"
+				android:layout_height="wrap_content" android:id="@+id/aetSummary"
 				android:hint="Title / Summary" />
 		</TableRow>
 		<TableRow>
@@ -24,7 +24,7 @@
 		</TableRow>
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/EditTextDescription"
+				android:layout_height="wrap_content" android:id="@+id/aetDescription"
 				android:hint="Full Description (optional)" />
 		</TableRow>
 		<TableRow>
@@ -33,7 +33,7 @@
 		</TableRow>
 		<TableRow>
 			<DatePicker android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/DatePickerDeadline"/>
+				android:layout_height="wrap_content" android:id="@+id/adpDeadline"/>
 		</TableRow>
 	</TableLayout>
 </ScrollView>

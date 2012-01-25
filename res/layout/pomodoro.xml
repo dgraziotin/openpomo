@@ -8,26 +8,30 @@
 		<LinearLayout android:layout_height="wrap_content"
 			android:layout_width="fill_parent" android:id="@+id/linearLayout1"
 			android:orientation="vertical" android:layout_marginBottom="15sp">
-			<TextView android:layout_height="wrap_content" android:id="@+id/TextViewPomodoroTimer"
+			<TextView android:layout_height="wrap_content" android:id="@+id/atvPomodoroTimer"
 				android:text="25:00" android:textSize="80sp" android:gravity="center"
 				android:layout_gravity="center" android:layout_width="fill_parent"></TextView>
 			<ProgressBar android:layout_height="wrap_content"
-				android:id="@+id/progressbar" style="?android:attr/progressBarStyleHorizontal"
+				android:id="@+id/apbProgressBar" style="?android:attr/progressBarStyleHorizontal"
 				android:layout_width="fill_parent"
 				android:max="100"></ProgressBar>
 		</LinearLayout>
 		<LinearLayout android:layout_height="wrap_content"
 			android:layout_width="fill_parent" android:id="@+id/linearLayout2"
 			android:orientation="vertical" android:layout_marginTop="30sp">
-			<TextView android:id="@+id/TextViewActivitySummary"
+			<TextView android:id="@+id/atvActivitySummary"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:textSize="20sp" android:text="Activity Title"
 				android:gravity="left" />
-			<TextView android:id="@+id/TextViewActivityNumberPomodoro"
+			<TextView android:id="@+id/atvActivityNumberPomodoro"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:layout_marginTop="15sp" android:text="Number Pomodoro"
 				android:gravity="left" />
-			<TextView android:id="@+id/TextViewActivityDescription"
+			<TextView android:id="@+id/atvActivityNumberInterruptions"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:layout_marginTop="15sp" android:text="Number Pomodoro"
+				android:gravity="left" />
+			<TextView android:id="@+id/atvActivityDescription"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:text="Activity description..." android:layout_marginTop="15sp"
 				android:gravity="left" />

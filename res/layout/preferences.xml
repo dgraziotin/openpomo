@@ -6,7 +6,7 @@
 		android:stretchColumns="0">
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/TextViewPreferences" />
+				android:layout_height="wrap_content" android:id="@+id/atvPreferences" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
 		</TableRow>
 		<TableRow>
 			<EditText android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/EditTextPomodoroLength"
+				android:layout_height="wrap_content" android:id="@+id/aetPomodoroLength"
 				android:numeric="integer" android:maxLength="2" android:hint="Enter length (max 99)" />
 		</TableRow>
 		<TableRow>
@@ -24,7 +24,7 @@
 		</TableRow>
 		<TableRow>
 			<CheckBox android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/CheckBoxAdvancedUser"
+				android:layout_height="wrap_content" android:id="@+id/acbAdvancedUser"
 				android:hint="Advanced Mode" />
 		</TableRow>
 		<TableRow>
@@ -34,17 +34,8 @@
 		</TableRow>
 		<TableRow>
 			<CheckBox android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/CheckBoxQuickActivityInsert"
+				android:layout_height="wrap_content" android:id="@+id/acbQuickActivityInsert"
 				android:hint="Quick Insert Mode?" />
-		</TableRow>
-		<TableRow>
-			<TextView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:text="Display notifications in Status Bar" />
-		</TableRow>
-		<TableRow>
-			<CheckBox android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/CheckBoxNotifications"
-				android:hint="Notifications?" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
@@ -52,7 +43,7 @@
 		</TableRow>
 		<TableRow>
 			<CheckBox android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/CheckBoxVibrate"
+				android:layout_height="wrap_content" android:id="@+id/acbVibrate"
 				android:hint="Vibrate on Events?" />
 		</TableRow>
 		<TableRow>
@@ -62,7 +53,7 @@
 		</TableRow>
 		<TableRow>
 			<CheckBox android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/CheckBoxDimLight"
+				android:layout_height="wrap_content" android:id="@+id/acbDimLight"
 				android:hint="Dim Light?" />
 		</TableRow>
 	</TableLayout>

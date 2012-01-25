@@ -15,12 +15,13 @@
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.unibz.pomodroid;
+package cc.task3.pomodroid;
 
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.Activity;
 import java.util.ArrayList;
 import java.util.List;
+
+import cc.task3.pomodroid.exceptions.PomodroidException;
+import cc.task3.pomodroid.persistency.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,10 +34,10 @@ import android.view.Menu;
  * done some day. The only way to erase an activity from this sheet is to put it
  * into the trash.
  * 
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * 
- * @see it.unibz.pomodroid.SharedListActivity
+ * @see cc.task3.pomodroid.SharedListActivity
  */
 public class ActivityInventorySheet extends SharedListActivity {
 
@@ -52,7 +53,7 @@ public class ActivityInventorySheet extends SharedListActivity {
 	 * local list of activities. It calls populateAdapter to populate the
 	 * adapter with the new list of activities
 	 * 
-	 * @see it.unibz.pomodroid.persistency.Activity
+	 * @see cc.task3.pomodroid.persistency.Activity
 	 * @throws PomodroidException
 	 */
 	@Override
@@ -79,13 +80,13 @@ public class ActivityInventorySheet extends SharedListActivity {
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ACTION_ADD_ACTIVITY, 0, "Add a new Activity").setIcon(
+		menu.add(0, R.id.ACTION_ADD_ACTIVITY, 0, "Add a new Activity").setIcon(
 				android.R.drawable.ic_menu_add);
-		menu.add(0, ACTION_GO_TS, 0, "Trash Can").setIcon(
+		menu.add(0, R.id.ACTION_GO_TS, 0, "Trash Can").setIcon(
 				android.R.drawable.ic_menu_delete);
-		menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
+		menu.add(0, R.id.ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
 				android.R.drawable.ic_menu_preferences);
-		menu.add(0, ACTION_GO_ABOUT, 0, "About").setIcon(
+		menu.add(0, R.id.ACTION_GO_ABOUT, 0, "About").setIcon(
 				android.R.drawable.ic_menu_help);
 		return true;
 

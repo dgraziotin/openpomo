@@ -10,12 +10,9 @@
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:gravity="center" android:layout_gravity="center" android:layout_marginBottom="30px"  />
 
-		<TextView android:id="@+id/TextViewAbout1" android:text="@string/about_1" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
-		<TextView android:id="@+id/TextViewAbout2" android:text="@string/about_2" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
-		<TextView android:id="@+id/TextViewAbout3" android:text="@string/about_3" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
-		<TextView android:id="@+id/TextViewAbout4" android:text="@string/about_4" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>	
-		
-		<Button android:text="Back" android:id="@+id/ButtonGoBack" style="@style/ButtonMain" />
+		<TextView android:id="@+id/atvAbout2" android:text="@string/about_2" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+		<TextView android:id="@+id/atvAbout3" android:text="@string/about_3" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+		<TextView android:id="@+id/atvAbout4" android:text="@string/about_4" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>	
 
 	</LinearLayout>
 </ScrollView>

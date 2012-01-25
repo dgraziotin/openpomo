@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:stretchColumns="1">
+	<TableRow>
+		<TextView android:layout_width="fill_parent" android:padding="3dip" 
+			android:layout_height="wrap_content" android:text="Activities created"></TextView>
+		<TextView android:id="@+id/atvActivitiesCreated" android:padding="3dip" 
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+	</TableRow>
+
+	<TableRow>
+		<TextView android:layout_width="fill_parent" android:padding="3dip"
+			android:layout_height="wrap_content" android:text="Activities completed"></TextView>
+		<TextView android:id="@+id/atvActivitiesCompleted" android:padding="3dip" 
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+	</TableRow>
+
+	<TableRow>
+		<TextView android:layout_width="fill_parent" android:padding="3dip" 
+			android:layout_height="wrap_content" android:text="Started Pomodoros"></TextView>
+		<TextView android:id="@+id/atvPomodoroStarted" android:padding="3dip" 
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+	</TableRow>
+
+	<TableRow>
+		<TextView android:layout_width="fill_parent" android:padding="3dip" 
+			android:layout_height="wrap_content" android:text="Finished Pomodoros"></TextView>
+		<TextView android:id="@+id/atvPomodoroFinished" android:padding="3dip" 
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+	</TableRow>
+
+	<TableRow>
+		<TextView android:layout_width="fill_parent" android:padding="3dip" 
+			android:layout_height="wrap_content" android:text="Broken Pomodoros"></TextView>
+		<TextView android:id="@+id/atvPomodoroBroken" android:padding="3dip" 
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+	</TableRow>
+
+	<TableRow>
+		<TextView android:layout_width="fill_parent" android:padding="3dip" 
+			android:layout_height="wrap_content" android:text="Finished / Started Pomodoros"></TextView>
+		<TextView android:id="@+id/atvPomodorosFinishedStarted" android:padding="3dip" 
+			android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+	</TableRow>
+</TableLayout>

@@ -14,12 +14,13 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid.persistency;
+package cc.task3.pomodroid.persistency;
 
-import it.unibz.pomodroid.exceptions.PomodroidException;
 import java.io.File;
 import android.content.Context;
 import android.util.Log;
+import cc.task3.pomodroid.exceptions.PomodroidException;
+
 import com.db4o.Db4o;
 import com.db4o.defragment.Defragment;
 import com.db4o.ObjectContainer;
@@ -27,7 +28,7 @@ import com.db4o.config.Configuration;
 
 /**
  * This class manages the open source object database db40
-* @author Daniel Graziotin <daniel.graziotin@acm.org>
+* @author Daniel Graziotin <d AT danielgraziotin DOT it>
 * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  *
  */

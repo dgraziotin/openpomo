@@ -14,14 +14,14 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid.models;
+package cc.task3.pomodroid.models;
 
 import java.util.Date;
 
 /**
  * A class representing an event. Each event has its type (string), value (string), date (date) and reference to
  * its activity.
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  *
  */

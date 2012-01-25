@@ -14,206 +14,190 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid.models;
+package cc.task3.pomodroid.models;
 
 import java.util.Date;
 
 /**
- * A class representing a tipical pomodroid user. Each user has its username (string), password (tring), 
+ * A class representing a tipical pomodroid user. Each user has its username (string), password (tring),
  * trac url (absolute url)
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ *
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * 
  */
 
 public class User {
-	private int pomodoroMinutesDuration;
-	private Date dateFacedPomodoro;
-	private int facedPomodoro;
-	private boolean advanced;
-	private boolean quickInsertActivity;
-	private boolean vibration;
-	private boolean dimLight;
-	private boolean notifications;
-	
+    private int pomodoroMinutesDuration;
+    private Date dateFacedPomodoro;
+    private int facedPomodoro;
+    private boolean advanced;
+    private boolean quickInsertActivity;
+    private boolean vibration;
+    private boolean dimLight;
+    private boolean displayDonations;
 
-	/**
-	 * @param tracUsername pomodroid username
-	 * @param tracPassword pomodroid password
-	 * @param tracUrl absolute trac url
-	 */
-	public User() {
-		this.pomodoroMinutesDuration = 25;
-		this.dateFacedPomodoro = new Date();
-		this.facedPomodoro = 0;
-		this.advanced = false;
-		this.quickInsertActivity = false;
-		this.vibration = false;
-		this.dimLight = false;
-		this.notifications = false;
-	}
-	
-	/**
-	 * @param tracUsername pomodroid username
-	 * @param tracPassword pomodroid password
-	 * @param tracUrl absolute trac url
-	 */
-	public User(int pomodoroMinutesDuration) {
-		this.pomodoroMinutesDuration = pomodoroMinutesDuration;
-		this.dateFacedPomodoro = new Date();
-		this.facedPomodoro = 0;
-		this.advanced = false;
-		this.quickInsertActivity = false;
-		this.vibration = false;
-		this.dimLight = false;
-		this.notifications = false;
-	}
 
-	/**
-	 * This method updates some class variables 
-	 * @param user
-	 * 
-	 */
-	public void update (User user){
-		this.pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
-	}
-	
+    public User() {
+        this.pomodoroMinutesDuration = 25;
+        this.dateFacedPomodoro = new Date();
+        this.facedPomodoro = 0;
+        this.advanced = false;
+        this.quickInsertActivity = false;
+        this.vibration = false;
+        this.dimLight = false;
+    }
 
-	
-	
-	/**
-	 * @return pomodoroMinutesDuration length of a Pomodoro in minutes
-	 */
-	public int getPomodoroMinutesDuration() {
-		return pomodoroMinutesDuration;
-	}
 
-	/**
-	 * @param pomodoroMinutesDuration length of a Pomodoro in minutes
-	 */
-	public void setPomodoroMinutesDuration(int pomodoroMinutesDuration) {
-		this.pomodoroMinutesDuration = pomodoroMinutesDuration;
-	}
+    public User(int pomodoroMinutesDuration) {
+        this.pomodoroMinutesDuration = pomodoroMinutesDuration;
+        this.dateFacedPomodoro = new Date();
+        this.facedPomodoro = 0;
+        this.advanced = false;
+        this.quickInsertActivity = false;
+        this.vibration = false;
+        this.dimLight = false;
+        this.displayDonations = true;
+    }
 
-	/**
-	 * this date is related to the number of pomodoro faced.
-	 * @return date
-	 * 
-	 */
-	public Date getDateFacedPomodoro() {
-		return dateFacedPomodoro;
-	}
+    /**
+     * This method updates some class variables
+     *
+     * @param user
+     */
+    public void update(User user) {
+        this.pomodoroMinutesDuration = user.getPomodoroMinutesDuration();
+    }
 
-	/**
-	 * Set the date
-	 * @param dateFacedPomodoro
-	 */
-	public void setDateFacedPomodoro(Date dateFacedPomodoro) {
-		this.dateFacedPomodoro = dateFacedPomodoro;
-	}
 
-	/**
-	 * This number is related to the date (methods above)
-	 * @return faced pomodoro
-	 *
-	 */
-	public int getFacedPomodoro() {
-		return facedPomodoro;
-	}
+    /**
+     * @return pomodoroMinutesDuration length of a Pomodoro in minutes
+     */
+    public int getPomodoroMinutesDuration() {
+        return pomodoroMinutesDuration;
+    }
 
-	/**
-	 * The pomodoro faced to set
-	 * @param facedPomodoro
-	 * 
-	 */
-	public void setFacedPomodoro(int facedPomodoro) {
-		this.facedPomodoro = facedPomodoro;
-	}
-	
-	/**
-	 * @return the advanced
-	 */
-	public boolean isAdvanced() {
-		return advanced;
-	}
+    /**
+     * @param pomodoroMinutesDuration length of a Pomodoro in minutes
+     */
+    public void setPomodoroMinutesDuration(int pomodoroMinutesDuration) {
+        this.pomodoroMinutesDuration = pomodoroMinutesDuration;
+    }
 
-	/**
-	 * @param advanced the advanced to set
-	 */
-	public void setAdvanced(boolean advanced) {
-		this.advanced = advanced;
-	}
+    /**
+     * this date is related to the number of pomodoro faced.
+     *
+     * @return date
+     */
+    public Date getDateFacedPomodoro() {
+        return dateFacedPomodoro;
+    }
 
-	/**
-	 * @return the quickInsertActivity
-	 */
-	public boolean isQuickInsertActivity() {
-		return quickInsertActivity;
-	}
+    /**
+     * Set the date
+     *
+     * @param dateFacedPomodoro
+     */
+    public void setDateFacedPomodoro(Date dateFacedPomodoro) {
+        this.dateFacedPomodoro = dateFacedPomodoro;
+    }
 
-	/**
-	 * @param quickInsertActivity the quickInsertActivity to set
-	 */
-	public void setQuickInsertActivity(boolean quickInsertActivity) {
-		this.quickInsertActivity = quickInsertActivity;
-	}
+    /**
+     * This number is related to the date (methods above)
+     *
+     * @return faced pomodoro
+     */
+    public int getFacedPomodoro() {
+        return facedPomodoro;
+    }
 
-	/**
-	 * @return the vibration
-	 */
-	public boolean isVibration() {
-		return vibration;
-	}
+    /**
+     * The pomodoro faced to set
+     *
+     * @param facedPomodoro
+     */
+    public void setFacedPomodoro(int facedPomodoro) {
+        this.facedPomodoro = facedPomodoro;
+    }
 
-	/**
-	 * @param vibration the vibration to set
-	 */
-	public void setVibration(boolean vibration) {
-		this.vibration = vibration;
-	}
+    /**
+     * @return the advanced
+     */
+    public boolean isAdvanced() {
+        return advanced;
+    }
 
-	/**
-	 * @return the dimLight
-	 */
-	public boolean isDimLight() {
-		return dimLight;
-	}
+    /**
+     * @param advanced the advanced to set
+     */
+    public void setAdvanced(boolean advanced) {
+        this.advanced = advanced;
+    }
 
-	/**
-	 * @param dimLight the dimLight to set
-	 */
-	public void setDimLight(boolean dimLight) {
-		this.dimLight = dimLight;
-	}
-	
-	/**
-	 * @return the dimLight
-	 */
-	public boolean isNotifications() {
-		return notifications;
-	}
+    /**
+     * @return the quickInsertActivity
+     */
+    public boolean isQuickInsertActivity() {
+        return quickInsertActivity;
+    }
 
-	/**
-	 * @param dimLight the dimLight to set
-	 */
-	public void setNotifications(boolean notifications) {
-		this.notifications = notifications;
-	}
+    /**
+     * @param quickInsertActivity the quickInsertActivity to set
+     */
+    public void setQuickInsertActivity(boolean quickInsertActivity) {
+        this.quickInsertActivity = quickInsertActivity;
+    }
 
-	/**
-	 * Every 4 pomodoro the user should do a longer break
-	 * @return
-	 * 
-	 */
-	public boolean isFourthPomodoro(){
-		return (this.facedPomodoro % 4==0) ;
-	}
-	
-	/**
-	 * Add one pomodoro
-	 */
-	public void addPomodoro(){
-		 this.facedPomodoro++;
-	}
-	
+    /**
+     * @return the vibration
+     */
+    public boolean isVibration() {
+        return vibration;
+    }
+
+    /**
+     * @param vibration the vibration to set
+     */
+    public void setVibration(boolean vibration) {
+        this.vibration = vibration;
+    }
+
+    /**
+     * @return the dimLight
+     */
+    public boolean isDimLight() {
+        return dimLight;
+    }
+
+    /**
+     * @param dimLight the dimLight to set
+     */
+    public void setDimLight(boolean dimLight) {
+        this.dimLight = dimLight;
+    }
+
+
+    /**
+     * Every 4 pomodoro the user should do a longer break
+     *
+     * @return
+     */
+    public boolean isFourthPomodoro() {
+        return (this.facedPomodoro % 4 == 0);
+    }
+
+    /**
+     * Add one pomodoro
+     */
+    public void addPomodoro() {
+        this.facedPomodoro++;
+    }
+
+    public boolean isDisplayDonations() {
+        return displayDonations;
+    }
+
+    public void setDisplayDonations(boolean displayDonations) {
+        this.displayDonations = displayDonations;
+    }
+
 }

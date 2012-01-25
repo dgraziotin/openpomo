@@ -1,0 +1,79 @@
+<ScrollView android:id="@+id/ScrollView01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:stretchColumns="0">
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Please set every field of this window. Pomodroid checks the validity of the services and credentials on the fly. Therefore, in order to save your settings you must have an active connection" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Give this Service a name to identify it" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/aetName"
+				android:hint="Service Name" />
+		</TableRow>
+		<!--
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Set the Service type" />
+		</TableRow>
+		<TableRow>
+			<Spinner android:id="@+id/spinnerServiceTypes" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:drawSelectorOnTop="true"
+				android:prompt="@string/service_type" />
+
+		</TableRow>
+		-->
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="TRAC XML-RPC/HTTP(S) BASIC AUTH username" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/aetUsername"
+				android:hint="TRAC username" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="TRAC anonymous XML_RPC access?" />
+		</TableRow>
+		<TableRow>
+			<CheckBox android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/acbAnonymous"
+				android:hint="Anonymous Access" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="TRAC XML-RPC/HTTP(S) BASIC AUTH password" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/aetPassword"
+				android:password="true" android:hint="TRAC password" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Trac XML-RPC login URL" />
+		</TableRow>
+		<TableRow>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/aetTracUrl"
+				android:hint="http(s)://domain.ext/tracurl/login/xmlrpc" />
+		</TableRow>
+		<TableRow>
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Enable the download of tickets?" />
+		</TableRow>
+		<TableRow>
+			<CheckBox android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/acbIsActive"
+				android:hint="Active?" />
+		</TableRow>
+	</TableLayout>
+</ScrollView>

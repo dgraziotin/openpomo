@@ -14,12 +14,13 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid;
+package cc.task3.pomodroid;
 
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.Activity;
 import java.util.ArrayList;
 import java.util.List;
+
+import cc.task3.pomodroid.exceptions.PomodroidException;
+import cc.task3.pomodroid.persistency.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -31,9 +32,9 @@ import android.view.Menu;
  * 
  * From here we can move an activity into the todo today sheet (and automatically into
  * the activity inventory sheet) or into the activity inventory sheet.
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see it.unibz.pomodroid.SharedListActivity
+ * @see cc.task3.pomodroid.SharedListActivity
  */
 public class TrashSheet extends SharedListActivity {
 
@@ -49,7 +50,7 @@ public class TrashSheet extends SharedListActivity {
 	 * list of activities. It calls populateAdapter to populate the adapter with
 	 * the new list of activities
 	 * 
-	 * @see it.unibz.pomodroid.persistency.Activity
+	 * @see cc.task3.pomodroid.persistency.Activity
 	 * @throws PomodroidException
 	 */
 
@@ -114,15 +115,15 @@ public class TrashSheet extends SharedListActivity {
 	@Override
 	public  boolean onCreateOptionsMenu(Menu menu) {
 		if (super.getUser().isAdvanced()) {
-			menu.add(0, ACTION_EMPTY_LIST, 0, "Empty Trash Can").setIcon(
+			menu.add(0, R.id.ACTION_EMPTY_LIST, 0, "Empty Trash Can").setIcon(
 					android.R.drawable.ic_menu_delete);
 			return true;
 		}
-		menu.add(0, ACTION_EMPTY_LIST, 0, "Empty Trash Can").setIcon(
+		menu.add(0, R.id.ACTION_EMPTY_LIST, 0, "Empty Trash Can").setIcon(
 				android.R.drawable.ic_menu_delete);
-		menu.add(0, ACTION_GO_TTS, 0, "Todo Today").setIcon(
+		menu.add(0, R.id.ACTION_GO_TTS, 0, "Todo Today").setIcon(
 				android.R.drawable.ic_menu_day);
-		menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
+		menu.add(0, R.id.ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
 				android.R.drawable.ic_menu_preferences);
 		return true;
 	}

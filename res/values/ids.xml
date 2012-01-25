@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+	public static final int MSG_ACTIVITIES_PRESENT = 12;
+	public static final int MSG_ACTIVITIES_NOT_PRESENT = 13;
+ -->
+<resources>
+    <item type="id" name="ACTION_ADD_ACTIVITY" />
+    <item type="id" name="ACTION_ADD_SERVICE" />
+    <item type="id" name="ACTION_GO_ABOUT" />
+    <item type="id" name="ACTION_GO_AIS" />
+    <item type="id" name="ACTION_GO_PREFERENCES" />
+    <item type="id" name="ACTION_GO_SERVICES" />
+    <item type="id" name="ACTION_GO_STATISTICS" />
+    <item type="id" name="ACTION_GO_TTS" />
+    <item type="id" name="ACTION_GO_TS" />
+    <item type="id" name="ACTION_LIST_SERVICES" />
+    <item type="id" name="ACTION_SAVE" />
+    <item type="id" name="ACTION_CLEAR" />
+    <item type="id" name="ACTION_POMODORO_START" />
+    <item type="id" name="ACTION_POMODORO_STOP" />
+    <item type="id" name="ACTION_RETRIEVE_ACTIVITIES" />
+    <item type="id" name="ACTION_REFRESH_SERVICES" />
+    <item type="id" name="ACTION_EMPTY_LIST" />
+
+	<item type="id" name="MSG_ACTIVITIES_NOT_PRESENT" />
+	<item type="id" name="MSG_ACTIVITIES_PRESENT" />
+</resources>

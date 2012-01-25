@@ -14,29 +14,29 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid.persistency;
+package cc.task3.pomodroid.persistency;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+
+import cc.task3.pomodroid.exceptions.PomodroidException;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 
 import android.util.Log;
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.DBHelper;
 
 /**
  * A class representing an extension of the activity class. Whit the
  * help of the open source object database db40 the activity is saved
  * into a local database.
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * 
  */
-public class Activity extends it.unibz.pomodroid.models.Activity{
+public class Activity extends cc.task3.pomodroid.models.Activity{
 
 	/**
 	 * @param numberPomodoro
@@ -48,10 +48,10 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 	 * @param reporter
 	 * @param type
 	 */
-	public Activity(int numberPomodoro, Date received, Date deadline,
+	public Activity(int numberPomodoro, int numberInterruptions, Date received, Date deadline,
 			String summary, String description, String origin, int originId,
 			String priority, String reporter, String type) {
-		super(numberPomodoro, received, deadline, summary, description, origin,
+		super(numberPomodoro, numberInterruptions, received, deadline, summary, description, origin,
 				originId, priority, reporter, type);
 		// TODO Auto-generated constructor stub
 	}
@@ -180,6 +180,29 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 		} finally {
 			dbHelper.commit();
 		}
+	}
+	
+	/**
+	 * Deletes an activity
+	 * 
+	 * @param dbHelper
+	 * @throws PomodroidException
+	 */
+	public int getNumberInterruptions(DBHelper dbHelper) throws PomodroidException {
+		List<Event> result = null;
+		try {
+			result = Event.getAllInterruptions(this, dbHelper);
+		} catch (Exception e) {
+			Log.e("Activity.getNumberInterruptions()", "Problem: " + e.toString());
+			throw new PomodroidException("ERROR in Activity.getNumberInterruptions():"
+					+ e.toString());
+		} finally {
+			dbHelper.commit();
+		}
+		if (result != null)
+			return result.size();
+		else
+			return 0;
 	}
 
 	/**
@@ -361,6 +384,32 @@ public class Activity extends it.unibz.pomodroid.models.Activity{
 		}finally {
 			dbHelper.commit();
 		}
+	}
+	
+	/**
+	 * Returns all the activities belonging to a Service
+	 * @param service
+	 * @param dbHelper
+	 * @return a list of Activities
+	 * @throws PomodroidException
+	 */
+	public static List<Activity> getForService(final Service service,
+			DBHelper dbHelper) throws PomodroidException {
+		List<Activity> activities = null;
+		try {
+			activities = dbHelper.getDatabase().query(
+					new Predicate<Activity>() {
+						private static final long serialVersionUID = 1L;
+						public boolean match(Activity activity) {
+							return activity.getOrigin().equals(service.getUrl());
+						}
+					});
+		} catch (Exception e) {
+			Log.e("Activity.getActivity()", "Problem: " + e.toString());
+			throw new PomodroidException("ERROR in Activity.getActivity():"
+					+ e.toString());
+		}
+		return activities;
 	}
 	
 	/**

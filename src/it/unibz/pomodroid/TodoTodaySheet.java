@@ -14,15 +14,16 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.unibz.pomodroid;
+package cc.task3.pomodroid;
 
-import it.unibz.pomodroid.exceptions.PomodroidException;
-import it.unibz.pomodroid.persistency.Activity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import cc.task3.pomodroid.exceptions.PomodroidException;
+import cc.task3.pomodroid.persistency.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,7 +33,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.RelativeLayout;
 
 /**
@@ -42,14 +42,14 @@ import android.widget.RelativeLayout;
  * Here we can face the activity, move it into the activity inventory sheet or
  * into the trash sheet.
  * 
- * @author Daniel Graziotin <daniel.graziotin@acm.org>
+ * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see it.unibz.pomodroid.SharedListActivity
+ * @see cc.task3.pomodroid.SharedListActivity
  */
 public class TodoTodaySheet extends SharedListActivity {
 
 	/**
-	 * @see it.unibz.pomodroid.SharedListActivity#onCreate(android.os.Bundle)
+	 * @see cc.task3.pomodroid.SharedListActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,27 +57,28 @@ public class TodoTodaySheet extends SharedListActivity {
 		super.setContext(this);
 		super.onCreate(savedInstanceState);
 
-		TextView textViewEmptySheet = (TextView) findViewById(R.id.empty_sheet);
-		textViewEmptySheet.setText(getString(R.string.no_activities_tts));
-		textViewEmptySheet.setVisibility(View.INVISIBLE);
-		Button buttonQuickInsertActivity = (Button) findViewById(R.id.buttonquickinsertactivity);
-		final EditText editTextQuickInsertActivity = (EditText) findViewById(R.id.EditTextQuickInsertActivity);
-		buttonQuickInsertActivity.setOnClickListener(new OnClickListener() {
+		//TextView textViewEmptySheet = (TextView) findViewById(R.id.atvEmptySheet);
+		//textViewEmptySheet.setText(getString(R.string.no_activities_tts));
+		//textViewEmptySheet.setVisibility(View.INVISIBLE);
+		Button abQuickInsertActivity = (Button) findViewById(R.id.abQuickInsertActivity);
+		
+		final EditText aetQuickInsertActivity = (EditText) findViewById(R.id.aetQuickInsertActivity);
+		abQuickInsertActivity.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (editTextQuickInsertActivity.getText().toString().equals(""))
+				if (aetQuickInsertActivity.getText().toString().equals(""))
 					return;
 				Calendar calendar = new GregorianCalendar();
 				try {
-					Activity activity = new Activity(0, new Date(), calendar
-							.getTime(), editTextQuickInsertActivity.getText()
+					Activity activity = new Activity(0, 0, new Date(), calendar
+							.getTime(), aetQuickInsertActivity.getText()
 							.toString(), "", "local", Activity
 							.getLastLocalId(dbHelper) + 1, "medium", "you",
 							"task");
 					activity.setTodoToday(true);
 					activity.save(dbHelper);
-					findViewById(R.id.empty_sheet)
-							.setVisibility(View.INVISIBLE);
+					//findViewById(R.id.atvEmptySheet)
+					//		.setVisibility(View.INVISIBLE);
 					refreshSheet();
 
 					throw new PomodroidException("INFO: Activity saved.");
@@ -93,7 +94,7 @@ public class TodoTodaySheet extends SharedListActivity {
 	public void onResume() {
 		super.onResume();
 		if (super.getUser().isQuickInsertActivity()) {
-			RelativeLayout activityList = (RelativeLayout) findViewById(R.id.activitylist);
+			RelativeLayout activityList = (RelativeLayout) findViewById(R.id.arlActivityList);
 
 			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -102,11 +103,11 @@ public class TodoTodaySheet extends SharedListActivity {
 
 			activityList.setLayoutParams(layoutParams);
 
-			RelativeLayout quickActivityInsert = (RelativeLayout) findViewById(R.id.quickinsertactivity);
+			RelativeLayout quickActivityInsert = (RelativeLayout) findViewById(R.id.arlQuickInsertActivity);
 			quickActivityInsert.setVisibility(View.VISIBLE);
 
 		} else {
-			RelativeLayout activityList = (RelativeLayout) findViewById(R.id.activitylist);
+			RelativeLayout activityList = (RelativeLayout) findViewById(R.id.arlQuickInsertActivity);
 
 			RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -115,7 +116,7 @@ public class TodoTodaySheet extends SharedListActivity {
 
 			activityList.setLayoutParams(layoutParams);
 
-			RelativeLayout quickActivityInsert = (RelativeLayout) findViewById(R.id.quickinsertactivity);
+			RelativeLayout quickActivityInsert = (RelativeLayout) findViewById(R.id.arlQuickInsertActivity);
 			quickActivityInsert.setVisibility(View.GONE);
 		}
 	}
@@ -125,7 +126,7 @@ public class TodoTodaySheet extends SharedListActivity {
 	 * local list of activities. It calls populateAdapter to populate the
 	 * adapter with the new list of activities
 	 * 
-	 * @see it.unibz.pomodroid.persistency.Activity
+	 * @see cc.task3.pomodroid.persistency.Activity
 	 * @throws PomodroidException
 	 */
 	@Override
@@ -253,23 +254,25 @@ public class TodoTodaySheet extends SharedListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (super.getUser().isAdvanced()) {
-			menu.add(0, ACTION_ADD_ACTIVITY, 0, "New Activity").setIcon(
+			menu.add(0, R.id.ACTION_ADD_ACTIVITY, 0, "New Activity").setIcon(
 					android.R.drawable.ic_menu_add);
-			menu.add(0, ACTION_GO_TS, 0, "Trash Can").setIcon(
+			menu.add(0, R.id.ACTION_GO_TS, 0, "Trash Can").setIcon(
 					android.R.drawable.ic_menu_delete);
-			menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
+			menu.add(0, R.id.ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
 					android.R.drawable.ic_menu_preferences);
-			menu.add(0, ACTION_GO_ABOUT, 0, "About").setIcon(
+			menu.add(0, R.id.ACTION_GO_STATISTICS, 0, "Statistics").setIcon(
+					android.R.drawable.ic_menu_recent_history);
+			menu.add(0, R.id.ACTION_GO_ABOUT, 0, "About").setIcon(
 					android.R.drawable.ic_menu_help);
 			return true;
 		}
-		menu.add(0, ACTION_ADD_ACTIVITY, 0, "New Activity").setIcon(
+		menu.add(0, R.id.ACTION_ADD_ACTIVITY, 0, "New Activity").setIcon(
 				android.R.drawable.ic_menu_add);
-		menu.add(0, ACTION_GO_TS, 0, "Trash Can").setIcon(
+		menu.add(0, R.id.ACTION_GO_TS, 0, "Trash Can").setIcon(
 				android.R.drawable.ic_menu_delete);
-		menu.add(0, ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
+		menu.add(0, R.id.ACTION_GO_PREFERENCES, 0, "Preferences").setIcon(
 				android.R.drawable.ic_menu_preferences);
-		menu.add(0, ACTION_GO_ABOUT, 0, "About").setIcon(
+		menu.add(0, R.id.ACTION_GO_ABOUT, 0, "About").setIcon(
 				android.R.drawable.ic_menu_help);
 		return true;
 	}
