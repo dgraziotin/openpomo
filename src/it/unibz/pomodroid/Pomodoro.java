@@ -14,10 +14,10 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomodroid;
+package it.unibz.pomodroid;
 
-import cc.task3.pomodroid.exceptions.PomodroidException;
-import cc.task3.pomodroid.persistency.User;
+import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.models.*;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -71,14 +71,8 @@ public class Pomodoro extends SharedActivity {
      * Holds remaining time in seconds
      */
     private int pomodoroSecondsValue = -1;
-    /**
-     * Stores the origin of the Activity
-     */
-    private String activityOrigin = null;
-    /**
-     * Stores the id of the Activity
-     */
-    private int activityOriginId = -1;
+
+    private Activity selectedActivity;
     /**
      * Wake variable for Power Manager
      */
@@ -256,12 +250,8 @@ public class Pomodoro extends SharedActivity {
         Notification notification = new Notification(R.drawable.pomo_red,
                 "Pomodroid", System.currentTimeMillis());
         Intent intent = new Intent(context, Pomodoro.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("origin", activityOrigin);
-        bundle.putInt("originId", activityOriginId);
         TextView atvActivitySummary = (TextView) findViewById(R.id.atvActivitySummary);
         String activitySummary = (String) atvActivitySummary.getText();
-        intent.putExtras(bundle);
         notification.setLatestEventInfo(Pomodoro.this, activitySummary,
                 message, PendingIntent.getActivity(getBaseContext(), 0, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT));
@@ -294,34 +284,24 @@ public class Pomodoro extends SharedActivity {
 
         this.pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
         this.pomodoroSecondsLength = this.pomodoroSecondsValue;
-        this.activityOrigin = this.getIntent().getExtras().getString("origin");
-        this.activityOriginId = this.getIntent().getExtras().getInt("originId");
+        this.selectedActivity = getUser().getSelectedActivity();
 
-        cc.task3.pomodroid.persistency.Activity activity = null;
-        try {
-            activity = cc.task3.pomodroid.persistency.Activity.get(
-                    this.activityOrigin, this.activityOriginId,
-                    super.getDbHelper());
-            this.setUser(User.retrieve(super.getDbHelper()));
-        } catch (PomodroidException e) {
-            e.alertUser(this);
-        }
         updateProgressbarAndTimer(pomodoroSecondsValue);
 
         TextView atvActivitySummary = (TextView) findViewById(R.id.atvActivitySummary);
-        atvActivitySummary.setText(activity.getSummary() + " ("
-                + activity.getStringDeadline() + ")");
+        atvActivitySummary.setText(selectedActivity.getSummary() + " ("
+                + selectedActivity.getStringDeadline() + ")");
         TextView atvActivityDescription = (TextView) findViewById(R.id.atvActivityDescription);
-        atvActivityDescription.setText(activity.getDescription()
-                + " (Given by: " + activity.getReporter() + ")");
+        atvActivityDescription.setText(selectedActivity.getDescription()
+                + " (Given by: " + selectedActivity.getReporter() + ")");
         TextView atvActivityNumberPomodoro = (TextView) findViewById(R.id.atvActivityNumberPomodoro);
-        Integer numberPomodoro = activity.getNumberPomodoro();
+        Integer numberPomodoro = selectedActivity.getNumberPomodoro();
         atvActivityNumberPomodoro.setText("Number of pomodoro: "
                 + numberPomodoro.toString());
 
         TextView TextViewActivityNumberInterruptions = (TextView) findViewById(R.id.atvActivityNumberInterruptions);
         Integer numberInterruptions = 0;
-        numberInterruptions = activity.getNumberInterruptions();
+        numberInterruptions = selectedActivity.getNumberInterruptions();
 
         TextViewActivityNumberInterruptions.setText("Number of interruptions: "
                 + numberInterruptions.toString());
@@ -341,8 +321,6 @@ public class Pomodoro extends SharedActivity {
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         final Intent pomodoroService = new Intent(context,
                 PomodoroService.class);
-        pomodoroService.putExtra("origin", this.activityOrigin);
-        pomodoroService.putExtra("originId", this.activityOriginId);
         startService(pomodoroService);
     }
 
@@ -362,7 +340,7 @@ public class Pomodoro extends SharedActivity {
         }
     }
 
-  /**
+    /**
      * We specify the menu labels and theirs icons
      *
      * @param menu

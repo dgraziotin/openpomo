@@ -1,11 +1,10 @@
-package cc.task3.pomodroid;
+package it.unibz.pomodroid;
 
-import cc.task3.pomodroid.exceptions.PomodroidException;
-import cc.task3.pomodroid.persistency.DBHelper;
-import cc.task3.pomodroid.persistency.Event;
-import cc.task3.pomodroid.persistency.User;
+import it.unibz.pomodroid.models.*;
+import it.unibz.pomodroid.exceptions.PomodroidException;
+
 import java.util.Date;
-import android.app.Service;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,251 +17,241 @@ import android.os.RemoteException;
 /**
  * this is the service that is hooked by the main activity - File Scanner this
  * will read the params and do something
- * 
+ *
  * @author sschauhan
- * 
  */
 
-public class PomodoroService extends Service {
+public class PomodoroService extends android.app.Service {
 
-	/**
-	 * How many seconds are in a minute
-	 */
-	private final static int SECONDS_PER_MINUTE = 60;
-	/**
-	 * How many milliseconds are in a second
-	 */
-	public final static int MILLISECONDS_PER_SECOND = 1000;
-	/**
-	 * Sent when Pomodoro ticks a second
-	 */
-	public final static int MSG_REGISTER_CLIENT = -1;
-	/**
-	 * Sent when Pomodoro ticks a second
-	 */
-	public final static int MSG_POMODORO_TICK = 1;
-	/**
-	 * Sent when Pomodoro finishes
-	 */
-	public final static int MSG_POMODORO_FINISHED = 2;
-	/**
-	 * Sent when Pomodoro starts
-	 */
-	public final static int MSG_POMODORO_START = 3;
-	/**
-	 * Sent when Pomodoro is stopped
-	 */
-	public final static int MSG_POMODORO_STOP = 4;
-	/**
-	 * Sent when Pomodoro ticks a second
-	 */
-	public final static int MSG_UNREGISTER_CLIENT = -2;
-	/**
-	 * Holds remaining time in seconds
-	 */
-	private int pomodoroSecondsValue = -1;
-	/**
-	 * Stores the origin of the Activity
-	 */
-	private String activityOrigin = null;
-	/**
-	 * Stores the id of the Activity
-	 */
-	private int activityOriginId = -1;
-	/**
-	 * The Database container for db4o
-	 */
-	private DBHelper dbHelper;
-	/**
-	 * The actual User
-	 */
-	private User user;
-	/**
-	 * For communication with the Service
-	 */
-	private Messenger messenger;
-	/**
-	 * @return dbHelper object
-	 */
-	public DBHelper getDbHelper() {
-		return dbHelper;
-	}
+    /**
+     * How many seconds are in a minute
+     */
+    private final static int SECONDS_PER_MINUTE = 60;
+    /**
+     * How many milliseconds are in a second
+     */
+    public final static int MILLISECONDS_PER_SECOND = 1000;
+    /**
+     * Sent when Pomodoro ticks a second
+     */
+    public final static int MSG_REGISTER_CLIENT = -1;
+    /**
+     * Sent when Pomodoro ticks a second
+     */
+    public final static int MSG_POMODORO_TICK = 1;
+    /**
+     * Sent when Pomodoro finishes
+     */
+    public final static int MSG_POMODORO_FINISHED = 2;
+    /**
+     * Sent when Pomodoro starts
+     */
+    public final static int MSG_POMODORO_START = 3;
+    /**
+     * Sent when Pomodoro is stopped
+     */
+    public final static int MSG_POMODORO_STOP = 4;
+    /**
+     * Sent when Pomodoro ticks a second
+     */
+    public final static int MSG_UNREGISTER_CLIENT = -2;
+    /**
+     * Holds remaining time in seconds
+     */
+    private int pomodoroSecondsValue = -1;
 
-	/**
-	 * @return user object
-	 */
-	public User getUser() {
-		try {
-			return User.retrieve(dbHelper);
-		} catch (PomodroidException e) {
-			e.alertUser(this);
-		}
-		return null;
-	}
+    /**
+     * The Database container for db4o
+     */
+    private DBHelper dbHelper;
+    /**
+     * The actual User
+     */
+    private User user;
+    /**
+     * For communication with the Service
+     */
+    private Messenger messenger;
 
-	/**
-	 * The Context of the Activity
-	 */
-	protected Context context = null;
+    /**
+     * @return dbHelper object
+     */
+    public DBHelper getDbHelper() {
+        return dbHelper;
+    }
 
-	/**
-	 * Activated when the bind with Service is completed
-	 */
-	@Override
-	public IBinder onBind(Intent intent) {
-		return mMessenger.getBinder();
-	}
+    /**
+     * @return user object
+     */
+    public User getUser() {
+        try {
+            return User.retrieve(dbHelper);
+        } catch (PomodroidException e) {
+            e.alertUser(this);
+        }
+        return null;
+    }
 
-	/**
-	 * Handler of incoming messages from clients.
-	 */
-	class IncomingHandler extends Handler {
-		Intent intent;
-		Bundle data = new Bundle();
+    /**
+     * The Context of the Activity
+     */
+    protected Context context = null;
 
-		@Override
-		public void handleMessage(Message message) {
-			cc.task3.pomodroid.persistency.Activity activity = null;
-			try {
-				activity = cc.task3.pomodroid.persistency.Activity.get(
-						PomodoroService.this.activityOrigin,
-						PomodoroService.this.activityOriginId,
-						PomodoroService.this.getDbHelper());
+    /**
+     * Activated when the bind with Service is completed
+     */
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mMessenger.getBinder();
+    }
 
-				switch (message.what) {
-				case PomodoroService.MSG_REGISTER_CLIENT:
-					PomodoroService.this.messenger = message.replyTo;
-					break;
-				case PomodoroService.MSG_UNREGISTER_CLIENT:
-					PomodoroService.this.messenger = null;
-					break;
-				case PomodoroService.MSG_POMODORO_START:
-					pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
-					Event eventStart = new Event("pomodoro", "start",
-							new Date(), activity, pomodoroSecondsValue);
-					eventStart.save(PomodoroService.this.getDbHelper());
-					updateTimeTask.run();
-                    String pomodoroStartMessage = "Pomodoro Started";
-                    data.putInt("numberPomodoro", activity.getNumberPomodoro());
-                    data.putString("pomodoroMessage", pomodoroStartMessage);
-                    data.putString("origin", PomodoroService.this.activityOrigin);
-                    data.putInt("originId", PomodoroService.this.activityOriginId);
-                    communicateService(PomodoroService.MSG_POMODORO_START, data);
-					break;
-				case PomodoroService.MSG_POMODORO_TICK:
-					pomodoroSecondsValue--;
-					data.putInt("pomodoroSecondsValue", pomodoroSecondsValue);
-					communicateService(PomodoroService.MSG_POMODORO_TICK, data);
-					break;
-				case PomodoroService.MSG_POMODORO_FINISHED:
-					Event eventFinish = new Event("pomodoro", "finish", new Date(),
-							activity, pomodoroSecondsValue);
-					eventFinish.save(PomodoroService.this.getDbHelper());
-					activity.addOnePomodoro();
-					activity.save(getDbHelper());
-					pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
-					
-					String pomodoroMessage = getUser().isLongerBreak(getDbHelper()) ? getString(R.string.pomodoro_long_break)
-							: getString(R.string.pomodoro_short_break);
-					
-					data.putInt("numberPomodoro", activity.getNumberPomodoro());
-					data.putString("pomodoroMessage", pomodoroMessage);
-					data.putString("origin", PomodoroService.this.activityOrigin);
-					data.putInt("originId", PomodoroService.this.activityOriginId);
-					communicateService(PomodoroService.MSG_POMODORO_FINISHED, data);
-					break;
-				case PomodoroService.MSG_POMODORO_STOP:
-					Event eventStop = new Event("pomodoro", "stop", new Date(),
-							activity, pomodoroSecondsValue);
-					eventStop.save(PomodoroService.this.getDbHelper());
-					activity.addOneInterruption();
-					activity.save(getDbHelper());
-					int numberInterruptions = activity.getNumberInterruptions();
-					data.putInt("numberInterruptions", numberInterruptions);
-					pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
-					communicateService(PomodoroService.MSG_POMODORO_STOP, data);
-					removeCallbacks(updateTimeTask);
-					break;
-				}
-			} catch (PomodroidException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	/**
-	 * Holds the custom handler 
-	 */
-	private IncomingHandler handler = new IncomingHandler();
+    /**
+     * Handler of incoming messages from clients.
+     */
+    class IncomingHandler extends Handler {
+        Intent intent;
+        Bundle data = new Bundle();
 
-	
-	/**
-	 * For contacting the Service with the Messenger
-	 * @param message
-	 * @param data
-	 */
-	private void communicateService(int message, Bundle data) {
-		Message msg = Message.obtain(null, message, 0, 0);
-		if (data != null)
-			msg.setData(data);
-		try {
-			messenger.send(msg);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-	}
+        @Override
+        public void handleMessage(Message message) {
+            Activity activity = getUser().getSelectedActivity();
+            try {
+                switch (message.what) {
+                    case PomodoroService.MSG_REGISTER_CLIENT:
+                        PomodoroService.this.messenger = message.replyTo;
+                        break;
+                    case PomodoroService.MSG_UNREGISTER_CLIENT:
+                        PomodoroService.this.messenger = null;
+                        break;
+                    case PomodoroService.MSG_POMODORO_START:
+                        getUser().setUnderPomodoro(true);
+                        getUser().save(getDbHelper());
+                        pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
+                        Event eventStart = new Event("pomodoro", "start",
+                                new Date(), activity, pomodoroSecondsValue);
+                        eventStart.save(PomodoroService.this.getDbHelper());
+                        updateTimeTask.run();
+                        String pomodoroStartMessage = "Pomodoro Started";
+                        data.putInt("numberPomodoro", activity.getNumberPomodoro());
+                        data.putString("pomodoroMessage", pomodoroStartMessage);
+                        communicateService(PomodoroService.MSG_POMODORO_START, data);
+                        break;
+                    case PomodoroService.MSG_POMODORO_TICK:
+                        pomodoroSecondsValue--;
+                        data.putInt("pomodoroSecondsValue", pomodoroSecondsValue);
+                        communicateService(PomodoroService.MSG_POMODORO_TICK, data);
+                        break;
+                    case PomodoroService.MSG_POMODORO_FINISHED:
+                        getUser().setUnderPomodoro(false);
+                        getUser().save(getDbHelper());
+                        Event eventFinish = new Event("pomodoro", "finish", new Date(),
+                                activity, pomodoroSecondsValue);
+                        eventFinish.save(PomodoroService.this.getDbHelper());
+                        activity.addOnePomodoro();
+                        activity.save(getDbHelper());
+                        pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
 
-	/**
-	 * Target we publish for clients to send messages to IncomingHandler.
-	 */
-	final Messenger mMessenger = new Messenger(handler);
+                        String pomodoroMessage = getUser().isLongerBreak(getDbHelper()) ? getString(R.string.pomodoro_long_break)
+                                : getString(R.string.pomodoro_short_break);
 
-	/**
-	 * a Runnable called every seconds, that is responsible to call the method
-	 * to update the Pomodoro Timer View. It also sends messages to the handler.
-	 */
-	private Runnable updateTimeTask = new Runnable() {
-		public void run() {
-			if (pomodoroSecondsValue == 0) {
-				handler.removeCallbacks(this);
-				handler.sendEmptyMessage(MSG_POMODORO_FINISHED);
-				return;
-			}
-			handler.sendEmptyMessage(MSG_POMODORO_TICK);
-			handler.postDelayed(this, MILLISECONDS_PER_SECOND);
-		}
-	};
+                        data.putInt("numberPomodoro", activity.getNumberPomodoro());
+                        data.putString("pomodoroMessage", pomodoroMessage);
+                        communicateService(PomodoroService.MSG_POMODORO_FINISHED, data);
+                        break;
+                    case PomodoroService.MSG_POMODORO_STOP:
+                        getUser().setUnderPomodoro(false);
+                        getUser().save(getDbHelper());
+                        Event eventStop = new Event("pomodoro", "stop", new Date(),
+                                activity, pomodoroSecondsValue);
+                        eventStop.save(PomodoroService.this.getDbHelper());
+                        activity.addOneInterruption();
+                        activity.save(getDbHelper());
+                        int numberInterruptions = activity.getNumberInterruptions();
+                        data.putInt("numberInterruptions", numberInterruptions);
+                        pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
+                        communicateService(PomodoroService.MSG_POMODORO_STOP, data);
+                        removeCallbacks(updateTimeTask);
+                        break;
+                }
+            } catch (PomodroidException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		this.dbHelper = new DBHelper(getApplicationContext());
-		this.user = getUser();
-		pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
-	}
+    /**
+     * Holds the custom handler
+     */
+    private IncomingHandler handler = new IncomingHandler();
 
-	@Override
-	public void onStart(Intent intent, int startId) {
-		handleIntent(intent);
-	}
 
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		handleIntent(intent);
-		// We want this service to continue running until it is explicitly
-		// stopped, so return sticky.
-		return START_STICKY;
-	}
+    /**
+     * For contacting the Service with the Messenger
+     *
+     * @param message
+     * @param data
+     */
+    private void communicateService(int message, Bundle data) {
+        Message msg = Message.obtain(null, message, 0, 0);
+        if (data != null)
+            msg.setData(data);
+        try {
+            messenger.send(msg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public void handleIntent(Intent intent) {
-		this.activityOrigin = intent.getExtras().getString("origin");
-		this.activityOriginId = intent.getExtras().getInt("originId");
-	}
+    /**
+     * Target we publish for clients to send messages to IncomingHandler.
+     */
+    final Messenger mMessenger = new Messenger(handler);
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
+    /**
+     * a Runnable called every seconds, that is responsible to call the method
+     * to update the Pomodoro Timer View. It also sends messages to the handler.
+     */
+    private Runnable updateTimeTask = new Runnable() {
+        public void run() {
+            if (pomodoroSecondsValue == 0) {
+                handler.removeCallbacks(this);
+                handler.sendEmptyMessage(MSG_POMODORO_FINISHED);
+                return;
+            }
+            handler.sendEmptyMessage(MSG_POMODORO_TICK);
+            handler.postDelayed(this, MILLISECONDS_PER_SECOND);
+        }
+    };
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        this.dbHelper = new DBHelper(getApplicationContext());
+        this.user = getUser();
+        pomodoroSecondsValue = getUser().getPomodoroMinutesDuration() * SECONDS_PER_MINUTE;
+    }
+
+    @Override
+    public void onStart(Intent intent, int startId) {
+        handleIntent(intent);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        handleIntent(intent);
+        // We want this service to continue running until it is explicitly
+        // stopped, so return sticky.
+        return START_STICKY;
+    }
+
+    public void handleIntent(Intent intent) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
 }

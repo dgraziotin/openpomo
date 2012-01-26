@@ -14,11 +14,10 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomodroid;
+package it.unibz.pomodroid;
 
-import cc.task3.pomodroid.exceptions.PomodroidException;
-import cc.task3.pomodroid.persistency.Activity;
-import cc.task3.pomodroid.persistency.Event;
+import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.models.*;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,56 +25,56 @@ import android.widget.Button;
 
 /**
  * This class allows us to manipulate the content of the object oriented database db4o.
+ *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see cc.task3.pomodroid.SharedActivity
+ * @see it.unibz.pomodroid.SharedActivity
  * @see android.view.View.OnClickListener
  * @see http://www.db4o.com
  */
 public class CleanDatabase extends SharedActivity implements OnClickListener {
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.cleandatabase);
-		Button abDeleteActivitiesEvents = (Button) findViewById(R.id.abDeleteActivitiesEvents);
-		abDeleteActivitiesEvents.setOnClickListener((OnClickListener) this);
-		Button abDeleteDatabase = (Button) findViewById(R.id.abDeleteDatabase);
-		abDeleteDatabase.setOnClickListener((OnClickListener) this);
-		Button abDefragmentDatabase = (Button) findViewById(R.id.abDefragmentDatabase);
-		abDefragmentDatabase.setOnClickListener((OnClickListener) this);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.cleandatabase);
+        Button abDeleteActivitiesEvents = (Button) findViewById(R.id.abDeleteActivitiesEvents);
+        abDeleteActivitiesEvents.setOnClickListener((OnClickListener) this);
+        Button abDeleteDatabase = (Button) findViewById(R.id.abDeleteDatabase);
+        abDeleteDatabase.setOnClickListener((OnClickListener) this);
+        Button abDefragmentDatabase = (Button) findViewById(R.id.abDefragmentDatabase);
+        abDefragmentDatabase.setOnClickListener((OnClickListener) this);
+    }
 
-	/**
-	 * Default listener for clicks.
-	 * Regarding to the button that has been clicked, the related action is
-	 * called.
-	 * 
-	 * @see android.view.View.OnClickListener#onClick(android.view.View)
-	 * 
-	 */
-	@Override
-	public void onClick(View v) {
-		try {
-			switch (v.getId()) {
-			case R.id.abDeleteActivitiesEvents:
-				Activity.deleteAll(super.getDbHelper());
-				Event.deleteAll(super.getDbHelper());
-				throw new PomodroidException(
-						"All activities and events deleted!", "INFO");
-			case R.id.abDefragmentDatabase:
-				super.getDbHelper().defragment();
-				throw new PomodroidException("Database defragmented.", "INFO");
-			case R.id.abDeleteDatabase:
-				super.getDbHelper().deleteDatabase();
-				throw new PomodroidException(
-						"Database destroyed. Please restart Pomodroid.", "INFO");
-			}
-		} catch (PomodroidException e) {
-			e.alertUser(context);
-		} finally {
-			super.getDbHelper().commit();
-		}
+    /**
+     * Default listener for clicks.
+     * Regarding to the button that has been clicked, the related action is
+     * called.
+     *
+     * @see android.view.View.OnClickListener#onClick(android.view.View)
+     */
+    @Override
+    public void onClick(View v) {
+        try {
+            switch (v.getId()) {
+                case R.id.abDeleteActivitiesEvents:
+                    Activity.deleteAll(super.getDbHelper());
+                    Event.deleteAll(super.getDbHelper());
+                    throw new PomodroidException(
+                            "All activities and events deleted!", "INFO");
+                case R.id.abDefragmentDatabase:
+                    super.getDbHelper().defragment();
+                    throw new PomodroidException("Database defragmented.", "INFO");
+                case R.id.abDeleteDatabase:
+                    super.getDbHelper().deleteDatabase();
+                    throw new PomodroidException(
+                            "Database destroyed. Please restart Pomodroid.", "INFO");
+            }
+        } catch (PomodroidException e) {
+            e.alertUser(context);
+        } finally {
+            super.getDbHelper().commit();
+        }
 
-	}
+    }
 }

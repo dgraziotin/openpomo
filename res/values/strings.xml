@@ -42,7 +42,7 @@
 	<string name="priority">Priority</string>
 	<string name="description">Description</string>
 	<string name="preferences">Preferences</string>
-	<string name="preferences_intro">Pomodroid Settings</string>
+	<string name="preferences_intro">Use the Menu button to save the preferences.</string>
 	<string name="preferences_firsttime">Welcome to Pomodroid.\n
 		This is the first time that
 		you run the program. Please do the following: \n \n
@@ -74,14 +74,16 @@
 		button.\nYou can also access the list of services by pressing the
 		Menu button.\nPlease don\'t leave this window until all the operations finished.\n\n</string>
 	<string name="about">About</string>
-	<string name="about_1">Pomodroid is the opensource Android tool that lets
+	<string name="about_text">Pomodroid is the opensource Android tool that lets
 		you either define activities or download tickets from Trac environments and 
 		face them according to the Pomodoro Technique.\n\n
-		NEW: Simple Mode and Advanced Mode!
-		Pomodroid will automatically collect metrics while you are working.\n\n
-		THIS IS ALPHA SOFTWARE: please visit the official site for more info and links to documentation:\n
-		</string>
-	<string name="about_2">http://task3.cc/projects/pomodroid</string>
-	<string name="about_3">\n\nIMPROVE POMODROID! You can help Pomodroid in many ways. See the Project Wiki for info:</string>
-	<string name="about_4">http://github.com/dgraziotin/Pomodroid</string>
+	</string>
+    <string name="about_project_text">Pomodroid official website:</string>
+    <string name="about_project_url">http://task3.cc/projects/pomodroid</string>
+    <string name="about_github_text">Pomodroid Source code:</string>
+    <string name="about_github_url">http://github.com/dgraziotin/Pomodroid</string>
+    <string name="about_bug_text">Report a Bug / Feature Request (Requires GitHub Account)</string>
+    <string name="about_bug_url">http://github.com/dgraziotin/Pomodroid</string>
+    <string name="about_email_text">General Feedback / Report a Bug / Feature Request (e-mail)</string>
+    <string name="about_email_url">d@danielgraziotin.it</string>
 </resources>

@@ -6,13 +6,21 @@
 		android:orientation="vertical" android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 
-		<ImageView android:id="@+id/imagebutton" android:src="@drawable/pomodoro"
+		<ImageView android:id="@+id/imagebutton" android:src="@drawable/pomo_logo"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:gravity="center" android:layout_gravity="center" android:layout_marginBottom="30px"  />
 
-		<TextView android:id="@+id/atvAbout2" android:text="@string/about_2" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
-		<TextView android:id="@+id/atvAbout3" android:text="@string/about_3" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
-		<TextView android:id="@+id/atvAbout4" android:text="@string/about_4" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>	
+		<TextView android:id="@+id/atvAboutText" android:text="@string/about_text" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/atvAboutProjectText" android:text="@string/about_project_text" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/atvAboutProjectURL" android:text="@string/about_project_url" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/atvAboutGithubText" android:text="@string/about_github_text" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/atvAboutGithubURL" android:text="@string/about_github_url" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/atvAboutBugText" android:text="@string/about_bug_text" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/atvAboutBugURL" android:text="@string/about_bug_url" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/atvAboutEmailText" android:text="@string/about_email_text" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/atvAboutEmailURL" android:text="@string/about_email_url" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
 
-	</LinearLayout>
+
+
+    </LinearLayout>
 </ScrollView>

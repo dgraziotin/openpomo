@@ -14,7 +14,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomodroid;
+package it.unibz.pomodroid;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -23,25 +23,26 @@ import android.widget.TabHost;
 
 /**
  * This class implements the tabview visible within the users preferences
+ *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  * @see android.app.TabActivity
  */
-public class TabPreferences extends TabActivity{
-	
-	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
-	    
-	    TabHost mTabHost;
-	    mTabHost = getTabHost();
-	    
-	    mTabHost.addTab(mTabHost.newTabSpec("pref").setContent(new Intent(TabPreferences.this, Preferences.class)).
-	    		 setIndicator(this.getString(R.string.preferences), getResources().getDrawable(android.R.drawable.ic_menu_preferences)));
-	    mTabHost.addTab(mTabHost.newTabSpec("services").setContent(new Intent(TabPreferences.this,ListServices.class)).
-	    		 setIndicator(this.getString(R.string.services), getResources().getDrawable(android.R.drawable.ic_menu_upload)));
-	    mTabHost.addTab(mTabHost.newTabSpec("db4o").setContent(new Intent(TabPreferences.this, CleanDatabase.class)).
-	    		 setIndicator(this.getString(R.string.db4o), getResources().getDrawable(android.R.drawable.ic_menu_edit)));
-	    
+public class TabPreferences extends TabActivity {
 
-	}
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        TabHost mTabHost;
+        mTabHost = getTabHost();
+
+        mTabHost.addTab(mTabHost.newTabSpec("pref").setContent(new Intent(TabPreferences.this, Preferences.class)).
+                setIndicator(this.getString(R.string.preferences), getResources().getDrawable(android.R.drawable.ic_menu_preferences)));
+        mTabHost.addTab(mTabHost.newTabSpec("services").setContent(new Intent(TabPreferences.this, ListServices.class)).
+                setIndicator(this.getString(R.string.services), getResources().getDrawable(android.R.drawable.ic_menu_upload)));
+        mTabHost.addTab(mTabHost.newTabSpec("db4o").setContent(new Intent(TabPreferences.this, CleanDatabase.class)).
+                setIndicator(this.getString(R.string.db4o), getResources().getDrawable(android.R.drawable.ic_menu_edit)));
+
+
+    }
 }

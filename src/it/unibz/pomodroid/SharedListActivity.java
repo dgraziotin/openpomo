@@ -14,15 +14,13 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomodroid;
+package it.unibz.pomodroid;
 
 import java.util.ArrayList;
 
-import cc.task3.pomodroid.exceptions.PomodroidException;
-import cc.task3.pomodroid.persistency.Activity;
-import cc.task3.pomodroid.persistency.DBHelper;
-import cc.task3.pomodroid.persistency.Event;
-import cc.task3.pomodroid.persistency.User;
+import it.unibz.pomodroid.exceptions.PomodroidException;
+import it.unibz.pomodroid.models.*;
+
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -47,443 +45,446 @@ import android.widget.TextView;
  * ListActivities It defines the shared Menu, an ArrayAdapter to
  * represent Activities, and the methods useful to work with the
  * Adapter.
+ *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * 
  * @see adroid.app.ListActivity
  */
 public abstract class SharedListActivity extends ListActivity {
-	
-	
-	/**
-	 * Represents the Android ID of the sub-class preferred layout
-	 */
-	protected int resourceLayout = -1;
-	/**
-	 * Contains the Context of the Activity
-	 */
-	private Context context = null;
-	/**
-	 * A Progress Dialog to inform the User about the progress of operations
-	 */
-	private ProgressDialog progressDialog = null;
-	/**
-	 * Data Structure to hold the activities to be displayed
-	 */
-	protected ArrayList<Activity> activities = null;
-	/**
-	 * A Custom Adapter to provide graphical representation for Activities
-	 */
-	protected ActivityAdapter activityAdapter = null;
-	/**
-	 * A Runnable that is responsible for retrieving Activities from the DB
-	 */
-	protected Runnable activityRetriever = null;
-	/**
-	 * Database container
-	 */
-	protected DBHelper dbHelper = null;
-	
-	/**
-	 * Current User
-	 */
-	private User user = null;
-	
- 
-	/**
-	 * @return the context
-	 */
-	public Context getContext() {
-		return context;
-	}
-	
-	
 
-	/**
-	 * Sets the context. It must be called from a subclass inside onCreate()
-	 * 
-	 * @param context
-	 */
-	public void setContext(Context context) {
-		this.context = context;
-	}
 
-	/**
-	 * @return the resource layout
-	 */
-	public int getResourceLayout() {
-		return resourceLayout;
-	}
+    /**
+     * Represents the Android ID of the sub-class preferred layout
+     */
+    protected int resourceLayout = -1;
+    /**
+     * Contains the Context of the Activity
+     */
+    private Context context = null;
+    /**
+     * A Progress Dialog to inform the User about the progress of operations
+     */
+    private ProgressDialog progressDialog = null;
+    /**
+     * Data Structure to hold the activities to be displayed
+     */
+    protected ArrayList<Activity> activities = null;
+    /**
+     * A Custom Adapter to provide graphical representation for Activities
+     */
+    protected ActivityAdapter activityAdapter = null;
+    /**
+     * A Runnable that is responsible for retrieving Activities from the DB
+     */
+    protected Runnable activityRetriever = null;
+    /**
+     * Database container
+     */
+    protected DBHelper dbHelper = null;
 
-	/**
-	 * Sets the layout for displaying Activities. It must be called from a
-	 * subclass inside onCreate()
-	 * 
-	 * @param resourceLayout
-	 */
-	public void setResourceLayout(int resourceLayout) {
-		this.resourceLayout = resourceLayout;
-	}
+    /**
+     * Current User
+     */
+    private User user = null;
 
-	/**
-	 * Default onCreate behavior is defined here
-	 * 
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activitysheet);
-		this.dbHelper = new DBHelper(getApplicationContext());
-		this.context = this;
-		this.user = this.getUser();
-		this.activities = new ArrayList<Activity>();
-		// first call the adapter to show zero Activities
-		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.ttsactivityentry, activities);
-		this.setListAdapter(this.activityAdapter);
 
-	}
-	
-	public void refreshUser(){
-		try {
-			setUser(User.retrieve(dbHelper));
-		} catch (PomodroidException e) {
-			e.alertUser(context);
-		}
-	}
+    /**
+     * @return the context
+     */
+    public Context getContext() {
+        return context;
+    }
 
-	/**
-	 * Default onResume behavior is defined here
-	 * 
-	 * @see android.app.Activity#onResume(android.os.Bundle)
-	 */
-	@Override
-	public void onResume() {
-		super.onResume();
-		try {
-			refreshSheet();
-		} catch (PomodroidException e) {
-			// TODO Auto-generated catch block
-			e.alertUser(this);
-		}
-	}
 
-	/**
-	 * Default onPause behavior is defined here
-	 * 
-	 * @see android.app.Activity#onPause(android.os.Bundle)
-	 */
-	@Override
-	public void onPause() {
-		super.onPause();
-		this.dbHelper.commit();
-	}
+    /**
+     * Sets the context. It must be called from a subclass inside onCreate()
+     *
+     * @param context
+     */
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
-	/**
-	 * Default onStop behavior is defined here
-	 * 
-	 * @see android.app.Activity#onStop(android.os.Bundle)
-	 */
-	@Override
-	public void onStop() {
-		super.onStop();
-	}
+    /**
+     * @return the resource layout
+     */
+    public int getResourceLayout() {
+        return resourceLayout;
+    }
 
-	/**
-	 * A customized ArrayAdapter for representing lists of Activities.
-	 */
-	protected class ActivityAdapter extends ArrayAdapter<Activity> {
-		private ArrayList<Activity> items;
+    /**
+     * Sets the layout for displaying Activities. It must be called from a
+     * subclass inside onCreate()
+     *
+     * @param resourceLayout
+     */
+    public void setResourceLayout(int resourceLayout) {
+        this.resourceLayout = resourceLayout;
+    }
 
-		/**
-		 * This constructor calls the constructor of ArrayAdapter, setting the
-		 * context, the textView id and the items that will hold to be displayed
-		 * in the UI
-		 * 
-		 * @param context
-		 * @param textViewResourceId
-		 * @param items
-		 */
-		public ActivityAdapter(Context context, int textViewResourceId,
-				ArrayList<Activity> items) {
-			super(context, textViewResourceId, items);
-			this.items = items;
-		}
+    /**
+     * Default onCreate behavior is defined here
+     *
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activitysheet);
+        this.dbHelper = new DBHelper(getApplicationContext());
+        this.context = this;
+        this.user = this.getUser();
+        this.activities = new ArrayList<Activity>();
+        // first call the adapter to show zero Activities
+        this.activityAdapter = new ActivityAdapter(this,
+                R.layout.ttsactivityentry, activities);
+        this.setListAdapter(this.activityAdapter);
 
-		/**
-		 * This method is responsible to generate each row containing an
-		 * Activity.
-		 * 
-		 * @param position
-		 * @param convertView
-		 * @param parent
-		 */
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View view = convertView;
-			// inflate the layout of an activity row in the current view
-			if (view == null) {
-				LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				view = layoutInflater.inflate(resourceLayout, null);
-			}
-			final Activity activity = items.get(position);
-			// builds the components of the activity entry view
-			if (activity != null) {
-				TextView atvTopText = (TextView) view.findViewById(R.id.atvTopText);
-				TextView atvBottomText = (TextView) view.findViewById(R.id.atvBottomText);
-				if (getResourceLayout()==R.layout.aisactivityentry && activity.isTodoToday())
-				    atvTopText.setText("TTS: " + activity.getShortSummary());
-				else
-					atvTopText.setText(activity.getShortSummary());
-				atvBottomText.setText(context.getString(R.string.pomodoro_nr) 
-						+ "(" + activity.getNumberPomodoro() + ") - "
-						+ context.getString(R.string.deadline)
-						+ " (" + activity.getStringDeadline() + ")");
-			}
-			view = addListeners(view, activity);
-			return view;
-		}
-	}
+    }
 
-	/**
-	 * This method attaches listeners to a View, given the Activity associated
-	 * to that view.
-	 * 
-	 * @param view
-	 * @param activity
-	 * @return view
-	 */
-	private View addListeners(View view, final Activity activity) {
-		// bind a listener to the current Activity row
-		view.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				openActivityDialog(activity);
-			}
-		});
-		// bind a listener to the current Activity row
-		view.setOnLongClickListener(new OnLongClickListener() {
+    public void refreshUser() {
+        try {
+            setUser(User.retrieve(dbHelper));
+        } catch (PomodroidException e) {
+            e.alertUser(context);
+        }
+    }
 
-			@Override
-			public boolean onLongClick(View v) {
-				createDialog(activity);
-				return false;
-			}
-		});
-		return view;
-	}
+    /**
+     * Default onResume behavior is defined here
+     *
+     * @see android.app.Activity#onResume(android.os.Bundle)
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            refreshSheet();
+        } catch (PomodroidException e) {
+            // TODO Auto-generated catch block
+            e.alertUser(this);
+        }
+    }
 
-	/**
-	 * Creates a dialog that reports useful information about an Activity. To be
-	 * used when a User holds a click on an Activity
-	 */
-	private void createDialog(Activity activity) {
-		AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
-		dialog.setTitle("Activity Details");
-		dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int whichButton) {
-				dialog.dismiss();
-			}
-		});
-		String message = context.getString(R.string.reporter) + ": "
-				+ activity.getReporter() + "\n"
-				+ context.getString(R.string.type) + ": " + activity.getType()
-				+ "\n" + context.getString(R.string.priority) + ": "
-				+ activity.getPriority() + "\n"
-				+ context.getString(R.string.deadline) + ": "
-				+ activity.getStringDeadline() + "\n\n"
-				+ context.getString(R.string.description) + ": "
-				+ activity.getDescription() + "\n";
-		dialog.setMessage(message);
-		dialog.show();
-	}
+    /**
+     * Default onPause behavior is defined here
+     *
+     * @see android.app.Activity#onPause(android.os.Bundle)
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.dbHelper.commit();
+    }
 
-	/**
-	 * Creates a new Runnable object, that is a call to retrieveActivities().
-	 * The method is for retrieving activities from the database. It creates a
-	 * Thread for the Runnable object, and runs it. Meanwhile, it shows a
-	 * ProgressDialog
-	 * 
-	 * @throws PomodroidException
-	 */
-	protected void refreshSheet() throws PomodroidException {
-		this.activities = new ArrayList<Activity>();
-		this.activityAdapter = new ActivityAdapter(this,
-				R.layout.trashactivityentry, activities);
-		this.setListAdapter(this.activityAdapter);
-		this.activityRetriever = new Runnable() {
-			@Override
-			public void run() {
-				// retrieve the Activities from the database
-				try {
-					retrieveActivities();
-				} catch (PomodroidException e) {
-					// ugly but necessary
-					try {
-						throw new PomodroidException(e.getMessage());
-					} catch (PomodroidException e1) {
+    /**
+     * Default onStop behavior is defined here
+     *
+     * @see android.app.Activity#onStop(android.os.Bundle)
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 
-					}
-				}
-			}
-		};
-		// create a new Thread that executes activityRetriever and start it
-		Thread thread = new Thread(null, activityRetriever,
-				"ActivityRetrieverThread");
-		thread.start();
-		// show a nice progress bar
-		progressDialog = ProgressDialog.show(getContext(),
-				getString(R.string.plswait), getString(R.string.retactivities),
-				true);
+    /**
+     * A customized ArrayAdapter for representing lists of Activities.
+     */
+    protected class ActivityAdapter extends ArrayAdapter<Activity> {
+        private ArrayList<Activity> items;
 
-	}
+        /**
+         * This constructor calls the constructor of ArrayAdapter, setting the
+         * context, the textView id and the items that will hold to be displayed
+         * in the UI
+         *
+         * @param context
+         * @param textViewResourceId
+         * @param items
+         */
+        public ActivityAdapter(Context context, int textViewResourceId,
+                               ArrayList<Activity> items) {
+            super(context, textViewResourceId, items);
+            this.items = items;
+        }
 
-	/**
-	 * Gets the Activities from Activity.getAll() and adds them to the local
-	 * list of activities. It calls populateAdapter to populate the adapter with
-	 * the new list of activities MUST be implemented in a subclass, to
-	 * successfully select which Activities must be displayed to the user
-	 * 
-	 * @see cc.task3.pomodroid.persistency.Activity
-	 * @throws PomodroidException
-	 */
-	protected abstract void retrieveActivities() throws PomodroidException;
+        /**
+         * This method is responsible to generate each row containing an
+         * Activity.
+         *
+         * @param position
+         * @param convertView
+         * @param parent
+         */
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            // inflate the layout of an activity row in the current view
+            if (view == null) {
+                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = layoutInflater.inflate(resourceLayout, null);
+            }
+            final Activity activity = items.get(position);
+            // builds the components of the activity entry view
+            if (activity != null) {
+                TextView atvTopText = (TextView) view.findViewById(R.id.atvTopText);
+                TextView atvBottomText = (TextView) view.findViewById(R.id.atvBottomText);
+                if (getResourceLayout() == R.layout.aisactivityentry && activity.isTodoToday())
+                    atvTopText.setText("TTS: " + activity.getShortSummary());
+                else
+                    atvTopText.setText(activity.getShortSummary());
+                atvBottomText.setText(context.getString(R.string.pomodoro_nr)
+                        + "(" + activity.getNumberPomodoro() + ") - "
+                        + context.getString(R.string.deadline)
+                        + " (" + activity.getStringDeadline() + ")");
+            }
+            view = addListeners(view, activity);
+            return view;
+        }
+    }
 
-	protected Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message message) {
+    /**
+     * This method attaches listeners to a View, given the Activity associated
+     * to that view.
+     *
+     * @param view
+     * @param activity
+     * @return view
+     */
+    private View addListeners(View view, final Activity activity) {
+        // bind a listener to the current Activity row
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivityDialog(activity);
+            }
+        });
+        // bind a listener to the current Activity row
+        view.setOnLongClickListener(new OnLongClickListener() {
 
-			switch (message.what) {
-			case R.id.MSG_ACTIVITIES_PRESENT:
-				//findViewById(R.id.atvEmptySheet).setVisibility(View.INVISIBLE);
-				break;
-			case R.id.MSG_ACTIVITIES_NOT_PRESENT:
-				//findViewById(R.id.atvEmptySheet).setVisibility(View.VISIBLE);
-				break;
-			}
-			return;
-		}
-	};
-	
-	/**
-	 * This thread notifies the adapter of the presence of Activities to be
-	 * displayed. It also adds the activities to the adapter, taking them from
-	 * the local List of activities
-	 */
-	protected Runnable populateAdapter = new Runnable() {
-		@Override
-		public void run() {
-			if (activities != null && activities.size() > 0) {
-				activityAdapter.notifyDataSetChanged();
-				for (int i = 0; i < activities.size(); i++)
-					activityAdapter.add(activities.get(i));
-			}
-			progressDialog.dismiss();
-			
-			activityAdapter.notifyDataSetChanged();
-			
-			if(activityAdapter.isEmpty())
-				handler.sendEmptyMessage(R.id.MSG_ACTIVITIES_NOT_PRESENT);
-			else
-				handler.sendEmptyMessage(R.id.MSG_ACTIVITIES_PRESENT);
-			
-			
-			progressDialog.dismiss();
-		}
-	};
+            @Override
+            public boolean onLongClick(View v) {
+                createDialog(activity);
+                return false;
+            }
+        });
+        return view;
+    }
 
-	/**
-	 * This dialog gives the possibility to change the status of each activity
-	 * MUST be implemented in a subclass, to successfully determine which
-	 * options to show to the user when he clicks on an Activity
-	 * 
-	 * @param activity
-	 */
-	protected abstract void openActivityDialog(Activity activity);
+    /**
+     * Creates a dialog that reports useful information about an Activity. To be
+     * used when a User holds a click on an Activity
+     */
+    private void createDialog(Activity activity) {
+        AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
+        dialog.setTitle("Activity Details");
+        dialog.setButton("Dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }
+        });
+        String message = context.getString(R.string.reporter) + ": "
+                + activity.getReporter() + "\n"
+                + context.getString(R.string.type) + ": " + activity.getType()
+                + "\n" + context.getString(R.string.priority) + ": "
+                + activity.getPriority() + "\n"
+                + context.getString(R.string.deadline) + ": "
+                + activity.getStringDeadline() + "\n\n"
+                + context.getString(R.string.description) + ": "
+                + activity.getDescription() + "\n";
+        dialog.setMessage(message);
+        dialog.show();
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    /**
+     * Creates a new Runnable object, that is a call to retrieveActivities().
+     * The method is for retrieving activities from the database. It creates a
+     * Thread for the Runnable object, and runs it. Meanwhile, it shows a
+     * ProgressDialog
+     *
+     * @throws PomodroidException
+     */
+    protected void refreshSheet() throws PomodroidException {
+        this.activities = new ArrayList<Activity>();
+        this.activityAdapter = new ActivityAdapter(this,
+                R.layout.trashactivityentry, activities);
+        this.setListAdapter(this.activityAdapter);
+        this.activityRetriever = new Runnable() {
+            @Override
+            public void run() {
+                // retrieve the Activities from the database
+                try {
+                    retrieveActivities();
+                } catch (PomodroidException e) {
+                    // ugly but necessary
+                    try {
+                        throw new PomodroidException(e.getMessage());
+                    } catch (PomodroidException e1) {
 
-	public User getUser() {
-		if(user==null){
-			try {
-				if(User.isPresent(dbHelper)){
-					this.setUser(User.retrieve(dbHelper));
-				}else{
-					this.user = new User();
-					this.user.setPomodoroMinutesDuration(25);
-					this.user.save(this.dbHelper);
-				}
-			} catch (PomodroidException e) {
-				e.alertUser(this);
-			}
-		}
-		return user;
-	}
-	
-	/**
-	 * As soon as the user clicks on the menu a new intent is created for adding new Activity.
-	 * @param item
-	 * @return
-	 * 
-	 */
-	@Override
-	public  boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.ACTION_ADD_ACTIVITY:
-			startActivity(EditActivity.class, false, true);
-			return true;
-		case R.id.ACTION_ADD_SERVICE:
-			startActivity(EditService.class, false, true);
-			return true;
-		case R.id.ACTION_GO_AIS:
-			startActivity(ActivityInventorySheet.class, false, true);
-			break;
-		case R.id.ACTION_GO_TTS:
-			startActivity(TodoTodaySheet.class, false, true);
-			break;
-		case R.id.ACTION_GO_TS:
-			startActivity(TrashSheet.class, false, true);
-			break;
-		case R.id.ACTION_GO_PREFERENCES:
-			if (getUser().isAdvanced())
-				startActivity(TabPreferences.class, true, true);
-			else
-				startActivity(Preferences.class, true, true);
-			break;
-		case R.id.ACTION_GO_STATISTICS:
-			startActivity(Statistics.class, false, true);
-			break;
-		case R.id.ACTION_GO_ABOUT:
-			startActivity(About.class, false, true);
-			break;
-		case R.id.ACTION_EMPTY_LIST:
-			for(int i=0;i<activityAdapter.getCount();i++){
-				Activity activity = activityAdapter.getItem(i);
-				try {
-					Event.delete(activity, dbHelper);
-					activity.delete(dbHelper);
-				} catch (PomodroidException e) {
-					e.alertUser(this);
-				}
-			}
-			activityAdapter.clear();
-			activityAdapter.notifyDataSetChanged();
-			return true;
-		}
-		return false;
-	}
-	
-	public void startActivity(Class<?> klass, boolean finishCurrentActivity, boolean recycleActivity){
-		Intent intent = new Intent(this.context, klass);
-		if(recycleActivity)
-			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-		startActivity(intent);
-		if(finishCurrentActivity)
-			finish();
-	}
+                    }
+                }
+            }
+        };
+        // create a new Thread that executes activityRetriever and start it
+        Thread thread = new Thread(null, activityRetriever,
+                "ActivityRetrieverThread");
+        thread.start();
+        // show a nice progress bar
+        progressDialog = ProgressDialog.show(getContext(),
+                getString(R.string.plswait), getString(R.string.retactivities),
+                true);
+
+    }
+
+    /**
+     * Gets the Activities from Activity.getAll() and adds them to the local
+     * list of activities. It calls populateAdapter to populate the adapter with
+     * the new list of activities MUST be implemented in a subclass, to
+     * successfully select which Activities must be displayed to the user
+     *
+     * @throws PomodroidException
+     * @see Activity
+     */
+    protected abstract void retrieveActivities() throws PomodroidException;
+
+    protected Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+
+            switch (message.what) {
+                case R.id.MSG_ACTIVITIES_PRESENT:
+                    //findViewById(R.id.atvEmptySheet).setVisibility(View.INVISIBLE);
+                    break;
+                case R.id.MSG_ACTIVITIES_NOT_PRESENT:
+                    //findViewById(R.id.atvEmptySheet).setVisibility(View.VISIBLE);
+                    break;
+            }
+            return;
+        }
+    };
+
+    /**
+     * This thread notifies the adapter of the presence of Activities to be
+     * displayed. It also adds the activities to the adapter, taking them from
+     * the local List of activities
+     */
+    protected Runnable populateAdapter = new Runnable() {
+        @Override
+        public void run() {
+            if (activities != null && activities.size() > 0) {
+                activityAdapter.notifyDataSetChanged();
+                for (int i = 0; i < activities.size(); i++)
+                    activityAdapter.add(activities.get(i));
+            }
+            progressDialog.dismiss();
+
+            activityAdapter.notifyDataSetChanged();
+
+            if (activityAdapter.isEmpty())
+                handler.sendEmptyMessage(R.id.MSG_ACTIVITIES_NOT_PRESENT);
+            else
+                handler.sendEmptyMessage(R.id.MSG_ACTIVITIES_PRESENT);
+
+
+            progressDialog.dismiss();
+        }
+    };
+
+    /**
+     * This dialog gives the possibility to change the status of each activity
+     * MUST be implemented in a subclass, to successfully determine which
+     * options to show to the user when he clicks on an Activity
+     *
+     * @param activity
+     */
+    protected abstract void openActivityDialog(Activity activity);
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        if (user == null) {
+            try {
+                if (User.isPresent(dbHelper)) {
+                    this.setUser(User.retrieve(dbHelper));
+                } else {
+                    this.user = new User();
+                    this.user.setPomodoroMinutesDuration(25);
+                    this.user.save(this.dbHelper);
+                }
+            } catch (PomodroidException e) {
+                e.alertUser(this);
+            }
+        } else {
+            this.refreshUser();
+        }
+
+        return user;
+    }
+
+
+    /**
+     * As soon as the user clicks on the menu a new intent is created for adding new Activity.
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ACTION_ADD_ACTIVITY:
+                startActivity(EditActivity.class, false, true);
+                return true;
+            case R.id.ACTION_ADD_SERVICE:
+                startActivity(EditService.class, false, true);
+                return true;
+            case R.id.ACTION_GO_AIS:
+                startActivity(ActivityInventorySheet.class, false, true);
+                break;
+            case R.id.ACTION_GO_TTS:
+                startActivity(TodoTodaySheet.class, false, true);
+                break;
+            case R.id.ACTION_GO_TS:
+                startActivity(TrashSheet.class, false, true);
+                break;
+            case R.id.ACTION_GO_PREFERENCES:
+                if (getUser().isAdvanced())
+                    startActivity(TabPreferences.class, true, true);
+                else
+                    startActivity(Preferences.class, true, true);
+                break;
+            case R.id.ACTION_GO_STATISTICS:
+                startActivity(Statistics.class, false, true);
+                break;
+            case R.id.ACTION_GO_ABOUT:
+                startActivity(About.class, false, true);
+                break;
+            case R.id.ACTION_EMPTY_LIST:
+                for (int i = 0; i < activityAdapter.getCount(); i++) {
+                    Activity activity = activityAdapter.getItem(i);
+                    try {
+                        Event.delete(activity, dbHelper);
+                        activity.delete(dbHelper);
+                    } catch (PomodroidException e) {
+                        e.alertUser(this);
+                    }
+                }
+                activityAdapter.clear();
+                activityAdapter.notifyDataSetChanged();
+                return true;
+        }
+        return false;
+    }
+
+    public void startActivity(Class<?> klass, boolean finishCurrentActivity, boolean recycleActivity) {
+        Intent intent = new Intent(this.context, klass);
+        if (recycleActivity)
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+        if (finishCurrentActivity)
+            finish();
+    }
 
 }
