@@ -1,15 +1,11 @@
 README
 ******
 
-Pomodroid is a Java/Android application that interacts with a Trac 
+Pomodroid Trac edition is a Java/Android application that interacts with a Trac
 system, retrieves developer’s tasks and lets him work following the 
 basic rules of the Pomodoro technique. Pomodroid focuses on basic 
 features of the technique. It does not focus on advanced techniques,
 such as the prediction of the number of Pomodoros needed for an activity.
-
-************************************************************************
-ATTENTION: version 0.x is _more_recent_ than unibz-1.0
-************************************************************************
 
 Initial reading
 ===============
@@ -25,30 +21,13 @@ the needed dependencies, which are:
 Trac
 ===============
 
-Right now it is only possible to download issues from a single Trac
-system that _must_ have/use:
+Right now it is only possible to download issues from Trac
+systems that _must_ have/use:
  * XML-RPC plugin (http://trac-hacks.org/wiki/XmlRpcPlugin) installed
  * HTTP BASIC AUTH access (may either be on HTTP or HTTPS) on /xmlrpc
    location
    
-Project Status
-===============
-Pomodroid has been developed for the Advanced Internet Technologies 
-course at the Free University Of Bolzano by Daniel Graziotin and 
-Thomas Schievenin. We decided to release it under the GPLv3 license 
-and host the code on Github. Everybody is free to contribute and join
-the project.
-The original project also included modules for metrics gathering and
-sending to a Unibz metric system using XML-RPC. 
-The system is called Prom. We are actually cleaning the code the remove
-every Prom reference. In any case, no metrics are actually sent. 
-Look at the code if you don’t trust us :) If you just see any reference 
-to Prom in the program, just ignore it. It will be cleaned up.
-The metrics are actually gathered and stored in the database, 
-but there are no operations on them. 
-We are planning to reuse these metrics to build 
-some nice statistics for the user.
 
 More Info
 ===============
-See http://wiki.github.com/BodomLx/Pomodroid/
+See http://task3.cc/projects/pomodroid
