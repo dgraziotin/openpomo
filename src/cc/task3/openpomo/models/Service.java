@@ -1,26 +1,26 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomosimple.models;
+package cc.task3.openpomo.models;
 
 import java.util.List;
 
 import android.util.Log;
 
-import cc.task3.pomosimple.exceptions.PomodroidException;
+import cc.task3.openpomo.exceptions.OpenPomoException;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
@@ -229,10 +229,10 @@ public class Service {
      * @param name
      * @param dbHelper
      * @return true if the Service is Present
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static boolean isPresent(final String name,
-                                    DBHelper dbHelper) throws PomodroidException {
+                                    DBHelper dbHelper) throws OpenPomoException {
         List<Service> services;
         try {
             services = dbHelper.getDatabase().query(
@@ -249,7 +249,7 @@ public class Service {
                 return true;
         } catch (Exception e) {
             Log.e("Service.isPresent()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Service.isPresent():"
+            throw new OpenPomoException("ERROR in Service.isPresent():"
                     + e.toString());
         }
     }
@@ -261,10 +261,10 @@ public class Service {
      * @param url
      * @param dbHelper
      * @return a specific Service
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static boolean isPresentUrl(final String url,
-                                       DBHelper dbHelper) throws PomodroidException {
+                                       DBHelper dbHelper) throws OpenPomoException {
         List<Service> services;
         try {
             services = dbHelper.getDatabase().query(
@@ -281,7 +281,7 @@ public class Service {
                 return true;
         } catch (Exception e) {
             Log.e("Service.isPresentUrl()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Service.isPresent():"
+            throw new OpenPomoException("ERROR in Service.isPresent():"
                     + e.toString());
         }
     }
@@ -293,9 +293,9 @@ public class Service {
      *
      * @param dbHelper
      * @return true if a Service is saved into the DB
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
-    public boolean save(DBHelper dbHelper) throws PomodroidException {
+    public boolean save(DBHelper dbHelper) throws OpenPomoException {
         try {
             if (!isPresent(this.getName(), dbHelper)) {
                 dbHelper.getDatabase().store(this);
@@ -303,10 +303,10 @@ public class Service {
             } else {
                 return this.update(dbHelper);
             }
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             Log.e("Service.save()", "Problem: " + e.toString());
             Log.e("Service.save()", "Problem: " + e.getMessage());
-            throw new PomodroidException("ERROR in Service.save():"
+            throw new OpenPomoException("ERROR in Service.save():"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -318,9 +318,9 @@ public class Service {
      *
      * @param dbHelper
      * @return true if a service is updated into the DB
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
-    private boolean update(DBHelper dbHelper) throws PomodroidException {
+    private boolean update(DBHelper dbHelper) throws OpenPomoException {
         Service oldService = Service.get(this.getName(), dbHelper);
         try {
             oldService.update(this);
@@ -328,7 +328,7 @@ public class Service {
             return true;
         } catch (Exception e) {
             Log.e("Service.save(update)", "Update Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Service.save(update):"
+            throw new OpenPomoException("ERROR in Service.save(update):"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -341,10 +341,10 @@ public class Service {
      *
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static boolean deleteAll(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Service> services = null;
         try {
             services = dbHelper.getDatabase().query(new Predicate<Service>() {
@@ -361,7 +361,7 @@ public class Service {
             }
             return true;
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Service.deleteAll():"
+            throw new OpenPomoException("ERROR in Service.deleteAll():"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -373,16 +373,16 @@ public class Service {
      *
      * @param dbHelper
      * @return a list of Services
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static List<Service> getAll(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Service> result;
         try {
             result = dbHelper.getDatabase().queryByExample(Service.class);
             return result;
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Service.getAll()"
+            throw new OpenPomoException("ERROR in Service.getAll()"
                     + e.toString());
         }
     }
@@ -392,10 +392,10 @@ public class Service {
      *
      * @param dbHelper
      * @return a list of Services
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static List<Service> getAllActive(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         List<Service> services = null;
         Query query = null;
         try {
@@ -405,7 +405,7 @@ public class Service {
             services = query.execute();
         } catch (Exception e) {
             Log.e("Service.getAllActive()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Service.getAllActive():"
+            throw new OpenPomoException("ERROR in Service.getAllActive():"
                     + e.toString());
         }
         if (services != null)
@@ -417,9 +417,9 @@ public class Service {
      * Deletes a Service
      *
      * @param dbHelper
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
-    public void delete(DBHelper dbHelper) throws PomodroidException {
+    public void delete(DBHelper dbHelper) throws OpenPomoException {
         ObjectSet<Service> result;
         Service toBeDeleted = null;
         try {
@@ -429,7 +429,7 @@ public class Service {
             dbHelper.getDatabase().delete(found);
         } catch (Exception e) {
             Log.e("Service.delete()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Service.delete():"
+            throw new OpenPomoException("ERROR in Service.delete():"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -442,10 +442,10 @@ public class Service {
      * @param name
      * @param dbHelper
      * @return a specific Service
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static Service get(final String name,
-                              DBHelper dbHelper) throws PomodroidException {
+                              DBHelper dbHelper) throws OpenPomoException {
         List<Service> services = null;
         Service result = null;
         try {
@@ -461,7 +461,7 @@ public class Service {
                 result = services.get(0);
         } catch (Exception e) {
             Log.e("Service.getService()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Service.getService():"
+            throw new OpenPomoException("ERROR in Service.getService():"
                     + e.toString());
         }
         return result;

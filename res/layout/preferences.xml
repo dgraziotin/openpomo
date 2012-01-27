@@ -20,8 +20,13 @@
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Advanced Mode implements the whole Pomodoro Technique and unlocks many features. Support Pomodroid by buying Pomodroid Pro (PomoPro) from the Market. " />
+				android:text="Advanced Mode implements the whole Pomodoro Technique and unlocks many features. Support OpenPomo by buying OpenPomo Pro from the Market. " />
 		</TableRow>
+        <TableRow>
+            <TextView android:id="@+id/atvOpenPomoPro" android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="@string/about_pro_url" />
+        </TableRow>
 		<TableRow>
 			<CheckBox android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/acbAdvancedUser"

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Welcome to Pomodroid, the opensource Android tool
+	<string name="hello">Welcome to OpenPomo, the opensource Android tool
 		that lets
 		you download tickets from a Trac environment, organize them
 		in activities and face them according to the Pomodoro Technique.
-		Pomodroid
+		OpenPomo
 		will automatically collect metrics while you are working.
-		Press the Menu button to access all Pomodroid functionalities.
+		Press the Menu button to access all OpenPomo functionalities.
 		THIS IS
 		ALPHA SOFTWARE: please visit the official site: http://bit.ly/9Oi0Ir
 		for more info and links to documentation.
-		IMPROVE POMODROID! You can
-		help Pomodroid in many ways. See the Project Wiki for info:
+		IMPROVE OpenPomo! You can
+		help OpenPomo in many ways. See the Project Wiki for info:
 		http://bit.ly/aYyUuO
 	</string>
 	<string name="cleanDB">Tap one of the buttons in order to modify directly
 		db4o database</string>
 	<string name="tracprominfo">Click the buttons in order to retrieve tickets from
 		Services. </string>
-	<string name="app_name">Pomodroid Simple Edition</string>
+	<string name="app_name">OpenPomo Simple Edition</string>
 	<string name="launch_test">Launch tests</string>
 	<string name="no_activities">Welcome. There are no activities stored. \n You may want to add a new activity by pressing the Menu button on your phone. \n You may enable useful features and notifications in Preferences.</string>
 	<string name="no_activities_tts">No activities stored.\nPress the MENU button to either insert new activities or activate the
@@ -31,9 +31,9 @@
 	<string name="moveais">Move to AIS</string>
 	<string name="pomodoro_nr">Pomodoro#</string>
 	<string name="deadline">Deadline</string>
-	<string name="ais">Pomodroid - Activity Inventory Sheet</string>
-	<string name="tts">Pomodroid - Todo Today Sheet</string>
-	<string name="ts">Pomodroid - Trash Can</string>
+	<string name="ais">OpenPomo - Activity Inventory Sheet</string>
+	<string name="tts">OpenPomo - Todo Today Sheet</string>
+	<string name="ts">OpenPomo - Trash Can</string>
 	<string name="no_events">No Events are available</string>
 	<string name="plswait">Please wait...</string>
 	<string name="retactivities">Retrieving activities ...</string>
@@ -43,7 +43,7 @@
 	<string name="description">Description</string>
 	<string name="preferences">Preferences</string>
 	<string name="preferences_intro">Use the Menu button to save the preferences.</string>
-	<string name="preferences_firsttime">Welcome to Pomodroid.\n
+	<string name="preferences_firsttime">Welcome to OpenPomo.\n
 		This is the first time that
 		you run the program. Please do the following: \n \n
 		1) Set a Pomodoro
@@ -54,8 +54,8 @@
 	</string>
 	<string name="db4o">Database Actions</string>
 	<string name="tests">Tests</string>
-	<string name="settings">Pomodroid - Settings</string>
-	<string name="tracprom">Pomodroid - Trac Actions</string>
+	<string name="settings">OpenPomo - Settings</string>
+	<string name="tracprom">OpenPomo - Trac Actions</string>
 	<string name="pomodoro_short_break">Pomodoro finished. Take a short break.</string>
 	<string name="pomodoro_long_break">Pomodoro finished. Take a longer break.</string>
 	<string name="pomodoro_broken">Pomodoro broken!</string>
@@ -74,18 +74,18 @@
 		button.\nYou can also access the list of services by pressing the
 		Menu button.\nPlease don\'t leave this window until all the operations finished.\n\n</string>
 	<string name="about">About</string>
-	<string name="about_text">Pomodroid Simple Edition is the opensource Android tool that lets
+	<string name="about_text">OpenPomo Simple Edition is the opensource Android tool that lets
 		you define activities and face them according to the Pomodoro Technique.\n\n
 
-        If you want to support the development of the project, buy Pomodroid Pro Edition (advanced features) from the market.
+        If you want to support the development of the project, buy OpenPomo Pro Edition (advanced features) from the market.
 	</string>
-    <string name="about_pro_url">https://market.android.com/details?id=cc.task3.pomopro</string>
-    <string name="about_project_text">Pomodroid official website:</string>
-    <string name="about_project_url">http://task3.cc/projects/pomodroid</string>
-    <string name="about_github_text">Pomodroid Source code:</string>
-    <string name="about_github_url">http://github.com/dgraziotin/Pomodroid</string>
+    <string name="about_pro_url">https://market.android.com/details?id=cc.task3.openpomopro</string>
+    <string name="about_project_text">OpenPomo official website:</string>
+    <string name="about_project_url">http://task3.cc/projects/openpomo</string>
+    <string name="about_github_text">OpenPomo Source code:</string>
+    <string name="about_github_url">http://github.com/dgraziotin/openpomo</string>
     <string name="about_bug_text">Report a Bug / Feature Request (Requires GitHub Account)</string>
-    <string name="about_bug_url">http://github.com/dgraziotin/Pomodroid</string>
+    <string name="about_bug_url">https://github.com/dgraziotin/openpomo/issues</string>
     <string name="about_email_text">General Feedback / Report a Bug / Feature Request (e-mail)</string>
     <string name="about_email_url">d@danielgraziotin.it</string>
 </resources>

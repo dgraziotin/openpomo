@@ -1,20 +1,20 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomosimple;
+package cc.task3.openpomo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,8 +22,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import cc.task3.pomosimple.exceptions.PomodroidException;
-import cc.task3.pomosimple.models.*;
+import cc.task3.openpomo.exceptions.OpenPomoException;
+import cc.task3.openpomo.models.*;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -45,12 +45,12 @@ import android.widget.RelativeLayout;
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see cc.task3.pomosimple.SharedListActivity
+ * @see cc.task3.openpomo.SharedListActivity
  */
 public class TodoTodaySheet extends SharedListActivity {
 
     /**
-     * @see cc.task3.pomosimple.SharedListActivity#onCreate(android.os.Bundle)
+     * @see cc.task3.openpomo.SharedListActivity#onCreate(android.os.Bundle)
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,8 +80,8 @@ public class TodoTodaySheet extends SharedListActivity {
                     //		.setVisibility(View.INVISIBLE);
                     refreshSheet();
 
-                    throw new PomodroidException("INFO: Activity saved.");
-                } catch (PomodroidException e) {
+                    throw new OpenPomoException("INFO: Activity saved.");
+                } catch (OpenPomoException e) {
                     e.alertUser(getContext());
                 }
 
@@ -145,11 +145,11 @@ public class TodoTodaySheet extends SharedListActivity {
      * local list of activities. It calls populateAdapter to populate the
      * adapter with the new list of activities
      *
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      * @see Activity
      */
     @Override
-    protected void retrieveActivities() throws PomodroidException {
+    protected void retrieveActivities() throws OpenPomoException {
         try {
             activities = new ArrayList<Activity>();
             List<Activity> retrievedActivities = Activity
@@ -157,7 +157,7 @@ public class TodoTodaySheet extends SharedListActivity {
             activities.addAll(retrievedActivities);
 
         } catch (Exception e) {
-            throw new PomodroidException(
+            throw new OpenPomoException(
                     "Error in retrieving Activities from the DB! Please try again");
         }
 
@@ -188,7 +188,7 @@ public class TodoTodaySheet extends SharedListActivity {
                                         getUser().setSelectedActivity(selectedActivity);
                                         try {
                                             getUser().save(dbHelper);
-                                        } catch (PomodroidException e) {
+                                        } catch (OpenPomoException e) {
                                             e.alertUser(getContext());
                                         }
                                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -205,7 +205,7 @@ public class TodoTodaySheet extends SharedListActivity {
                                         activityAdapter.remove(selectedActivity);
                                         break;
                                 }
-                            } catch (PomodroidException e) {
+                            } catch (OpenPomoException e) {
                                 e.alertUser(getContext());
                             } finally {
                                 dbHelper.commit();
@@ -222,7 +222,7 @@ public class TodoTodaySheet extends SharedListActivity {
                                 switch (i) {
                                     case 0:
                                         if (getUser().isUnderPomodoro()) {
-                                            PomodroidException.createAlert(getContext(), "Info", "You are already facing an Activity" );
+                                            OpenPomoException.createAlert(getContext(), "Info", "You are already facing an Activity");
                                             break;
                                         }
                                         Intent intent = new Intent();
@@ -231,7 +231,7 @@ public class TodoTodaySheet extends SharedListActivity {
                                         getUser().setSelectedActivity(selectedActivity);
                                         try {
                                             getUser().save(dbHelper);
-                                        } catch (PomodroidException e) {
+                                        } catch (OpenPomoException e) {
                                             e.alertUser(getContext());
                                         }
                                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -243,7 +243,7 @@ public class TodoTodaySheet extends SharedListActivity {
                                         break;
                                     case 2:
                                         if (!selectedActivity.getOrigin().equals("local")) {
-                                            PomodroidException.createAlert(getContext(), "INFO", "You cannot edit Activities remotely retrieven.");
+                                            OpenPomoException.createAlert(getContext(), "INFO", "You cannot edit Activities remotely retrieven.");
                                         }
                                         Intent intent2 = new Intent();
                                         intent2.setClass(getContext(),
@@ -256,7 +256,7 @@ public class TodoTodaySheet extends SharedListActivity {
                                         startActivity(intent2);
                                         break;
                                 }
-                            } catch (PomodroidException e) {
+                            } catch (OpenPomoException e) {
                                 e.alertUser(getContext());
                             } finally {
                                 dbHelper.commit();

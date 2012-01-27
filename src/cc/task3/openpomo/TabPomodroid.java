@@ -1,7 +1,7 @@
 /**
  *
  */
-package cc.task3.pomosimple;
+package cc.task3.openpomo;
 
 import android.app.TabActivity;
 import android.content.Intent;

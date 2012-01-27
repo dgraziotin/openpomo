@@ -1,20 +1,20 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomosimple.exceptions;
+package cc.task3.openpomo.exceptions;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -25,7 +25,7 @@ import android.widget.Toast;
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
  */
-public class PomodroidException extends Exception {
+public class OpenPomoException extends Exception {
 
     /**
      * Required by the compiler
@@ -40,7 +40,7 @@ public class PomodroidException extends Exception {
     /**
      * Default constructor
      */
-    public PomodroidException(Exception e) {
+    public OpenPomoException(Exception e) {
         // call superclass constructor
         super();
     }
@@ -48,7 +48,7 @@ public class PomodroidException extends Exception {
     /**
      * Default constructor
      */
-    public PomodroidException() {
+    public OpenPomoException() {
         // call superclass constructor
         super();
     }
@@ -56,7 +56,7 @@ public class PomodroidException extends Exception {
     /**
      * Constructor for displaying a custom message
      */
-    public PomodroidException(String message) {
+    public OpenPomoException(String message) {
         // Call super class constructor
         super(message);
     }
@@ -64,7 +64,7 @@ public class PomodroidException extends Exception {
     /**
      * Constructor for displaying a custom message and title
      */
-    public PomodroidException(String message, String title) {
+    public OpenPomoException(String message, String title) {
         super(message);
         this.title = title;
     }

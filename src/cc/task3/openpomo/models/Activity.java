@@ -1,26 +1,26 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomosimple.models;
+package cc.task3.openpomo.models;
 
 import android.util.Log;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.Query;
-import cc.task3.pomosimple.exceptions.PomodroidException;
+import cc.task3.openpomo.exceptions.OpenPomoException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -422,11 +422,11 @@ public class Activity {
      * @param originId
      * @param dbHelper
      * @return a specific activity
-     * @throws cc.task3.pomosimple.exceptions.PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      *
      */
     public static boolean isPresent(final String origin, final int originId,
-                                    DBHelper dbHelper) throws PomodroidException {
+                                    DBHelper dbHelper) throws OpenPomoException {
         List<Activity> activities;
         try {
             activities = dbHelper.getDatabase().query(
@@ -444,7 +444,7 @@ public class Activity {
                 return true;
         } catch (Exception e) {
             Log.e("Activity.isPresent()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.isPresent():"
+            throw new OpenPomoException("ERROR in Activity.isPresent():"
                     + e.toString());
         }
     }
@@ -452,9 +452,9 @@ public class Activity {
     /**
      * @param dbHelper
      * @return true if an activity is saved into the DB
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
-    public boolean save(DBHelper dbHelper) throws PomodroidException {
+    public boolean save(DBHelper dbHelper) throws OpenPomoException {
         try {
             if (!isPresent(this.getOrigin(), this.getOriginId(), dbHelper)) {
                 dbHelper.getDatabase().store(this);
@@ -464,7 +464,7 @@ public class Activity {
             }
         } catch (Exception e) {
             Log.e("Activity.save(single)", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.save():"
+            throw new OpenPomoException("ERROR in Activity.save():"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -474,9 +474,9 @@ public class Activity {
     /**
      * @param dbHelper
      * @return true if an activity is saved into the DB
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
-    private boolean update(DBHelper dbHelper) throws PomodroidException {
+    private boolean update(DBHelper dbHelper) throws OpenPomoException {
         ObjectSet<Activity> result = dbHelper.getDatabase().queryByExample(
                 new Activity(getOrigin(), getOriginId()));
         Activity found = (Activity) result.next();
@@ -486,7 +486,7 @@ public class Activity {
             return true;
         } catch (Exception e) {
             Log.e("Activity.save(single)", "Update Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.save(update):"
+            throw new OpenPomoException("ERROR in Activity.save(update):"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -498,16 +498,16 @@ public class Activity {
      *
      * @param Activities
      * @param dbHelper
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public void save(List<Activity> Activities, DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         try {
             for (Activity activity : Activities)
                 activity.save(dbHelper);
         } catch (Exception e) {
             Log.e("Activity.save(List)", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.save(List):"
+            throw new OpenPomoException("ERROR in Activity.save(List):"
                     + e.toString());
         }
     }
@@ -516,9 +516,9 @@ public class Activity {
      * Deletes an activity
      *
      * @param dbHelper
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
-    public void delete(DBHelper dbHelper) throws PomodroidException {
+    public void delete(DBHelper dbHelper) throws OpenPomoException {
         ObjectSet<Activity> result;
         Activity toBeDeleted = null;
         try {
@@ -528,7 +528,7 @@ public class Activity {
             dbHelper.getDatabase().delete(found);
         } catch (Exception e) {
             Log.e("Activity.delete()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.delete():"
+            throw new OpenPomoException("ERROR in Activity.delete():"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -539,15 +539,15 @@ public class Activity {
      * Deletes an activity
      *
      * @param dbHelper
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
-    public int getNumberInterruptions(DBHelper dbHelper) throws PomodroidException {
+    public int getNumberInterruptions(DBHelper dbHelper) throws OpenPomoException {
         List<Event> result = null;
         try {
             result = Event.getAllInterruptions(this, dbHelper);
         } catch (Exception e) {
             Log.e("Activity.getNumberInterruptions()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.getNumberInterruptions():"
+            throw new OpenPomoException("ERROR in Activity.getNumberInterruptions():"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -563,10 +563,10 @@ public class Activity {
      *
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static List<Activity> getAll(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Activity> result = null;
         try {
             result = dbHelper.getDatabase().queryByExample(Activity.class);
@@ -574,7 +574,7 @@ public class Activity {
                 Log.i("Activity.getAll()", "There are no activities stored in db");
         } catch (Exception e) {
             Log.e("Activity.getAll()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.getAll():" + e.toString());
+            throw new OpenPomoException("ERROR in Activity.getAll():" + e.toString());
         }
         return result;
     }
@@ -584,10 +584,10 @@ public class Activity {
      *
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
 
-    public static boolean deleteAll(DBHelper dbHelper) throws PomodroidException {
+    public static boolean deleteAll(DBHelper dbHelper) throws OpenPomoException {
         ObjectSet<Activity> activities = null;
         try {
             activities = dbHelper.getDatabase().query(new Predicate<Activity>() {
@@ -603,7 +603,7 @@ public class Activity {
             return true;
         } catch (Exception e) {
             Log.e("Activity.deleteAll()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.deleteAll():" + e.toString());
+            throw new OpenPomoException("ERROR in Activity.deleteAll():" + e.toString());
         } finally {
             dbHelper.commit();
         }
@@ -612,10 +612,10 @@ public class Activity {
     /**
      * @param dbHelper
      * @return the number of activities
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static int getNumberActivities(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         List<Activity> activities = Activity.getAll(dbHelper);
         return ((activities == null) ? 0 : activities.size());
     }
@@ -625,10 +625,10 @@ public class Activity {
      * @param originId
      * @param dbHelper
      * @return a specific activity
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static Activity get(final String origin, final int originId,
-                               DBHelper dbHelper) throws PomodroidException {
+                               DBHelper dbHelper) throws OpenPomoException {
         List<Activity> activities = null;
         Activity result;
         try {
@@ -644,7 +644,7 @@ public class Activity {
             result = activities.get(0);
         } catch (Exception e) {
             Log.e("Activity.getActivity()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.getActivity():"
+            throw new OpenPomoException("ERROR in Activity.getActivity():"
                     + e.toString());
         }
         return result;
@@ -653,10 +653,10 @@ public class Activity {
     /**
      * @param dbHelper
      * @return to do today activities
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static List<Activity> getTodoToday(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         List<Activity> activities = null;
         Query query = null;
         try {
@@ -668,7 +668,7 @@ public class Activity {
             activities = query.execute();
         } catch (Exception e) {
             Log.e("Activity.getTodoToday()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.getTodoToday():"
+            throw new OpenPomoException("ERROR in Activity.getTodoToday():"
                     + e.toString());
         }
         return activities;
@@ -677,10 +677,10 @@ public class Activity {
     /**
      * @param dbHelper
      * @return all completed activities
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static List<Activity> getCompleted(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         List<Activity> activities = null;
         Query query = null;
         try {
@@ -691,7 +691,7 @@ public class Activity {
             activities = query.execute();
         } catch (Exception e) {
             Log.e("Activity.getCompleted()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.getCompleted():"
+            throw new OpenPomoException("ERROR in Activity.getCompleted():"
                     + e.toString());
         }
         return activities;
@@ -700,10 +700,10 @@ public class Activity {
     /**
      * @param dbHelper
      * @return all uncompleted activities
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static List<Activity> getUncompleted(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         List<Activity> activities = null;
         Query query = null;
         try {
@@ -714,7 +714,7 @@ public class Activity {
             activities = query.execute();
         } catch (Exception e) {
             Log.e("Activity.getUncompleted()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.getUncompleted():"
+            throw new OpenPomoException("ERROR in Activity.getUncompleted():"
                     + e.toString());
         }
         return activities;
@@ -724,16 +724,16 @@ public class Activity {
      * Closes an activity
      *
      * @param dbHelper
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
-    public void close(DBHelper dbHelper) throws PomodroidException {
+    public void close(DBHelper dbHelper) throws OpenPomoException {
         try {
             this.setDone();
             this.setTodoToday(false);
             this.update(dbHelper);
         } catch (Exception e) {
             Log.e("Activity.close()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.close():"
+            throw new OpenPomoException("ERROR in Activity.close():"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -746,10 +746,10 @@ public class Activity {
      * @param service
      * @param dbHelper
      * @return a list of Activities
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static List<Activity> getForService(final Service service,
-                                               DBHelper dbHelper) throws PomodroidException {
+                                               DBHelper dbHelper) throws OpenPomoException {
         List<Activity> activities = null;
         try {
             activities = dbHelper.getDatabase().query(
@@ -762,7 +762,7 @@ public class Activity {
                     });
         } catch (Exception e) {
             Log.e("Activity.getActivity()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in Activity.getActivity():"
+            throw new OpenPomoException("ERROR in Activity.getActivity():"
                     + e.toString());
         }
         return activities;
@@ -771,9 +771,9 @@ public class Activity {
     /**
      * @param activities
      * @return a list of their IDs
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
-    public static List<Integer> getOriginIDs(List<Activity> activities) throws PomodroidException {
+    public static List<Integer> getOriginIDs(List<Activity> activities) throws OpenPomoException {
         List<Integer> originIDs = new Vector<Integer>();
         for (Activity activity : activities)
             originIDs.add(activity.getOriginId());
@@ -784,10 +784,10 @@ public class Activity {
     /**
      * @param dbHelper
      * @return The last stored originId for local Activities
-     * @throws PomodroidException
+     * @throws cc.task3.openpomo.exceptions.OpenPomoException
      */
     public static int getLastLocalId(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
 
         List<Activity> activities = dbHelper.getDatabase().query(new Predicate<Activity>() {
             /**

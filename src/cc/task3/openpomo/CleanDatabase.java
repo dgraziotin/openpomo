@@ -1,23 +1,23 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomosimple;
+package cc.task3.openpomo;
 
-import cc.task3.pomosimple.exceptions.PomodroidException;
-import cc.task3.pomosimple.models.*;
+import cc.task3.openpomo.exceptions.OpenPomoException;
+import cc.task3.openpomo.models.*;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +28,7 @@ import android.widget.Button;
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see cc.task3.pomosimple.SharedActivity
+ * @see cc.task3.openpomo.SharedActivity
  * @see android.view.View.OnClickListener
  * @see http://www.db4o.com
  */
@@ -60,17 +60,17 @@ public class CleanDatabase extends SharedActivity implements OnClickListener {
                 case R.id.abDeleteActivitiesEvents:
                     Activity.deleteAll(super.getDbHelper());
                     Event.deleteAll(super.getDbHelper());
-                    throw new PomodroidException(
+                    throw new OpenPomoException(
                             "All activities and events deleted!", "INFO");
                 case R.id.abDefragmentDatabase:
                     super.getDbHelper().defragment();
-                    throw new PomodroidException("Database defragmented.", "INFO");
+                    throw new OpenPomoException("Database defragmented.", "INFO");
                 case R.id.abDeleteDatabase:
                     super.getDbHelper().deleteDatabase();
-                    throw new PomodroidException(
-                            "Database destroyed. Please restart Pomodroid.", "INFO");
+                    throw new OpenPomoException(
+                            "Database destroyed. Please restart OpenPomo.", "INFO");
             }
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             e.alertUser(context);
         } finally {
             super.getDbHelper().commit();
