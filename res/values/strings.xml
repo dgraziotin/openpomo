@@ -74,7 +74,7 @@
 		button.\nYou can also access the list of services by pressing the
 		Menu button.\nPlease don\'t leave this window until all the operations finished.\n\n</string>
 	<string name="about">About</string>
-	<string name="about_text">Thank you for supporting OpenPromo!\n
+	<string name="about_text">Thank you for supporting OpenPomo!\n
         OpenPomo Pro Edition is the opensource Android tool that lets
 		you define activities and face them according to the Pomodoro Technique.\n\n
 	</string>
