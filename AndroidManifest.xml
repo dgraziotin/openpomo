@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="1" package="cc.task3.pomotrac"
+	android:versionCode="1" package="cc.task3.pomopro"
 	android:versionName="1.0.0">
 	<application android:icon="@drawable/pomo_logo"
 		android:label="@string/app_name">
@@ -21,15 +21,9 @@
 		</activity>
         <activity android:name=".CleanDatabase" android:label="@string/app_name">
 		</activity>
-		<activity android:name=".Services" android:label="@string/services">
+        <activity android:name=".TabPreferences" android:label="@string/settings">
 		</activity>
-		<activity android:name=".TabPreferences" android:label="@string/settings">
-		</activity>
-		<activity android:name=".ListServices" android:label="@string/services">
-		</activity>
-		<activity android:name=".EditService" android:label="@string/service_edit">
-		</activity>
-		<activity android:name=".EditActivity" android:label="@string/activity_edit">
+        <activity android:name=".EditActivity" android:label="@string/activity_edit">
 		</activity>
 		<activity android:name=".TrashSheet" android:label="@string/ts">
 		</activity>

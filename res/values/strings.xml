@@ -18,7 +18,7 @@
 		db4o database</string>
 	<string name="tracprominfo">Click the buttons in order to retrieve tickets from
 		Services. </string>
-	<string name="app_name">Pomodroid Trac Edition</string>
+	<string name="app_name">Pomodroid Pro Edition</string>
 	<string name="launch_test">Launch tests</string>
 	<string name="no_activities">Welcome. There are no activities stored. \n You may want to add a new activity by pressing the Menu button on your phone. \n You may enable useful features and notifications in Preferences.</string>
 	<string name="no_activities_tts">No activities stored.\nPress the MENU button to either insert new activities or activate the
@@ -74,9 +74,8 @@
 		button.\nYou can also access the list of services by pressing the
 		Menu button.\nPlease don\'t leave this window until all the operations finished.\n\n</string>
 	<string name="about">About</string>
-	<string name="about_text">Pomodroid Trac Edition is the opensource Android tool that lets
-		you either define activities or download tickets from Trac environments and 
-		face them according to the Pomodoro Technique.\n\n
+	<string name="about_text">Pomodroid Pro Edition is the opensource Android tool that lets
+		you define activities and face them according to the Pomodoro Technique.\n\n
 	</string>
     <string name="about_project_text">Pomodroid official website:</string>
     <string name="about_project_url">http://task3.cc/projects/pomodroid</string>
