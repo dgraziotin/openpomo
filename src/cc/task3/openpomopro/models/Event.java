@@ -1,24 +1,24 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro.models;
+package cc.task3.openpomopro.models;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
 
 
 import java.util.Date;
@@ -146,14 +146,14 @@ public class Event {
      * Save an event into the DB
      *
      * @param dbHelper
-     * @throws cc.task3.pomopro.exceptions.PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      *
      */
-    public void save(DBHelper dbHelper) throws PomodroidException {
+    public void save(DBHelper dbHelper) throws OpenPomoException {
         try {
             dbHelper.getDatabase().store(this);
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Event.save()" + e.toString());
+            throw new OpenPomoException("ERROR in Event.save()" + e.toString());
         } finally {
             dbHelper.commit();
         }
@@ -164,11 +164,11 @@ public class Event {
      *
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
 
     public static boolean deleteAll(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Event> events = null;
         try {
             events = dbHelper.getDatabase().query(new Predicate<Event>() {
@@ -183,7 +183,7 @@ public class Event {
             }
             return true;
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Event.deleteAll():"
+            throw new OpenPomoException("ERROR in Event.deleteAll():"
                     + e.toString());
         } finally {
             dbHelper.commit();
@@ -195,16 +195,16 @@ public class Event {
      *
      * @param dbHelper
      * @return a list of events
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
     public static List<Event> getAll(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Event> result;
         try {
             result = dbHelper.getDatabase().queryByExample(Event.class);
             return result;
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Event.getAll()"
+            throw new OpenPomoException("ERROR in Event.getAll()"
                     + e.toString());
         }
     }
@@ -215,10 +215,10 @@ public class Event {
      * @param activity
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
     public static List<Event> getAll(final Activity activity, DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Event> result;
         try {
             result = dbHelper.getDatabase().query(new Predicate<Event>() {
@@ -231,7 +231,7 @@ public class Event {
                 }
             });
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Event.getAll()"
+            throw new OpenPomoException("ERROR in Event.getAll()"
                     + e.toString());
         }
         return result;
@@ -243,10 +243,10 @@ public class Event {
      * @param activity
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
     public static List<Event> getAllInterruptions(final Activity activity, DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Event> result;
         try {
             result = dbHelper.getDatabase().query(new Predicate<Event>() {
@@ -259,7 +259,7 @@ public class Event {
                 }
             });
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Event.getAll()"
+            throw new OpenPomoException("ERROR in Event.getAll()"
                     + e.toString());
         }
         return result;
@@ -271,10 +271,10 @@ public class Event {
      * @param activity
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
     public static List<Event> getAllInterruptions(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Event> result;
         try {
             result = dbHelper.getDatabase().query(new Predicate<Event>() {
@@ -285,7 +285,7 @@ public class Event {
                 }
             });
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Event.getAll()"
+            throw new OpenPomoException("ERROR in Event.getAll()"
                     + e.toString());
         }
         return result;
@@ -297,10 +297,10 @@ public class Event {
      * @param activity
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
     public static List<Event> getAllStartedPomodoros(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Event> result;
         try {
             result = dbHelper.getDatabase().query(new Predicate<Event>() {
@@ -311,7 +311,7 @@ public class Event {
                 }
             });
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Event.getAll()"
+            throw new OpenPomoException("ERROR in Event.getAll()"
                     + e.toString());
         }
         return result;
@@ -323,10 +323,10 @@ public class Event {
      * @param activity
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
     public static List<Event> getAllFinishedPomodoros(DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         ObjectSet<Event> result;
         try {
             result = dbHelper.getDatabase().query(new Predicate<Event>() {
@@ -337,7 +337,7 @@ public class Event {
                 }
             });
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Event.getAll()"
+            throw new OpenPomoException("ERROR in Event.getAll()"
                     + e.toString());
         }
         return result;
@@ -349,10 +349,10 @@ public class Event {
      *
      * @param activity
      * @param dbHelper
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
     public static void delete(final Activity activity, DBHelper dbHelper)
-            throws PomodroidException {
+            throws OpenPomoException {
         try {
             List<Event> eventsForActivity = Event.getAll(activity, dbHelper);
 
@@ -360,7 +360,7 @@ public class Event {
                 dbHelper.getDatabase().delete(ev);
             }
         } catch (Exception e) {
-            throw new PomodroidException("ERROR in Event.delete()"
+            throw new OpenPomoException("ERROR in Event.delete()"
                     + e.toString());
         } finally {
             dbHelper.commit();

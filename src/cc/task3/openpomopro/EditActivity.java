@@ -1,27 +1,27 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.openpomopro;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import cc.task3.pomopro.exceptions.PomodroidException;
-import cc.task3.pomopro.models.*;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
+import cc.task3.openpomopro.models.*;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -34,7 +34,7 @@ import android.widget.EditText;
  * It only lets users to edit local activities, not those remotely retrieved
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
- * @see cc.task3.pomopro.SharedActivity
+ * @see cc.task3.openpomopro.SharedActivity
  */
 public class EditActivity extends SharedActivity {
     /**
@@ -80,7 +80,7 @@ public class EditActivity extends SharedActivity {
             adpDeadline.updateDate(calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH));
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             e.alertUser(this);
         }
     }
@@ -89,7 +89,7 @@ public class EditActivity extends SharedActivity {
      * This method is responsible for updating an existing Activity, after the
      * user changes the related fields.
      */
-    private void updateActivity() throws PomodroidException {
+    private void updateActivity() throws OpenPomoException {
         if (originId == null)
             return;
         Activity activity;
@@ -108,7 +108,7 @@ public class EditActivity extends SharedActivity {
             if (!super.getUser().isAdvanced())
                 activity.setTodoToday(true);
             activity.save(super.getDbHelper());
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             e.alertUser(this);
         }
     }
@@ -117,9 +117,9 @@ public class EditActivity extends SharedActivity {
      * This method is responsible for saving a new Activity, after the user
      * changes the related fields.
      *
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
-    private void saveActivity() throws PomodroidException {
+    private void saveActivity() throws OpenPomoException {
         EditText aetSummary = (EditText) findViewById(R.id.aetSummary);
         EditText aetDescription = (EditText) findViewById(R.id.aetDescription);
         DatePicker adpDeadline = (DatePicker) findViewById(R.id.adpDeadline);
@@ -136,7 +136,7 @@ public class EditActivity extends SharedActivity {
 
         try {
             activity.save(super.getDbHelper());
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             e.alertUser(context);
         }
 
@@ -145,18 +145,18 @@ public class EditActivity extends SharedActivity {
     /**
      * Tests if all the data is correctly filled by user
      *
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
-    private void checkUserInput() throws PomodroidException {
+    private void checkUserInput() throws OpenPomoException {
         EditText aetSummary = (EditText) findViewById(R.id.aetSummary);
         if (nullOrEmpty(aetSummary.getText().toString()))
-            throw new PomodroidException(
+            throw new OpenPomoException(
                     "Error. Please insert at least a Summary.");
     }
 
     private void bringUserTo() {
         if (super.getUser().isAdvanced())
-            startActivity(TabPomodroid.class);
+            startActivity(TabOpenPomo.class);
         else
             startActivity(TodoTodaySheet.class);
 
@@ -192,15 +192,15 @@ public class EditActivity extends SharedActivity {
                     if (originId != null) {
                         updateActivity();
                         bringUserTo();
-                        throw new PomodroidException("Activity updated.",
+                        throw new OpenPomoException("Activity updated.",
                                 "INFO");
                     } else {
                         saveActivity();
                         bringUserTo();
-                        throw new PomodroidException("Activity saved.", "INFO");
+                        throw new OpenPomoException("Activity saved.", "INFO");
                     }
 
-                } catch (PomodroidException e) {
+                } catch (OpenPomoException e) {
                     e.alertUser(context);
                 }
                 return true;

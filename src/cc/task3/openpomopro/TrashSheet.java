@@ -1,26 +1,26 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.openpomopro;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cc.task3.pomopro.exceptions.PomodroidException;
-import cc.task3.pomopro.models.*;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
+import cc.task3.openpomopro.models.*;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -36,7 +36,7 @@ import android.view.Menu;
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see cc.task3.pomopro.SharedListActivity
+ * @see cc.task3.openpomopro.SharedListActivity
  */
 public class TrashSheet extends SharedListActivity {
 
@@ -52,18 +52,18 @@ public class TrashSheet extends SharedListActivity {
      * list of activities. It calls populateAdapter to populate the adapter with
      * the new list of activities
      *
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      * @see Activity
      */
 
     @Override
-    protected void retrieveActivities() throws PomodroidException {
+    protected void retrieveActivities() throws OpenPomoException {
         try {
             activities = new ArrayList<Activity>();
             List<Activity> retrievedActivities = Activity.getCompleted(this.dbHelper);
             activities.addAll(retrievedActivities);
         } catch (Exception e) {
-            throw new PomodroidException(
+            throw new OpenPomoException(
                     "Error in retrieving Activities from the DB!");
         }
         runOnUiThread(populateAdapter);
@@ -99,7 +99,7 @@ public class TrashSheet extends SharedListActivity {
                                                     .remove(selectedActivity);
                                             break;
                                     }
-                                } catch (PomodroidException e) {
+                                } catch (OpenPomoException e) {
                                     e.alertUser(getContext());
                                 } finally {
                                     dbHelper.commit();

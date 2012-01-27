@@ -1,32 +1,32 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.openpomopro;
 
 import android.os.Bundle;
 import android.widget.TextView;
-import cc.task3.pomopro.exceptions.PomodroidException;
-import cc.task3.pomopro.models.*;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
+import cc.task3.openpomopro.models.*;
 
 
 /**
  * A simple Activity to show an About Window
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
- * @see cc.task3.pomopro.SharedActivity
+ * @see cc.task3.openpomopro.SharedActivity
  */
 public class Statistics extends SharedActivity {
 
@@ -60,7 +60,7 @@ public class Statistics extends SharedActivity {
             pomodoroBroken = new Integer(Event.getAllInterruptions(dbHelper).size()).toString();
             Integer numPomodoroFinishedStarted = (int) (((float) numPomodoroFinished / (float) numPomodoroStarted) * 100);
             pomodoroFinishedStarted = numPomodoroFinishedStarted.toString().concat("%");
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             // TODO Auto-generated catch block
             e.alertUser(getContext());
         }

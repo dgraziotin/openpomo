@@ -1,7 +1,7 @@
-package cc.task3.pomopro;
+package cc.task3.openpomopro;
 
-import cc.task3.pomopro.models.*;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.openpomopro.models.*;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
 
 import java.util.Date;
 
@@ -86,7 +86,7 @@ public class PomodoroService extends android.app.Service {
     public User getUser() {
         try {
             return User.retrieve(dbHelper);
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             e.alertUser(this);
         }
         return null;
@@ -173,7 +173,7 @@ public class PomodoroService extends android.app.Service {
                         removeCallbacks(updateTimeTask);
                         break;
                 }
-            } catch (PomodroidException e) {
+            } catch (OpenPomoException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

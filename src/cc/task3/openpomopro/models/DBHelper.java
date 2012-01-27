@@ -1,20 +1,20 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro.models;
+package cc.task3.openpomopro.models;
 
 import android.content.Context;
 import android.util.Log;
@@ -22,7 +22,7 @@ import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
 import com.db4o.config.Configuration;
 import com.db4o.defragment.Defragment;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
 
 
 import java.io.File;
@@ -62,18 +62,18 @@ public class DBHelper {
      * Getting the database
      *
      * @return an object container
-     * @throws cc.task3.pomopro.exceptions.PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      *
      */
     @SuppressWarnings("deprecation")
-    public ObjectContainer getDatabase() throws PomodroidException {
+    public ObjectContainer getDatabase() throws OpenPomoException {
         try {
             if (database == null || database.ext().isClosed())
                 database = Db4o.openFile(dbConfig(), db4oDBFullPath(context));
             return database;
         } catch (Exception e) {
             Log.e(DBHelper.class.getName(), e.toString());
-            throw new PomodroidException("ERROR in DBHelper.getDatabase():" + e.toString());
+            throw new OpenPomoException("ERROR in DBHelper.getDatabase():" + e.toString());
         }
     }
 
@@ -118,14 +118,14 @@ public class DBHelper {
         return context.getDir("data", 0) + "/" + "android.db4o";
     }
 
-    public void defragment() throws PomodroidException {
+    public void defragment() throws OpenPomoException {
         try {
             String db4oPath = db4oDBFullPath(context);
             String db4oPathBackup = db4oPath.concat(".backup");
             new File(db4oPathBackup).delete();
             Defragment.defrag((db4oDBFullPath(context)));
         } catch (Exception e) {
-            throw new PomodroidException("Error in defragment: " + e.toString());
+            throw new OpenPomoException("Error in defragment: " + e.toString());
         }
     }
 
@@ -160,10 +160,10 @@ public class DBHelper {
      * Creates a copy of the DB
      *
      * @param path
-     * @throws cc.task3.pomopro.exceptions.PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      *
      */
-    public void backup(String path) throws PomodroidException {
+    public void backup(String path) throws OpenPomoException {
         getDatabase().ext().backup(path);
     }
 

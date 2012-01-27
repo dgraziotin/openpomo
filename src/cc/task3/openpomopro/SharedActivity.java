@@ -1,23 +1,23 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.openpomopro;
 
-import cc.task3.pomopro.exceptions.PomodroidException;
-import cc.task3.pomopro.models.*;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
+import cc.task3.openpomopro.models.*;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +26,7 @@ import android.os.Bundle;
 
 /**
  * Base-class of all activities. Defines common behavior for all Activities of
- * Pomodroid.
+ * OpenPomo.
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @see android.app.Activity
@@ -74,7 +74,7 @@ public abstract class SharedActivity extends Activity {
                     this.user.setPomodoroMinutesDuration(25);
                     this.user.save(this.dbHelper);
                 }
-            } catch (PomodroidException e) {
+            } catch (OpenPomoException e) {
                 e.alertUser(this);
             }
         } else {
@@ -87,7 +87,7 @@ public abstract class SharedActivity extends Activity {
     public void refreshUser() {
         try {
             setUser(User.retrieve(dbHelper));
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             e.alertUser(context);
         }
     }
@@ -120,7 +120,7 @@ public abstract class SharedActivity extends Activity {
     /**
      * Every sub-class of this one automatically receive an instance of the User
      * and of the Database Container. This method is also responsible of
-     * bringing the User to the Preferences the first time it starts Pomodroid
+     * bringing the User to the Preferences the first time it starts OpenPomo
      *
      * @see android.app.Activity#onCreate(android.os.Bundle)
      */

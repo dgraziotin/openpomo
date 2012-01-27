@@ -1,16 +1,16 @@
 README
 ******
 
-Pomodroid Trac edition is a Java/Android application that interacts with a Trac
+OpenPomo Pro edition is a Java/Android application that interacts with a Trac
 system, retrieves developer’s tasks and lets him work following the 
-basic rules of the Pomodoro technique. Pomodroid focuses on basic 
+basic rules of the Pomodoro technique. OpenPomo focuses on basic
 features of the technique. It does not focus on advanced techniques,
 such as the prediction of the number of Pomodoros needed for an activity.
 
 Initial reading
 ===============
 
-Pomodroid is for any Android device using Android >= 1.6.
+OpenPomo is for any Android device using Android >= 1.6.
 It has been tested on a Nexus One phone. The source code contains all
 the needed dependencies, which are:
  * Android-xmlrpc (http://code.google.com/p/android-xmlrpc/), modified 
@@ -30,4 +30,4 @@ systems that _must_ have/use:
 
 More Info
 ===============
-See http://task3.cc/projects/pomodroid
+See http://task3.cc/projects/openpomo

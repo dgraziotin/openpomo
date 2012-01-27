@@ -1,29 +1,29 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro.models;
+package cc.task3.openpomopro.models;
 
 import android.util.Log;
 import com.db4o.ObjectSet;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
 
 import java.util.Date;
 
 /**
- * A class representing a tipical pomopro user. Each user has its username (string), password (tring),
+ * A class representing a tipical openpomopro user. Each user has its username (string), password (tring),
  * trac url (absolute url)
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
@@ -232,10 +232,10 @@ public class User {
      * @param username
      * @param dbHelper
      * @return
-     * @throws cc.task3.pomopro.exceptions.PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      *
      */
-    public static boolean isPresent(DBHelper dbHelper) throws PomodroidException {
+    public static boolean isPresent(DBHelper dbHelper) throws OpenPomoException {
         User user;
         try {
             user = User.retrieve(dbHelper);
@@ -245,7 +245,7 @@ public class User {
                 return true;
         } catch (Exception e) {
             Log.e("User.isPresent()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in User.isPresent():" + e.toString());
+            throw new OpenPomoException("ERROR in User.isPresent():" + e.toString());
         }
     }
 
@@ -253,16 +253,16 @@ public class User {
      * Save an user
      *
      * @param dbHelper
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
-    public void save(DBHelper dbHelper) throws PomodroidException {
+    public void save(DBHelper dbHelper) throws OpenPomoException {
         if (!isPresent(dbHelper)) {
             try {
                 dbHelper.getDatabase().store(this);
                 Log.i("User.save()", "User Saved.");
             } catch (Exception e) {
                 Log.e("User.save()", "Problem: " + e.toString());
-                throw new PomodroidException("ERROR in User.save()" + e.toString());
+                throw new OpenPomoException("ERROR in User.save()" + e.toString());
             }
         } else {
             try {
@@ -271,7 +271,7 @@ public class User {
                 dbHelper.getDatabase().store(updateUser);
             } catch (Exception e) {
                 Log.e("User.save()", "Update Problem: " + e.toString());
-                throw new PomodroidException("ERROR in User.save(update)" + e.toString());
+                throw new OpenPomoException("ERROR in User.save(update)" + e.toString());
             } finally {
                 dbHelper.commit();
             }
@@ -283,9 +283,9 @@ public class User {
      *
      * @param dbHelper
      * @return an object of type user
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
-    public static User retrieve(DBHelper dbHelper) throws PomodroidException {
+    public static User retrieve(DBHelper dbHelper) throws OpenPomoException {
         ObjectSet<User> users;
         try {
             users = dbHelper.getDatabase().queryByExample(User.class);
@@ -296,7 +296,7 @@ public class User {
             }
         } catch (Exception e) {
             Log.e("User.retrieve()", "Problem: " + e.toString());
-            throw new PomodroidException("ERROR in User.retrieve()" + e.toString());
+            throw new OpenPomoException("ERROR in User.retrieve()" + e.toString());
         }
 
     }
@@ -319,9 +319,9 @@ public class User {
      *
      * @param dbHelper
      * @return
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
-    public boolean isLongerBreak(DBHelper dbHelper) throws PomodroidException {
+    public boolean isLongerBreak(DBHelper dbHelper) throws OpenPomoException {
         User user = User.retrieve(dbHelper);
         if (isSameDay(user.getDateFacedPomodoro())) {
             user.addPomodoro();

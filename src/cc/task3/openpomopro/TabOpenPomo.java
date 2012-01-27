@@ -1,7 +1,7 @@
 /**
  *
  */
-package cc.task3.pomopro;
+package cc.task3.openpomopro;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.widget.TabHost;
 /**
  * @author bodom_lx
  */
-public class TabPomodroid extends TabActivity {
+public class TabOpenPomo extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

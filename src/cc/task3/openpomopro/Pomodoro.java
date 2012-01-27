@@ -1,22 +1,22 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.openpomopro;
 
-import cc.task3.pomopro.models.*;
+import cc.task3.openpomopro.models.*;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -247,7 +247,7 @@ public class Pomodoro extends SharedActivity {
         NotificationManager nm = (NotificationManager) context
                 .getSystemService(NOTIFICATION_SERVICE);
         Notification notification = new Notification(R.drawable.pomo_red,
-                "Pomodroid", System.currentTimeMillis());
+                "OpenPomo", System.currentTimeMillis());
         Intent intent = new Intent(context, Pomodoro.class);
         TextView atvActivitySummary = (TextView) findViewById(R.id.atvActivitySummary);
         String activitySummary = (String) atvActivitySummary.getText();

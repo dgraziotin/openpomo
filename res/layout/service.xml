@@ -7,7 +7,7 @@
 		<TableRow>
 			<TextView android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Please set every field of this window. Pomodroid checks the validity of the services and credentials on the fly. Therefore, in order to save your settings you must have an active connection" />
+				android:text="Please set every field of this window. OpenPomo checks the validity of the services and credentials on the fly. Therefore, in order to save your settings you must have an active connection" />
 		</TableRow>
 		<TableRow>
 			<TextView android:layout_width="wrap_content"

@@ -1,23 +1,23 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.openpomopro;
 
-import cc.task3.pomopro.exceptions.PomodroidException;
-import cc.task3.pomopro.models.*;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
+import cc.task3.openpomopro.models.*;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +32,7 @@ import android.widget.TextView;
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see cc.task3.pomopro.SharedActivity
+ * @see cc.task3.openpomopro.SharedActivity
  */
 public class Preferences extends SharedActivity {
 
@@ -48,15 +48,15 @@ public class Preferences extends SharedActivity {
     /**
      * Tests if all the data is correctly filled by user
      *
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
-    private void checkUserInput() throws PomodroidException {
+    private void checkUserInput() throws OpenPomoException {
         EditText aetPomodoroLength = (EditText) findViewById(R.id.aetPomodoroLength);
         if (aetPomodoroLength.getText().toString().equals(""))
-            throw new PomodroidException(
+            throw new OpenPomoException(
                     "ERROR: Please set a correct Pomodoro length value (1-99)");
         if (Integer.parseInt(aetPomodoroLength.getText().toString()) == 0)
-            throw new PomodroidException(
+            throw new OpenPomoException(
                     "ERROR: Please set a correct Pomodoro length value (1-99)");
     }
 
@@ -81,7 +81,7 @@ public class Preferences extends SharedActivity {
     /**
      * Updates or creates a User
      */
-    private void updateUser() throws PomodroidException {
+    private void updateUser() throws OpenPomoException {
         EditText aetPomodoroLength = (EditText) findViewById(R.id.aetPomodoroLength);
         CheckBox acbAdvancedUser = (CheckBox) findViewById(R.id.acbAdvancedUser);
         CheckBox acbQuickActivityInsert = (CheckBox) findViewById(R.id.acbQuickActivityInsert);
@@ -96,7 +96,7 @@ public class Preferences extends SharedActivity {
         super.getUser().setDimLight(acbDimLight.isChecked());
         super.getUser().save(super.getDbHelper());
         if (super.getUser().isAdvanced())
-            startActivity(Pomodroid.class);
+            startActivity(OpenPomo.class);
         else
             startActivity(TodoTodaySheet.class);
 
@@ -127,8 +127,8 @@ public class Preferences extends SharedActivity {
                 try {
                     checkUserInput();
                     updateUser();
-                    throw new PomodroidException("Preferences saved.", "INFO");
-                } catch (PomodroidException e) {
+                    throw new OpenPomoException("Preferences saved.", "INFO");
+                } catch (OpenPomoException e) {
                     e.alertUser(context);
                 }
                 return true;

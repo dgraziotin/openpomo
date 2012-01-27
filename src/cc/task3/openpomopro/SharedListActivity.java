@@ -1,25 +1,25 @@
 /**
- * This file is part of Pomodroid.
+ * This file is part of OpenPomo.
  *
- *   Pomodroid is free software: you can redistribute it and/or modify
+ *   OpenPomo is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation, either version 3 of the License, or
  *   (at your option) any later version.
  *
- *   Pomodroid is distributed in the hope that it will be useful,
+ *   OpenPomo is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with OpenPomo.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.openpomopro;
 
 import java.util.ArrayList;
 
-import cc.task3.pomopro.exceptions.PomodroidException;
-import cc.task3.pomopro.models.*;
+import cc.task3.openpomopro.exceptions.OpenPomoException;
+import cc.task3.openpomopro.models.*;
 
 
 import android.app.AlertDialog;
@@ -41,7 +41,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
- * Class to represent common behaviors and aspects of Pomodroid's
+ * Class to represent common behaviors and aspects of OpenPomo's
  * ListActivities It defines the shared Menu, an ArrayAdapter to
  * represent Activities, and the methods useful to work with the
  * Adapter.
@@ -145,7 +145,7 @@ public abstract class SharedListActivity extends ListActivity {
     public void refreshUser() {
         try {
             setUser(User.retrieve(dbHelper));
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             e.alertUser(context);
         }
     }
@@ -160,7 +160,7 @@ public abstract class SharedListActivity extends ListActivity {
         super.onResume();
         try {
             refreshSheet();
-        } catch (PomodroidException e) {
+        } catch (OpenPomoException e) {
             // TODO Auto-generated catch block
             e.alertUser(this);
         }
@@ -303,9 +303,9 @@ public abstract class SharedListActivity extends ListActivity {
      * Thread for the Runnable object, and runs it. Meanwhile, it shows a
      * ProgressDialog
      *
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      */
-    protected void refreshSheet() throws PomodroidException {
+    protected void refreshSheet() throws OpenPomoException {
         this.activities = new ArrayList<Activity>();
         this.activityAdapter = new ActivityAdapter(this,
                 R.layout.trashactivityentry, activities);
@@ -316,11 +316,11 @@ public abstract class SharedListActivity extends ListActivity {
                 // retrieve the Activities from the database
                 try {
                     retrieveActivities();
-                } catch (PomodroidException e) {
+                } catch (OpenPomoException e) {
                     // ugly but necessary
                     try {
-                        throw new PomodroidException(e.getMessage());
-                    } catch (PomodroidException e1) {
+                        throw new OpenPomoException(e.getMessage());
+                    } catch (OpenPomoException e1) {
 
                     }
                 }
@@ -343,10 +343,10 @@ public abstract class SharedListActivity extends ListActivity {
      * the new list of activities MUST be implemented in a subclass, to
      * successfully select which Activities must be displayed to the user
      *
-     * @throws PomodroidException
+     * @throws cc.task3.openpomopro.exceptions.OpenPomoException
      * @see Activity
      */
-    protected abstract void retrieveActivities() throws PomodroidException;
+    protected abstract void retrieveActivities() throws OpenPomoException;
 
     protected Handler handler = new Handler() {
         @Override
@@ -414,7 +414,7 @@ public abstract class SharedListActivity extends ListActivity {
                     this.user.setPomodoroMinutesDuration(25);
                     this.user.save(this.dbHelper);
                 }
-            } catch (PomodroidException e) {
+            } catch (OpenPomoException e) {
                 e.alertUser(this);
             }
         } else {
@@ -464,7 +464,7 @@ public abstract class SharedListActivity extends ListActivity {
                     try {
                         Event.delete(activity, dbHelper);
                         activity.delete(dbHelper);
-                    } catch (PomodroidException e) {
+                    } catch (OpenPomoException e) {
                         e.alertUser(this);
                     }
                 }
