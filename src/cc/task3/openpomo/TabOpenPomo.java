@@ -11,7 +11,7 @@ import android.widget.TabHost;
 /**
  * @author bodom_lx
  */
-public class TabPomodroid extends TabActivity {
+public class TabOpenPomo extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

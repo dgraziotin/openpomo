@@ -156,7 +156,7 @@ public class EditActivity extends SharedActivity {
 
     private void bringUserTo() {
         if (super.getUser().isAdvanced())
-            startActivity(TabPomodroid.class);
+            startActivity(TabOpenPomo.class);
         else
             startActivity(TodoTodaySheet.class);
 

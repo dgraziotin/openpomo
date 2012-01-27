@@ -47,6 +47,6 @@ public class OpenPomo extends SharedActivity {
         if (!super.getUser().isAdvanced())
             startActivity(TodoTodaySheet.class);
         else
-            startActivity(TabPomodroid.class);
+            startActivity(TabOpenPomo.class);
     }
 }
