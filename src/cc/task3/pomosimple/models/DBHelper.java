@@ -14,7 +14,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro.models;
+package cc.task3.pomosimple.models;
 
 import android.content.Context;
 import android.util.Log;
@@ -22,7 +22,7 @@ import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
 import com.db4o.config.Configuration;
 import com.db4o.defragment.Defragment;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.pomosimple.exceptions.PomodroidException;
 
 
 import java.io.File;
@@ -62,7 +62,7 @@ public class DBHelper {
      * Getting the database
      *
      * @return an object container
-     * @throws cc.task3.pomopro.exceptions.PomodroidException
+     * @throws cc.task3.pomosimple.exceptions.PomodroidException
      *
      */
     @SuppressWarnings("deprecation")
@@ -160,7 +160,7 @@ public class DBHelper {
      * Creates a copy of the DB
      *
      * @param path
-     * @throws cc.task3.pomopro.exceptions.PomodroidException
+     * @throws cc.task3.pomosimple.exceptions.PomodroidException
      *
      */
     public void backup(String path) throws PomodroidException {

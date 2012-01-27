@@ -1,7 +1,7 @@
-package cc.task3.pomopro;
+package cc.task3.pomosimple;
 
-import cc.task3.pomopro.models.*;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.pomosimple.models.*;
+import cc.task3.pomosimple.exceptions.PomodroidException;
 
 import java.util.Date;
 

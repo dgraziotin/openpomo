@@ -11,6 +11,7 @@
 			android:gravity="center" android:layout_gravity="center" android:layout_marginBottom="30px"  />
 
 		<TextView android:id="@+id/atvAboutText" android:text="@string/about_text" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
+        <TextView android:id="@+id/atvAboutProURL" android:text="@string/about_pro_url" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
         <TextView android:id="@+id/atvAboutProjectText" android:text="@string/about_project_text" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
         <TextView android:id="@+id/atvAboutProjectURL" android:text="@string/about_project_url" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
         <TextView android:id="@+id/atvAboutGithubText" android:text="@string/about_github_text" android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>

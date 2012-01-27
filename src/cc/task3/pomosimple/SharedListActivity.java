@@ -14,12 +14,12 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.pomosimple;
 
 import java.util.ArrayList;
 
-import cc.task3.pomopro.exceptions.PomodroidException;
-import cc.task3.pomopro.models.*;
+import cc.task3.pomosimple.exceptions.PomodroidException;
+import cc.task3.pomosimple.models.*;
 
 
 import android.app.AlertDialog;

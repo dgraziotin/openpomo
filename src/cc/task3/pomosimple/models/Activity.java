@@ -14,13 +14,13 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro.models;
+package cc.task3.pomosimple.models;
 
 import android.util.Log;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.Query;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.pomosimple.exceptions.PomodroidException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -422,7 +422,7 @@ public class Activity {
      * @param originId
      * @param dbHelper
      * @return a specific activity
-     * @throws cc.task3.pomopro.exceptions.PomodroidException
+     * @throws cc.task3.pomosimple.exceptions.PomodroidException
      *
      */
     public static boolean isPresent(final String origin, final int originId,

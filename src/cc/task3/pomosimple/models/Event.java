@@ -14,11 +14,11 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro.models;
+package cc.task3.pomosimple.models;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.pomosimple.exceptions.PomodroidException;
 
 
 import java.util.Date;
@@ -146,7 +146,7 @@ public class Event {
      * Save an event into the DB
      *
      * @param dbHelper
-     * @throws cc.task3.pomopro.exceptions.PomodroidException
+     * @throws cc.task3.pomosimple.exceptions.PomodroidException
      *
      */
     public void save(DBHelper dbHelper) throws PomodroidException {

@@ -14,7 +14,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.pomosimple;
 
 import android.app.TabActivity;
 import android.content.Intent;

@@ -14,19 +14,19 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.pomosimple;
 
 import android.os.Bundle;
 import android.widget.TextView;
-import cc.task3.pomopro.exceptions.PomodroidException;
-import cc.task3.pomopro.models.*;
+import cc.task3.pomosimple.exceptions.PomodroidException;
+import cc.task3.pomosimple.models.*;
 
 
 /**
  * A simple Activity to show an About Window
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
- * @see cc.task3.pomopro.SharedActivity
+ * @see cc.task3.pomosimple.SharedActivity
  */
 public class Statistics extends SharedActivity {
 

@@ -14,16 +14,16 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro.models;
+package cc.task3.pomosimple.models;
 
 import android.util.Log;
 import com.db4o.ObjectSet;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.pomosimple.exceptions.PomodroidException;
 
 import java.util.Date;
 
 /**
- * A class representing a tipical pomopro user. Each user has its username (string), password (tring),
+ * A class representing a tipical pomosimple user. Each user has its username (string), password (tring),
  * trac url (absolute url)
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
@@ -232,7 +232,7 @@ public class User {
      * @param username
      * @param dbHelper
      * @return
-     * @throws cc.task3.pomopro.exceptions.PomodroidException
+     * @throws cc.task3.pomosimple.exceptions.PomodroidException
      *
      */
     public static boolean isPresent(DBHelper dbHelper) throws PomodroidException {

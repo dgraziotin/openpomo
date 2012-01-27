@@ -14,7 +14,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.pomosimple;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,8 +22,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import cc.task3.pomopro.exceptions.PomodroidException;
-import cc.task3.pomopro.models.*;
+import cc.task3.pomosimple.exceptions.PomodroidException;
+import cc.task3.pomosimple.models.*;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -45,12 +45,12 @@ import android.widget.RelativeLayout;
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see cc.task3.pomopro.SharedListActivity
+ * @see cc.task3.pomosimple.SharedListActivity
  */
 public class TodoTodaySheet extends SharedListActivity {
 
     /**
-     * @see cc.task3.pomopro.SharedListActivity#onCreate(android.os.Bundle)
+     * @see cc.task3.pomosimple.SharedListActivity#onCreate(android.os.Bundle)
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +58,7 @@ public class TodoTodaySheet extends SharedListActivity {
         super.setContext(this);
         super.onCreate(savedInstanceState);
 
-        //TextView textViewEmptySheet = (TextView) findViewById(R.id.atvEmptySheet);
-        //textViewEmptySheet.setText(getString(R.string.no_activities_tts));
-        //textViewEmptySheet.setVisibility(View.INVISIBLE);
+
         Button abQuickInsertActivity = (Button) findViewById(R.id.abQuickInsertActivity);
 
         final EditText aetQuickInsertActivity = (EditText) findViewById(R.id.aetQuickInsertActivity);

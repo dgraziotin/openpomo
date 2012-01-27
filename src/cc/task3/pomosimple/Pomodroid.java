@@ -14,17 +14,17 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro;
+package cc.task3.pomosimple;
 
 import android.os.Bundle;
-import cc.task3.pomopro.exceptions.PomodroidException;
+import cc.task3.pomosimple.exceptions.PomodroidException;
 
 /**
  * Main activity. It just loads the layout.
  *
  * @author Daniel Graziotin <d AT danielgraziotin DOT it>
  * @author Thomas Schievenin <thomas.schievenin@stud-inf.unibz.it>
- * @see cc.task3.pomopro.SharedActivity
+ * @see cc.task3.pomosimple.SharedActivity
  */
 public class Pomodroid extends SharedActivity {
 
@@ -43,7 +43,7 @@ public class Pomodroid extends SharedActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //TODO: notification for pomopro donation
+        //TODO: notification for pomosimple donation
         if (!super.getUser().isAdvanced())
             startActivity(TodoTodaySheet.class);
         else

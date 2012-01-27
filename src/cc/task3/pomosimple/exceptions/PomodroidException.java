@@ -14,7 +14,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with Pomodroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package cc.task3.pomopro.exceptions;
+package cc.task3.pomosimple.exceptions;
 
 import android.content.Context;
 import android.widget.Toast;
