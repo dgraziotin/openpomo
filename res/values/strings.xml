@@ -18,7 +18,7 @@
 		db4o database</string>
 	<string name="tracprominfo">Click the buttons in order to retrieve tickets from
 		Services. </string>
-	<string name="app_name">OpenPomo Simple Edition</string>
+	<string name="app_name">OpenPomo Simple</string>
 	<string name="launch_test">Launch tests</string>
 	<string name="no_activities">Welcome. There are no activities stored. \n You may want to add a new activity by pressing the Menu button on your phone. \n You may enable useful features and notifications in Preferences.</string>
 	<string name="no_activities_tts">No activities stored.\nPress the MENU button to either insert new activities or activate the
